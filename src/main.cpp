@@ -3,6 +3,7 @@
 
 #include <QApplication>
 
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -18,6 +19,10 @@ int main(int argc, char *argv[])
     app.setApplicationName("Lithium");
     app.setDesktopFileName("Lithium");
     app.setApplicationVersion(compiled_date+"-"+git_hash_str);
+
+    //get process ID for the application
+    QString app_pid{};
+    app_pid.setNum(QCoreApplication::applicationPid());
 
     window.show();
     return app.exec();

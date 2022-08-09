@@ -649,11 +649,11 @@ void VideoUI::vid_codec_interface()
 void VideoUI::select_container()//fixed!!!
 {
     /*connect(&SUI, &SaveAsUI::saveas_value,
-            this, &VideoUI::select_container);//step closer!*/
+            this, &VideoUI::select_container);//step closer!
     output_file = SUI.ui->saveASEdit->text();
     //based on code from qtffmpeg
     output_file = SUI.ui->saveASEdit->text();//get the current text on the field
-    output_file = output_file.left(output_file.lastIndexOf("."));
+    output_file = output_file.left(output_file.lastIndexOf("."));*/
 
     if(ui->videoContainerBox->currentIndex() == 0)
     {
@@ -1387,7 +1387,7 @@ QString VideoUI::get_vid_bitrate_field_text()
         }
         else
         {
-            //found invalid data
+            //found invalid data->send message to statusbar->below is placeholder
             ui->videoAVGBitField->setText(tr("invalid, defaulting to 10000k"));
 
             //default to 10000k

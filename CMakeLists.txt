@@ -59,6 +59,7 @@ set(PROJECT_SOURCES
         src/ffprocess.cpp
         src/ffprocess.ui
         misc/
+        version.h.in
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
