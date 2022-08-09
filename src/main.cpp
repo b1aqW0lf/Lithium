@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
     window.setWindowIcon(QIcon(":/images/resources/Logo1.png"));
     app.setOrganizationName("The Lithium Team");
     app.setApplicationName("Lithium");
-    app.setApplicationDisplayName("Lithium");
     app.setDesktopFileName("Lithium");
     app.setApplicationVersion(compiled_date+"-"+git_hash_str);
 
