@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="images">
+    <file>resources/Actions-stop-icon_64x64.png</file>
+    <file>resources/Ffmpeg_48x48.png</file>
+    <file>resources/Ffmpeg_64x64.png</file>
+    <file>resources/Ffmpeg_96x96.png</file>
+    <file>resources/movies.png</file>
+    <file>resources/Logo1.png</file>
+    <file>resources/Movies-icon.png</file>
+    <file>resources/pngkit_song-icon-png_900x900.png</file>
+    <file>resources/space_765058_96x96.png</file>
+    <file>resources/drive-harddisk_px16.png</file>
+    <file>resources/hd_16px.png</file>
+  </qresource>
+</RCC>
