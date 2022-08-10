@@ -20,10 +20,6 @@ int main(int argc, char *argv[])
     app.setDesktopFileName("Lithium");
     app.setApplicationVersion(compiled_date+"-"+git_hash_str);
 
-    //get process ID for the application
-    QString app_pid{};
-    app_pid.setNum(QCoreApplication::applicationPid());
-
     window.show();
     return app.exec();
 }
