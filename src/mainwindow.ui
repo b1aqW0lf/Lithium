@@ -20,7 +20,7 @@
       <x>10</x>
       <y>110</y>
       <width>1021</width>
-      <height>341</height>
+      <height>351</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -159,8 +159,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
