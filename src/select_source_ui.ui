@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="InputGroupBox">
+  <widget class="QGroupBox" name="inputGroupBox">
    <property name="geometry">
     <rect>
      <x>0</x>

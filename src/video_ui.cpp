@@ -108,7 +108,9 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoRFSlider->setValue(23);//default value for the slider
     ui->videoRFSlider->setSliderPosition(23);
     ui->videoRFSlider->setToolTip(tr("Constant Rate Factor Selector"));
-    crf_value.setNum(ui->videoRFSlider->value());//send default to encoder
+    crf_value.setNum(ui->videoRFSlider->value());//send default to encoder    
+    ui->videoLQLabel->setAlignment(Qt::AlignTop);
+    ui->videoHQLabel->setAlignment(Qt::AlignTop);
 
     //encoder dial
     ui->videoDialPreset->setAlignment(Qt::AlignCenter);
@@ -529,6 +531,8 @@ void VideoUI::vid_codec_interface()
         }
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         ui->videoEncLevelSlider->setRange(0,20);
         ui->videoEncLevelSlider->setValue(0);
@@ -557,6 +561,8 @@ void VideoUI::vid_codec_interface()
         }
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         ui->videoEncLevelSlider->setRange(0,13);
         ui->videoEncLevelSlider->setValue(0);
@@ -574,6 +580,8 @@ void VideoUI::vid_codec_interface()
         ui->videoCRFRadio->setText(tr("Variable Bit Rate"));
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         video_qs_value.setNum(ui->videoRFSlider->value());//setting qscale value
         ui->videoEncLevelSlider->setRange(0,20);
@@ -591,6 +599,8 @@ void VideoUI::vid_codec_interface()
         ui->videoRFSlider->setSliderPosition(31);
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         video_br_value = "0";
         ui->videoEncLevelSlider->setRange(0, 14);
@@ -610,6 +620,8 @@ void VideoUI::vid_codec_interface()
         ui->videoCRFRadio->setText(tr("Variable Bit Rate"));
         ui->videoLQLabel->setText(tr("High Quality |"));
         ui->videoHQLabel->setText(tr("| Low Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         video_qs_value.setNum(ui->videoRFSlider->value());//setting qscale value
         ui->videoEncLevelSlider->setRange(0,20);
@@ -630,6 +642,8 @@ void VideoUI::vid_codec_interface()
         ui->videoCRFRadio->setText(tr("Quality Rate Factor"));
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         video_qs_value.setNum(ui->videoRFSlider->value());//setting qscale value
         ui->videoEncLevelSlider->setRange(0,20);
@@ -650,6 +664,8 @@ void VideoUI::vid_codec_interface()
         ui->videoCRFRadio->setText(tr("Quantizer Factor"));
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setToolTip(tr("default: Speed 4 Encoding"));
         ui->videoDialPreset->setText(tr("Speed 4"));//default value
         video_qs_value.setNum(ui->videoRFSlider->value());//setting qp value
@@ -668,6 +684,8 @@ void VideoUI::vid_codec_interface()
         ui->videoRFSlider->setSliderPosition(23);
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
+        ui->videoLQLabel->setAlignment(Qt::AlignTop);
+        ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
         ui->videoDialPreset->setText(tr("medium"));//default value

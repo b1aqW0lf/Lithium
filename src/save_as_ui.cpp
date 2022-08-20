@@ -48,8 +48,8 @@ SaveAsUI::SaveAsUI(QWidget *parent) :
     ui->saveASLabel->setText(tr("Save As: "));
 
     //saveAS groupbox
-    ui->OutputGroupBox->setTitle(tr("Select Destination "));
-    ui->OutputGroupBox->setAlignment(Qt::AlignLeft);
+    ui->outputGroupBox->setTitle(tr("Select Destination "));
+    ui->outputGroupBox->setAlignment(Qt::AlignLeft);
 }
 
 SaveAsUI::~SaveAsUI()

@@ -60,8 +60,8 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     ui->source2Label->setText(tr("Source 2:"));
 
     //groupbox
-    ui->InputGroupBox->setTitle(tr("Select Sources "));
-    ui->InputGroupBox->setAlignment(Qt::AlignLeft);
+    ui->inputGroupBox->setTitle(tr("Select Sources "));
+    ui->inputGroupBox->setAlignment(Qt::AlignLeft);
 }
 
 SelectSourceUI::~SelectSourceUI()

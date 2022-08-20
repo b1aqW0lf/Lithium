@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->statusbar->addPermanentWidget(statusBarLabel2);
 
     //set tab1 as default avTabWidget tab
-    ui->avTabWidget->setCurrentIndex(2);
+    ui->avTabWidget->setCurrentIndex(0);
 
 }
 
