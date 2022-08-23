@@ -65,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //set tab1 as default avTabWidget tab
     ui->avTabWidget->setCurrentIndex(0);
+    ui->avTabWidget->setTabText(0, "AV Options");
+    ui->avTabWidget->setTabText(1, "Output");
 
 }
 
