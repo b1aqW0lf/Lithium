@@ -121,6 +121,8 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoEncoderDial->setSliderPosition(4);
     ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
     ui->videoDialPreset->setText(tr("medium"));//default value
+    ui->videoDialPreset->setStyleSheet("QLabel { background-color : white }");
+    ui->videoDialPreset->setStyleSheet("QLabel { border : 0.5px solid black }");
     pr_value = "medium";//send default to encoder
     //ui->videoEncoderDial->setInvertedAppearance(true);
 

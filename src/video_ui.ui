@@ -218,6 +218,9 @@
                <layout class="QHBoxLayout" name="horizontalLayout">
                 <item>
                  <widget class="QSlider" name="videoEncLevelSlider">
+                  <property name="maximum">
+                   <number>20</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
