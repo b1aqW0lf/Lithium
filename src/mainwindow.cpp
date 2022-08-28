@@ -68,6 +68,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->avTabWidget->setTabText(0, "AV Options");
     ui->avTabWidget->setTabText(1, "Output");
 
+    //Input groupbox
+    ui->inputGroupBox->setTitle(tr("Select Sources "));
+    ui->inputGroupBox->setAlignment(Qt::AlignLeft);
+
+    //saveAS groupbox
+    ui->outputGroupBox->setTitle(tr("Select Destination "));
+    ui->outputGroupBox->setAlignment(Qt::AlignLeft);
+
 }
 
 MainWindow::~MainWindow()

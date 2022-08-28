@@ -58,10 +58,6 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     ui->sourceBrowse2->setEnabled(false);
     ui->source2Label->setEnabled(false);
     ui->source2Label->setText(tr("Source 2:"));
-
-    //groupbox
-    ui->inputGroupBox->setTitle(tr("Select Sources "));
-    ui->inputGroupBox->setAlignment(Qt::AlignLeft);
 }
 
 SelectSourceUI::~SelectSourceUI()

@@ -6,35 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1022</width>
-    <height>80</height>
+    <width>1076</width>
+    <height>55</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="outputGroupBox">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1021</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Select Destination</string>
-   </property>
-   <widget class="QWidget" name="layoutWidget_9">
-    <property name="geometry">
-     <rect>
-      <x>11</x>
-      <y>33</y>
-      <width>1001</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="saveASLabel">
        <property name="text">
@@ -53,8 +34,8 @@
       </widget>
      </item>
     </layout>
-   </widget>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

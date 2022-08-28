@@ -131,12 +131,14 @@ VideoUI::VideoUI(QWidget *parent) :
                    << "x265 12-bit" << "Xvid" << "VP9" << "Theora" << "MPEG-1"
                    << "MPEG-2" << "RAV1E/AV1";
     ui->videoCodecBox->insertItems(2, videoCodecList);
+    ui->videoCodecLabel->setText(tr("Codec "));
 
     //video container
     ui->videoContainerBox->insertItem(0, "Source");
     ui->videoContainerBox->insertSeparator(1);
     videoContainerList << "MP4" << "MKV" << "WebM" << "TS" << "OGV";
     ui->videoContainerBox->insertItems(2, videoContainerList);
+    ui->videoContainerLabel->setText(tr("Container"));
 
     //video resolution
     ui->videoResBox->insertItem(0, "Source");
@@ -146,18 +148,21 @@ VideoUI::VideoUI(QWidget *parent) :
                  << "1920x1200" << "2048x1080" << "2048x1152" << "2560x1440"
                  << "3840x2160" << "4096x2160";
     ui->videoResBox->insertItems(2, videoResList);
+    ui->videoResLabel->setText(tr("Resolution"));
 
     //video aspect ratio
     ui->videoAspectRatBox->insertItem(0, "Source");
     ui->videoAspectRatBox->insertSeparator(1);
     videoAspecRatList << "4:3" << "16:9" << "21:9";
     ui->videoAspectRatBox->insertItems(2, videoAspecRatList);
+    ui->videoAspectRatLabel->setText(tr("Aspect Ratio"));
 
     //video framerate
     ui->videoFPSBox->insertItem(0, "Source");
     ui->videoFPSBox->insertSeparator(1);
     videoFPSList << "23.976" << "24" << "25" << "29.97" << "30" << "60" << "120";
     ui->videoFPSBox->insertItems(2, videoFPSList);
+    ui->videoFPSLabel->setText(tr("Framerate (FPS)"));
     //ui->videoFPSBox->setCurrentIndex(5);--->test, it works!
 
     //video encoder profile
@@ -179,7 +184,7 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoGroupBox->setAlignment(Qt::AlignLeft);
 
     //video endoder level
-    ui->videoEncLevelLabel->setText(tr("Encoder Level"));
+    ui->videoEncLevelLabel->setText(tr("Encoder Level:"));
     ui->videoEncLevelSlider->setRange(0, 20);
     ui->videoEncLevelSlider->setTickPosition(QSlider::TicksBelow);
     ui->videoEncLevelSlider->setSingleStep(1);
@@ -196,6 +201,9 @@ VideoUI::VideoUI(QWidget *parent) :
     //2-pass encoding checkbox
     ui->twoPassCheckBox->setToolTip(tr("Two-pass encoding"));
     ui->twoPassCheckBox->setText(tr("2-Pass Encoding"));
+
+    //encoder profile box
+    ui->videoEncProfileLabel->setText(tr("Encoder Profile"));
 
 }
 
