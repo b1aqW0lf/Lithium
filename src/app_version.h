@@ -41,9 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 extern const char *kGitHash;
 
-QDateTime date{QDateTime::currentDateTime()};
+/*QDateTime date{QDateTime::currentDateTime()};
 QString compiled_date{date.toString("yyyy.MM.dd")};
-QByteArray formattedTimeMsg{compiled_date.toLocal8Bit()};
+QByteArray formattedTimeMsg{compiled_date.toLocal8Bit()};*/
 
 QString git_hash_str{GIT_COMMIT_HASH};
 

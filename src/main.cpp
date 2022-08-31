@@ -45,12 +45,12 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     MainWindow window;
 
-    window.setWindowTitle("Lithium v"+compiled_date+"-"+git_hash_str);
+    window.setWindowTitle("Lithium ""alpha""-"+git_hash_str);
     window.setWindowIcon(QIcon(":/images/resources/Logo1.png"));
     app.setOrganizationName("The Lithium Team");
     app.setApplicationName("Lithium");
     app.setDesktopFileName("Lithium");
-    app.setApplicationVersion(compiled_date+"-"+git_hash_str);
+    app.setApplicationVersion("alpha""-"+git_hash_str);
 
     window.show();
     return app.exec();
