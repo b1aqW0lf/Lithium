@@ -52,7 +52,6 @@ private:
 public:
     QString stor_avail{};//available disk space
     QString stor_total{};//total disk space
-    QString stor_data{};//available disk space/total disk space
 };
 
 #endif // DETECT_STORAGE_H
