@@ -21,68 +21,46 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLabel" name="audioCodecLabel">
-            <property name="text">
-             <string>Codec</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="audioCodecBox"/>
-          </item>
-         </layout>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="3" column="0">
+         <widget class="QLabel" name="audioChannelLabel">
+          <property name="text">
+           <string>Channels</string>
+          </property>
+         </widget>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="audioBitrateLabel">
-            <property name="text">
-             <string>Bitrate (Kbps)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="audioBitrateBox"/>
-          </item>
-         </layout>
+        <item row="1" column="0">
+         <widget class="QLabel" name="audioBitRateLabel">
+          <property name="text">
+           <string>Bitrate (Kbps)</string>
+          </property>
+         </widget>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QLabel" name="audioSampleLabel">
-            <property name="text">
-             <string>Sample Rate</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="audioSampleBox"/>
-          </item>
-         </layout>
+        <item row="2" column="0">
+         <widget class="QLabel" name="audioSampleLabel">
+          <property name="text">
+           <string>Sample Rate</string>
+          </property>
+         </widget>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <widget class="QLabel" name="audioChannelLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Channels</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="audioChannelBox"/>
-          </item>
-         </layout>
+        <item row="0" column="0">
+         <widget class="QLabel" name="audioCodecLabel">
+          <property name="text">
+           <string>Codec</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="audioCodecBox"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="audioBitrateBox"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="audioSampleBox"/>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="audioChannelBox"/>
         </item>
        </layout>
       </item>
