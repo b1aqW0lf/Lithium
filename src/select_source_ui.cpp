@@ -44,8 +44,8 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
             this, &SelectSourceUI::select_input2);
 
     //interface buttons initialization
-    ui->sourceBrowseBtn1 = new QPushButton(tr("..."));
-    ui->sourceBrowseBtn2 = new QPushButton(tr("..."));
+    ui->sourceBrowseBtn1->setText(tr("..."));
+    ui->sourceBrowseBtn2->setText(tr("..."));
 
     //source1 input field default settings
     ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
