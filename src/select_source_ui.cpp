@@ -38,14 +38,14 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     ui->setupUi(this);
 
     //connect signals and slots
-    connect(ui->sourceBrowse1, &QPushButton::clicked,
+    connect(ui->sourceBrowseBtn1, &QPushButton::clicked,
             this, &SelectSourceUI::select_input1);
-    connect(ui->sourceBrowse2, &QPushButton::clicked,
+    connect(ui->sourceBrowseBtn2, &QPushButton::clicked,
             this, &SelectSourceUI::select_input2);
 
     //interface buttons initialization
-    ui->sourceBrowse1 = new QPushButton(tr("..."));
-    ui->sourceBrowse2 = new QPushButton(tr("..."));
+    ui->sourceBrowseBtn1 = new QPushButton(tr("..."));
+    ui->sourceBrowseBtn2 = new QPushButton(tr("..."));
 
     //source1 input field default settings
     ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
@@ -55,7 +55,7 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
 
     //source2 input field default settings
     ui->sourceInput2Edit->setEnabled(false);
-    ui->sourceBrowse2->setEnabled(false);
+    ui->sourceBrowseBtn2->setEnabled(false);
     ui->source2Label->setEnabled(false);
     ui->source2Label->setText(tr("Source 2:"));
 }
