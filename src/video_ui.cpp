@@ -179,7 +179,7 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
     /*ui->videoAVGBitField->setFixedHeight(25);*/
     ui->videoAVGBitField->setFixedWidth(115);
-    ui->videoAVGBitField->setPlaceholderText("10000");
+    ui->videoAVGBitField->setPlaceholderText("6000");
 
     //video groupbox
     ui->videoGroupBox->setTitle(tr("Video"));
@@ -1447,16 +1447,16 @@ QString VideoUI::get_vid_bitrate_field_text()
         else
         {
             //found invalid data->send message to statusbar->below is placeholder
-            ui->videoAVGBitField->setText(tr("invalid, defaulting to 10000k"));
+            ui->videoAVGBitField->setText(tr("invalid, defaulting to 6000k"));
 
-            //default to 10000k
-            video_bitrate = "10000k";
+            //default to 6000k
+            video_bitrate = "6000k";
         }
     }
     else
     {
-        video_bitrate = "10000k";
-        //ui->statusbar->showMessage("defaulting data to 10000k");
+        video_bitrate = "6000k";
+        //ui->statusbar->showMessage("defaulting data to 6000k");
     }
 
     return video_bitrate;
