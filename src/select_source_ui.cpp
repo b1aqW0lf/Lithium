@@ -73,7 +73,8 @@ void SelectSourceUI::select_input1()//complete!
                 this,
                 tr("Open File"),
                 "C:/input_file1",
-                tr("Videos (*.mp4 *.mov *.avi *.mkv *.webm *.ogv *.mpeg)"));
+                tr("Videos (*.mp4 *.mov *.avi *.mkv *.webm *.ogv *.mpeg *.mpg"
+                   " *.vp9 *.vp8)"));
     if(!input_file1.isEmpty())
     {
         ui->sourceInput1Edit->setText(input_file1);
@@ -88,7 +89,8 @@ void SelectSourceUI::select_input2()
                 this,
                 tr("Open File"),
                 "C:/input_file2",
-                tr("Audio (*.wav *.mp4a *.m4a *.flac *.mp3 *.ogg *.3gp)"));
+                tr("Audio (*.wav *.mp4a *.m4a *.flac *.mp3 *.ogg *.3gp *.mka"
+                   " *.aac *.eac *.oga)"));
     if(!input_file2.isEmpty())
     {
         ui->sourceInput2Edit->setText(input_file2);
