@@ -108,9 +108,11 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoRFSlider->setValue(23);//default value for the slider
     ui->videoRFSlider->setSliderPosition(23);
     ui->videoRFSlider->setToolTip(tr("Constant Rate Factor Selector"));
-    crf_value.setNum(ui->videoRFSlider->value());//send default to encoder    
-    ui->videoLQLabel->setAlignment(Qt::AlignTop);
+    crf_value.setNum(ui->videoRFSlider->value());//send default to encoder
+    ui->videoHQLabel->setText(tr("| High Quality"));
+    ui->videoLQLabel->setText(tr("Low Quality |"));
     ui->videoHQLabel->setAlignment(Qt::AlignTop);
+    ui->videoLQLabel->setAlignment(Qt::AlignTop);
 
     //encoder dial
     ui->videoDialPreset->setAlignment(Qt::AlignCenter);
