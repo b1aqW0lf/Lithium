@@ -78,14 +78,14 @@ FFprocess::FFprocess(QWidget *parent) :
     if(QFile::exists(application_dir+"/ffmpeg.exe") &&
             !QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
     {
-        //Elysium root directory + ffmpeg executable
+        //Lithium root directory + ffmpeg executable
         ffmpeg_path = application_dir+"/ffmpeg.exe";
         ffmpeg->setWorkingDirectory(application_dir);
     }
     else if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe") &&
             !QFile::exists(application_dir+"/ffmpeg.exe"))
     {
-        //Elysium root directory + "ffmpeg" sub directory + ffmpeg executable
+        //Lithium root directory + "ffmpeg" sub directory + ffmpeg executable
         ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
         ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
     }
@@ -117,13 +117,9 @@ FFprocess::FFprocess(QWidget *parent) :
     ffmpeg->waitForStarted();
     //ui->ffprocessOutputView->setText(ff_output);
     args.clear();
-    /*MainWindow mwui{this};
-    mwui.ui->statusbar->showMessage(tr("Ready"));*/
-
 
     //ffprocessOutputView default settings
     ui->ffprocessOutputView->setReadOnly(true);
-
 }
 
 FFprocess::~FFprocess()

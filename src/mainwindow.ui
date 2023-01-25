@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1149</width>
-    <height>626</height>
+    <height>616</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
     <item>
      <widget class="QTabWidget" name="avTabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -72,50 +72,24 @@
        <attribute name="title">
         <string>Tab 2</string>
        </attribute>
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QFrame" name="frame">
         <property name="geometry">
          <rect>
-          <x>180</x>
-          <y>50</y>
-          <width>761</width>
-          <height>221</height>
+          <x>370</x>
+          <y>10</y>
+          <width>701</width>
+          <height>381</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Minimum</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="0">
           <widget class="FFprocess" name="FFProcessUI" native="true"/>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Minimum</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </widget>
