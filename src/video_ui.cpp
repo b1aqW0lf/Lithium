@@ -29,11 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "ui_save_as_ui.h"
-#include "ui_select_source_ui.h"
-#include "ui_video_ui.h"
-#include "video_ui.h"
-
 #include <QComboBox>
 #include <QDial>
 #include <QGroupBox>
@@ -42,6 +37,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QRadioButton>
 #include <QSlider>
 #include <QSpinBox>
+
+#include "ui_video_ui.h"
+#include "video_ui.h"
 
 
 VideoUI::VideoUI(QWidget *parent) :
@@ -707,60 +705,57 @@ void VideoUI::vid_codec_interface()
     }
 }
 
+void VideoUI::receive_source_data(const QString &text)
+{
+    this->source_ext = text;
+}
+
 void VideoUI::select_container()//fixed!!!
 {
-    /*connect(&SUI, &SaveAsUI::saveas_value,
-            this, &VideoUI::select_container);//step closer!
-    output_file = SUI.ui->saveASEdit->text();
     //based on code from qtffmpeg
-    output_file = SUI.ui->saveASEdit->text();//get the current text on the field
-    output_file = output_file.left(output_file.lastIndexOf("."));*/
-
     if(ui->videoContainerBox->currentIndex() == 0)
     {
-        //copy source file extension
-        QString source_ext{};
-        QString input_file1_str = SSUI.ui->sourceInput1Edit->text();
-        source_ext = input_file1_str.mid(input_file1_str.lastIndexOf("."));
-        output_file.append(source_ext);
-        SUI.ui->saveASEdit->setText(output_file);
+        //source file extension
+        //source file extension from receive_source_data(const QString &text)
         vid_ext = source_ext;
+        emit send_output_extension(vid_ext);
+        output_file.append(vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 2)
     {
         //mp4
-        output_file.append(".mp4");
-        SUI.ui->saveASEdit->setText(output_file);
         vid_ext = "mp4";
-    }//gui not changing based on selection above. you made changes to SaveASUI and SelectSourceUI
-    /*if(ui->videoContainerBox->currentIndex() == 3)
+        emit send_output_extension(vid_ext);
+        output_file.append(".mp4");
+    }
+    if(ui->videoContainerBox->currentIndex() == 3)
     {
         //mkv
-        output_file.append(".mkv");
-        ui->saveASEdit->setText(output_file);
         vid_ext = "mkv";
+        emit send_output_extension(vid_ext);
+        output_file.append(".mkv");
     }
     if(ui->videoContainerBox->currentIndex() == 4)
     {
         //webm
-        output_file.append(".webm");
-        ui->saveASEdit->setText(output_file);
         vid_ext = "webm";
+        emit send_output_extension(vid_ext);
+        output_file.append(".webm");
     }
     if(ui->videoContainerBox->currentIndex() == 5)
     {
         //ts
-        output_file.append(".ts");
-        ui->saveASEdit->setText(output_file);
         vid_ext = "ts";
+        emit send_output_extension(vid_ext);
+        output_file.append(".ts");
     }
     if(ui->videoContainerBox->currentIndex() == 6)
     {
         //ogv
-        output_file.append(".ogv");
-        ui->saveASEdit->setText(output_file);
         vid_ext = "ogv";
-    }*/
+        emit send_output_extension(vid_ext);
+        output_file.append(".ogv");
+    }
 }
 
 void VideoUI::select_vid_res()

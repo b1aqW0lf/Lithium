@@ -32,9 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "save_as_ui.h"
-#include "select_source_ui.h"
-
 #include <QButtonGroup>
 #include <QWidget>
 
@@ -54,8 +51,6 @@ public:
 
 private:
     Ui::VideoUI *ui;
-    SaveAsUI SUI;
-    SelectSourceUI SSUI;
 
 private Q_SLOTS:
     void encoder_preset();
@@ -88,6 +83,7 @@ private:
     QString video_bitrate{};
     QString output_file{};
     QString vid_ext{};
+    QString source_ext{};
     //-----------------------------------
 
     //Interface String Lists
@@ -102,6 +98,12 @@ private:
 
     //button group
     QButtonGroup *rateOptButtons;
+
+public Q_SLOTS:
+    void receive_source_data(const QString &text);
+
+Q_SIGNALS:
+    void send_output_extension(const QString &text);
 
 public:
     //function
