@@ -32,13 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "ui_select_source_ui.h"
-
-#include <QFileDialog>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -59,13 +52,18 @@ public:
 public:
     Ui::SelectSourceUI *ui;
 
+Q_SIGNALS:
+    void current_source_extension(const QString &text);
+
+public Q_SLOTS:
+    void send_source_extension();
+
 private Q_SLOTS:
     void select_input1();
     void select_input2();
 
-private:
-    QString input_file1{};
-    QString input_file2{};
+/*private:
+    //QString source_ext{};*/
 
 };
 

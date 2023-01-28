@@ -29,7 +29,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include <QFileDialog>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+
 #include "select_source_ui.h"
+#include "ui_select_source_ui.h"
 
 SelectSourceUI::SelectSourceUI(QWidget *parent) :
     QWidget(parent),
@@ -65,10 +72,21 @@ SelectSourceUI::~SelectSourceUI()
     delete ui;
 }
 
+void SelectSourceUI::send_source_extension()
+{
+    //get current sourceInputEdit file extension
+    QString source_text{};
+    QString source_ext{};
+    source_text = ui->sourceInput1Edit->text();
+    source_ext = source_text.mid(source_text.lastIndexOf("."));
+
+    emit current_source_extension(source_ext);
+}
+
 //select first input file to convert
 void SelectSourceUI::select_input1()//complete!
 {
-    input_file1 =
+    QString input_file1 =
             QFileDialog::getOpenFileName(
                 this,
                 tr("Open File"),
@@ -84,7 +102,7 @@ void SelectSourceUI::select_input1()//complete!
 //select optional second input, an audio file to use
 void SelectSourceUI::select_input2()
 {
-    input_file2 =
+    QString input_file2 =
             QFileDialog::getOpenFileName(
                 this,
                 tr("Open File"),
