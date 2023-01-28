@@ -30,7 +30,7 @@
     <item>
      <widget class="QTabWidget" name="avTabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -64,7 +64,7 @@
          </layout>
         </item>
         <item row="0" column="1">
-         <widget class="VideoUI" name="ViideoUIWidget" native="true"/>
+         <widget class="VideoUI" name="VideoUIWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -136,12 +136,6 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>VideoUI</class>
-   <extends>QWidget</extends>
-   <header location="global">video_ui.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>SaveAsUI</class>
    <extends>QWidget</extends>
    <header location="global">save_as_ui.h</header>
@@ -157,6 +151,12 @@
    <class>FFprocess</class>
    <extends>QWidget</extends>
    <header location="global">ffprocess.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VideoUI</class>
+   <extends>QWidget</extends>
+   <header location="global">video_ui.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

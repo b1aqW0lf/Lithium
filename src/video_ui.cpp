@@ -421,11 +421,7 @@ void VideoUI::encoder_preset()
         {
             ui->videoEncoderDial->setRange(0, 9);
         }
-    }
-    //test, it works!
-    //QString str = "";
-    //ui->videoDialPreset->setText("placebo " +
-    //str.setNum(ui->videoEncoderDial->value()));
+    }//test, it works!
 }
 
 //initalizing selected crf value
@@ -717,44 +713,38 @@ void VideoUI::select_container()//fixed!!!
     {
         //source file extension
         //source file extension from receive_source_data(const QString &text)
-        vid_ext = source_ext;
+        this->vid_ext = source_ext;
         emit send_output_extension(vid_ext);
-        output_file.append(vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 2)
     {
         //mp4
-        vid_ext = "mp4";
-        emit send_output_extension(vid_ext);
-        output_file.append(".mp4");
+        this->vid_ext = "mp4";
+        emit send_output_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 3)
     {
         //mkv
-        vid_ext = "mkv";
-        emit send_output_extension(vid_ext);
-        output_file.append(".mkv");
+        this->vid_ext = "mkv";
+        emit send_output_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 4)
     {
         //webm
-        vid_ext = "webm";
-        emit send_output_extension(vid_ext);
-        output_file.append(".webm");
+        this->vid_ext = "webm";
+        emit send_output_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 5)
     {
         //ts
-        vid_ext = "ts";
-        emit send_output_extension(vid_ext);
-        output_file.append(".ts");
+        this->vid_ext = "ts";
+        emit send_output_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 6)
     {
         //ogv
-        vid_ext = "ogv";
-        emit send_output_extension(vid_ext);
-        output_file.append(".ogv");
+        this->vid_ext = "ogv";
+        emit send_output_extension("."+vid_ext);
     }
 }
 

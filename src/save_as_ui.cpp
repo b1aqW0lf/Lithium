@@ -29,6 +29,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include <QFileDialog>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+
 #include "save_as_ui.h"
 #include "ui_save_as_ui.h"
 
@@ -40,9 +46,6 @@ SaveAsUI::SaveAsUI(QWidget *parent) :
 
     //connect signals and slots
     connect(ui->saveASButton, SIGNAL(clicked()), this, SLOT(select_output()));
-
-    //saveAS line edit
-    //ui->saveASEdit;
 
     //saveAS label
     ui->saveASLabel->setText(tr("Save As: "));
@@ -56,6 +59,7 @@ SaveAsUI::~SaveAsUI()
 //select the output file to convert to
 void SaveAsUI::select_output()
 {
+    QString output_file{};
     output_file =
             QFileDialog::getSaveFileName(
                 this,
@@ -66,5 +70,11 @@ void SaveAsUI::select_output()
     {
         ui->saveASEdit->setText(output_file);
     }
-    emit saveas_value();
+}
+
+void SaveAsUI::receive_output_extension(const QString &text)
+{
+    QString saveAs_line_data{ui->saveASEdit->text()};
+    saveAs_line_data = saveAs_line_data.left(saveAs_line_data.lastIndexOf("."));
+    ui->saveASEdit->setText(saveAs_line_data+text);
 }

@@ -34,24 +34,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //#include "ffmpeg_commands_list.h"
 
-#include <QButtonGroup>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QDial>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
 #include <QMainWindow>
-#include <QProcess>
-#include <QPushButton>
-#include <QRadioButton>
-#include <QSlider>
-#include <QSpinBox>
-#include <QStatusBar>
-#include <QStorageInfo>
-#include <QTextEdit>
-#include <QToolBar>
-
+#include <QWidget>
 
 
 QT_BEGIN_NAMESPACE
@@ -70,6 +54,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void application_connections_setup();
 
 /*private Q_SLOTS:
     //ffmpeg process data processing

@@ -49,6 +49,8 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
             this, &SelectSourceUI::select_input1);
     connect(ui->sourceBrowseBtn2, &QPushButton::clicked,
             this, &SelectSourceUI::select_input2);
+    connect(ui->sourceBrowseBtn1, &QPushButton::clicked,
+            this, &SelectSourceUI::send_source_extension);
 
     //interface buttons initialization
     ui->sourceBrowseBtn1->setText(tr("..."));
@@ -74,6 +76,10 @@ SelectSourceUI::~SelectSourceUI()
 
 void SelectSourceUI::send_source_extension()
 {
+    /*
+        QString source_ext{};
+        QString input_file1_str = ui->sourceInput1Edit->text();
+        source_ext = input_file1_str.mid(input_file1_str.lastIndexOf("."));*/
     //get current sourceInputEdit file extension
     QString source_text{};
     QString source_ext{};

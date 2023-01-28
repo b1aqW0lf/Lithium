@@ -29,12 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "app_location.h"
-#include "detect_storage.h"
-
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
@@ -44,6 +38,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QMessageBox>
 #include <QScrollBar>
 
+#include "app_location.h"
+#include "detect_storage.h"
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+#include "save_as_ui.h"
+#include "ui_save_as_ui.h"
+#include "select_source_ui.h"
+#include "ui_select_source_ui.h"
+#include "video_ui.h"
+#include "ui_video_ui.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -51,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    application_connections_setup();
 
     //display avaialble storage
     DetectStorage dsx{this};
@@ -81,5 +89,14 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::application_connections_setup()
+{
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_source_extension,
+            ui->VideoUIWidget, &VideoUI::receive_source_data);
+
+    connect(ui->VideoUIWidget, &VideoUI::send_output_extension,
+            ui->SaveASWidget, &SaveAsUI::receive_output_extension);
 }
 

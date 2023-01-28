@@ -81,7 +81,6 @@ private:
     QString vid_aspect_val{};
     QString video_fps_val{};
     QString video_bitrate{};
-    QString output_file{};
     QString vid_ext{};
     QString source_ext{};
     //-----------------------------------

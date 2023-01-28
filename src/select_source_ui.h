@@ -55,7 +55,7 @@ public:
 Q_SIGNALS:
     void current_source_extension(const QString &text);
 
-public Q_SLOTS:
+private Q_SLOTS:
     void send_source_extension();
 
 private Q_SLOTS:

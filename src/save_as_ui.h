@@ -32,13 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "ui_save_as_ui.h"
-
-#include <QFileDialog>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -55,19 +48,17 @@ public:
     explicit SaveAsUI(QWidget *parent = nullptr);
     ~SaveAsUI();
 
-//private:
-public:
+private:
     Ui::SaveAsUI *ui;
 
 private Q_SLOTS:
     void select_output();
 
-Q_SIGNALS:
-    QString saveas_value();
+public Q_SLOTS:
+    void receive_output_extension(const QString &text);
 
-//private:
-public:
-    QString output_file{};
+/*public:
+    QString output_file{};*/
 };
 
 #endif // SAVE_AS_UI_H
