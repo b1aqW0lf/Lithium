@@ -1465,11 +1465,13 @@ void VideoUI::get_vid_bitrate_field_data()
                         ui->videoAVGBitField->text().endsWith("M", Qt::CaseInsensitive))
                 {
                     video_bitrate = ui->videoAVGBitField->text().toLower().remove(" ");
+                    emit send_average_bitrate_value(video_bitrate);
                 }
                 else
                 {
                     //videoAVGBitField data with numbers only
                     video_bitrate = ui->videoAVGBitField->text().remove(" ");
+                    emit send_average_bitrate_value(video_bitrate);
                 }
             }
             else
@@ -1479,12 +1481,14 @@ void VideoUI::get_vid_bitrate_field_data()
 
                 //default to 6000k
                 video_bitrate = "6000k";
+                emit send_average_bitrate_value(video_bitrate);
             }
         }
         else
         {
             //default to 6000k
             video_bitrate = "6000k";
+            emit send_average_bitrate_value(video_bitrate);
             //ui->statusbar->showMessage("defaulting data to 6000k");
         }
     }
