@@ -66,6 +66,9 @@ private Q_SLOTS:
     void select_encoder_profile();
     void select_encoder_level();
     void enable_two_pass_encode();
+    void enable_average_bitrate_field();
+    void enable_crf_option();
+    void get_vid_bitrate_field_data();
 
 private:
     //processing variables
@@ -103,10 +106,8 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void send_output_extension(const QString &text);
+    void two_pass_encode_enabled(const bool status);
 
-public:
-    //function
-    QString get_vid_bitrate_field_text();
 };
 
 #endif // VIDEO_UI_H

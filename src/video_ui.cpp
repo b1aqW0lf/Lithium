@@ -78,6 +78,16 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoEncLevelSlider, &QSlider::valueChanged,
             this, &VideoUI::select_encoder_level);
     //-------------------------------------------------------------------------
+    connect(ui->videoCRFRadio, &QRadioButton::clicked,
+            this, &VideoUI::enable_crf_option);
+    //-------------------------------------------------------------------------
+    connect(ui->videoAVGBitRadio, &QRadioButton::clicked,
+            this, &VideoUI::enable_average_bitrate_field);
+    connect(ui->videoAVGBitRadio, &QRadioButton::clicked,
+            this, &VideoUI::get_vid_bitrate_field_data);
+    connect(ui->videoAVGBitField, &QLineEdit::returnPressed,
+            this, &VideoUI::get_vid_bitrate_field_data);
+    //-------------------------------------------------------------------------
     connect(ui->twoPassCheckBox, &QCheckBox::clicked,
             this, &VideoUI::enable_two_pass_encode);
     //-------------------------------------------------------------------------
@@ -90,6 +100,8 @@ VideoUI::VideoUI(QWidget *parent) :
     rateOptButtons->addButton(ui->videoAVGBitRadio);
     rateOptButtons->setExclusive(true);
     ui->videoCRFRadio->setChecked(true);
+    ui->videoAVGBitField->setDisabled(true);
+    ui->twoPassCheckBox->setDisabled(true);
 
     //constant rf spinbox settings
     ui->videoRFSpinBox->setAlignment(Qt::AlignHCenter);
@@ -1409,47 +1421,88 @@ void VideoUI::select_encoder_level()
     }
 }
 
-//average bitrate field
-//maybe make it a slot??
-QString VideoUI::get_vid_bitrate_field_text()
+void VideoUI::enable_average_bitrate_field()
 {
-    if(!ui->videoAVGBitField->text().isEmpty())
+    //enable video bitrate and two pass options
+    ui->videoAVGBitField->setDisabled(false);
+    ui->twoPassCheckBox->setDisabled(false);
+
+    //disable the crf option
+    ui->videoRFSlider->setDisabled(true);
+    ui->videoRFSpinBox->setDisabled(true);
+    ui->videoHQLabel->setDisabled(true);
+    ui->videoLQLabel->setDisabled(true);
+}
+
+void VideoUI::enable_crf_option()
+{
+    //ffmpeg allows either crf or average bitrate + two pass
+    //disable the average bitrate and two pass options
+    ui->videoAVGBitField->setDisabled(true);
+    ui->twoPassCheckBox->setDisabled(true);
+
+    //enable the crf option
+    ui->videoRFSlider->setDisabled(false);
+    ui->videoRFSpinBox->setDisabled(false);
+    ui->videoHQLabel->setDisabled(false);
+    ui->videoLQLabel->setDisabled(false);
+}
+
+//average bitrate field
+void VideoUI::get_vid_bitrate_field_data()
+{
+    if(ui->videoAVGBitRadio->isChecked() == true &&
+            ui->videoCRFRadio->isChecked() == false)
     {
-        //check contents of videoAVGBitField entry for valid data
-        QRegExp rx("^(\\d+)(\\.?)(\\d*)(\\s*)([\\kmKM]?)$");
-        if (rx.exactMatch(ui->videoAVGBitField->text()))
+        if(!ui->videoAVGBitField->text().isEmpty())
         {
-            //videoAVGBitField data ends with a "k", "m", "K", or "M"
-            if(ui->videoAVGBitField->text().endsWith("K", Qt::CaseInsensitive) ||
-                    ui->videoAVGBitField->text().endsWith("M", Qt::CaseInsensitive))
+            //check contents of videoAVGBitField entry for valid data
+            QRegExp rx("^(\\d+)(\\.?)(\\d*)(\\s*)([\\kmKM]?)$");
+            if (rx.exactMatch(ui->videoAVGBitField->text()))
             {
-                video_bitrate = ui->videoAVGBitField->text().toLower().remove(" ");
+                //videoAVGBitField data ends with a "k", "m", "K", or "M"
+                if(ui->videoAVGBitField->text().endsWith("K", Qt::CaseInsensitive) ||
+                        ui->videoAVGBitField->text().endsWith("M", Qt::CaseInsensitive))
+                {
+                    video_bitrate = ui->videoAVGBitField->text().toLower().remove(" ");
+                }
+                else
+                {
+                    //videoAVGBitField data with numbers only
+                    video_bitrate = ui->videoAVGBitField->text().remove(" ");
+                }
             }
             else
             {
-                //videoAVGBitField data with numbers only
-                video_bitrate = ui->videoAVGBitField->text().remove(" ");
+                //found invalid data->send message to statusbar->below is placeholder
+                ui->videoAVGBitField->setText(tr("invalid, defaulting to 6000k"));
+
+                //default to 6000k
+                video_bitrate = "6000k";
             }
         }
         else
         {
-            //found invalid data->send message to statusbar->below is placeholder
-            ui->videoAVGBitField->setText(tr("invalid, defaulting to 6000k"));
-
             //default to 6000k
             video_bitrate = "6000k";
+            //ui->statusbar->showMessage("defaulting data to 6000k");
         }
     }
-    else
-    {
-        video_bitrate = "6000k";
-        //ui->statusbar->showMessage("defaulting data to 6000k");
-    }
-
-    return video_bitrate;
 }
 
 void VideoUI::enable_two_pass_encode()
 {
-
+    if(ui->videoAVGBitRadio->isChecked() == true)
+    {
+        if(ui->twoPassCheckBox->isChecked() == true)
+        {
+            //send signal that two pass encoding option is enabled
+            emit two_pass_encode_enabled(true);
+        }
+        else
+        {
+            //send signal that two pass encoding option is disabled
+            emit two_pass_encode_enabled(false);
+        }
+    }
 }
