@@ -2,7 +2,7 @@
 #define SELECT_SOURCE_UI_H
 
 /******************************************************************************
- Copyright (c) 2020-2022 b1aqW0lf
+ Copyright (c) 2020-2023 b1aqW0lf
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -53,10 +53,10 @@ public:
     Ui::SelectSourceUI *ui;
 
 Q_SIGNALS:
-    void current_source_extension(const QString &text);
+    void current_vid_source_extension(const QString &text);
 
 private Q_SLOTS:
-    void send_source_extension();
+    void send_video_source_extension();
 
 private Q_SLOTS:
     void select_input1();

@@ -713,7 +713,7 @@ void VideoUI::vid_codec_interface()
     }
 }
 
-void VideoUI::receive_source_data(const QString &text)
+void VideoUI::receive_vid_source_data(const QString &text)
 {
     this->source_ext = text;
 }
@@ -726,37 +726,37 @@ void VideoUI::select_container()//fixed!!!
         //source file extension
         //source file extension from receive_source_data(const QString &text)
         this->vid_ext = source_ext;
-        emit send_output_extension(vid_ext);
+        emit send_output_vid_extension(vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 2)
     {
         //mp4
         this->vid_ext = "mp4";
-        emit send_output_extension("."+vid_ext);
+        emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 3)
     {
         //mkv
         this->vid_ext = "mkv";
-        emit send_output_extension("."+vid_ext);
+        emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 4)
     {
         //webm
         this->vid_ext = "webm";
-        emit send_output_extension("."+vid_ext);
+        emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 5)
     {
         //ts
         this->vid_ext = "ts";
-        emit send_output_extension("."+vid_ext);
+        emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 6)
     {
         //ogv
         this->vid_ext = "ogv";
-        emit send_output_extension("."+vid_ext);
+        emit send_output_vid_extension("."+vid_ext);
     }
 }
 

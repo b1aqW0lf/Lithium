@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright (c) 2020-2022 b1aqW0lf
+ Copyright (c) 2020-2023 b1aqW0lf
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -93,10 +93,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::application_connections_setup()
 {
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_source_extension,
-            ui->VideoUIWidget, &VideoUI::receive_source_data);
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_extension,
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_data);
 
-    connect(ui->VideoUIWidget, &VideoUI::send_output_extension,
-            ui->SaveASWidget, &SaveAsUI::receive_output_extension);
+    connect(ui->VideoUIWidget, &VideoUI::send_output_vid_extension,
+            ui->SaveASWidget, &SaveAsUI::receive_output_vid_extension);
 }
 

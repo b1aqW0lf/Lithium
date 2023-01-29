@@ -102,10 +102,10 @@ private:
     QButtonGroup *rateOptButtons;
 
 public Q_SLOTS:
-    void receive_source_data(const QString &text);
+    void receive_vid_source_data(const QString &text);
 
 Q_SIGNALS:
-    void send_output_extension(const QString &text);
+    void send_output_vid_extension(const QString &text);
     void two_pass_encode_enabled(const bool status);
     void send_average_bitrate_value(const QString &value);
 

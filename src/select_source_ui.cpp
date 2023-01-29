@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright (c) 2020-2022 b1aqW0lf
+ Copyright (c) 2020-2023 b1aqW0lf
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     connect(ui->sourceBrowseBtn2, &QPushButton::clicked,
             this, &SelectSourceUI::select_input2);
     connect(ui->sourceBrowseBtn1, &QPushButton::clicked,
-            this, &SelectSourceUI::send_source_extension);
+            this, &SelectSourceUI::send_video_source_extension);
 
     //interface buttons initialization
     ui->sourceBrowseBtn1->setText(tr("..."));
@@ -74,19 +74,15 @@ SelectSourceUI::~SelectSourceUI()
     delete ui;
 }
 
-void SelectSourceUI::send_source_extension()
+void SelectSourceUI::send_video_source_extension()
 {
-    /*
-        QString source_ext{};
-        QString input_file1_str = ui->sourceInput1Edit->text();
-        source_ext = input_file1_str.mid(input_file1_str.lastIndexOf("."));*/
     //get current sourceInputEdit file extension
     QString source_text{};
     QString source_ext{};
     source_text = ui->sourceInput1Edit->text();
     source_ext = source_text.mid(source_text.lastIndexOf("."));
 
-    emit current_source_extension(source_ext);
+    emit current_vid_source_extension(source_ext);
 }
 
 //select first input file to convert
