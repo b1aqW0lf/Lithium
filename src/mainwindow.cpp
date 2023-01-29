@@ -44,6 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "audio_ui.h"
+#include "ui_audio_ui.h"
 #include "save_as_ui.h"
 #include "ui_save_as_ui.h"
 #include "select_source_ui.h"
@@ -97,6 +99,12 @@ void MainWindow::application_connections_setup()
             ui->VideoUIWidget, &VideoUI::receive_vid_source_data);
 
     connect(ui->VideoUIWidget, &VideoUI::send_output_vid_extension,
-            ui->SaveASWidget, &SaveAsUI::receive_output_vid_extension);
+            ui->SaveASWidget, &SaveAsUI::receive_output_extension);
+
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_extension,
+            ui->AudioUIWidget, &AudioUI::receive_audio_source_data);
+
+    connect(ui->AudioUIWidget, &AudioUI::send_output_audio_extension,
+            ui->SaveASWidget, &SaveAsUI::receive_output_extension);
 }
 

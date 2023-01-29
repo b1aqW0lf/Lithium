@@ -55,7 +55,7 @@ private Q_SLOTS:
     void select_output();
 
 public Q_SLOTS:
-    void receive_output_vid_extension(const QString &text);
+    void receive_output_extension(const QString &text);
 
 /*public:
     QString output_file{};*/

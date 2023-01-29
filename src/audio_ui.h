@@ -32,12 +32,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "ui_audio_ui.h"
-
-#include <QComboBox>
-#include <QGroupBox>
-#include <QLabel>
 #include <QWidget>
+
+#include "ui_audio_ui.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -61,18 +58,28 @@ private Q_SLOTS:
     void select_aud_codec();
     void select_samplerate();
     void select_channels();
+    void select_aud_container();
 
 private:
     QString audio_br_value{};
     QString audio_codec{};
     QString audio_sr_value{};
     QString audio_ac_value{};
+    QString audio_source_ext{};
+    QString audio_container{};
     //-----------------------------------
     //Interface String Lists
     QStringList audioCodecList{};
     QStringList audioBitrateList{};
     QStringList audioSampleList{};
     QStringList audioChannelList{};
+    QStringList audioContainerList{};
+
+public Q_SLOTS:
+    void receive_audio_source_data(const QString &text);
+
+Q_SIGNALS:
+    void send_output_audio_extension(const QString &text);
 
 };
 

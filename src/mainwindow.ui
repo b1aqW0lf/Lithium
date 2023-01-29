@@ -130,12 +130,6 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>AudioUI</class>
-   <extends>QWidget</extends>
-   <header location="global">audio_ui.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>SaveAsUI</class>
    <extends>QWidget</extends>
    <header location="global">save_as_ui.h</header>
@@ -157,6 +151,12 @@
    <class>VideoUI</class>
    <extends>QWidget</extends>
    <header location="global">video_ui.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AudioUI</class>
+   <extends>QWidget</extends>
+   <header location="global">audio_ui.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

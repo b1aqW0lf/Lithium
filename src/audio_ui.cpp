@@ -29,6 +29,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include <QComboBox>
+#include <QGroupBox>
+#include <QLabel>
+
 #include "audio_ui.h"
 
 AudioUI::AudioUI(QWidget *parent) :
@@ -46,6 +50,8 @@ AudioUI::AudioUI(QWidget *parent) :
             this, &AudioUI::select_samplerate);
     connect(ui->audioChannelBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_channels);
+    connect(ui->audioContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &AudioUI::select_aud_container);
     //-------------------------------------------------------------------------
 
 
@@ -80,6 +86,20 @@ AudioUI::AudioUI(QWidget *parent) :
     audioChannelList << "Mono" << "Stereo" << "3" << "4" << "5" << "6" << "7"
                      << "8";
     ui->audioChannelBox->insertItems(2, audioChannelList);
+
+    //audio extension/container
+    ui->audioContainerBox->insertItem(0, "Source");
+    ui->audioContainerBox->insertSeparator(1);
+    audioContainerList << "M4A" << "FLAC" << "MP3" << "WAV" << "OGG" << "OGA"
+                       << "AIFF" << "PCM";
+    ui->audioContainerBox->insertItems(2, audioContainerList);
+    ui->audioContainerLabel->setText("Audio Container");
+
+    //experimental
+    //audioContainerBox should be disabled in Normal Mode
+    //audioContainerBox should only be used in Extract Audio Mode
+    ui->audioContainerBox->setDisabled(true);
+    ui->audioContainerLabel->setDisabled(true);
 
     //group box
     ui->audioGroupBox->setTitle(tr("Audio"));
@@ -175,3 +195,69 @@ void AudioUI::select_channels()
     }
 }
 
+//receive audio extension
+void AudioUI::receive_audio_source_data(const QString &text)
+{
+    this->audio_source_ext = text;
+}
+
+void AudioUI::select_aud_container()
+{
+    //source file extension from receive_audio_source_data(const QString &text)
+    QString audio_ext{this->audio_source_ext};
+    if(ui->audioContainerBox->currentIndex() == 0)
+    {
+        //source file extension
+        //copy of the inputLine2Edit source extension
+        audio_ext = this->audio_source_ext;
+        emit send_output_audio_extension(audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 2)
+    {
+        //M4A
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 3)
+    {
+        //FLAC
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 4)
+    {
+        //MP3
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 5)
+    {
+        //WAV
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 6)
+    {
+        //OGG
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 7)
+    {
+        //OGA
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 8)
+    {
+        //AIFF
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+    if(ui->audioContainerBox->currentIndex() == 9)
+    {
+        //PCM
+        audio_ext = ui->audioContainerBox->currentText().toLower();
+        emit send_output_audio_extension("."+audio_ext);
+    }
+}

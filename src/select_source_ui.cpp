@@ -51,6 +51,8 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
             this, &SelectSourceUI::select_input2);
     connect(ui->sourceBrowseBtn1, &QPushButton::clicked,
             this, &SelectSourceUI::send_video_source_extension);
+    connect(ui->sourceBrowseBtn2, &QPushButton::clicked,
+            this, &SelectSourceUI::send_audio_source_extension);
 
     //interface buttons initialization
     ui->sourceBrowseBtn1->setText(tr("..."));
@@ -66,6 +68,7 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     ui->sourceInput2Edit->setEnabled(false);
     ui->sourceBrowseBtn2->setEnabled(false);
     ui->source2Label->setEnabled(false);
+    ui->sourceInput2Edit->setPlaceholderText(tr("Select audio file"));
     ui->source2Label->setText(tr("Source 2:"));
 }
 
@@ -76,13 +79,27 @@ SelectSourceUI::~SelectSourceUI()
 
 void SelectSourceUI::send_video_source_extension()
 {
-    //get current sourceInputEdit file extension
+    //get current sourceInput1Edit file extension
     QString source_text{};
     QString source_ext{};
     source_text = ui->sourceInput1Edit->text();
+    //based on code from qtffmpeg
     source_ext = source_text.mid(source_text.lastIndexOf("."));
 
     emit current_vid_source_extension(source_ext);
+}
+
+//send audio source input source extension
+void SelectSourceUI::send_audio_source_extension()
+{
+    //get current sourceInput2Edit file extension
+    QString source_audio_text{};
+    QString source_audio_ext{};
+    source_audio_text = ui->sourceInput2Edit->text();
+    //based on code from qtffmpeg
+    source_audio_ext = source_audio_text.mid(source_audio_text.lastIndexOf("."));
+
+    emit current_audio_source_extension(source_audio_ext);
 }
 
 //select first input file to convert

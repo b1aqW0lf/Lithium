@@ -720,42 +720,42 @@ void VideoUI::receive_vid_source_data(const QString &text)
 
 void VideoUI::select_container()//fixed!!!
 {
-    //based on code from qtffmpeg
+    QString vid_ext{this->source_ext};
     if(ui->videoContainerBox->currentIndex() == 0)
     {
         //source file extension
-        //source file extension from receive_source_data(const QString &text)
-        this->vid_ext = source_ext;
+        //source file extension from receive_vid_source_data(const QString &text)
+        vid_ext = this->source_ext;
         emit send_output_vid_extension(vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 2)
     {
         //mp4
-        this->vid_ext = "mp4";
+        vid_ext = ui->videoContainerBox->currentText().toLower();
         emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 3)
     {
         //mkv
-        this->vid_ext = "mkv";
+        vid_ext = ui->videoContainerBox->currentText().toLower();
         emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 4)
     {
         //webm
-        this->vid_ext = "webm";
+        vid_ext = ui->videoContainerBox->currentText().toLower();
         emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 5)
     {
         //ts
-        this->vid_ext = "ts";
+        vid_ext = ui->videoContainerBox->currentText().toLower();
         emit send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 6)
     {
         //ogv
-        this->vid_ext = "ogv";
+        vid_ext = ui->videoContainerBox->currentText().toLower();
         emit send_output_vid_extension("."+vid_ext);
     }
 }
