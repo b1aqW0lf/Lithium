@@ -50,9 +50,9 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     connect(ui->sourceBrowseBtn2, &QPushButton::clicked,
             this, &SelectSourceUI::select_input2);
     connect(ui->sourceBrowseBtn1, &QPushButton::clicked,
-            this, &SelectSourceUI::send_video_source_extension);
+            this, &SelectSourceUI::send_video_source_data);
     connect(ui->sourceBrowseBtn2, &QPushButton::clicked,
-            this, &SelectSourceUI::send_audio_source_extension);
+            this, &SelectSourceUI::send_audio_source_data);
 
     //interface buttons initialization
     ui->sourceBrowseBtn1->setText(tr("..."));
@@ -77,7 +77,7 @@ SelectSourceUI::~SelectSourceUI()
     delete ui;
 }
 
-void SelectSourceUI::send_video_source_extension()
+void SelectSourceUI::send_video_source_data()
 {
     //get current sourceInput1Edit file extension
     QString source_text{};
@@ -90,7 +90,7 @@ void SelectSourceUI::send_video_source_extension()
 }
 
 //send audio source input source extension
-void SelectSourceUI::send_audio_source_extension()
+void SelectSourceUI::send_audio_source_data()
 {
     //get current sourceInput2Edit file extension
     QString source_audio_text{};

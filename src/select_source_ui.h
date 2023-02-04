@@ -57,8 +57,8 @@ Q_SIGNALS:
     void current_audio_source_extension(const QString &text);
 
 private Q_SLOTS:
-    void send_video_source_extension();
-    void send_audio_source_extension();
+    void send_video_source_data();
+    void send_audio_source_data();
 
 private Q_SLOTS:
     void select_input1();
