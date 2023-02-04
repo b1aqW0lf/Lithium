@@ -50,6 +50,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ui_save_as_ui.h"
 #include "select_source_ui.h"
 #include "ui_select_source_ui.h"
+#include "statusbar_ui.h"
+#include "ui_statusbar_ui.h"
 #include "video_ui.h"
 #include "ui_video_ui.h"
 
@@ -60,7 +62,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //enable application connections
     application_connections_setup();
+
+    //display progress bar and status bar
+    StatusBarUI *statProgressBar = new StatusBarUI;
+    ui->statusbar->addPermanentWidget(statProgressBar);
 
     //display avaialble storage
     DetectStorage dsx{this};
@@ -107,4 +114,3 @@ void MainWindow::application_connections_setup()
     connect(ui->AudioUIWidget, &AudioUI::send_output_audio_extension,
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
 }
-

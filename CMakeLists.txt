@@ -58,6 +58,9 @@ set(PROJECT_SOURCES
         src/ffprocess.h
         src/ffprocess.cpp
         src/ffprocess.ui
+        src/statusbar_ui.h
+        src/statusbar_ui.cpp
+        src/statusbar_ui.ui
         misc/
         LICENSE
 )
