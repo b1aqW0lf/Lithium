@@ -55,6 +55,8 @@ public:
 Q_SIGNALS:
     void current_vid_source_extension(const QString &text);
     void current_audio_source_extension(const QString &text);
+    void current_vid_source_file(const QString &text);
+    void current_audio_source_file(const QString &text);
 
 private Q_SLOTS:
     void send_video_source_data();

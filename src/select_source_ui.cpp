@@ -83,9 +83,10 @@ void SelectSourceUI::send_video_source_data()
     QString source_text{};
     QString source_ext{};
     source_text = ui->sourceInput1Edit->text();
+    emit current_vid_source_file(source_text);
+
     //based on code from qtffmpeg
     source_ext = source_text.mid(source_text.lastIndexOf("."));
-
     emit current_vid_source_extension(source_ext);
 }
 
@@ -96,9 +97,10 @@ void SelectSourceUI::send_audio_source_data()
     QString source_audio_text{};
     QString source_audio_ext{};
     source_audio_text = ui->sourceInput2Edit->text();
+    emit current_audio_source_file(source_audio_text);
+
     //based on code from qtffmpeg
     source_audio_ext = source_audio_text.mid(source_audio_text.lastIndexOf("."));
-
     emit current_audio_source_extension(source_audio_ext);
 }
 
