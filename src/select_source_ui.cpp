@@ -79,7 +79,7 @@ SelectSourceUI::~SelectSourceUI()
 
 void SelectSourceUI::send_video_source_data()
 {
-    //get current sourceInput1Edit file extension
+    //get current sourceInput1Edit file and extension
     QString source_text{};
     QString source_ext{};
     source_text = ui->sourceInput1Edit->text();
@@ -93,7 +93,7 @@ void SelectSourceUI::send_video_source_data()
 //send audio source input source extension
 void SelectSourceUI::send_audio_source_data()
 {
-    //get current sourceInput2Edit file extension
+    //get current sourceInput2Edit file and extension
     QString source_audio_text{};
     QString source_audio_ext{};
     source_audio_text = ui->sourceInput2Edit->text();
