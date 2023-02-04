@@ -61,6 +61,8 @@ set(PROJECT_SOURCES
         src/statusbar_ui.h
         src/statusbar_ui.cpp
         src/statusbar_ui.ui
+        src/input_source_probe.h
+        src/input_source_probe.cpp
         misc/
         LICENSE
 )

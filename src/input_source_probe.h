@@ -1,5 +1,5 @@
-#ifndef DETECT_STORAGE_H
-#define DETECT_STORAGE_H
+#ifndef INPUT_SOURCE_PROBE_H
+#define INPUT_SOURCE_PROBE_H
 
 /******************************************************************************
  Copyright (c) 2020-2023 b1aqW0lf
@@ -33,25 +33,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <QObject>
-#include <QStorageInfo>
+#include <QWidget>
 
 
-class DetectStorage : public QObject
+class InputSourceProbe : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit DetectStorage(QObject *parent = nullptr);
-    ~DetectStorage();
+    explicit InputSourceProbe(QObject *parent = nullptr);
+    ~InputSourceProbe();
 
-    //creating the variables that hold values for available disk space
-    //total disc space, and their comparison
-private:
-    QStorageInfo storage{};
+public Q_SLOTS:
+    void receive_vid_file_path(const QString &file);
+    void receive_audio_file_path(const QString &file);
 
-public:
-    QString stor_avail{};//available disk space
-    QString stor_total{};//total disk space
 };
 
-#endif // DETECT_STORAGE_H
+#endif // INPUT_SOURCE_PROBE_H

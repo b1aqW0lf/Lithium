@@ -1,6 +1,3 @@
-#ifndef DETECT_STORAGE_H
-#define DETECT_STORAGE_H
-
 /******************************************************************************
  Copyright (c) 2020-2023 b1aqW0lf
 All rights reserved.
@@ -32,26 +29,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QObject>
-#include <QStorageInfo>
+#include "input_source_probe.h"
 
 
-class DetectStorage : public QObject
+
+InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
 {
-    Q_OBJECT
 
-public:
-    explicit DetectStorage(QObject *parent = nullptr);
-    ~DetectStorage();
+}
 
-    //creating the variables that hold values for available disk space
-    //total disc space, and their comparison
-private:
-    QStorageInfo storage{};
-
-public:
-    QString stor_avail{};//available disk space
-    QString stor_total{};//total disk space
-};
-
-#endif // DETECT_STORAGE_H
+InputSourceProbe::~InputSourceProbe(){}
