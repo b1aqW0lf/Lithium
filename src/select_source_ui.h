@@ -59,14 +59,8 @@ Q_SIGNALS:
 private Q_SLOTS:
     void send_video_source_data();
     void send_audio_source_data();
-
-private Q_SLOTS:
     void select_input1();
     void select_input2();
-
-/*private:
-    //QString source_ext{};*/
-
 };
 
 #endif // SELECT_SOURCE_UI_H
