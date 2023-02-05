@@ -113,4 +113,13 @@ void MainWindow::application_connections_setup()
 
     connect(ui->AudioUIWidget, &AudioUI::send_output_audio_extension,
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
+
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
+            &inputProbe, &InputSourceProbe::receive_vid_file_path);
+
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
+            &inputProbe, &InputSourceProbe::receive_audio_file_path);
+
+    connect(&inputProbe, &InputSourceProbe::file_path,
+            ui->statusbar, &QStatusBar::showMessage);
 }

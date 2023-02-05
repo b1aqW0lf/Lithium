@@ -32,21 +32,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QObject>
 #include <QWidget>
 
 
-class InputSourceProbe : public QObject
+class InputSourceProbe : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit InputSourceProbe(QObject *parent = nullptr);
+    explicit InputSourceProbe(QWidget *parent = nullptr);
     ~InputSourceProbe();
 
 public Q_SLOTS:
     void receive_vid_file_path(const QString &file);
     void receive_audio_file_path(const QString &file);
+
+Q_SIGNALS:
+    void file_path(const QString &text, const int &time);
 
 };
 

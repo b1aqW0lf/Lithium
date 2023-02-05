@@ -32,10 +32,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "input_source_probe.h"
 
 
-
-InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
+InputSourceProbe::InputSourceProbe(QWidget *parent) : QWidget(parent)
 {
+
+    //connection with SelectSourceUI is made in MainWindow-->works!
 
 }
 
+//destructor
 InputSourceProbe::~InputSourceProbe(){}
+
+void InputSourceProbe::receive_vid_file_path(const QString &file)
+{
+    int message_timeout{0};
+    emit file_path(file,message_timeout);
+
+}
+
+void InputSourceProbe::receive_audio_file_path(const QString &file)
+{
+
+}
