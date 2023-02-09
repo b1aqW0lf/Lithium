@@ -1,6 +1,3 @@
-#ifndef INPUT_SOURCE_PROBE_H
-#define INPUT_SOURCE_PROBE_H
-
 /******************************************************************************
  Copyright (c) 2020-2023 b1aqW0lf
 All rights reserved.
@@ -32,31 +29,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QWidget>
+#include "output_display_ui.h"
+#include "ui_output_display_ui.h"
 
-#include "ffprocess.h"
 
-
-class InputSourceProbe : public QWidget
+OutputDisplayUI::OutputDisplayUI(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::OutputDisplayUI)
 {
-    Q_OBJECT
+    ui->setupUi(this);
 
-public:
-    explicit InputSourceProbe(QWidget *parent = nullptr);
-    ~InputSourceProbe();
+    connect(&process, &FFprocess::ffmpeg_read_output,
+            this, &OutputDisplayUI::textEdit_display_output);
 
-public Q_SLOTS:
-    void receive_vid_file_path(const QString &file);
-    void receive_audio_file_path(const QString &file);
-    void start_probe_process();
+    ui->outputDisplayEdit->setReadOnly(true);
+}
 
-Q_SIGNALS:
-    void file_path(const QString &text, const int &time);
+OutputDisplayUI::~OutputDisplayUI()
+{
+    delete ui;
+}
 
-private:
-    QString input_vid{};
-    FFprocess process;
-
-};
-
-#endif // INPUT_SOURCE_PROBE_H
+void OutputDisplayUI::textEdit_display_output(const QString &data)
+{
+    ui->outputDisplayEdit->setText(data);
+}

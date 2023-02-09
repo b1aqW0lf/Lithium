@@ -122,4 +122,7 @@ void MainWindow::application_connections_setup()
 
     connect(&inputProbe, &InputSourceProbe::file_path,
             ui->statusbar, &QStatusBar::showMessage);
+
+    connect(ui->SelectSourceWidget, &SelectSourceUI::start_input1_process,
+            &inputProbe, &InputSourceProbe::start_probe_process);
 }

@@ -1,5 +1,6 @@
-#ifndef INPUT_SOURCE_PROBE_H
-#define INPUT_SOURCE_PROBE_H
+#ifndef OUTPUT_DISPLAY_UI_H
+#define OUTPUT_DISPLAY_UI_H
+
 
 /******************************************************************************
  Copyright (c) 2020-2023 b1aqW0lf
@@ -37,26 +38,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ffprocess.h"
 
 
-class InputSourceProbe : public QWidget
+QT_BEGIN_NAMESPACE
+namespace Ui {
+class OutputDisplayUI;
+}
+QT_END_NAMESPACE
+
+class OutputDisplayUI : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit InputSourceProbe(QWidget *parent = nullptr);
-    ~InputSourceProbe();
-
-public Q_SLOTS:
-    void receive_vid_file_path(const QString &file);
-    void receive_audio_file_path(const QString &file);
-    void start_probe_process();
-
-Q_SIGNALS:
-    void file_path(const QString &text, const int &time);
+    explicit OutputDisplayUI(QWidget *parent = nullptr);
+    ~OutputDisplayUI();
 
 private:
-    QString input_vid{};
+    Ui::OutputDisplayUI *ui;
     FFprocess process;
 
+private Q_SLOTS:
+    void textEdit_display_output(const QString &data);
 };
 
-#endif // INPUT_SOURCE_PROBE_H
+#endif // OUTPUT_DISPLAY_UI_H

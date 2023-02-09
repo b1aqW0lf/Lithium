@@ -57,7 +57,9 @@ set(PROJECT_SOURCES
         src/process_mode_ui.ui
         src/ffprocess.h
         src/ffprocess.cpp
-        src/ffprocess.ui
+        src/output_display_ui.h
+        src/output_display_ui.cpp
+        src/output_display_ui.ui
         src/statusbar_ui.h
         src/statusbar_ui.cpp
         src/statusbar_ui.ui

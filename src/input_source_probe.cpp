@@ -34,9 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 InputSourceProbe::InputSourceProbe(QWidget *parent) : QWidget(parent)
 {
-
     //connection with SelectSourceUI is made in MainWindow-->works!
-
 }
 
 //destructor
@@ -47,9 +45,20 @@ void InputSourceProbe::receive_vid_file_path(const QString &file)
     int message_timeout{0};
     emit file_path(file,message_timeout);
 
+    this->input_vid = file;
 }
 
 void InputSourceProbe::receive_audio_file_path(const QString &file)
 {
 
+}
+
+void InputSourceProbe::start_probe_process()
+{
+    //ffprobe arguments
+    /*QStringList args{};
+    args << "ffprobe" << "-i" << input_vid;
+
+    //enable ffprobe
+    process.ffprobe->start(process.ffprobe_path, args);*/
 }

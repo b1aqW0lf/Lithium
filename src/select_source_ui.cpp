@@ -118,6 +118,7 @@ void SelectSourceUI::select_input1()//complete!
     {
         ui->sourceInput1Edit->setText(input_file1);
     }
+    emit start_input1_process();
 }
 
 //select optional second input, an audio file to use

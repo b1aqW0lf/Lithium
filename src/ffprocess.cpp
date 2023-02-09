@@ -1,156 +1,249 @@
-/******************************************************************************
- Copyright (c) 2020-2022 b1aqW0lf
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-3. Neither the name of the copyright holder nor the names of its
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
-
-
 #include "ffprocess.h"
-#include "mainwindow.h"
-#include "ui_ffprocess.h"
-#include "ui_mainwindow.h"
 
-#include <QCoreApplication>
-#include <QDir>
-#include <QFile>
-#include <QTextEdit>
-#include <QScrollBar>
-#include <QToolBar>
-
-
-FFprocess::FFprocess(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::FFprocess)
+FFprocess::FFprocess(QProcess *parent)
+    : QProcess{parent}
 {
-    ui->setupUi(this);
+    //create the processes to be used
+    this->ffmpeg = new QProcess;
+    this->ffplay = new QProcess;
+    this->ffprobe = new QProcess;
 
-    ffmpeg = new QProcess{this};
-    ffplay = new QProcess{this};
-    ffprobe = new QProcess{this};
 
     //connect signals and slots
     //connect(ffmpeg, SIGNAL(started()), this, SLOT(ffprocess_running()));
-    //
-    /*-->>connect(ffmpeg, SIGNAL(finished(int)), this,SLOT(encoding_finished()));<<--*/
-    connect(ffmpeg, &QProcess::readyReadStandardOutput,
-            this, &FFprocess::ffmpeg_proc_output);
-    //connect(ffprobe, SIGNAL(finished(int)), this, SLOT(ffprobe_finished()));//<-
-    connect(ffprobe, &QProcess::readyReadStandardOutput,
-            this, &FFprocess::ffprobe_proc_output);//ffprobe data
-    //-------------------------------------------------------------------------
+    connect(this->ffmpeg, &QProcess::readyReadStandardOutput,
+            this, &FFprocess::ffmpegReadStandardOutput);
 
-    //set channel mode
+    //connect(ffprobe, SIGNAL(finished(int)), this, SLOT(ffprobe_finished()));
+    connect(this->ffprobe, &QProcess::readyReadStandardOutput,
+            this, &FFprocess::ffprobeReadStandardOutput);//ffprobe data
+
+    connect(this->ffmpeg, &QProcess::started,
+            this, &FFprocess::ffmpeg_process_started);
+
+    connect(this->ffmpeg, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, &FFprocess::ffmpeg_process_finished);
+
+    connect(this->ffprobe, &QProcess::started,
+            this, &FFprocess::ffprobe_process_started);
+
+    connect(this->ffprobe, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, &FFprocess::ffprobe_process_finished);
+
+    //set process channel
     ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     ffplay->setProcessChannelMode(QProcess::MergedChannels);
     ffprobe->setProcessChannelMode(QProcess::MergedChannels);
 
-
     //location of ffmpeg, ffplay, and ffprobe
-    args << "-version";
-    QString application_path = QCoreApplication::applicationDirPath();
-    QString application_dir = QDir(application_path).absolutePath();
+    ffmpeg_location_setup();
+    ffprobe_location_setup();
+    ffplay_location_setup();
 
-#ifdef Q_OS_WIN
-    if(QFile::exists(application_dir+"/ffmpeg.exe") &&
-            !QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        //Lithium root directory + ffmpeg executable
-        ffmpeg_path = application_dir+"/ffmpeg.exe";
-        ffmpeg->setWorkingDirectory(application_dir);
-    }
-    else if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe") &&
-            !QFile::exists(application_dir+"/ffmpeg.exe"))
-    {
-        //Lithium root directory + "ffmpeg" sub directory + ffmpeg executable
-        ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
-    else if(QFile::exists(application_dir+"/ffmpeg.exe") &&
-            QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        //If ffmpeg is found in both root directory and subdirectory
-        //use ffmpeg found in user-created "ffmpeg" subdirectory
-        ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-        /*ui->statusbar->showMessage(tr("Using ffmpeg found in "+
-                                      (application_dir+"/ffmpeg").toUtf8()));*/
-    }
-    else
-    {
-        //ui->ffprocessOutputView->setText(tr("FFmpeg executables not detected"));
-        //ui->statusbar->showMessage(tr("FFmpeg executables not detected"));
-    }
-    ffplay_path = "ffplay";//location of ffplay
-    ffplay->setWorkingDirectory("");
-    ffprobe_path = "ffprobe";//location of ffprobe
-    ffprobe->setWorkingDirectory("");
-#elif defined Q_OS_LINUX
-    ffmpeg_path = "ffmpeg";
-    ffplay_path = "ffplay";
-    ffprobe_path = "ffprobe";
-#endif
-    ffmpeg->start(ffmpeg_path, args);/**/
+    //loads ffmpeg on startup
+    args << "-version";
+    ffmpeg->start(ffmpeg_path, args);
     ffmpeg->waitForStarted();
-    //ui->ffprocessOutputView->setText(ff_output);
     args.clear();
 
-    //ffprocessOutputView default settings
-    ui->ffprocessOutputView->setReadOnly(true);
 }
 
 FFprocess::~FFprocess()
 {
-    delete ui;
     delete ffmpeg;
     delete ffprobe;
     delete ffplay;
 }
 
-void FFprocess::ffmpeg_proc_output()//complete!
+void FFprocess::ffmpegReadStandardOutput()
 {
+    QString ffmpeg_output{};
     //ffmpeg process' readyReadStandardOutput implementation
-    ff_output = (ffmpeg->readAllStandardOutput());//single line stats
-    //ff_output.append(ffmpeg->readAllStandardOutput());
-    ui->ffprocessOutputView->setText(ff_output);
-
-    //put scrollbar slider at the right of the textEdit
-    ui->ffprocessOutputView->verticalScrollBar()->setSliderPosition(
-                ui->ffprocessOutputView->verticalScrollBar()->maximum());
+    ffmpeg_output = this->ffmpeg->readAllStandardOutput();//single line stats
+    emit ffmpeg_read_output(ffmpeg_output);
 }
 
-void FFprocess::ffprobe_proc_output()
+void FFprocess::ffprobeReadStandardOutput()
 {
+    QString ffprobe_output{};
     //ffprobe process' readyReadStandardOutput implementation
-    ffprobe_output.append(ffprobe->readAllStandardOutput());
+    ffprobe_output = this->ffprobe->readAllStandardOutput();//single line stats
+    emit ffprobe_read_output(ffprobe_output);
+}
 
-    //ff_output.append(ffprobe_output);
-    ui->ffprocessOutputView->setText(ffprobe_output);
+void FFprocess::ffmpeg_location_setup()
+{
 
-    //put scrollbar slider at the right of the textEdit
-    ui->ffprocessOutputView->verticalScrollBar()->setSliderPosition(
-                ui->ffprocessOutputView->verticalScrollBar()->maximum());
+#ifdef Q_OS_WIN
+    QString application_path{QCoreApplication::applicationDirPath()};
+    QString application_dir{QDir(application_path).absolutePath()};
+
+    if(QFile::exists(application_dir+"/ffmpeg.exe") &&
+            !QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
+    {
+        //Lithium root directory + ffmpeg executable
+        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir);
+    }
+    else if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe") &&
+            !QFile::exists(application_dir+"/ffmpeg.exe"))
+    {
+        //Lithium root directory + "ffmpeg" sub directory + ffmpeg executable
+        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
+    }
+    else if(QFile::exists(application_dir+"/ffmpeg.exe") &&
+             QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
+    {
+        //If ffmpeg is found in both root directory and subdirectory
+        //use ffmpeg found in user-created "ffmpeg" subdirectory
+        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
+        //ui->statusbar->showMessage(tr("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8()));
+        emit ffmpeg_found("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8()));
+    }
+    else
+    {
+        /*ui->ffProcWindow->setText(tr("FFmpeg executables not detected"));
+        ui->statusbar->showMessage(tr("FFmpeg executables not detected"));*/
+        emit ffmpeg_found("FFmpeg executables not detected");
+    }
+#elif defined Q_OS_LINUX
+    this->ffmpeg_path = "ffmpeg";
+#endif
+    int message_timeout{0};//status bar message timeout value
+    emit ffmpeg_ready_status("Ready", message_timeout);
+
+}
+
+void FFprocess::ffprobe_location_setup()
+{
+
+#ifdef Q_OS_WIN
+    QString application_path{QCoreApplication::applicationDirPath()};
+    QString application_dir{QDir(application_path).absolutePath()};
+
+    if(QFile::exists(application_dir+"/ffprobe.exe") &&
+            !QFile::exists(application_dir+"/ffmpeg/ffprobe.exe"))
+    {
+        //Lithium root directory + ffprobe executable
+        this->ffprobe_path = application_dir+"/ffprobe.exe";
+        this->ffprobe->setWorkingDirectory(application_dir);
+    }
+    else if(QFile::exists(application_dir+"/ffmpeg/ffprobe.exe") &&
+            !QFile::exists(application_dir+"/ffprobe.exe"))
+    {
+        //Lithium root directory + "ffmpeg" sub directory + ffprobe executable
+        this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
+        this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
+    }
+    else if(QFile::exists(application_dir+"/ffprobe.exe") &&
+             QFile::exists(application_dir+"/ffmpeg/ffprobe.exe"))
+    {
+        //If ffprobe is found in both root directory and subdirectory
+        //use ffprobe found in user-created "ffmpeg" subdirectory
+        this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
+        this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
+        //ui->statusbar->showMessage(tr("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8()));
+        emit ffprobe_found("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8()));
+    }
+    else
+    {
+        /*ui->ffProcWindow->setText(tr("FFprobe executable not detected"));
+        ui->statusbar->showMessage(tr("FFprobe executable not detected"));*/
+        emit ffprobe_found("FFprobe executable not detected");
+    }
+#elif defined Q_OS_LINUX
+    this->ffprobe_path = "ffprobe";
+#endif
+
+}
+
+void FFprocess::ffplay_location_setup()
+{
+
+#ifdef Q_OS_WIN
+    QString application_path{QCoreApplication::applicationDirPath()};
+    QString application_dir{QDir(application_path).absolutePath()};
+
+    if(QFile::exists(application_dir+"/ffplay.exe") &&
+            !QFile::exists(application_dir+"/ffmpeg/ffplay.exe"))
+    {
+        //Lithium root directory + ffplay executable
+        this->ffplay_path = application_dir+"/ffplay.exe";
+        this->ffplay->setWorkingDirectory(application_dir);
+    }
+    else if(QFile::exists(application_dir+"/ffmpeg/ffplay.exe") &&
+            !QFile::exists(application_dir+"/ffplay.exe"))
+    {
+        //Lithium root directory + "ffmpeg" sub directory + ffplay executable
+        this->ffplay_path = application_dir+"/ffmpeg/ffplay.exe";
+        this->ffplay->setWorkingDirectory(application_dir+"/ffmpeg");
+    }
+    else if(QFile::exists(application_dir+"/ffplay.exe") &&
+             QFile::exists(application_dir+"/ffmpeg/ffplay.exe"))
+    {
+        //If ffplay is found in both root directory and subdirectory
+        //use ffplay found in user-created "ffmpeg" subdirectory
+        this->ffplay_path = application_dir+"/ffmpeg/ffplay.exe";
+        this->ffplay->setWorkingDirectory(application_dir+"/ffmpeg");
+        //ui->statusbar->showMessage(tr("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8()));
+        emit ffmpeg_found("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8()));
+    }
+    else
+    {
+        /*ui->ffProcWindow->setText(tr("FFplay executable not detected"));
+        ui->statusbar->showMessage(tr("FFplay executable not detected"));*/
+        emit ffplay_found("FFplay executable not detected");
+    }
+#elif defined Q_OS_LINUX
+    this->ffplay_path = "ffplay";
+#endif
+
+}
+
+
+
+void FFprocess::ffmpeg_process_started()
+{
+    ffmpeg->waitForStarted();
+    //check if ffmpeg process has started
+    if(this->ffmpeg->QProcess::state() == QProcess::Running)
+    {
+        emit ffmpeg_started();
+    }
+}
+
+void FFprocess::ffmpeg_process_finished()
+{
+    ffmpeg->waitForFinished();
+    if(this->ffmpeg->QProcess::state() == QProcess::NotRunning)
+    {
+        emit ffmpeg_finished();
+
+        //close write channel after process finishes
+        ffmpeg->closeWriteChannel();
+    }
+}
+
+void FFprocess::ffprobe_process_started()
+{
+    ffprobe->waitForStarted();
+    //check if ffmpeg process has started
+    if(this->ffprobe->QProcess::state() == QProcess::Running)
+    {
+        emit ffprobe_started();
+    }
+}
+
+void FFprocess::ffprobe_process_finished()
+{
+    ffprobe->waitForFinished();
+    if(this->ffprobe->QProcess::state() == QProcess::NotRunning)
+    {
+        emit ffprobe_finished();
+
+        //close write channel after process finishes
+        ffprobe->closeWriteChannel();
+    }
 }
