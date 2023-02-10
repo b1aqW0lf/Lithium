@@ -120,9 +120,14 @@ void MainWindow::application_connections_setup()
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
             &inputProbe, &InputSourceProbe::receive_audio_file_path);
 
+    //temp connection-for testing only-----------------------------//
     connect(&inputProbe, &InputSourceProbe::file_path,
             ui->statusbar, &QStatusBar::showMessage);
+    //-------------------------------------------------------------//
 
     connect(ui->SelectSourceWidget, &SelectSourceUI::start_input1_process,
             &inputProbe, &InputSourceProbe::start_probe_process);
+
+    connect(&process, &FFprocess::ffmpeg_ready_status,
+            ui->statusbar, &QStatusBar::showMessage);
 }

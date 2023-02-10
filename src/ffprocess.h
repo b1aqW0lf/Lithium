@@ -59,7 +59,7 @@ Q_SIGNALS:
     void ffmpeg_found(const QString &status);
     void ffprobe_found(const QString &status);
     void ffplay_found(const QString &status);
-    void ffmpeg_ready_status(const QString &status, const int &num);
+    void ffmpeg_ready_status(const QString &status, const int &stat);
     void ffmpeg_started();
     void ffprobe_started();
     void ffmpeg_finished();
@@ -86,6 +86,9 @@ private:
     void ffmpeg_location_setup();
     void ffprobe_location_setup();
     void ffplay_location_setup();
+
+    //function
+    void send_ffmpeg_status();
 
     //ffplay output strings
     QString ffplay_output{};

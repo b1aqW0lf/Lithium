@@ -73,10 +73,9 @@ FFprocess::FFprocess(QProcess *parent)
 
     //loads ffmpeg on startup
     args << "-version";
-    ffmpeg->start(ffmpeg_path, args);
     ffmpeg->waitForStarted();
+    ffmpeg->start(ffmpeg_path, args);
     args.clear();
-
 }
 
 FFprocess::~FFprocess()
@@ -142,8 +141,7 @@ void FFprocess::ffmpeg_location_setup()
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
 #endif
-    int message_timeout{0};//status bar message timeout value
-    emit ffmpeg_ready_status("Ready", message_timeout);
+    send_ffmpeg_status();
 
 }
 
@@ -242,6 +240,7 @@ void FFprocess::ffmpeg_process_started()
     if(this->ffmpeg->QProcess::state() == QProcess::Running)
     {
         emit ffmpeg_started();
+        send_ffmpeg_status();
     }
 }
 
@@ -277,4 +276,10 @@ void FFprocess::ffprobe_process_finished()
         //close write channel after process finishes
         ffprobe->closeWriteChannel();
     }
+}
+
+void FFprocess::send_ffmpeg_status()
+{
+    int message_timeout{0};//status bar message timeout value
+    emit ffmpeg_ready_status("Ready",message_timeout);
 }

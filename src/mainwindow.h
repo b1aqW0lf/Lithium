@@ -37,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QMainWindow>
 #include <QWidget>
 
+#include "ffprocess.h"
 #include "input_source_probe.h"
 
 
@@ -54,6 +55,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     InputSourceProbe inputProbe;
+    FFprocess process;
 
 private:
     Ui::MainWindow *ui;

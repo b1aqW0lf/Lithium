@@ -41,11 +41,12 @@ InputSourceProbe::InputSourceProbe(QWidget *parent) : QWidget(parent)
 InputSourceProbe::~InputSourceProbe(){}
 
 void InputSourceProbe::receive_vid_file_path(const QString &file)
-{
+{    
+    this->input_vid = file;
+
+    //temp code - used to test statusbar connection only
     int message_timeout{0};
     emit file_path(file,message_timeout);
-
-    this->input_vid = file;
 }
 
 void InputSourceProbe::receive_audio_file_path(const QString &file)
