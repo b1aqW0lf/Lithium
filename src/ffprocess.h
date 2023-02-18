@@ -41,7 +41,8 @@ class FFprocess : public QProcess
 {
     Q_OBJECT
 
-    friend class OutputDisplayUI;
+    //friend class OutputDisplayUI;
+    friend class InputSourceProbe;
 
 public:
     explicit FFprocess(QProcess *parent = nullptr);

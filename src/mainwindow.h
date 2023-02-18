@@ -54,11 +54,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    InputSourceProbe inputProbe;
-    FFprocess process;
 
 private:
     Ui::MainWindow *ui;
+    InputSourceProbe inputProbe;
+    FFprocess process;
+
+    //function
     void application_connections_setup();
 
 /*private Q_SLOTS:

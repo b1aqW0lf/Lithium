@@ -52,12 +52,14 @@ public:
     explicit OutputDisplayUI(QWidget *parent = nullptr);
     ~OutputDisplayUI();
 
+public Q_SLOTS:
+    void textEdit_display_output(const QString &data);
+
 private:
     Ui::OutputDisplayUI *ui;
-    FFprocess process;
 
-private Q_SLOTS:
-    void textEdit_display_output(const QString &data);
+/*private Q_SLOTS:
+    void textEdit_display_output(const QString &data);*/
 };
 
 #endif // OUTPUT_DISPLAY_UI_H

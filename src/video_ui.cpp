@@ -726,37 +726,37 @@ void VideoUI::select_container()//fixed!!!
         //source file extension
         //source file extension from receive_vid_source_data(const QString &text)
         vid_ext = this->source_ext;
-        emit send_output_vid_extension(vid_ext);
+        Q_EMIT send_output_vid_extension(vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 2)
     {
         //mp4
         vid_ext = ui->videoContainerBox->currentText().toLower();
-        emit send_output_vid_extension("."+vid_ext);
+        Q_EMIT send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 3)
     {
         //mkv
         vid_ext = ui->videoContainerBox->currentText().toLower();
-        emit send_output_vid_extension("."+vid_ext);
+        Q_EMIT send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 4)
     {
         //webm
         vid_ext = ui->videoContainerBox->currentText().toLower();
-        emit send_output_vid_extension("."+vid_ext);
+        Q_EMIT send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 5)
     {
         //ts
         vid_ext = ui->videoContainerBox->currentText().toLower();
-        emit send_output_vid_extension("."+vid_ext);
+        Q_EMIT send_output_vid_extension("."+vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 6)
     {
         //ogv
         vid_ext = ui->videoContainerBox->currentText().toLower();
-        emit send_output_vid_extension("."+vid_ext);
+        Q_EMIT send_output_vid_extension("."+vid_ext);
     }
 }
 
@@ -1465,13 +1465,13 @@ void VideoUI::get_vid_bitrate_field_data()
                         ui->videoAVGBitField->text().endsWith("M", Qt::CaseInsensitive))
                 {
                     video_bitrate = ui->videoAVGBitField->text().toLower().remove(" ");
-                    emit send_average_bitrate_value(video_bitrate);
+                    Q_EMIT send_average_bitrate_value(video_bitrate);
                 }
                 else
                 {
                     //videoAVGBitField data with numbers only
                     video_bitrate = ui->videoAVGBitField->text().remove(" ");
-                    emit send_average_bitrate_value(video_bitrate);
+                    Q_EMIT send_average_bitrate_value(video_bitrate);
                 }
             }
             else
@@ -1481,14 +1481,14 @@ void VideoUI::get_vid_bitrate_field_data()
 
                 //default to 6000k
                 video_bitrate = "6000k";
-                emit send_average_bitrate_value(video_bitrate);
+                Q_EMIT send_average_bitrate_value(video_bitrate);
             }
         }
         else
         {
             //default to 6000k
             video_bitrate = "6000k";
-            emit send_average_bitrate_value(video_bitrate);
+            Q_EMIT send_average_bitrate_value(video_bitrate);
             //ui->statusbar->showMessage("defaulting data to 6000k");
         }
     }
@@ -1501,12 +1501,12 @@ void VideoUI::enable_two_pass_encode()
         if(ui->twoPassCheckBox->isChecked() == true)
         {
             //send signal that two pass encoding option is enabled
-            emit two_pass_encode_enabled(true);
+            Q_EMIT two_pass_encode_enabled(true);
         }
         else
         {
             //send signal that two pass encoding option is disabled
-            emit two_pass_encode_enabled(false);
+            Q_EMIT two_pass_encode_enabled(false);
         }
     }
 }

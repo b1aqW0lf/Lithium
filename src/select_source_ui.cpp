@@ -83,11 +83,11 @@ void SelectSourceUI::send_video_source_data()
     QString source_text{};
     QString source_ext{};
     source_text = ui->sourceInput1Edit->text();
-    emit current_vid_source_file(source_text);
+    Q_EMIT current_vid_source_file(source_text);
 
     //based on code from qtffmpeg
     source_ext = source_text.mid(source_text.lastIndexOf("."));
-    emit current_vid_source_extension(source_ext);
+    Q_EMIT current_vid_source_extension(source_ext);
 }
 
 //send audio source input source extension
@@ -97,11 +97,11 @@ void SelectSourceUI::send_audio_source_data()
     QString source_audio_text{};
     QString source_audio_ext{};
     source_audio_text = ui->sourceInput2Edit->text();
-    emit current_audio_source_file(source_audio_text);
+    Q_EMIT current_audio_source_file(source_audio_text);
 
     //based on code from qtffmpeg
     source_audio_ext = source_audio_text.mid(source_audio_text.lastIndexOf("."));
-    emit current_audio_source_extension(source_audio_ext);
+    Q_EMIT current_audio_source_extension(source_audio_ext);
 }
 
 //select first input file to convert
@@ -117,8 +117,8 @@ void SelectSourceUI::select_input1()//complete!
     if(!input_file1.isEmpty())
     {
         ui->sourceInput1Edit->setText(input_file1);
+        start_input1_probe_process();
     }
-    emit start_input1_process();
 }
 
 //select optional second input, an audio file to use
@@ -135,5 +135,10 @@ void SelectSourceUI::select_input2()
     {
         ui->sourceInput2Edit->setText(input_file2);
     }
+}
+
+void SelectSourceUI::start_input1_probe_process()
+{
+    Q_EMIT start_input1_process();
 }
 

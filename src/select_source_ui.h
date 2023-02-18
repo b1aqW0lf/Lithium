@@ -48,16 +48,16 @@ public:
     explicit SelectSourceUI(QWidget *parent = nullptr);
     ~SelectSourceUI();
 
-//private:
-public:
-    Ui::SelectSourceUI *ui;
-
 Q_SIGNALS:
     void current_vid_source_extension(const QString &text);
     void current_audio_source_extension(const QString &text);
     void current_vid_source_file(const QString &text);
     void current_audio_source_file(const QString &text);
     void start_input1_process();
+
+private:
+    Ui::SelectSourceUI *ui;
+    void start_input1_probe_process();
 
 private Q_SLOTS:
     void send_video_source_data();

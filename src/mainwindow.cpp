@@ -46,6 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "audio_ui.h"
 #include "ui_audio_ui.h"
+#include "output_display_ui.h"
+#include "ui_output_display_ui.h"
 #include "save_as_ui.h"
 #include "ui_save_as_ui.h"
 #include "select_source_ui.h"
@@ -130,4 +132,10 @@ void MainWindow::application_connections_setup()
 
     connect(&process, &FFprocess::ffmpeg_ready_status,
             ui->statusbar, &QStatusBar::showMessage);
+
+    connect(&process, &FFprocess::ffmpeg_read_output,
+            ui->OuputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
+
+    connect(&process, &FFprocess::ffprobe_read_output,
+            ui->OuputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 }

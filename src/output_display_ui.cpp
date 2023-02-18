@@ -39,9 +39,6 @@ OutputDisplayUI::OutputDisplayUI(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(&process, &FFprocess::ffmpeg_read_output,
-            this, &OutputDisplayUI::textEdit_display_output);
-
     ui->outputDisplayEdit->setReadOnly(true);
 }
 

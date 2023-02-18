@@ -46,7 +46,8 @@ void InputSourceProbe::receive_vid_file_path(const QString &file)
 
     //temp code - used to test statusbar connection only
     int message_timeout{0};
-    emit file_path(file,message_timeout);
+    Q_EMIT file_path(file,message_timeout);
+    //---temp code------------------------------------//
 }
 
 void InputSourceProbe::receive_audio_file_path(const QString &file)
@@ -56,10 +57,8 @@ void InputSourceProbe::receive_audio_file_path(const QString &file)
 
 void InputSourceProbe::start_probe_process()
 {
-    //ffprobe arguments
-    /*QStringList args{};
-    args << "ffprobe" << "-i" << input_vid;
-
     //enable ffprobe
-    process.ffprobe->start(process.ffprobe_path, args);*/
+    process.ffprobe->waitForStarted();
+    process.args << "-i" << input_vid;
+    process.ffprobe->start(process.ffprobe_path, process.args);/**/
 }

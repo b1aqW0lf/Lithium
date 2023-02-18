@@ -210,54 +210,54 @@ void AudioUI::select_aud_container()
         //source file extension
         //copy of the inputLine2Edit source extension
         audio_ext = this->audio_source_ext;
-        emit send_output_audio_extension(audio_ext);
+        Q_EMIT send_output_audio_extension(audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 2)
     {
         //M4A
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 3)
     {
         //FLAC
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 4)
     {
         //MP3
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 5)
     {
         //WAV
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 6)
     {
         //OGG
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 7)
     {
         //OGA
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 8)
     {
         //AIFF
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
     if(ui->audioContainerBox->currentIndex() == 9)
     {
         //PCM
         audio_ext = ui->audioContainerBox->currentText().toLower();
-        emit send_output_audio_extension("."+audio_ext);
+        Q_EMIT send_output_audio_extension("."+audio_ext);
     }
 }
