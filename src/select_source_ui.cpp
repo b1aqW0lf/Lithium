@@ -70,6 +70,10 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     ui->source2Label->setEnabled(false);
     ui->sourceInput2Edit->setPlaceholderText(tr("Select audio file"));
     ui->source2Label->setText(tr("Source 2:"));
+
+    //enable clear button
+    ui->sourceInput1Edit->setClearButtonEnabled(true);
+    ui->sourceInput2Edit->setClearButtonEnabled(true);
 }
 
 SelectSourceUI::~SelectSourceUI()

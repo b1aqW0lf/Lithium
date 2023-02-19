@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="images">
+    <file>resources/clear_icon.png</file>
     <file>resources/Actions-stop-icon_64x64.png</file>
     <file>resources/Ffmpeg_48x48.png</file>
     <file>resources/Ffmpeg_64x64.png</file>
