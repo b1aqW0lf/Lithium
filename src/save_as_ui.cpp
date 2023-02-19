@@ -49,6 +49,9 @@ SaveAsUI::SaveAsUI(QWidget *parent) :
 
     //saveAS label
     ui->saveASLabel->setText(tr("Save As: "));
+
+    //enable clear button
+    ui->saveASEdit->setClearButtonEnabled(true);
 }
 
 SaveAsUI::~SaveAsUI()
