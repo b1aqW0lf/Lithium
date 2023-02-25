@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QToolButton>
 
 #include "select_source_ui.h"
 #include "ui_select_source_ui.h"
@@ -74,6 +75,10 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     //enable clear button
     ui->sourceInput1Edit->setClearButtonEnabled(true);
     ui->sourceInput2Edit->setClearButtonEnabled(true);
+    QToolButton *clearButton1 = ui->sourceInput1Edit->findChild<QToolButton *>();
+    QToolButton *clearButton2 = ui->sourceInput2Edit->findChild<QToolButton *>();
+    clearButton1->setIcon(QIcon(":/images/resources/clear_icon.png"));
+    clearButton2->setIcon(QIcon(":/images/resources/clear_icon.png"));
 }
 
 SelectSourceUI::~SelectSourceUI()
