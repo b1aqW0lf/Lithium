@@ -55,6 +55,7 @@ SaveAsUI::SaveAsUI(QWidget *parent) :
     ui->saveASEdit->setClearButtonEnabled(true);
     QToolButton *clearButton = ui->saveASEdit->findChild<QToolButton *>();
     clearButton->setIcon(QIcon(":/images/resources/clear_icon.png"));
+    clearButton->setToolTip("clear");
 }
 
 SaveAsUI::~SaveAsUI()
