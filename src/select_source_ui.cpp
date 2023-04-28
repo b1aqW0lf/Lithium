@@ -79,6 +79,8 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     QToolButton *clearButton2 = ui->sourceInput2Edit->findChild<QToolButton *>();
     clearButton1->setIcon(QIcon(":/images/resources/clear_icon.png"));
     clearButton2->setIcon(QIcon(":/images/resources/clear_icon.png"));
+    clearButton1->setToolTip("clear");
+    clearButton2->setToolTip("clear");
 }
 
 SelectSourceUI::~SelectSourceUI()
@@ -143,6 +145,7 @@ void SelectSourceUI::select_input2()
     if(!input_file2.isEmpty())
     {
         ui->sourceInput2Edit->setText(input_file2);
+        //start_input2_probe_process(); needs implementation
     }
 }
 
