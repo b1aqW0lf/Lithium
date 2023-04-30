@@ -84,5 +84,8 @@ void SaveAsUI::receive_output_extension(const QString &text)
     QString saveAs_line_data{ui->saveASEdit->text()};
     //based on code from qtffmpeg
     saveAs_line_data = saveAs_line_data.left(saveAs_line_data.lastIndexOf("."));
-    ui->saveASEdit->setText(saveAs_line_data+text);
+    if(!ui->saveASEdit->text().isEmpty())
+    {
+        ui->saveASEdit->setText(saveAs_line_data+text);
+    }
 }
