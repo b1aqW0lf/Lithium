@@ -52,7 +52,12 @@ void InputSourceProbe::receive_vid_file_path(const QString &file)
 
 void InputSourceProbe::receive_audio_file_path(const QString &file)
 {
+    this->input_aud = file;
 
+    //temp code - used to test statusbar connection only
+    int message_timeout{0};
+    Q_EMIT file_path(file,message_timeout);
+    //---temp code------------------------------------//
 }
 
 void InputSourceProbe::start_probe_process()

@@ -55,6 +55,7 @@ Q_SIGNALS:
 
 private:
     QString input_vid{};
+    QString input_aud{};
     FFprocess process;
 
 };
