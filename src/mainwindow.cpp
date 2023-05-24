@@ -38,24 +38,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QMessageBox>
 #include <QScrollBar>
 
-#include "app_location.h"
 #include "detect_storage.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include "audio_ui.h"
-#include "ui_audio_ui.h"
 #include "output_display_ui.h"
-#include "ui_output_display_ui.h"
 #include "save_as_ui.h"
-#include "ui_save_as_ui.h"
 #include "select_source_ui.h"
-#include "ui_select_source_ui.h"
 #include "statusbar_ui.h"
-#include "ui_statusbar_ui.h"
 #include "video_ui.h"
-#include "ui_video_ui.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
