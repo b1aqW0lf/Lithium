@@ -109,26 +109,34 @@ void MainWindow::application_connections_setup()
     connect(ui->AudioUIWidget, &AudioUI::send_output_audio_extension,
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
 
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
-            &inputProbe, &InputSourceProbe::receive_vid_file_path);
+    /*connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
+            &inputProbe, &InputSourceProbe::receive_vid_file_path);*/
 
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
-            &inputProbe, &InputSourceProbe::receive_audio_file_path);
+    /*connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
+            &inputProbe, &InputSourceProbe::receive_audio_file_path);*/
+
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
+            &inputProbe, &InputSourceProbe::start_probe_process);
 
     //temp connection-for testing only-----------------------------//
-    connect(&inputProbe, &InputSourceProbe::file_path,
+    /*connect(&inputProbe, &InputSourceProbe::show_vid_data,
+            ui->statusbar, &QStatusBar::showMessage);*/
+
+    connect(&inputProbe, &InputSourceProbe::show_audio_data,
             ui->statusbar, &QStatusBar::showMessage);
     //-------------------------------------------------------------//
 
-    connect(ui->SelectSourceWidget, &SelectSourceUI::start_input1_process,
-            &inputProbe, &InputSourceProbe::start_probe_process);
-
-    connect(&process, &FFprocess::ffmpeg_ready_status,
-            ui->statusbar, &QStatusBar::showMessage);
+    /*connect(&process, &FFprocess::ffmpeg_ready_status,
+            ui->statusbar, &QStatusBar::showMessage);*/
 
     connect(&process, &FFprocess::ffmpeg_read_output,
             ui->OuputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 
     connect(&process, &FFprocess::ffprobe_read_output,
             ui->OuputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
+
+    //experimental
+    connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
+            ui->statusbar, &QStatusBar::showMessage);
+    //-------------------------------------------------------------------//
 }

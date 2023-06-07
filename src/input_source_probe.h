@@ -32,31 +32,115 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QWidget>
+#include <QProcess>
+#include <QObject>
 
-#include "ffprocess.h"
 
-
-class InputSourceProbe : public QWidget
+class InputSourceProbe : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit InputSourceProbe(QWidget *parent = nullptr);
+    explicit InputSourceProbe(QObject *parent = nullptr);
     ~InputSourceProbe();
 
 public Q_SLOTS:
     void receive_vid_file_path(const QString &file);
     void receive_audio_file_path(const QString &file);
-    void start_probe_process();
+    void start_probe_process(const QString &file);
 
 Q_SIGNALS:
     void file_path(const QString &text, const int &time);
+    //experimental
+    void ffprobe_started_message(const QString &message, const int &time_out);
+
+    //source video signals
+    void source_vid_codec_name(const QString &codec);
+    void source_vid_resolution(const QString &display);
+    void source_vid_frame_rate(const QString &framerate);
+    void source_vid_sample_aspect_ratio(const QString &sar);
+    void source_vid_display_aspect_ratio(const QString &dar);
+    void source_vid_bit_rate(const QString &bitrate);
+    void source_vid_duration(const QString &total);
+    void source_vid_dur_hours(const int &duration_hours);
+    void source_vid_dur_mins(const int &duration_mins);
+    void source_vid_dur_secs(const double &duration_secs);
+    void source_vid_start_time(const double &start);
+
+    //source audio signals
+    void source_audio_codec_name(const QString &samplerate);
+    void source_audio_samplerate(const QString &samplerate);
+
+    //used for testing
+    void show_vid_data(const QString &codec, const int &timeout);
+    void show_audio_data(const QString &codec, const int &timeout);
+
+private:
+    struct VideoStream
+    {
+        QString video_str{};
+        QString input_file_type{};
+        QString codec_name{};
+        QString codec_type{};
+        QString codec_profile{};
+        QString resolution{};
+        QString sample_aspect_ratio{};
+        QString display_aspect_ratio{};
+        QString color_space{};
+        QString frame_rate{};
+        double start_time{};
+        QString duration{};
+        int dur_hours{};
+        int dur_mins{};
+        double dur_secs{};
+        QString bit_rate{};
+        QString nb_frames{};
+        QString handler_name{};
+        QString stream_index1{};
+        QString stream_index2{};
+    };
+
+    struct AudioStream
+    {
+        QString codec_name{};
+        QString codec_type{};
+        QString sample_rate{};
+        QString channels{};
+        double start_time{};
+        double duration{};
+        QString bit_rate{};
+        QString stream_index1{};
+        QString stream_index2{};
+    };
+
+    struct InputStream
+    {
+        QString stream_str{};
+    };
+
+    //experimental
+private Q_SLOTS:
+    void read_ffprobe_output();
+    //--------------------------
 
 private:
     QString input_vid{};
     QString input_aud{};
-    FFprocess process;
+
+    //ffprobe process
+    QProcess *ffprobe;
+    QString ffprobe_path{"ffprobe"};//for linux
+
+    //struct instances
+    VideoStream vidstream;
+    AudioStream audiostream;
+    InputStream inputstream;
+
+    //functions
+    void ffprobe_started();
+    void parse_output(const QString &data);
+    void parse_video_output(const QString &data);
+    void parse_audio_output(const QString &data);
 
 };
 

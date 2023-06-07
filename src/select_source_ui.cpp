@@ -94,7 +94,7 @@ void SelectSourceUI::send_video_source_data()
     QString source_text{};
     QString source_ext{};
     source_text = ui->sourceInput1Edit->text();
-    Q_EMIT current_vid_source_file(source_text);
+    //Q_EMIT current_vid_source_file(source_text);
 
     //based on code from qtffmpeg
     source_ext = source_text.mid(source_text.lastIndexOf("."));
@@ -108,7 +108,7 @@ void SelectSourceUI::send_audio_source_data()
     QString source_audio_text{};
     QString source_audio_ext{};
     source_audio_text = ui->sourceInput2Edit->text();
-    Q_EMIT current_audio_source_file(source_audio_text);
+    //Q_EMIT current_audio_source_file(source_audio_text);
 
     //based on code from qtffmpeg
     source_audio_ext = source_audio_text.mid(source_audio_text.lastIndexOf("."));
@@ -128,7 +128,7 @@ void SelectSourceUI::select_input1()//complete!
     if(!input_file1.isEmpty())
     {
         ui->sourceInput1Edit->setText(input_file1);
-        start_input1_probe_process();
+        Q_EMIT current_vid_source_file(input_file1);
     }
 }
 
@@ -145,12 +145,6 @@ void SelectSourceUI::select_input2()
     if(!input_file2.isEmpty())
     {
         ui->sourceInput2Edit->setText(input_file2);
-        //start_input2_probe_process(); needs implementation
+        Q_EMIT current_audio_source_file(input_file2);
     }
 }
-
-void SelectSourceUI::start_input1_probe_process()
-{
-    Q_EMIT start_input1_process();
-}
-
