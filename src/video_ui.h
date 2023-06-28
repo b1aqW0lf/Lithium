@@ -65,6 +65,7 @@ public Q_SLOTS:
     //void receive_vid_source_aspect_ratio(const QString &aratio);
     void receive_vid_source_framerate(const QString &framerate);
     void receive_vid_source_bitrate(const QString &bitrate);
+    void receive_vid_source_display_aspect_ratio(const QString &dar);
     void receive_clear_request();
 
 private:
@@ -99,7 +100,7 @@ private:
     QString video_br_value{};
     QString video_qs_value{};
     //QString video_res_value{};
-    QString vid_aspect_val{};
+    //QString vid_aspect_val{};
     //QString video_fps_val{};
     QString video_bitrate{};
     //QString vid_ext{};
@@ -107,7 +108,7 @@ private:
     QString source_res{};
     QString source_codec{};
     QString source_fps{};
-    QString source_aspect_ratio{};
+    QString source_dar{};
     //-----------------------------------
 
     //Interface String Lists

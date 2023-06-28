@@ -793,16 +793,24 @@ void VideoUI::select_vid_res()
     //Q_EMIT send_vid_data(video_res_value,0);
 }
 
+void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)
+{
+    this->source_dar = dar;
+}
+
 void VideoUI::select_aspect_rat()
 {
+    QString vid_aspect_val{source_dar};
     if(ui->videoAspectRatBox->currentIndex() == 0)
     {
-        vid_aspect_val = "copy";
+        //vid_aspect_val = "copy";
+        vid_aspect_val = source_dar;
     }
     else
     {
         vid_aspect_val = ui->videoAspectRatBox->currentText();
     }
+    Q_EMIT send_vid_data(vid_aspect_val,0);
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
@@ -823,7 +831,7 @@ void VideoUI::select_vid_fps()
     {
         video_fps_val = ui->videoFPSBox->currentText();
     }
-    Q_EMIT send_vid_data(video_fps_val,0);
+    //Q_EMIT send_vid_data(video_fps_val,0);
 }
 
 //creating options for encoder profile combobox

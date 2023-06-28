@@ -158,6 +158,9 @@ void MainWindow::application_connections_setup()
     connect(&inputProbe, &InputSourceProbe::source_vid_bit_rate,
             ui->VideoUIWidget, &VideoUI::receive_vid_source_bitrate);
 
+    connect(&inputProbe, &InputSourceProbe::source_vid_display_aspect_ratio,
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_display_aspect_ratio);
+
     //----------------------------------------------------------------------//
     //----------------------------------------------------------------------//
 
