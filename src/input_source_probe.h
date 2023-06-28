@@ -68,8 +68,10 @@ Q_SIGNALS:
     void source_vid_start_time(const double &start);
 
     //source audio signals
-    void source_audio_codec_name(const QString &samplerate);
+    void source_audio_codec_name(const QString &codec);
     void source_audio_samplerate(const QString &samplerate);
+    void source_audio_bitrate(const QString &bitrate);
+    void source_audio_channels(const QString &channel);
 
     //used for testing
     void show_vid_data(const QString &codec, const int &timeout);
@@ -102,12 +104,13 @@ private:
 
     struct AudioStream
     {
+        QString audio_str{};
         QString codec_name{};
         QString codec_type{};
         QString sample_rate{};
         QString channels{};
         double start_time{};
-        double duration{};
+        QString duration{};
         QString bit_rate{};
         QString stream_index1{};
         QString stream_index2{};
@@ -118,10 +121,8 @@ private:
         QString stream_str{};
     };
 
-    //experimental
 private Q_SLOTS:
     void read_ffprobe_output();
-    //--------------------------
 
 private:
     QString input_vid{};

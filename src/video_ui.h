@@ -49,6 +49,24 @@ public:
     explicit VideoUI(QWidget *parent = nullptr);
     ~VideoUI();
 
+Q_SIGNALS:
+    void send_output_vid_extension(const QString &text);
+    void two_pass_encode_enabled(const bool status);
+    void send_average_bitrate_value(const QString &value);
+
+    //for testing only!
+    void send_vid_data(const QString &data, const int &timeout);
+    //-----------------------------------------------------------------//
+
+public Q_SLOTS:
+    void receive_vid_source_codec(const QString &codec);
+    void receive_vid_source_extension(const QString &extension);
+    void receive_vid_source_resolution(const QString &display);
+    //void receive_vid_source_aspect_ratio(const QString &aratio);
+    void receive_vid_source_framerate(const QString &framerate);
+    void receive_vid_source_bitrate(const QString &bitrate);
+    void receive_clear_request();
+
 private:
     Ui::VideoUI *ui;
 
@@ -77,15 +95,19 @@ private:
     QString enc_level{};
     QString crf_value{};
     QString pr_value{};
-    QString video_codec{};
+    //QString video_codec{};
     QString video_br_value{};
     QString video_qs_value{};
-    QString video_res_value{};
+    //QString video_res_value{};
     QString vid_aspect_val{};
-    QString video_fps_val{};
+    //QString video_fps_val{};
     QString video_bitrate{};
     //QString vid_ext{};
     QString source_ext{};
+    QString source_res{};
+    QString source_codec{};
+    QString source_fps{};
+    QString source_aspect_ratio{};
     //-----------------------------------
 
     //Interface String Lists
@@ -98,17 +120,10 @@ private:
     QStringList pixel_format{"-pix_fmt", "yuv420p"};
     QStringList enc_profile{"-profile:v"};
 
+    //functions
+
     //button group
     QButtonGroup *rateOptButtons;
-
-public Q_SLOTS:
-    void receive_vid_source_data(const QString &text);
-
-Q_SIGNALS:
-    void send_output_vid_extension(const QString &text);
-    void two_pass_encode_enabled(const bool status);
-    void send_average_bitrate_value(const QString &value);
-
 };
 
 #endif // VIDEO_UI_H

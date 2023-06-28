@@ -40,12 +40,16 @@ namespace Analyze
     const char video_data[] = "Stream #([0-9]+).([0-9]+).*: Video:\\s*(([\\w\\d]*)\\s*[(\\w\\d)]*)\\s*[^)]*[)]*,[^)]*[)],\\s*([[0-9]*x[0-9]*)([^.]*SAR\\s*([0-9]*:[0-9]*)\\s*DAR\\s*([0-9]*:[0-9]*)[]]*)?(,\\s*([\\d]*)\\s*kb\\/s)?(,[^.]*)?,\\s*([\\d]*[.]*[\\d]*)?\\s*fps";
     //const char audio_data[] = "Stream #([0-9]+.[0-9]+).*: Audio:\\s*([\\w\\d]*),\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*),\\s*([0-9]+)\\s*kb\\/s";
     //const char audio_data[] = "Stream #([0-9]+.[0-9]+).*: Audio:\\s*([\\w\\d]*)\\s*[^)]*[)]*,\\s*([\\w\\d]*)\\s*Hz,\\s([\\d]*[.]*[\\d]*)";
-    const char audio_data[] = "Stream #([0-9]+.[0-9]+).*: Audio:\\s*([\\w\\d]*)\\s*[^)]*[)]*\\s*[^)]*[)]*,\\s*([\\w\\d]*)\\s*Hz,\\s([\\w\\d]*[.]*[\\d]*)([^,]*,\\s*[^,]*,\\s*([\\w\\d]*)\\s*kb\\/s)?";
+    //const char audio_data[] = "Stream #([0-9]+.[0-9]+).*: Audio:\\s*([\\w\\d]*)\\s*[^)]*[)]*\\s*[^)]*[)]*,\\s*([\\w\\d]*)\\s*Hz,\\s([\\w\\d]*[.]*[\\d]*)([^,]*,\\s*[^,]*,\\s*([\\w\\d]*)\\s*kb\\/s)?";
+    const char audio_data[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
+    //const char audio_data[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?(\\s*[^]*\\s*Metadata:[^.]*[^]*[^.]*\\s*DURATION\\s*:\\s*([\\d]*[:]?[\\d]*[:]?[\\d]*[.]?[\\d]*))?";
+    const char audio_data2[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*),\\s*([0-9]+)\\s*kb\\/s\\s*[^ ]*\\s*Metadata:[^.]*[^ ]*[^.]*\\s*DURATION\\s*:\\s*([\\d]*:[\\d]*:[\\d]*[.]?[\\d]*)";
     const char meta_data[] = "Duration:\\s*(([\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
     const char profile_data[] = "profile\\s*=\\s*([\\d\\w]*)";
     const char sar_data[] = "sample_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
     const char dar_data[] = "display_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
     const char samplerate_data[] = "^sample_rate\\s*=\\s*([\\d]*)$";
+    const char duration_data[] = "codec_type\\s*=\\s*audio[^.]*[.]*[^.]*\\s*duration\\s*=\\s*([\\d]*[.]?[\\d]*)";
     //const char bitrate_data[] = "^bit_rate\\s*=\\s*([\\w\\d]*[\\/]?[\\w\\d]*)?$(?!.*\1)";
 }
 
@@ -190,10 +194,10 @@ void InputSourceProbe::parse_video_output(const QString &data)
     //----experimental------------------------------------//
 
     //verifying sample aspect ratio value
-    QRegExp regx_sar(Analyze::sar_data);
-    int index_sar{regx_sar.indexIn(data)};
     if(vidstream.sample_aspect_ratio.isEmpty() == true)
     {
+        QRegExp regx_sar(Analyze::sar_data);
+        int index_sar{regx_sar.indexIn(data)};
         if(index_sar != -1)
         {
             this->vidstream.sample_aspect_ratio = regx_sar.cap(1);
@@ -202,10 +206,10 @@ void InputSourceProbe::parse_video_output(const QString &data)
     Q_EMIT source_vid_sample_aspect_ratio(vidstream.sample_aspect_ratio);
 
     //verifying the display aspect ratio value
-    QRegExp regx_dar(Analyze::dar_data);
-    int index_dar{regx_dar.indexIn(data)};
     if(vidstream.display_aspect_ratio.isEmpty() == true)
     {
+        QRegExp regx_dar(Analyze::dar_data);
+        int index_dar{regx_dar.indexIn(data)};
         if(index_dar != -1)
         {
             this->vidstream.display_aspect_ratio = regx_dar.cap(1);
@@ -223,6 +227,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
             this->vidstream.bit_rate = regx_brate.cap(1);
         }
     }*/
+    //Q_EMIT show_vid_data(vidstream.display_aspect_ratio, timeout);
 }
 
 void InputSourceProbe::parse_audio_output(const QString &data)
@@ -233,16 +238,20 @@ void InputSourceProbe::parse_audio_output(const QString &data)
     if(index != -1)
     {
         //reading the ffprobe output for desired data
-        this->audiostream.stream_index1 = regx_aud.cap(1);
-        this->audiostream.codec_name = regx_aud.cap(2);//AudioStream::codec_name
-        this->audiostream.sample_rate = regx_aud.cap(3);
+        this->audiostream.audio_str = regx_aud.cap(1);
+        this->audiostream.stream_index1 = regx_aud.cap(2);//AudioStream::index1
+        this->audiostream.stream_index2 = regx_aud.cap(3);//AudioStream::index2
+        this->audiostream.codec_name = regx_aud.cap(4);//AudioStream::codec_name
+        this->audiostream.sample_rate = regx_aud.cap(5);//AudioStream::sample_rate
+        this->audiostream.channels = regx_aud.cap(6);//AudioStream::channels
+        this->audiostream.bit_rate = regx_aud.cap(8);//AudioStream::bit_rate
+        this->audiostream.duration = regx_aud.cap(9);//AudioStream::duration
     }
     Q_EMIT source_audio_codec_name(audiostream.codec_name);
-    //used for testing only
-    //Q_EMIT show_audio_data(audstream.sample_rate, timeout);
+    Q_EMIT source_audio_channels(audiostream.channels);
 
     //check to verify if sample_rate string is empty
-    if(audiostream.sample_rate.isEmpty() == true)
+    if(this->audiostream.sample_rate.isEmpty() == true)
     {
         QRegExp regx_check(Analyze::samplerate_data);
         int index_sr{regx_check.indexIn(data)};
@@ -252,6 +261,26 @@ void InputSourceProbe::parse_audio_output(const QString &data)
         }
     }
     Q_EMIT source_audio_samplerate(audiostream.sample_rate);
+
+    //additional bitrate check
+    if(this->audiostream.bit_rate.isEmpty() == true)
+    {
+        this->audiostream.bit_rate = "N/A";
+    }
+    Q_EMIT source_audio_bitrate(audiostream.bit_rate);
+
     //used for testing only
-    Q_EMIT show_audio_data(audiostream.codec_name, timeout);
+    Q_EMIT show_audio_data(audiostream.channels, timeout);
+    //---------^--------------------------------------------//
+
+    /*//additional duration check
+    if(this->audiostream.duration.isEmpty() == true)
+    {
+        QRegExp regx_duration(Analyze::duration_data);
+        int index_dur{regx_duration.indexIn(data)};
+        if(index_dur != -1)
+        {
+            this->audiostream.duration = regx_duration.cap(1);
+        }
+    }*/
 }

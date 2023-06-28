@@ -81,11 +81,19 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     clearButton2->setIcon(QIcon(":/images/resources/clear_icon.png"));
     clearButton1->setToolTip("clear");
     clearButton2->setToolTip("clear");
+
+    connect(clearButton1, &QToolButton::clicked,
+            this, &SelectSourceUI::clear_input1_data_request);
 }
 
 SelectSourceUI::~SelectSourceUI()
 {
     delete ui;
+}
+
+void SelectSourceUI::clear_input1_data_request()
+{
+    Q_EMIT clear_input1_data();
 }
 
 void SelectSourceUI::send_video_source_data()

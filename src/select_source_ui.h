@@ -53,6 +53,7 @@ Q_SIGNALS:
     void current_audio_source_extension(const QString &text);
     void current_vid_source_file(const QString &text);
     void current_audio_source_file(const QString &text);
+    void clear_input1_data();
 
 private:
     Ui::SelectSourceUI *ui;
@@ -62,6 +63,8 @@ private Q_SLOTS:
     void send_audio_source_data();
     void select_input1();
     void select_input2();
+
+    void clear_input1_data_request();
 };
 
 #endif // SELECT_SOURCE_UI_H

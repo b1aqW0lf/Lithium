@@ -98,7 +98,7 @@ MainWindow::~MainWindow()
 void MainWindow::application_connections_setup()
 {
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_extension,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_data);
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_extension);
 
     connect(ui->VideoUIWidget, &VideoUI::send_output_vid_extension,
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
@@ -138,5 +138,29 @@ void MainWindow::application_connections_setup()
     //experimental
     connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
             ui->statusbar, &QStatusBar::showMessage);
-    //-------------------------------------------------------------------//
+
+    //temp connection-for testing only--------------------------------//
+
+    connect(ui->VideoUIWidget, &VideoUI::send_vid_data,
+            ui->statusbar, &QStatusBar::showMessage);
+
+    //------------------------------------------------------------------//
+
+    connect(&inputProbe, &InputSourceProbe::source_vid_resolution,
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_resolution);
+
+    connect(&inputProbe, &InputSourceProbe::source_vid_codec_name,
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_codec);
+
+    connect(&inputProbe, &InputSourceProbe::source_vid_frame_rate,
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_framerate);
+
+    connect(&inputProbe, &InputSourceProbe::source_vid_bit_rate,
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_bitrate);
+
+    //----------------------------------------------------------------------//
+    //----------------------------------------------------------------------//
+
+    connect(ui->SelectSourceWidget, &SelectSourceUI::clear_input1_data,
+            ui->VideoUIWidget, &VideoUI::receive_clear_request);
 }

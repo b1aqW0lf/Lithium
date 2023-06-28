@@ -219,6 +219,8 @@ VideoUI::VideoUI(QWidget *parent) :
     //encoder profile box
     ui->videoEncProfileLabel->setText(tr("Encoder Profile"));
 
+    //average bitrate
+    ui->sourceVideoAVGBitDisplay->setText("");
 }
 
 VideoUI::~VideoUI()
@@ -451,13 +453,21 @@ void VideoUI::select_qscale()
     video_qs_value.setNum(ui->videoRFSlider->value());
 }
 
+void VideoUI::receive_vid_source_codec(const QString &codec)
+{
+    this->source_codec = codec;
+}
+
 void VideoUI::select_vid_codec()
 {
+    QString video_codec{this->source_codec};
+
     //select video codec
     if(ui->videoCodecBox->currentIndex() == 0)
     {
         //copy
-        video_codec = "copy";
+        //video_codec = "copy";
+        video_codec = this->source_codec;
     }
     if(ui->videoCodecBox->currentIndex() == 2)
     {
@@ -521,6 +531,7 @@ void VideoUI::select_vid_codec()
     {
         video_codec = ui->videoCodecBox->currentText().toLower();
     }*/
+    //Q_EMIT send_vid_data(video_codec,0);
 }
 
 void VideoUI::vid_codec_interface()
@@ -713,9 +724,9 @@ void VideoUI::vid_codec_interface()
     }
 }
 
-void VideoUI::receive_vid_source_data(const QString &text)
+void VideoUI::receive_vid_source_extension(const QString &extension)
 {
-    this->source_ext = text;
+    this->source_ext = extension;
 }
 
 void VideoUI::select_container()//fixed!!!
@@ -760,18 +771,26 @@ void VideoUI::select_container()//fixed!!!
     }
 }
 
+void VideoUI::receive_vid_source_resolution(const QString &display)
+{
+    this->source_res = display;
+}
+
 void VideoUI::select_vid_res()
 {
+    QString video_res_value{this->source_res};
     //select video resolution
     if(ui->videoResBox->currentIndex() == 0)//it works!
     {
         //input1_vid_res holds the default res value for input_file1
-        video_res_value = "copy";
+        //video_res_value = "copy";
+        video_res_value = "scale="+this->source_res;
     }
     else
     {
         video_res_value = "scale="+ui->videoResBox->currentText();
     }
+    //Q_EMIT send_vid_data(video_res_value,0);
 }
 
 void VideoUI::select_aspect_rat()
@@ -786,16 +805,25 @@ void VideoUI::select_aspect_rat()
     }
 }
 
+void VideoUI::receive_vid_source_framerate(const QString &framerate)
+{
+    this->source_fps = framerate;
+}
+
 void VideoUI::select_vid_fps()
 {
+    QString video_fps_val{this->source_fps};
+
     if(ui->videoFPSBox->currentIndex() == 0)
     {
-        video_fps_val = "copy";
+        //video_fps_val = "copy";
+        video_fps_val = source_fps;
     }
     else
     {
         video_fps_val = ui->videoFPSBox->currentText();
     }
+    Q_EMIT send_vid_data(video_fps_val,0);
 }
 
 //creating options for encoder profile combobox
@@ -1448,6 +1476,12 @@ void VideoUI::enable_crf_option()
     ui->videoLQLabel->setDisabled(false);
 }
 
+void VideoUI::receive_vid_source_bitrate(const QString &bitrate)
+{
+    ui->sourceVideoAVGBitDisplay->setText(" "+bitrate+" Kbps");
+    ui->sourceVideoAVGBitDisplay->setToolTip("Video Source Bitrate");
+}
+
 //average bitrate field
 void VideoUI::get_vid_bitrate_field_data()
 {
@@ -1492,6 +1526,12 @@ void VideoUI::get_vid_bitrate_field_data()
             //ui->statusbar->showMessage("defaulting data to 6000k");
         }
     }
+}
+
+void VideoUI::receive_clear_request()
+{
+    ui->sourceVideoAVGBitDisplay->clear();
+    ui->sourceVideoAVGBitDisplay->setToolTip("");
 }
 
 void VideoUI::enable_two_pass_encode()
