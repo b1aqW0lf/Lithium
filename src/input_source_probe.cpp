@@ -50,6 +50,8 @@ namespace Analyze
     const char dar_data[] = "display_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
     const char samplerate_data[] = "^sample_rate\\s*=\\s*([\\d]*)$";
     const char duration_data[] = "codec_type\\s*=\\s*audio[^.]*[.]*[^.]*\\s*duration\\s*=\\s*([\\d]*[.]?[\\d]*)";
+    const char colorspace_data[] = "^color_space=\\s*([\\w\\d]*)$";
+    const char pixelformat_data[] = "^pix_fmt=\\s*([\\w\\d]*)$";
     //const char bitrate_data[] = "^bit_rate\\s*=\\s*([\\w\\d]*[\\/]?[\\w\\d]*)?$(?!.*\1)";
 }
 
@@ -190,7 +192,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
     Q_EMIT source_vid_start_time(vidstream.start_time);
 
     //used for testing only--------------------------------//
-    Q_EMIT show_vid_data(vidstream.duration, timeout);
+    //Q_EMIT show_vid_data(vidstream.duration, timeout);
     //----experimental------------------------------------//
 
     //verifying sample aspect ratio value
@@ -216,6 +218,26 @@ void InputSourceProbe::parse_video_output(const QString &data)
         }
     }
     Q_EMIT source_vid_display_aspect_ratio(vidstream.display_aspect_ratio);
+
+    //verifying color space
+    QRegExp colorspace_regx(Analyze::colorspace_data);
+    int cspace_index{colorspace_regx.indexIn(data)};
+    if(cspace_index != -1)
+    {
+        this->vidstream.color_space = colorspace_regx.cap(1);
+    }
+    Q_EMIT source_vid_color_space(vidstream.color_space);
+
+    //verifying pixel format
+    QRegExp pixformat_regx(Analyze::pixelformat_data);
+    int pformat_index{pixformat_regx.indexIn(data)};
+    if(pformat_index != -1)
+    {
+        this->vidstream.pixel_format = pixformat_regx.cap(1);
+    }
+    Q_EMIT source_vid_pixel_format(vidstream.pixel_format);
+
+    Q_EMIT show_vid_data(vidstream.pixel_format, timeout);
 
     //verifying the bitrate value
     /*QRegExp regx_brate(Analyze::bitrate_data);//this was on

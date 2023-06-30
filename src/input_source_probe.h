@@ -66,6 +66,8 @@ Q_SIGNALS:
     void source_vid_dur_mins(const int &duration_mins);
     void source_vid_dur_secs(const double &duration_secs);
     void source_vid_start_time(const double &start);
+    void source_vid_pixel_format(const QString &pix_fmt);
+    void source_vid_color_space(const QString &cspace);
 
     //source audio signals
     void source_audio_codec_name(const QString &codec);
@@ -89,6 +91,7 @@ private:
         QString sample_aspect_ratio{};
         QString display_aspect_ratio{};
         QString color_space{};
+        QString pixel_format{};
         QString frame_rate{};
         double start_time{};
         QString duration{};
