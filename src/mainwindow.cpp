@@ -104,7 +104,7 @@ void MainWindow::application_connections_setup()
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
 
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_extension,
-            ui->AudioUIWidget, &AudioUI::receive_audio_source_data);
+            ui->AudioUIWidget, &AudioUI::receive_audio_source_extension);
 
     connect(ui->AudioUIWidget, &AudioUI::send_output_audio_extension,
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
@@ -144,6 +144,9 @@ void MainWindow::application_connections_setup()
     connect(ui->VideoUIWidget, &VideoUI::send_vid_data,
             ui->statusbar, &QStatusBar::showMessage);
 
+    connect(ui->AudioUIWidget, &AudioUI::send_audio_data,
+            ui->statusbar, &QStatusBar::showMessage);
+
     //------------------------------------------------------------------//
 
     connect(&inputProbe, &InputSourceProbe::source_vid_resolution,
@@ -162,6 +165,19 @@ void MainWindow::application_connections_setup()
             ui->VideoUIWidget, &VideoUI::receive_vid_source_display_aspect_ratio);
 
     //----------------------------------------------------------------------//
+
+    connect(&inputProbe, &InputSourceProbe::source_audio_codec_name,
+            ui->AudioUIWidget, &AudioUI::receive_audio_source_codec);
+
+    connect(&inputProbe, &InputSourceProbe::source_audio_bitrate,
+            ui->AudioUIWidget, &AudioUI::receive_audio_source_bitrate);
+
+    connect(&inputProbe, &InputSourceProbe::source_audio_samplerate,
+            ui->AudioUIWidget, &AudioUI::receive_audio_source_samplerate);
+
+    connect(&inputProbe, &InputSourceProbe::source_audio_channels,
+            ui->AudioUIWidget, &AudioUI::receive_audio_source_channels);
+
     //----------------------------------------------------------------------//
 
     connect(ui->SelectSourceWidget, &SelectSourceUI::clear_input1_data,

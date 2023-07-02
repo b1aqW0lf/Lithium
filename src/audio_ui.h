@@ -50,6 +50,20 @@ public:
     explicit AudioUI(QWidget *parent = nullptr);
     ~AudioUI();
 
+Q_SIGNALS:
+    void send_output_audio_extension(const QString &text);
+
+    //for testing only!
+    void send_audio_data(const QString &data, const int &timeout);
+    //-----------------------------------------------------------------//
+
+public Q_SLOTS:
+    void receive_audio_source_extension(const QString &extension);
+    void receive_audio_source_codec(const QString &codec);
+    void receive_audio_source_bitrate(const QString &bitrate);
+    void receive_audio_source_samplerate(const QString &samplerate);
+    void receive_audio_source_channels(const QString &channels);
+
 private:
     Ui::AudioUI *ui;
 
@@ -61,12 +75,17 @@ private Q_SLOTS:
     void select_aud_container();
 
 private:
-    QString audio_br_value{};
-    QString audio_codec{};
-    QString audio_sr_value{};
+    //QString audio_br_value{};
+    //QString audio_codec{};
+    //QString audio_sr_value{};
     QString audio_ac_value{};
     QString audio_source_ext{};
     QString audio_container{};
+    //-----------------------------------
+    QString source_codec{};
+    QString source_bitrate{};
+    QString source_samplerate{};
+    QString source_channels{};
     //-----------------------------------
     //Interface String Lists
     QStringList audioCodecList{};
@@ -74,12 +93,6 @@ private:
     QStringList audioSampleList{};
     QStringList audioChannelList{};
     QStringList audioContainerList{};
-
-public Q_SLOTS:
-    void receive_audio_source_data(const QString &text);
-
-Q_SIGNALS:
-    void send_output_audio_extension(const QString &text);
 
 };
 

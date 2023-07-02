@@ -52,6 +52,7 @@ namespace Analyze
     const char duration_data[] = "codec_type\\s*=\\s*audio[^.]*[.]*[^.]*\\s*duration\\s*=\\s*([\\d]*[.]?[\\d]*)";
     const char colorspace_data[] = "^color_space=\\s*([\\w\\d]*)$";
     const char pixelformat_data[] = "^pix_fmt=\\s*([\\w\\d]*)$";
+    const char codectype_audio[] = "\\s*Stream #[\\d]*:[\\d]*: Audio";
     //const char bitrate_data[] = "^bit_rate\\s*=\\s*([\\w\\d]*[\\/]?[\\w\\d]*)?$(?!.*\1)";
 }
 

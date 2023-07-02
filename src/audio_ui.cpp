@@ -112,11 +112,18 @@ AudioUI::~AudioUI()
     delete ui;
 }
 
+void AudioUI::receive_audio_source_codec(const QString &codec)
+{
+    this->source_codec = codec;
+}
+
 void AudioUI::select_aud_codec()
 {
+    QString audio_codec{source_codec};
+
     if(ui->audioCodecBox->currentIndex() == 0)//it works!
     {
-        audio_codec = "copy";
+        audio_codec = source_codec;
     }
     else if(ui->audioCodecBox->currentIndex() == 2)
     {
@@ -146,38 +153,71 @@ void AudioUI::select_aud_codec()
     {
         audio_codec = ui->audioCodecBox->currentText().toLower();
     }
+    //Q_EMIT send_audio_data(audio_codec, 0);
+}
+
+void AudioUI::receive_audio_source_bitrate(const QString &bitrate)
+{
+    this->source_bitrate = bitrate;
 }
 
 void AudioUI::select_aud_bitrate()
 {
+    QString audio_br_value{this->source_bitrate};
+
     if(ui->audioBitrateBox->currentIndex() == 0)
     {
-       audio_br_value = "copy";
+        if(source_bitrate.contains("N/A"))
+        {
+            audio_br_value = this->source_bitrate;
+        }
+        else
+        {
+            //audio_br_value = "copy";
+            audio_br_value = this->source_bitrate+"k";
+        }
     }
     else
     {
         //audio bitrate processing is done in encoding_started()
         audio_br_value = ui->audioBitrateBox->currentText()+"k";
     }
+    //Q_EMIT send_audio_data(audio_br_value, 0);
+}
+
+void AudioUI::receive_audio_source_samplerate(const QString &samplerate)
+{
+    this->source_samplerate = samplerate;
 }
 
 void AudioUI::select_samplerate()
 {
+    QString audio_sr_value{this->source_samplerate};
+
     if(ui->audioSampleBox->currentIndex() == 0)
     {
-        audio_sr_value = "copy";
+        //audio_sr_value = "copy";
+        audio_sr_value = this->source_samplerate;
     }
     else
     {
         audio_sr_value = ui->audioSampleBox->currentText();
     }
+    //Q_EMIT send_audio_data(audio_sr_value, 0);
+}
+void AudioUI::receive_audio_source_channels(const QString &channels)
+{
+    this->source_channels = channels;
 }
 
 void AudioUI::select_channels()
 {
+    QString audio_ac_value{this->source_channels};
+
     if(ui->audioChannelBox->currentIndex() == 0)
     {
-        audio_ac_value = "copy";
+        //audio_ac_value = "copy";
+        audio_ac_value = this->source_channels;
     }
     else if(ui->audioChannelBox->currentIndex() == 2)
     {
@@ -193,12 +233,13 @@ void AudioUI::select_channels()
     {
         audio_ac_value = ui->audioChannelBox->currentText();
     }
+    Q_EMIT send_audio_data(audio_ac_value, 0);
 }
 
 //receive audio extension
-void AudioUI::receive_audio_source_data(const QString &text)
+void AudioUI::receive_audio_source_extension(const QString &extension)
 {
-    this->audio_source_ext = text;
+    this->audio_source_ext = extension;
 }
 
 void AudioUI::select_aud_container()
