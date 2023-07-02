@@ -67,7 +67,7 @@ InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
             this, &InputSourceProbe::read_ffprobe_output);
 
     connect(this->ffprobe, &QProcess::started,
-            this, &InputSourceProbe::ffprobe_started);/**/
+            this, &InputSourceProbe::ffprobe_started);
 }
 
 //destructor
