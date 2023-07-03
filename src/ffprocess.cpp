@@ -31,6 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ffprocess.h"
 
+#include <QCoreApplication>
+#include <QDir>
+
 FFprocess::FFprocess(QProcess *parent)
     : QProcess{parent}
 {
@@ -131,7 +134,7 @@ void FFprocess::ffmpeg_location_setup()
         this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffmpeg_found("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8()));
+        Q_EMIT ffmpeg_found("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8());
     }
     else
     {
@@ -174,7 +177,7 @@ void FFprocess::ffprobe_location_setup()
         this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
         this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffprobe_found("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8()));
+        Q_EMIT ffprobe_found("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8());
     }
     else
     {
@@ -217,7 +220,7 @@ void FFprocess::ffplay_location_setup()
         this->ffplay_path = application_dir+"/ffmpeg/ffplay.exe";
         this->ffplay->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffmpeg_found("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8()));
+        Q_EMIT ffmpeg_found("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8());
     }
     else
     {
