@@ -118,6 +118,9 @@ void MainWindow::local_connections_setup()
 {
     connect(ui->actionEncode, &QAction::triggered,
             this, &MainWindow::start_action_encode);
+
+    connect(ui->actionCancel, &QAction::triggered,
+            this, &MainWindow::cancel_action_encode);
 }
 
 void MainWindow::application_connections_setup()
@@ -233,6 +236,9 @@ void MainWindow::application_connections_setup()
     connect(this, &MainWindow::start_normal_mode_process,
             &transcoder, &Transcode::start_normal_mode_transcode);
 
+    connect(this, &MainWindow::cancel_encode_process,
+            &transcoder, &Transcode::cancel_encode_process);
+
     //--------------------------------------------------------------------------//
 
     connect(ui->VideoUIWidget, &VideoUI::two_pass_encode_enabled,
@@ -287,6 +293,12 @@ void MainWindow::start_action_encode()
 {
     if(this->normal_mode_val == true)
     {
-        Q_EMIT start_normal_mode_process();
+        return;
     }
+    Q_EMIT start_normal_mode_process();
+}
+
+void MainWindow::cancel_action_encode()
+{
+    Q_EMIT cancel_encode_process();
 }

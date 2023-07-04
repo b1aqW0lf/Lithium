@@ -180,6 +180,7 @@ void Transcode::start_normal_mode_transcode()
 
 void Transcode::normal_mode_transcode()
 {
+    int timeout{0};
     source_input_file_check();
     output_video_path_check();
 
@@ -227,7 +228,7 @@ void Transcode::normal_mode_transcode()
         args <<"-i"<< input_file1 << "-vn" << "-c:a" << audio_codec << "-b:a"
              << audio_br_value << output_file;
     }*/
-
+    two_pass_val = false;
     if(this->two_pass_val == false)
     {
         //Normal Encoding Mode Processing
@@ -389,8 +390,16 @@ void Transcode::normal_mode_transcode()
     if((process.ffmpeg->QProcess::state() == QProcess::Running))
     {
         //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started "), 0);
+        Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
     }
     process.args.clear();/**/
 
+}
+
+void Transcode::cancel_encode_process()
+{
+    int timeout{0};
+    process.ffmpeg->kill();
+    process.ffmpeg->close();
+    Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
 }

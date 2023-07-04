@@ -77,6 +77,9 @@ public Q_SLOTS:
     //normal mode
     void start_normal_mode_transcode();
 
+    //cancel
+    void cancel_encode_process();
+
 private:
     FFprocess process;
 

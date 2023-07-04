@@ -58,12 +58,14 @@ public:
 
 Q_SIGNALS:
     void start_normal_mode_process();
+    void cancel_encode_process();
 
 public Q_SLOTS:
     void normal_mode_enabled(const bool &value);
 
 private Q_SLOTS:
     void start_action_encode();
+    void cancel_action_encode();
 
 private:
     Ui::MainWindow *ui;
