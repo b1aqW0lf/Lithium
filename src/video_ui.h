@@ -59,6 +59,7 @@ Q_SIGNALS:
     void send_video_resolution_value(const QString &value);
     void send_vid_display_aspect_ratio_val(const QString &dar);
     void send_video_framerate_value(const QString &franerate);
+    void send_vid_encoder_preset_val(const QString &preset);
 
     //for testing only!
     void send_vid_data(const QString &data, const int &timeout);

@@ -231,6 +231,8 @@ VideoUI::~VideoUI()
 //ui->videoEncoderDial->setRange(0, 9);
 void VideoUI::encoder_preset()
 {
+    QString encoder_preset_val{};
+
     if(ui->videoEncoderDial->value() == 0 &&
             ui->videoEncoderDial->sliderPosition() == 0)
     {
@@ -238,17 +240,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 0"));
-            pr_value = "0";
+            encoder_preset_val = "0";
             ui->videoEncoderDial->setToolTip(tr("Speed 0 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("placebo"));
-            pr_value = "placebo";
+            encoder_preset_val = "placebo";
             ui->videoEncoderDial->setToolTip(tr("placebo encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 1 &&
             ui->videoEncoderDial->sliderPosition() == 1)
@@ -257,17 +259,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 1"));
-            pr_value = "1";
+            encoder_preset_val = "1";
             ui->videoEncoderDial->setToolTip(tr("Speed 1 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("veryslow"));
-            pr_value = "veryslow";
+            encoder_preset_val = "veryslow";
             ui->videoEncoderDial->setToolTip(tr("veryslow encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 2 &&
             ui->videoEncoderDial->sliderPosition() == 2)
@@ -276,17 +278,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 2"));
-            pr_value = "2";
+            encoder_preset_val = "2";
             ui->videoEncoderDial->setToolTip(tr("Speed 2 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("slower"));
-            pr_value = "slower";
+            encoder_preset_val = "slower";
             ui->videoEncoderDial->setToolTip(tr("slower encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 3 &&
             ui->videoEncoderDial->sliderPosition() == 3)
@@ -295,17 +297,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 3"));
-            pr_value = "3";
+            encoder_preset_val = "3";
             ui->videoEncoderDial->setToolTip(tr("Speed 3 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("slow"));
-            pr_value = "slow";
+            encoder_preset_val = "slow";
             ui->videoEncoderDial->setToolTip(tr("slow encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 4 &&
             ui->videoEncoderDial->sliderPosition() == 4)
@@ -314,17 +316,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 4"));
-            pr_value = "4";
+            encoder_preset_val = "4";
             ui->videoEncoderDial->setToolTip(tr("Speed 4 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("medium"));
-            pr_value = "medium";
+            encoder_preset_val = "medium";
             ui->videoEncoderDial->setToolTip(tr("medium encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 5 &&
             ui->videoEncoderDial->sliderPosition() == 5)
@@ -333,17 +335,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 5"));
-            pr_value = "5";
+            encoder_preset_val = "5";
             ui->videoEncoderDial->setToolTip(tr("Speed 5 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("fast"));
-            pr_value = "fast";
+            encoder_preset_val = "fast";
             ui->videoEncoderDial->setToolTip(tr("fast encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 6 &&
             ui->videoEncoderDial->sliderPosition() == 6)
@@ -352,17 +354,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 6"));
-            pr_value = "6";
+            encoder_preset_val = "6";
             ui->videoEncoderDial->setToolTip(tr("Speed 6 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("faster"));
-            pr_value = "faster";
+            encoder_preset_val = "faster";
             ui->videoEncoderDial->setToolTip(tr("faster encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 7 &&
             ui->videoEncoderDial->sliderPosition() == 7)
@@ -371,17 +373,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 7"));
-            pr_value = "7";
+            encoder_preset_val = "7";
             ui->videoEncoderDial->setToolTip(tr("Speed 7 Encoding"));
         }
         //any other video codec
         else
         {
             ui->videoDialPreset->setText(tr("veryfast"));
-            pr_value = "veryfast";
+            encoder_preset_val = "veryfast";
             ui->videoEncoderDial->setToolTip(tr("veryfast encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 8 &&
             ui->videoEncoderDial->sliderPosition() == 8)
@@ -390,17 +392,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 8"));
-            pr_value = "8";
+            encoder_preset_val = "8";
             ui->videoEncoderDial->setToolTip(tr("Speed 8 Encoding"));
         }
         //any other codec
         else
         {
             ui->videoDialPreset->setText(tr("superfast"));
-            pr_value = "superfast";
+            encoder_preset_val = "superfast";
             ui->videoEncoderDial->setToolTip(tr("superfast encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 9 &&
             ui->videoEncoderDial->sliderPosition() == 9)
@@ -409,17 +411,17 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 9"));
-            pr_value = "9";
+            encoder_preset_val = "9";
             ui->videoEncoderDial->setToolTip(tr("Speed 9 Encoding"));
         }
         //any other codec
         else
         {
             ui->videoDialPreset->setText(tr("ultrafast"));
-            pr_value = "ultrafast";
+            encoder_preset_val = "ultrafast";
             ui->videoEncoderDial->setToolTip(tr("ultrafast encoding"));
-            enc_preset = preset + pr_value;
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 10 &&
             ui->videoEncoderDial->sliderPosition() == 10)//<==Speed 10 does not appear in application
@@ -428,13 +430,14 @@ void VideoUI::encoder_preset()
         if(ui->videoCodecBox->currentIndex() == 9)
         {
             ui->videoDialPreset->setText(tr("Speed 10"));
-            pr_value = "10";
+            encoder_preset_val = "10";
             ui->videoEncoderDial->setToolTip(tr("Speed 10 Encoding"));
         }
         else
         {
             ui->videoEncoderDial->setRange(0, 9);
         }
+        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }//test, it works!
 }
 

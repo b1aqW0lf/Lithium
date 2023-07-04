@@ -163,26 +163,26 @@ void AudioUI::receive_audio_source_bitrate(const QString &bitrate)
 
 void AudioUI::select_aud_bitrate()
 {
-    QString audio_br_value{this->source_bitrate};
+    QString audio_bitrate{this->source_bitrate};
 
     if(ui->audioBitrateBox->currentIndex() == 0)
     {
         if(source_bitrate.contains("N/A"))
         {
-            audio_br_value = this->source_bitrate;
+            audio_bitrate = this->source_bitrate;
         }
         else
         {
             //audio_br_value = "copy";
-            audio_br_value = this->source_bitrate+"k";
+            audio_bitrate = this->source_bitrate+"k";
         }
     }
     else
     {
         //audio bitrate processing is done in encoding_started()
-        audio_br_value = ui->audioBitrateBox->currentText()+"k";
+        audio_bitrate = ui->audioBitrateBox->currentText()+"k";
     }
-    //Q_EMIT send_audio_data(audio_br_value, 0);
+    Q_EMIT send_audio_bitrate_val(audio_bitrate);
 }
 
 void AudioUI::receive_audio_source_samplerate(const QString &samplerate)

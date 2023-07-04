@@ -147,6 +147,11 @@ void Transcode::receive_video_framerate_val(const QString &framerate)
     this->vid_framerate = framerate;
 }
 
+void Transcode::receive_video_encoder_preset_val(const QString &preset)
+{
+    this->vid_encoder_preset = preset;
+}
+
 void Transcode::receive_audio_codec_name(const QString &codec)
 {
     this->audio_codec = codec;
@@ -160,6 +165,11 @@ void Transcode::receive_audio_channels_val(const QString &channels)
 void Transcode::receive_audio_samplerate_val(const QString &samplerate)
 {
     this->audio_samplerate = samplerate;
+}
+
+void Transcode::receive_audio_bitrate_val(const QString &bitrate)
+{
+    this->audio_bitrate = bitrate;
 }
 
 //use with actionEncode
@@ -222,17 +232,17 @@ void Transcode::normal_mode_transcode()
     {
         //Normal Encoding Mode Processing
         //processing with libxvid specific settings
-        /*//---> if(video_codec == "libxvid")
+        if(video_codec == "libxvid")
         {
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+            process.args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                  << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
                  << video_res << "-aspect" << video_dar
                  << "-color_primaries" << "1" << "-color_trc" << "1"
                  << "-colorspace" << "1" << "-r" << vid_framerate
                  << "-qscale:v" << qscale_value << "-g" << "240"
                  << "-bf" << "2" << "-c:a" << audio_codec << "-ar"
-                 << audio_samplerate << "-b:a" << audio_br_value << "-ac"
-                 << audio_channels << output_vid_file; //---->*/
+                 << audio_samplerate << "-b:a" << audio_bitrate << "-ac"
+                 << audio_channels << output_vid_file; /*//---> //---->*/
         }
         //processing with libvpx-vp9 settings - single pass
         /*else if(ui->videoCodecBox->currentIndex() == 5)
@@ -345,24 +355,17 @@ void Transcode::normal_mode_transcode()
                  << "-color_primaries" << "1" << "-color_trc" << "1"
                  << "-colorspace" << "1" << "-pix_fmt" << "yuv420p" << "-c:a"
                  << "copy" << output_file;
-        }
+        }*/
         else
         {
-            //disconnect select_qscale() from videoRFSlider
-            disconnect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                       this, SLOT(select_qscale()));
-            //reconnect select_crf() to videoRFSlider
-            connect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                    this, SLOT(select_crf()));
-
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << input_file1 << "-c:v" << video_codec << "-vf"
-                 << video_res_value << pixel_format << "-aspect"
-                 << vid_aspect_val << "-color_primaries" << "1" << "-color_trc"
-                 << "1" << "-colorspace" << "1" << "-r" << video_fps_val
-                 << preset << pr_value << "-crf" << crf_value << "-c:a"
-                 << audio_codec << "-ar" << audio_sr_value << "-b:a"
-                 << audio_br_value << "-ac" << audio_ac_value << output_file;
+            process.args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+                 << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
+                 << video_res /*<< pixel_format*/ << "-aspect"
+                 << video_dar << "-color_primaries" << "1" << "-color_trc"
+                 << "1" << "-colorspace" << "1" << "-r" << vid_framerate
+                 << "-preset" << vid_encoder_preset << "-crf" << crf_value << "-c:a"
+                 << audio_codec << "-ar" << audio_samplerate << "-b:a"
+                 << audio_bitrate << "-ac" << audio_channels << output_vid_file;
         }
     }
 #ifdef Q_OS_WIN
@@ -376,19 +379,18 @@ void Transcode::normal_mode_transcode()
         ffmpeg->start(ffmpeg_path, args);
     }
 #elif defined Q_OS_LINUX
-    ffmpeg->start(ffmpeg_path, args);
+    process.ffmpeg->start(process.ffmpeg_path, process.args);
 #endif
     //frame_time_parse();
-    */
+    /**/
     /*ff_speed_val += ff_output.mid(ff_output.lastIndexOf("speed="));*/
 
-    /*ffmpeg->waitForStarted();
-    timer.start();
-    if((ffmpeg->QProcess::state() == QProcess::Running))
+    process.ffmpeg->waitForStarted();
+    if((process.ffmpeg->QProcess::state() == QProcess::Running))
     {
         //this logic works!
-        ui->statusbar->showMessage(tr("Encoding Started "));
+        Q_EMIT send_encoder_status(tr("Encoding Started "), 0);
     }
-    args.clear();*/
+    process.args.clear();/**/
 
 }

@@ -219,6 +219,9 @@ void MainWindow::application_connections_setup()
     connect(&transcoder, &Transcode::output_vid_file_status,
             ui->statusbar, &QStatusBar::showMessage);
 
+    connect(&transcoder, &Transcode::send_encoder_status,
+            ui->statusbar, &QStatusBar::showMessage);
+
     connect(ui->SaveASWidget, &SaveAsUI::send_output_file_path,
             &transcoder, &Transcode::receive_output_file_path);
 
@@ -270,6 +273,9 @@ void MainWindow::transcoder_connections_setup()
 
     connect(ui->AudioUIWidget, &AudioUI::send_audio_samplerate_val,
             &transcoder, &Transcode::receive_audio_channels_val);
+
+    connect(ui->AudioUIWidget, &AudioUI::send_audio_bitrate_val,
+            &transcoder, &Transcode::receive_audio_bitrate_val);
 }
 
 void MainWindow::normal_mode_enabled(const bool &value)

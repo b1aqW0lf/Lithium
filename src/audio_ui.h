@@ -55,6 +55,7 @@ Q_SIGNALS:
     void send_audio_codec_name(const QString &codec);
     void send_audio_channels_val(const QString &channels);
     void send_audio_samplerate_val(const QString &samplerate);
+    void send_audio_bitrate_val(const QString &bitrate);
 
     //for testing only!
     void send_audio_data(const QString &data, const int &timeout);

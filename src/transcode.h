@@ -43,8 +43,6 @@ class Transcode : public QWidget
 {
     Q_OBJECT
 
-    friend class FFprocess;
-
 public:
     explicit Transcode(QWidget *parent = nullptr);
     ~Transcode();
@@ -53,6 +51,7 @@ Q_SIGNALS:
     void source_vid_file_status(const QString &status, const int &timeout);
     void output_vid_file_status(const QString &status, const int &timeout);
     bool encode_button_set_checked(const bool &checked);
+    void send_encoder_status(const QString &status, const int &timeout);
 
 public Q_SLOTS:
     //video processing
@@ -67,11 +66,13 @@ public Q_SLOTS:
     void receive_video_res_value(const QString &value);
     void receive_video_dar_value(const QString &dar);
     void receive_video_framerate_val(const QString &framerate);
+    void receive_video_encoder_preset_val(const QString &preset);
 
     //audio processing
     void receive_audio_codec_name(const QString &codec);
     void receive_audio_channels_val(const QString &channels);
     void receive_audio_samplerate_val(const QString &samplerate);
+    void receive_audio_bitrate_val(const QString &bitrate);
 
     //normal mode
     void start_normal_mode_transcode();
@@ -98,10 +99,12 @@ private:
     QString video_res{};
     QString video_dar{};
     QString vid_framerate{};
+    QString vid_encoder_preset{};
     //audio
     QString audio_codec{};
     QString audio_channels{};
     QString audio_samplerate{};
+    QString audio_bitrate{};
 
 };
 
