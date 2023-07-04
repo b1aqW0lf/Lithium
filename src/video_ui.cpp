@@ -67,7 +67,7 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoResBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_vid_res);
     connect(ui->videoAspectRatBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_aspect_rat);
+            this, &VideoUI::select_dar_value);
     connect(ui->videoFPSBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_vid_fps);
     //-------------------------------------------------------------------------
@@ -800,19 +800,20 @@ void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)
     this->source_dar = dar;
 }
 
-void VideoUI::select_aspect_rat()
+//diplay aspect ratio
+void VideoUI::select_dar_value()
 {
-    QString vid_aspect_val{source_dar};
+    QString video_dar_value{source_dar};
     if(ui->videoAspectRatBox->currentIndex() == 0)
     {
         //vid_aspect_val = "copy";
-        vid_aspect_val = source_dar;
+        video_dar_value = source_dar;
     }
     else
     {
-        vid_aspect_val = ui->videoAspectRatBox->currentText();
+        video_dar_value = ui->videoAspectRatBox->currentText();
     }
-    Q_EMIT send_vid_data(vid_aspect_val,0);
+    Q_EMIT send_vid_display_aspect_ratio_val(video_dar_value);
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
@@ -827,7 +828,7 @@ void VideoUI::select_vid_fps()
     if(ui->videoFPSBox->currentIndex() == 0)
     {
         //video_fps_val = "copy";
-        video_fps_val = source_fps;
+        video_fps_val = this->source_fps;
     }
     else
     {

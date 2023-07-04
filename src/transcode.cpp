@@ -137,6 +137,11 @@ void Transcode::receive_video_res_value(const QString &value)
     this->video_res = value;
 }
 
+void Transcode::receive_video_dar_value(const QString &dar)
+{
+    this->video_dar = dar;
+}
+
 //use with actionEncode
 void Transcode::start_normal_mode_transcode()
 {
@@ -199,16 +204,9 @@ void Transcode::normal_mode_transcode()
         //processing with libxvid specific settings
         /*//---> if(video_codec == "libxvid")
         {
-            //disconnect select_crf() from videoRFSlider
-            disconnect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                       this, SLOT(select_crf()));
-            //connect select_qscale() to videoRFSlider
-            connect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                    this, SLOT(select_qscale()));
-
             args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                  << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
-                 << video_res << "-aspect" << vid_aspect_val
+                 << video_res << "-aspect" << video_dar
                  << "-color_primaries" << "1" << "-color_trc" << "1"
                  << "-colorspace" << "1" << "-r" << video_fps_val
                  << "-qscale:v" << qscale_value << "-g" << "240"

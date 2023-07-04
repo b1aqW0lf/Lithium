@@ -256,6 +256,9 @@ void MainWindow::transcoder_connections_setup()
     connect(ui->VideoUIWidget, &VideoUI::send_video_resolution_value,
             &transcoder, &Transcode::receive_video_res_value);
 
+    connect(ui->VideoUIWidget, &VideoUI::send_vid_display_aspect_ratio_val,
+            &transcoder, &Transcode::receive_video_dar_value);
+
 }
 
 void MainWindow::normal_mode_enabled(const bool &value)

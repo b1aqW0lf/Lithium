@@ -57,6 +57,7 @@ Q_SIGNALS:
     void send_video_qscale_val(const QString &qs_val);
     void send_video_codec_name(const QString &codec);
     void send_video_resolution_value(const QString &value);
+    void send_vid_display_aspect_ratio_val(const QString &dar);
 
     //for testing only!
     void send_vid_data(const QString &data, const int &timeout);
@@ -82,7 +83,7 @@ private Q_SLOTS:
     void select_vid_codec();
     void select_vid_res();
     void select_container();
-    void select_aspect_rat();
+    void select_dar_value();
     void select_vid_fps();
     void vid_codec_interface();
     void set_enc_profile_options();
