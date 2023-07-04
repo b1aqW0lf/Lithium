@@ -142,6 +142,11 @@ void Transcode::receive_video_dar_value(const QString &dar)
     this->video_dar = dar;
 }
 
+void Transcode::receive_video_framerate_val(const QString &framerate)
+{
+    this->vid_framerate = framerate;
+}
+
 //use with actionEncode
 void Transcode::start_normal_mode_transcode()
 {
@@ -170,7 +175,7 @@ void Transcode::normal_mode_transcode()
             args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                  << "-i" << input_file1 << "-passlogfile" << "ffmpeg2pass"
                  << "-c:v" << video_codec << "-b:v" << "2048k"
-                 << "-pass" << "1" << "-r" << video_fps_val << "-color_primaries"
+                 << "-pass" << "1" << "-r" << vid_framerate << "-color_primaries"
                  << "1" << "-color_trc" << "1" << "-colorspace" << "1"
                  << "-pix_fmt" << "yuv420p" << "-an" << "-f" << "null"
                  << "/dev/null" << "-i" << input_file1 << "-passlogfile"

@@ -65,6 +65,7 @@ public Q_SLOTS:
     void receive_video_codec_name(const QString &codec);
     void receive_video_res_value(const QString &value);
     void receive_video_dar_value(const QString &dar);
+    void receive_video_framerate_val(const QString &framerate);
     void start_normal_mode_transcode();
 
 private:
@@ -87,6 +88,7 @@ private:
     QString qscale_value{};
     QString video_res{};
     QString video_dar{};
+    QString vid_framerate{};
 
 };
 

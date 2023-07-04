@@ -834,7 +834,7 @@ void VideoUI::select_vid_fps()
     {
         video_fps_val = ui->videoFPSBox->currentText();
     }
-    //Q_EMIT send_vid_data(video_fps_val,0);
+    Q_EMIT send_video_framerate_value(video_fps_val);
 }
 
 //creating options for encoder profile combobox
