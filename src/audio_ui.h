@@ -52,6 +52,8 @@ public:
 
 Q_SIGNALS:
     void send_output_audio_extension(const QString &text);
+    void send_audio_codec_name(const QString &codec);
+    void send_audio_channels_val(const QString &channels);
 
     //for testing only!
     void send_audio_data(const QString &data, const int &timeout);
@@ -78,7 +80,7 @@ private:
     //QString audio_br_value{};
     //QString audio_codec{};
     //QString audio_sr_value{};
-    QString audio_ac_value{};
+    //QString audio_ac_value{};
     QString audio_source_ext{};
     QString audio_container{};
     //-----------------------------------

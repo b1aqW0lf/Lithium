@@ -153,7 +153,7 @@ void AudioUI::select_aud_codec()
     {
         audio_codec = ui->audioCodecBox->currentText().toLower();
     }
-    //Q_EMIT send_audio_data(audio_codec, 0);
+    Q_EMIT send_audio_codec_name(audio_codec);
 }
 
 void AudioUI::receive_audio_source_bitrate(const QString &bitrate)
@@ -212,28 +212,28 @@ void AudioUI::receive_audio_source_channels(const QString &channels)
 
 void AudioUI::select_channels()
 {
-    QString audio_ac_value{this->source_channels};
+    QString audio_channels{this->source_channels};
 
     if(ui->audioChannelBox->currentIndex() == 0)
     {
         //audio_ac_value = "copy";
-        audio_ac_value = this->source_channels;
+        audio_channels = this->source_channels;
     }
     else if(ui->audioChannelBox->currentIndex() == 2)
     {
         //value for mono
-        audio_ac_value = "1";
+        audio_channels = "1";
     }
     else if(ui->audioChannelBox->currentIndex() == 3)
     {
         //value for stereo
-        audio_ac_value = "2";
+        audio_channels = "2";
     }
     else
     {
-        audio_ac_value = ui->audioChannelBox->currentText();
+        audio_channels = ui->audioChannelBox->currentText();
     }
-    Q_EMIT send_audio_data(audio_ac_value, 0);
+    Q_EMIT send_audio_channels_val(audio_channels);
 }
 
 //receive audio extension

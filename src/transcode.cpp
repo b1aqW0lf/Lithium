@@ -147,6 +147,16 @@ void Transcode::receive_video_framerate_val(const QString &framerate)
     this->vid_framerate = framerate;
 }
 
+void Transcode::receive_audio_codec_name(const QString &codec)
+{
+    this->audio_codec = codec;
+}
+
+void Transcode::receive_audio_channels_val(const QString &channels)
+{
+    this->audio_channels = channels;
+}
+
 //use with actionEncode
 void Transcode::start_normal_mode_transcode()
 {
@@ -217,7 +227,7 @@ void Transcode::normal_mode_transcode()
                  << "-qscale:v" << qscale_value << "-g" << "240"
                  << "-bf" << "2" << "-c:a" << audio_codec << "-ar"
                  << audio_sr_value << "-b:a" << audio_br_value << "-ac"
-                 << audio_ac_value << output_file; //---->*/
+                 << audio_channels << output_file; //---->*/
         }
         //processing with libvpx-vp9 settings - single pass
         /*else if(ui->videoCodecBox->currentIndex() == 5)

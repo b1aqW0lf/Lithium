@@ -241,7 +241,6 @@ void MainWindow::application_connections_setup()
 
 void MainWindow::transcoder_connections_setup()
 {
-
     //transcoding connections----------------------------------------------------//
     //video transcoding
     connect(ui->VideoUIWidget, &VideoUI::send_video_codec_name,
@@ -262,6 +261,12 @@ void MainWindow::transcoder_connections_setup()
     connect(ui->VideoUIWidget, &VideoUI::send_video_framerate_value,
             &transcoder, &Transcode::receive_video_framerate_val);
 
+    //audio transcoding
+    connect(ui->AudioUIWidget, &AudioUI::send_audio_codec_name,
+            &transcoder, &Transcode::receive_audio_codec_name);
+
+    connect(ui->AudioUIWidget, &AudioUI::send_audio_channels_val,
+            &transcoder, &Transcode::receive_audio_channels_val);
 }
 
 void MainWindow::normal_mode_enabled(const bool &value)
