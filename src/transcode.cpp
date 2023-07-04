@@ -67,7 +67,7 @@ void Transcode::source_input_file_check()
     }
 }
 
-void Transcode::receive_output_video_path(const QString &output_path)
+void Transcode::receive_output_file_path(const QString &output_path)
 {
     this->output_vid_file = output_path;
 }
@@ -157,6 +157,11 @@ void Transcode::receive_audio_channels_val(const QString &channels)
     this->audio_channels = channels;
 }
 
+void Transcode::receive_audio_samplerate_val(const QString &samplerate)
+{
+    this->audio_samplerate = samplerate;
+}
+
 //use with actionEncode
 void Transcode::start_normal_mode_transcode()
 {
@@ -223,11 +228,11 @@ void Transcode::normal_mode_transcode()
                  << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
                  << video_res << "-aspect" << video_dar
                  << "-color_primaries" << "1" << "-color_trc" << "1"
-                 << "-colorspace" << "1" << "-r" << video_fps_val
+                 << "-colorspace" << "1" << "-r" << vid_framerate
                  << "-qscale:v" << qscale_value << "-g" << "240"
                  << "-bf" << "2" << "-c:a" << audio_codec << "-ar"
-                 << audio_sr_value << "-b:a" << audio_br_value << "-ac"
-                 << audio_channels << output_file; //---->*/
+                 << audio_samplerate << "-b:a" << audio_br_value << "-ac"
+                 << audio_channels << output_vid_file; //---->*/
         }
         //processing with libvpx-vp9 settings - single pass
         /*else if(ui->videoCodecBox->currentIndex() == 5)

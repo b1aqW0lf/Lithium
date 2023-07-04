@@ -220,7 +220,7 @@ void MainWindow::application_connections_setup()
             ui->statusbar, &QStatusBar::showMessage);
 
     connect(ui->SaveASWidget, &SaveAsUI::send_output_file_path,
-            &transcoder, &Transcode::receive_output_video_path);
+            &transcoder, &Transcode::receive_output_file_path);
 
     //------------------------------------------------------------------------//
 
@@ -266,6 +266,9 @@ void MainWindow::transcoder_connections_setup()
             &transcoder, &Transcode::receive_audio_codec_name);
 
     connect(ui->AudioUIWidget, &AudioUI::send_audio_channels_val,
+            &transcoder, &Transcode::receive_audio_channels_val);
+
+    connect(ui->AudioUIWidget, &AudioUI::send_audio_samplerate_val,
             &transcoder, &Transcode::receive_audio_channels_val);
 }
 

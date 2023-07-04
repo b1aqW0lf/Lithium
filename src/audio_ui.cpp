@@ -192,18 +192,18 @@ void AudioUI::receive_audio_source_samplerate(const QString &samplerate)
 
 void AudioUI::select_samplerate()
 {
-    QString audio_sr_value{this->source_samplerate};
+    QString audio_samplerate{this->source_samplerate};
 
     if(ui->audioSampleBox->currentIndex() == 0)
     {
         //audio_sr_value = "copy";
-        audio_sr_value = this->source_samplerate;
+        audio_samplerate = this->source_samplerate;
     }
     else
     {
-        audio_sr_value = ui->audioSampleBox->currentText();
+        audio_samplerate = ui->audioSampleBox->currentText();
     }
-    //Q_EMIT send_audio_data(audio_sr_value, 0);
+    Q_EMIT send_audio_samplerate_val(audio_samplerate);
 }
 void AudioUI::receive_audio_source_channels(const QString &channels)
 {
