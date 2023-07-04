@@ -443,14 +443,16 @@ void VideoUI::select_crf()
 {
     //crf_value is part of input for ffmpeg args in encoding_started()
     //setting the crf value to string
-    crf_value.setNum(ui->videoRFSlider->value());
+    this->crf_value.setNum(ui->videoRFSlider->value());
+    Q_EMIT send_video_crf_val(crf_value);
 }
 
 //initalizing selected qscale value
 void VideoUI::select_qscale()
 {
     //setting qscale value to string
-    video_qs_value.setNum(ui->videoRFSlider->value());
+    this->qscale_value.setNum(ui->videoRFSlider->value());
+    Q_EMIT send_video_qscale_val(qscale_value);
 }
 
 void VideoUI::receive_vid_source_codec(const QString &codec)
@@ -531,7 +533,7 @@ void VideoUI::select_vid_codec()
     {
         video_codec = ui->videoCodecBox->currentText().toLower();
     }*/
-    //Q_EMIT send_vid_data(video_codec,0);
+    Q_EMIT send_video_codec_name(video_codec);
 }
 
 void VideoUI::vid_codec_interface()
@@ -612,7 +614,7 @@ void VideoUI::vid_codec_interface()
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
-        video_qs_value.setNum(ui->videoRFSlider->value());//setting qscale value
+        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
         ui->videoEncLevelSlider->setRange(0,20);
         ui->videoEncLevelSlider->setValue(0);
         ui->videoEncLevelSlider->setSliderPosition(0);
@@ -631,7 +633,7 @@ void VideoUI::vid_codec_interface()
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
-        video_br_value = "0";
+        video_bitrate = "0";
         ui->videoEncLevelSlider->setRange(0, 14);
         ui->videoEncLevelSlider->setValue(0);
         ui->videoEncLevelSlider->setSliderPosition(0);
@@ -652,7 +654,7 @@ void VideoUI::vid_codec_interface()
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
-        video_qs_value.setNum(ui->videoRFSlider->value());//setting qscale value
+        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
         ui->videoEncLevelSlider->setRange(0,20);
         ui->videoEncLevelSlider->setValue(0);
         ui->videoEncLevelSlider->setSliderPosition(0);
@@ -674,7 +676,7 @@ void VideoUI::vid_codec_interface()
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
-        video_qs_value.setNum(ui->videoRFSlider->value());//setting qscale value
+        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
         ui->videoEncLevelSlider->setRange(0,20);
         ui->videoEncLevelSlider->setValue(0);
         ui->videoEncLevelSlider->setSliderPosition(0);
@@ -697,7 +699,7 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setToolTip(tr("default: Speed 4 Encoding"));
         ui->videoDialPreset->setText(tr("Speed 4"));//default value
-        video_qs_value.setNum(ui->videoRFSlider->value());//setting qp value
+        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qp value
         ui->videoEncLevelSlider->setRange(0,20);
         ui->videoEncLevelSlider->setValue(0);
         ui->videoEncLevelSlider->setSliderPosition(0);
@@ -790,7 +792,7 @@ void VideoUI::select_vid_res()
     {
         video_res_value = "scale="+ui->videoResBox->currentText();
     }
-    //Q_EMIT send_vid_data(video_res_value,0);
+    Q_EMIT send_video_resolution_value(video_res_value);
 }
 
 void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)

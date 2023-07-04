@@ -36,20 +36,55 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ffprocess.h"
 
 #include <QObject>
+#include <QWidget>
 
 
-class Transcode : public QObject
+class Transcode : public QWidget
 {
     Q_OBJECT
 
+    friend class FFprocess;
+
 public:
-    explicit Transcode(QObject *parent = nullptr);
+    explicit Transcode(QWidget *parent = nullptr);
     ~Transcode();
 
-public:
+Q_SIGNALS:
+    void source_vid_file_status(const QString &status, const int &timeout);
+    void output_vid_file_status(const QString &status, const int &timeout);
+    bool encode_button_set_checked(const bool &checked);
+
+public Q_SLOTS:
+    void receive_source_video_file(const QString &source_video);
+    void receive_output_video_path(const QString &output_path);
+    //void verify_output_video_file(const QString &output_video);
+    void enable_two_pass_encode(const bool &status);
+    void receive_vid_avg_bitrate(const QString &vid_avg_bitrate);
+    void receive_video_crf_val(const QString &crf_val);
+    void receive_video_qscale_val(const QString &qs_val);
+    void receive_video_codec_name(const QString &codec);
+    void receive_video_res_value(const QString &value);
+    void start_normal_mode_transcode();
+
+private:
     FFprocess process;
 
-signals:
+    //functions
+    void source_input_file_check();
+    void output_video_path_check();
+    void normal_mode_transcode();
+
+    //processing variables
+    QString source_vid_file{};
+    QString output_vid_file{};
+    bool two_pass_val{};
+    QString vid_avg_bitrate{};
+
+    //transcoder variables
+    QString video_codec{};
+    QString crf_value{};
+    QString qscale_value{};
+    QString video_res{};
 
 };
 

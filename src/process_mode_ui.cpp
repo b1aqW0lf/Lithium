@@ -32,6 +32,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "process_mode_ui.h"
 #include "ui_process_mode_ui.h"
 
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QRadioButton>
+
 ProcessModeUI::ProcessModeUI(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ProcessModeUI)
@@ -42,9 +46,9 @@ ProcessModeUI::ProcessModeUI(QWidget *parent) :
     /*connect(ui->mergeSourcesRadio, &QRadioButton::clicked,
                this, &ProcessModeUI::merge_sources);
     connect(ui->extractAudioRadio, &QRadioButton::clicked,
-            this, &ProcessModeUI::extract_audio);
+            this, &ProcessModeUI::extract_audio);*/
     connect(ui->normalModeRadio, &QRadioButton::clicked,
-            this, &ProcessModeUI::normal_mode);*/
+            this, &ProcessModeUI::set_normal_mode);
     //--------------------------------------------------------------------------
 
     //Initialize interface widgets
@@ -91,17 +95,17 @@ void ProcessModeUI::extract_audio()
     ui->sourceInput1Edit->setToolTip(tr("Select video file in Source 1 field"
                                      " to extract an audio stream from"));
     //audio extraction prcoessing in is done in conversion_prep()
-}
+}*/
 
-void ProcessModeUI::normal_mode()
+void ProcessModeUI::set_normal_mode()
 {
     //set default Source 2 field settings -- disable Source 2 fields
-    ui->sourceInput2Edit->setEnabled(false);
+    /*ui->sourceInput2Edit->setEnabled(false);
     ui->sourceBrowse2->setEnabled(false);
     ui->source2Label->setEnabled(false);
-    ui->sourceInput2Edit->setToolTip("");//turn off source 2 tool tip
-    ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
+    ui->sourceInput2Edit->setToolTip("");//turn off source 2 tool tip*/
+    Q_EMIT source_2_field_setenabled(false);
+    //ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
     //normal mode prcoessing in is done in conversion_prep()
+    Q_EMIT enable_normal_mode_processing(true);
 }
-
-}*/

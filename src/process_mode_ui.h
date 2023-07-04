@@ -32,12 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "ui_process_mode_ui.h"
-
 #include <QButtonGroup>
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QRadioButton>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -54,13 +49,17 @@ public:
     explicit ProcessModeUI(QWidget *parent = nullptr);
     ~ProcessModeUI();
 
+Q_SIGNALS:
+    void enable_normal_mode_processing(const bool &value);
+    void source_2_field_setenabled(const bool &enabled);
+
 private:
     Ui::ProcessModeUI *ui;
 
 private Q_SLOTS:
     /*void merge_sources();
-    void extract_audio();
-    void normal_mode();*/
+    void extract_audio();*/
+    void set_normal_mode();
 
 private:
     //processing button group

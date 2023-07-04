@@ -43,12 +43,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "audio_ui.h"
-#include "output_display_ui.h"
-#include "save_as_ui.h"
-#include "select_source_ui.h"
-#include "statusbar_ui.h"
-#include "video_ui.h"
+#include "src/audio_ui.h"
+#include "src/output_display_ui.h"
+#include "src/process_mode_ui.h"
+#include "src/save_as_ui.h"
+#include "src/select_source_ui.h"
+#include "src/statusbar_ui.h"
+#include "src/transcode.h"
+#include "src/video_ui.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -58,9 +60,26 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     //enable application connections
+    local_connections_setup();
     application_connections_setup();
+    transcoder_connections_setup();
 
-    //display progress bar and status bar
+    //enable action bar
+    ui->toolbar->addAction(ui->actionEncode);
+    ui->toolbar->addAction(ui->actionCancel);
+    ui->toolbar->addSeparator();
+    ui->actionEncode->setCheckable(true);
+    ui->actionEncode->setText(tr("Encode"));
+    ui->actionCancel->setText(tr("Cancel"));
+    ui->actionEncode->setIconText(tr("Encode"));
+    ui->actionCancel->setIconText(tr("Cancel"));
+    ui->actionEncode->setShortcut(Qt::CTRL+Qt::Key_E);
+    ui->actionCancel->setShortcut(Qt::CTRL+Qt::Key_X);
+    ui->actionEncode->setToolTip(tr("Start Encoding"));
+    ui->actionCancel->setToolTip(tr("Cancel Encoding"));
+
+
+    //display progress bar and statusbar
     StatusBarUI *statProgressBar = new StatusBarUI;
     ui->statusbar->addPermanentWidget(statProgressBar);
 
@@ -93,6 +112,12 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::local_connections_setup()
+{
+    connect(ui->actionEncode, &QAction::triggered,
+            this, &MainWindow::start_action_encode);
 }
 
 void MainWindow::application_connections_setup()
@@ -182,4 +207,66 @@ void MainWindow::application_connections_setup()
 
     connect(ui->SelectSourceWidget, &SelectSourceUI::clear_input1_data,
             ui->VideoUIWidget, &VideoUI::receive_clear_request);
+
+    //----------------------------------------------------------------------//
+
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
+            &transcoder, &Transcode::receive_source_video_file);
+
+    connect(&transcoder, &Transcode::source_vid_file_status,
+            ui->statusbar, &QStatusBar::showMessage);
+
+    connect(&transcoder, &Transcode::output_vid_file_status,
+            ui->statusbar, &QStatusBar::showMessage);
+
+    connect(ui->SaveASWidget, &SaveAsUI::send_output_file_path,
+            &transcoder, &Transcode::receive_output_video_path);
+
+    //------------------------------------------------------------------------//
+
+    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_processing,
+            this, &MainWindow::normal_mode_enabled);
+
+    connect(this, &MainWindow::start_normal_mode_process,
+            &transcoder, &Transcode::start_normal_mode_transcode);
+
+    //--------------------------------------------------------------------------//
+
+    connect(ui->VideoUIWidget, &VideoUI::two_pass_encode_enabled,
+            &transcoder, &Transcode::enable_two_pass_encode);
+
+    connect(ui->VideoUIWidget, &VideoUI::send_average_bitrate_value,
+            &transcoder, &Transcode::receive_vid_avg_bitrate);
+}
+
+void MainWindow::transcoder_connections_setup()
+{
+
+    //transcoding connections----------------------------------------------------//
+    //video transcoding
+    connect(ui->VideoUIWidget, &VideoUI::send_video_codec_name,
+            &transcoder, &Transcode::receive_video_codec_name);
+
+    connect(ui->VideoUIWidget, &VideoUI::send_video_crf_val,
+            &transcoder, &Transcode::receive_video_crf_val);
+
+    connect(ui->VideoUIWidget, &VideoUI::send_video_qscale_val,
+            &transcoder, &Transcode::receive_video_qscale_val);
+
+    connect(ui->VideoUIWidget, &VideoUI::send_video_resolution_value,
+            &transcoder, &Transcode::receive_video_res_value);
+
+}
+
+void MainWindow::normal_mode_enabled(const bool &value)
+{
+    this->normal_mode_val = value;
+}
+
+void MainWindow::start_action_encode()
+{
+    if(this->normal_mode_val == true)
+    {
+        Q_EMIT start_normal_mode_process();
+    }
 }

@@ -77,6 +77,7 @@ void SaveAsUI::select_output()
     {
         ui->saveASEdit->setText(output_file);
     }
+    Q_EMIT send_output_file_path(ui->saveASEdit->text());
 }
 
 void SaveAsUI::receive_output_extension(const QString &text)
@@ -88,4 +89,5 @@ void SaveAsUI::receive_output_extension(const QString &text)
     {
         ui->saveASEdit->setText(saveAs_line_data+text);
     }
+    Q_EMIT send_output_file_path(ui->saveASEdit->text());
 }

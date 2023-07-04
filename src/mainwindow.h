@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ffprocess.h"
 #include "input_source_probe.h"
+#include "transcode.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -55,16 +56,31 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+Q_SIGNALS:
+    void start_normal_mode_process();
+
+public Q_SLOTS:
+    void normal_mode_enabled(const bool &value);
+
+private Q_SLOTS:
+    void start_action_encode();
+
 private:
     Ui::MainWindow *ui;
     InputSourceProbe inputProbe;
     FFprocess process;
+    Transcode transcoder;
+
+    //variables
+    bool normal_mode_val{};
 
     //function
+    void local_connections_setup();
     void application_connections_setup();
+    void transcoder_connections_setup();
 
-/*private Q_SLOTS:
-    //ffmpeg process data processing
+private Q_SLOTS:
+    /*//ffmpeg process data processing
     void ffmpegReadStandardOutput();//ffmpeg QProcess function
     void ffprobeReadStandardOutput();//ffprobe QProcess function
     //-------------------------------------------------------

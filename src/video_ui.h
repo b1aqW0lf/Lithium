@@ -51,8 +51,12 @@ public:
 
 Q_SIGNALS:
     void send_output_vid_extension(const QString &text);
-    void two_pass_encode_enabled(const bool status);
+    void two_pass_encode_enabled(const bool &status);
     void send_average_bitrate_value(const QString &value);
+    void send_video_crf_val(const QString &crf_val);
+    void send_video_qscale_val(const QString &qs_val);
+    void send_video_codec_name(const QString &codec);
+    void send_video_resolution_value(const QString &value);
 
     //for testing only!
     void send_vid_data(const QString &data, const int &timeout);
@@ -95,14 +99,13 @@ private:
     QString enc_preset{};
     QString enc_level{};
     QString crf_value{};
+    QString qscale_value{};
+    QString video_bitrate{};
     QString pr_value{};
     //QString video_codec{};
-    QString video_br_value{};
-    QString video_qs_value{};
     //QString video_res_value{};
     //QString vid_aspect_val{};
     //QString video_fps_val{};
-    QString video_bitrate{};
     //QString vid_ext{};
     QString source_ext{};
     QString source_res{};

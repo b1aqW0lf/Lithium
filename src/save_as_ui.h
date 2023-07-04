@@ -48,14 +48,17 @@ public:
     explicit SaveAsUI(QWidget *parent = nullptr);
     ~SaveAsUI();
 
-private:
-    Ui::SaveAsUI *ui;
+Q_SIGNALS:
+    void send_output_file_path(const QString &output_path);
+
+public Q_SLOTS:
+    void receive_output_extension(const QString &text);
 
 private Q_SLOTS:
     void select_output();
 
-public Q_SLOTS:
-    void receive_output_extension(const QString &text);
+private:
+    Ui::SaveAsUI *ui;
 
 /*public:
     QString output_file{};*/
