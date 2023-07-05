@@ -37,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Transcode::Transcode(QWidget *parent)
     : QWidget{parent}
 {
+    ffmpeg = new QProcess{this};
 
 }
 
@@ -55,7 +56,7 @@ void Transcode::source_input_file_check()
     int timeout{0};
 
     //check for existence of the input file
-    if(source_vid_file.isEmpty())
+    if(this->source_vid_file.isEmpty())
     {
         Q_EMIT source_vid_file_status(tr("No Input"), timeout);
         QMessageBox::information(this, tr("Lithium"),
@@ -77,7 +78,7 @@ void Transcode::output_video_path_check()
     int timeout{0};
 
     //check for the existence of a specified output file
-    if(output_vid_file.isEmpty())
+    if(this->output_vid_file.isEmpty())
     {
         Q_EMIT output_vid_file_status(tr("No Output"), timeout);
         QMessageBox::information(this, tr("Lithium"),
@@ -89,8 +90,8 @@ void Transcode::output_video_path_check()
 
     //check if specified output file already exists
     //use output_vid_file in this test
-    Q_EMIT output_vid_file_status(tr("Output file check... ").append(output_vid_file), timeout);
-    if(QFile::exists(output_vid_file))
+    Q_EMIT output_vid_file_status(tr("Output file check... ").append(this->output_vid_file), timeout);
+    if(QFile::exists(this->output_vid_file))
     {
         if(QMessageBox::question(this, tr("Lithium"),
                                   tr("There already exists a file called %1 in "
@@ -98,9 +99,9 @@ void Transcode::output_video_path_check()
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
             == QMessageBox::No)
             return;
-        QFile::remove(output_vid_file);
+        QFile::remove(this->output_vid_file);
 
-        while(QFile::exists(output_vid_file))
+        while(QFile::exists(this->output_vid_file))
         {
             Q_EMIT output_vid_file_status(tr("Output file path is set"), timeout);
         }
@@ -181,6 +182,7 @@ void Transcode::start_normal_mode_transcode()
 void Transcode::normal_mode_transcode()
 {
     int timeout{0};
+    ffmpeg_path = "ffmpeg";
     source_input_file_check();
     output_video_path_check();
 
@@ -228,14 +230,14 @@ void Transcode::normal_mode_transcode()
         args <<"-i"<< input_file1 << "-vn" << "-c:a" << audio_codec << "-b:a"
              << audio_br_value << output_file;
     }*/
-    two_pass_val = false;
+    /*//---> two_pass_val = false;
     if(this->two_pass_val == false)
     {
         //Normal Encoding Mode Processing
         //processing with libxvid specific settings
         if(video_codec == "libxvid")
         {
-            process.args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                  << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
                  << video_res << "-aspect" << video_dar
                  << "-color_primaries" << "1" << "-color_trc" << "1"
@@ -243,8 +245,8 @@ void Transcode::normal_mode_transcode()
                  << "-qscale:v" << qscale_value << "-g" << "240"
                  << "-bf" << "2" << "-c:a" << audio_codec << "-ar"
                  << audio_samplerate << "-b:a" << audio_bitrate << "-ac"
-                 << audio_channels << output_vid_file; /*//---> //---->*/
-        }
+                 << audio_channels << output_vid_file;
+        //---->}*/
         //processing with libvpx-vp9 settings - single pass
         /*else if(ui->videoCodecBox->currentIndex() == 5)
         {
@@ -357,18 +359,28 @@ void Transcode::normal_mode_transcode()
                  << "-colorspace" << "1" << "-pix_fmt" << "yuv420p" << "-c:a"
                  << "copy" << output_file;
         }*/
-        else
-        {
-            process.args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+        /*else
+        {*/
+            /*args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                  << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
-                 << video_res /*<< pixel_format*/ << "-aspect"
+                 << video_res << pixel_format << "-aspect"
                  << video_dar << "-color_primaries" << "1" << "-color_trc"
                  << "1" << "-colorspace" << "1" << "-r" << vid_framerate
                  << "-preset" << vid_encoder_preset << "-crf" << crf_value << "-c:a"
                  << audio_codec << "-ar" << audio_samplerate << "-b:a"
-                 << audio_bitrate << "-ac" << audio_channels << output_vid_file;
-        }
-    }
+                 << audio_bitrate << "-ac" << audio_channels << output_vid_file; */
+
+            /*args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+                 << "-i" << source_vid_file << "-c:v" << video_codec << crf_value
+                 << "-c:a" << audio_codec << output_vid_file;*/
+        //}
+    //}
+
+    args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+         << "-i" << source_vid_file << "-c:v" << video_codec /*"libx264"*/ << "-crf"
+         << crf_value << "-c:a" << audio_codec << output_vid_file;
+
+    ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef Q_OS_WIN
     if(!QFile::exists(ffmpeg_path))//check for executables
     {
@@ -380,26 +392,25 @@ void Transcode::normal_mode_transcode()
         ffmpeg->start(ffmpeg_path, args);
     }
 #elif defined Q_OS_LINUX
-    process.ffmpeg->start(process.ffmpeg_path, process.args);
+    ffmpeg->start(ffmpeg_path, args);
 #endif
     //frame_time_parse();
     /**/
     /*ff_speed_val += ff_output.mid(ff_output.lastIndexOf("speed="));*/
 
-    process.ffmpeg->waitForStarted();
-    if((process.ffmpeg->QProcess::state() == QProcess::Running))
+    ffmpeg->waitForStarted();
+    if((ffmpeg->QProcess::state() == QProcess::Running))
     {
         //this logic works!
         Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
     }
-    process.args.clear();/**/
-
+    //args.clear();/**/
 }
 
 void Transcode::cancel_encode_process()
 {
     int timeout{0};
-    process.ffmpeg->kill();
-    process.ffmpeg->close();
+    ffmpeg->kill();
+    ffmpeg->close();
     Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
 }

@@ -41,7 +41,6 @@ class FFprocess : public QProcess
 {
     Q_OBJECT
 
-    friend class Transcode;
     friend class InputSourceProbe;
 
 public:

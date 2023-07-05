@@ -33,9 +33,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "ffprocess.h"
-
 #include <QObject>
+#include <QProcess>
 #include <QWidget>
 
 
@@ -81,7 +80,10 @@ public Q_SLOTS:
     void cancel_encode_process();
 
 private:
-    FFprocess process;
+    //ffmpeg process
+    QProcess *ffmpeg;
+    QString ffmpeg_path{};
+    QStringList args{};
 
     //functions
     void source_input_file_check();

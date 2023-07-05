@@ -537,6 +537,7 @@ void VideoUI::select_vid_codec()
         video_codec = ui->videoCodecBox->currentText().toLower();
     }*/
     Q_EMIT send_video_codec_name(video_codec);
+    Q_EMIT send_vid_data(video_codec,0);
 }
 
 void VideoUI::vid_codec_interface()
