@@ -384,8 +384,7 @@ void Transcode::normal_mode_transcode()
 #ifdef Q_OS_WIN
     if(!QFile::exists(ffmpeg_path))//check for executables
     {
-        ui->ffProcWindow->setText(tr("FFmpeg executables not detected"));
-        ui->statusbar->showMessage(tr("FFmpeg executables not detected"));
+        Q_EMIT send_encoder_status(tr("FFmpeg executables not detected"), timeout);
     }
     else
     {
