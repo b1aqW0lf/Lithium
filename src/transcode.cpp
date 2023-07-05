@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "transcode.h"
 
+#include <QDir>
 #include <QFile>
 #include <QMessageBox>
 
@@ -182,7 +183,6 @@ void Transcode::start_normal_mode_transcode()
 void Transcode::normal_mode_transcode()
 {
     int timeout{0};
-    ffmpeg_path = "ffmpeg";
     source_input_file_check();
     output_video_path_check();
 
@@ -381,27 +381,28 @@ void Transcode::normal_mode_transcode()
          << crf_value << "-c:a" << audio_codec << output_vid_file;
 
     ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
-#ifdef Q_OS_WIN
-    if(!QFile::exists(ffmpeg_path))//check for executables
+#ifdef Q_OS_WIN    
+    QString application_path{QCoreApplication::applicationDirPath()};
+    QString application_dir{QDir(application_path).absolutePath()};
+
+    if(QFile::exists(application_dir+"/ffmpeg.exe")
     {
-        Q_EMIT send_encoder_status(tr("FFmpeg executables not detected"), timeout);
+        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir);
     }
-    else
+    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
     {
-        ffmpeg->start(ffmpeg_path, args);
+        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
     }
 #elif defined Q_OS_LINUX
-    ffmpeg->start(ffmpeg_path, args);
+    this->ffmpeg_path = "ffmpeg";
 #endif
-    //frame_time_parse();
-    /**/
-    /*ff_speed_val += ff_output.mid(ff_output.lastIndexOf("speed="));*/
-
+    ffmpeg->start(this->ffmpeg_path, args);
     ffmpeg->waitForStarted();
     if((ffmpeg->QProcess::state() == QProcess::Running))
     {
         //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
     }
     //args.clear();/**/
 }
