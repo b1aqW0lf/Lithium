@@ -282,6 +282,10 @@ void MainWindow::transcoder_connections_setup()
 
     connect(ui->AudioUIWidget, &AudioUI::send_audio_bitrate_val,
             &transcoder, &Transcode::receive_audio_bitrate_val);
+
+    //trancoding
+    connect(&transcoder, &Transcode::process_encode_finished,
+            this, &MainWindow::enable_encode_button);
 }
 
 void MainWindow::normal_mode_enabled(const bool &value)
@@ -302,4 +306,9 @@ void MainWindow::cancel_action_encode()
 {
     ui->actionEncode->setChecked(false);
     Q_EMIT cancel_encode_process();
+}
+
+void MainWindow::enable_encode_button()
+{
+    ui->actionEncode->setChecked(false);
 }

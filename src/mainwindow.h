@@ -62,6 +62,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void normal_mode_enabled(const bool &value);
+    void enable_encode_button();
 
 private Q_SLOTS:
     void start_action_encode();

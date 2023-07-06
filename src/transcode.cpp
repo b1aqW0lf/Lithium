@@ -41,6 +41,9 @@ Transcode::Transcode(QWidget *parent)
 {
     ffmpeg = new QProcess{this};
 
+    //local connection
+    connect(this->ffmpeg, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, &Transcode::encoding_process_finished);
 }
 
 Transcode::~Transcode(){}
@@ -415,4 +418,20 @@ void Transcode::cancel_encode_process()
     ffmpeg->kill();
     ffmpeg->close();
     Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
+}
+
+void Transcode::encoding_process_finished()
+{
+    int timeout{0};
+
+    //Set the encoding status by checking output file's existence
+    ffmpeg->waitForFinished();
+
+    if(QFile::exists(output_vid_file) && (this->ffmpeg->atEnd() == true))
+    {
+        Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
+        //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
+    }
+    Q_EMIT process_encode_finished();
+    ffmpeg->closeWriteChannel();//close write channel after encoding finishes
 }
