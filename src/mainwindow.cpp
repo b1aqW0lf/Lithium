@@ -300,5 +300,6 @@ void MainWindow::start_action_encode()
 
 void MainWindow::cancel_action_encode()
 {
+    ui->actionEncode->setChecked(false);
     Q_EMIT cancel_encode_process();
 }
