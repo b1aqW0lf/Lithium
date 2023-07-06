@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "transcode.h"
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QMessageBox>
@@ -385,7 +386,7 @@ void Transcode::normal_mode_transcode()
     QString application_path{QCoreApplication::applicationDirPath()};
     QString application_dir{QDir(application_path).absolutePath()};
 
-    if(QFile::exists(application_dir+"/ffmpeg.exe")
+    if(QFile::exists(application_dir+"/ffmpeg.exe"))
     {
         this->ffmpeg_path = application_dir+"/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir);
