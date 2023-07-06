@@ -404,6 +404,7 @@ void Transcode::normal_mode_transcode()
     if((ffmpeg->QProcess::state() == QProcess::Running))
     {
         //this logic works!
+        Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
     }
     //args.clear();/**/
 }
