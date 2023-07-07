@@ -409,7 +409,7 @@ void Transcode::normal_mode_transcode()
         //this logic works!
         Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
     }
-    //args.clear();/**/
+    args.clear();/**/
 }
 
 void Transcode::cancel_encode_process()
@@ -417,6 +417,7 @@ void Transcode::cancel_encode_process()
     int timeout{0};
     ffmpeg->kill();
     ffmpeg->close();
+    ffmpeg->closeWriteChannel();
     Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
 }
 
@@ -427,7 +428,7 @@ void Transcode::encoding_process_finished()
     //Set the encoding status by checking output file's existence
     ffmpeg->waitForFinished();
 
-    if(QFile::exists(output_vid_file) && (this->ffmpeg->atEnd() == true))
+    if(QFile::exists(output_vid_file) && (this->ffmpeg->QProcess::exitStatus() == QProcess::NormalExit))
     {
         Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
         //playOutput->setEnabled(true);//<===pay attention to this!!, no ui

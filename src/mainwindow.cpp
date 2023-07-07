@@ -299,12 +299,14 @@ void MainWindow::start_action_encode()
     {
         return;
     }
+    //ui->actionEncode->setCheckable(false);
     Q_EMIT start_normal_mode_process();
 }
 
 void MainWindow::cancel_action_encode()
 {
     ui->actionEncode->setChecked(false);
+    ui->actionEncode->setCheckable(true);
     Q_EMIT cancel_encode_process();
 }
 
