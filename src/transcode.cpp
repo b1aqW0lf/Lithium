@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QDir>
 #include <QFile>
 #include <QMessageBox>
+#include <QKeyEvent>
 
 Transcode::Transcode(QWidget *parent)
     : QWidget{parent}
@@ -382,7 +383,8 @@ void Transcode::normal_mode_transcode()
 
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_vid_file << "-c:v" << video_codec /*"libx264"*/ << "-crf"
-         << crf_value << "-c:a" << audio_codec << output_vid_file;
+         << crf_value << "-speed" << vid_encoder_preset << "-c:a" << audio_codec
+         << output_vid_file;
 
     ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef Q_OS_WIN    
@@ -415,6 +417,7 @@ void Transcode::normal_mode_transcode()
 void Transcode::cancel_encode_process()
 {
     int timeout{0};
+
     ffmpeg->kill();
     ffmpeg->close();
     ffmpeg->closeWriteChannel();
