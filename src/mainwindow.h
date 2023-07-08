@@ -57,7 +57,7 @@ public:
     ~MainWindow();
 
 Q_SIGNALS:
-    void start_normal_mode_process();
+    void start_encode_process();
     void cancel_encode_process();
 
 public Q_SLOTS:

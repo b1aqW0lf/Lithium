@@ -135,7 +135,7 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoDialPreset->setText(tr("medium"));//default value
     ui->videoDialPreset->setStyleSheet("QLabel { background-color : white }");
     ui->videoDialPreset->setStyleSheet("QLabel { border : 0.5px solid black }");
-    pr_value = "medium";//send default to encoder
+    encoder_preset_val = "medium";//send default to encoder
     //ui->videoEncoderDial->setInvertedAppearance(true);
 
     //video codec interface
@@ -231,8 +231,6 @@ VideoUI::~VideoUI()
 //ui->videoEncoderDial->setRange(0, 9);
 void VideoUI::encoder_preset()
 {
-    QString encoder_preset_val{};
-
     if(ui->videoEncoderDial->value() == 0 &&
             ui->videoEncoderDial->sliderPosition() == 0)
     {
@@ -250,7 +248,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "placebo";
             ui->videoEncoderDial->setToolTip(tr("placebo encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 1 &&
             ui->videoEncoderDial->sliderPosition() == 1)
@@ -269,7 +266,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "veryslow";
             ui->videoEncoderDial->setToolTip(tr("veryslow encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 2 &&
             ui->videoEncoderDial->sliderPosition() == 2)
@@ -288,7 +284,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "slower";
             ui->videoEncoderDial->setToolTip(tr("slower encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 3 &&
             ui->videoEncoderDial->sliderPosition() == 3)
@@ -307,7 +302,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "slow";
             ui->videoEncoderDial->setToolTip(tr("slow encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 4 &&
             ui->videoEncoderDial->sliderPosition() == 4)
@@ -326,7 +320,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "medium";
             ui->videoEncoderDial->setToolTip(tr("medium encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 5 &&
             ui->videoEncoderDial->sliderPosition() == 5)
@@ -345,7 +338,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "fast";
             ui->videoEncoderDial->setToolTip(tr("fast encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 6 &&
             ui->videoEncoderDial->sliderPosition() == 6)
@@ -364,7 +356,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "faster";
             ui->videoEncoderDial->setToolTip(tr("faster encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 7 &&
             ui->videoEncoderDial->sliderPosition() == 7)
@@ -383,7 +374,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "veryfast";
             ui->videoEncoderDial->setToolTip(tr("veryfast encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 8 &&
             ui->videoEncoderDial->sliderPosition() == 8)
@@ -402,7 +392,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "superfast";
             ui->videoEncoderDial->setToolTip(tr("superfast encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 9 &&
             ui->videoEncoderDial->sliderPosition() == 9)
@@ -421,7 +410,6 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "ultrafast";
             ui->videoEncoderDial->setToolTip(tr("ultrafast encoding"));
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }
     if(ui->videoEncoderDial->value() == 10 &&
             ui->videoEncoderDial->sliderPosition() == 10)//<==Speed 10 does not appear in application
@@ -437,7 +425,6 @@ void VideoUI::encoder_preset()
         {
             ui->videoEncoderDial->setRange(0, 9);
         }
-        Q_EMIT send_vid_encoder_preset_val(encoder_preset_val);
     }//test, it works!
 }
 
@@ -447,7 +434,6 @@ void VideoUI::select_crf()
     //crf_value is part of input for ffmpeg args in encoding_started()
     //setting the crf value to string
     this->crf_value.setNum(ui->videoRFSlider->value());
-    Q_EMIT send_video_crf_val(crf_value);
 }
 
 //initalizing selected qscale value
@@ -455,7 +441,6 @@ void VideoUI::select_qscale()
 {
     //setting qscale value to string
     this->qscale_value.setNum(ui->videoRFSlider->value());
-    Q_EMIT send_video_qscale_val(qscale_value);
 }
 
 void VideoUI::receive_vid_source_codec(const QString &codec)
@@ -465,78 +450,77 @@ void VideoUI::receive_vid_source_codec(const QString &codec)
 
 void VideoUI::select_vid_codec()
 {
-    QString video_codec{this->source_codec};
+    this->video_codec = this->source_codec;
 
     //select video codec
     if(ui->videoCodecBox->currentIndex() == 0)
     {
         //copy
         //video_codec = "copy";
-        video_codec = this->source_codec;
+        this->video_codec = this->source_codec;
     }
     if(ui->videoCodecBox->currentIndex() == 2)
     {
         //x264
-        video_codec = "libx264";
+        this->video_codec = "libx264";
     }
     if(ui->videoCodecBox->currentIndex() == 3)
     {
         //x264 10bit
-        video_codec = "libx264";
+        this->video_codec = "libx264";
         pixel_format[1] = "yuv420p10le";
     }
     if(ui->videoCodecBox->currentIndex() == 4)
     {
         //x265
-        video_codec = "libx265";
+        this->video_codec = "libx265";
     }
     if(ui->videoCodecBox->currentIndex() == 5)
     {
         //x265 10bit
-        video_codec = "libx265";
+        this->video_codec = "libx265";
         pixel_format[1] = "yuv444p10le";
     }
     if(ui->videoCodecBox->currentIndex() == 6)
     {
         //x265 12bit
-        video_codec = "libx265";
+        this->video_codec = "libx265";
         pixel_format[1] = "yuv444p12le";
     }
     if(ui->videoCodecBox->currentIndex() == 7)
     {
         //Xvid
-        video_codec = "libxvid";
+        this->video_codec = "libxvid";
     }
     if(ui->videoCodecBox->currentIndex() == 8)
     {
         //vp9
-        video_codec = "libvpx-vp9";
+        this->video_codec = "libvpx-vp9";
     }
     if(ui->videoCodecBox->currentIndex() == 9)
     {
         //theora
-        video_codec = "libtheora";
+        this->video_codec = "libtheora";
     }
     if(ui->videoCodecBox->currentIndex() == 10)
     {
         //MPEG-1
-        video_codec = "mpeg1video";
+        this->video_codec = "mpeg1video";
     }
     if(ui->videoCodecBox->currentIndex() == 11)
     {
         //MPEG-2
-        video_codec = "mpeg2video";
+        this->video_codec = "mpeg2video";
     }
     if(ui->videoCodecBox->currentIndex() == 12)
     {
         //rav1e
-        video_codec = "librav1e";
+        this->video_codec = "librav1e";
     }
     /*else
     {
         video_codec = ui->videoCodecBox->currentText().toLower();
     }*/
-    Q_EMIT send_video_codec_name(video_codec);
     Q_EMIT send_vid_data(video_codec,0);
 }
 
@@ -784,19 +768,19 @@ void VideoUI::receive_vid_source_resolution(const QString &display)
 
 void VideoUI::select_vid_res()
 {
-    QString video_res_value{this->source_res};
+    this->video_res_value = this->source_res;
+
     //select video resolution
     if(ui->videoResBox->currentIndex() == 0)//it works!
     {
         //input1_vid_res holds the default res value for input_file1
         //video_res_value = "copy";
-        video_res_value = "scale="+this->source_res;
+        this->video_res_value = "scale="+this->source_res;
     }
     else
     {
-        video_res_value = "scale="+ui->videoResBox->currentText();
+        this->video_res_value = "scale="+ui->videoResBox->currentText();
     }
-    Q_EMIT send_video_resolution_value(video_res_value);
 }
 
 void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)
@@ -807,17 +791,17 @@ void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)
 //diplay aspect ratio
 void VideoUI::select_dar_value()
 {
-    QString video_dar_value{source_dar};
+    this->video_dar_value = this->source_dar;
+
     if(ui->videoAspectRatBox->currentIndex() == 0)
     {
         //vid_aspect_val = "copy";
-        video_dar_value = source_dar;
+        this->video_dar_value = this->source_dar;
     }
     else
     {
-        video_dar_value = ui->videoAspectRatBox->currentText();
+        this->video_dar_value = ui->videoAspectRatBox->currentText();
     }
-    Q_EMIT send_vid_display_aspect_ratio_val(video_dar_value);
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
@@ -827,18 +811,17 @@ void VideoUI::receive_vid_source_framerate(const QString &framerate)
 
 void VideoUI::select_vid_fps()
 {
-    QString video_fps_val{this->source_fps};
+    this->video_fps_val = this->source_fps;
 
     if(ui->videoFPSBox->currentIndex() == 0)
     {
         //video_fps_val = "copy";
-        video_fps_val = this->source_fps;
+        this->video_fps_val = this->source_fps;
     }
     else
     {
-        video_fps_val = ui->videoFPSBox->currentText();
+        this->video_fps_val = ui->videoFPSBox->currentText();
     }
-    Q_EMIT send_video_framerate_value(video_fps_val);
 }
 
 //creating options for encoder profile combobox
@@ -1514,13 +1497,13 @@ void VideoUI::get_vid_bitrate_field_data()
                         ui->videoAVGBitField->text().endsWith("M", Qt::CaseInsensitive))
                 {
                     video_bitrate = ui->videoAVGBitField->text().toLower().remove(" ");
-                    Q_EMIT send_average_bitrate_value(video_bitrate);
+                    //Q_EMIT send_average_bitrate_value(video_bitrate);
                 }
                 else
                 {
                     //videoAVGBitField data with numbers only
                     video_bitrate = ui->videoAVGBitField->text().remove(" ");
-                    Q_EMIT send_average_bitrate_value(video_bitrate);
+                    //Q_EMIT send_average_bitrate_value(video_bitrate);
                 }
             }
             else
@@ -1530,17 +1513,25 @@ void VideoUI::get_vid_bitrate_field_data()
 
                 //default to 6000k
                 video_bitrate = "6000k";
-                Q_EMIT send_average_bitrate_value(video_bitrate);
+                //Q_EMIT send_average_bitrate_value(video_bitrate);
             }
         }
         else
         {
             //default to 6000k
             video_bitrate = "6000k";
-            Q_EMIT send_average_bitrate_value(video_bitrate);
+            //Q_EMIT send_average_bitrate_value(video_bitrate);
             //ui->statusbar->showMessage("defaulting data to 6000k");
         }
     }
+}
+
+void VideoUI::get_selected_video_options()
+{
+    //emit the current selected video options
+    Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
+                                qscale_value, video_res_value, video_dar_value,
+                                video_fps_val, encoder_preset_val);
 }
 
 void VideoUI::receive_clear_request()

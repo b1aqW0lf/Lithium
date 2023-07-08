@@ -35,7 +35,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QDir>
 #include <QFile>
 #include <QMessageBox>
-#include <QKeyEvent>
 
 Transcode::Transcode(QWidget *parent)
     : QWidget{parent}
@@ -118,7 +117,7 @@ void Transcode::enable_two_pass_encode(const bool &status)
 {
     this->two_pass_val = status;
 }
-
+/*
 void Transcode::receive_vid_avg_bitrate(const QString &vid_avg_bitrate)
 {
     this->vid_avg_bitrate = vid_avg_bitrate;
@@ -151,13 +150,13 @@ void Transcode::receive_video_dar_value(const QString &dar)
 
 void Transcode::receive_video_framerate_val(const QString &framerate)
 {
-    this->vid_framerate = framerate;
+    this->video_fps = framerate;
 }
 
 void Transcode::receive_video_encoder_preset_val(const QString &preset)
 {
     this->vid_encoder_preset = preset;
-}
+}*/
 
 void Transcode::receive_audio_codec_name(const QString &codec)
 {
@@ -177,6 +176,25 @@ void Transcode::receive_audio_samplerate_val(const QString &samplerate)
 void Transcode::receive_audio_bitrate_val(const QString &bitrate)
 {
     this->audio_bitrate = bitrate;
+}
+
+//receive current video options
+void Transcode::receive_current_video_options(const QString &video_codec, const QString &video_bitrate,
+                                              const QString &crf_value, const QString &qscale_value,
+                                              const QString &video_res_value, const QString &video_dar_value,
+                                              const QString &video_fps_val, const QString &encoder_preset_val)
+{
+    this->video_codec = video_codec;
+    this->vid_avg_bitrate = video_bitrate;
+    this->crf_value = crf_value;
+    this->qscale_value = qscale_value;
+    this->video_res = video_res_value;
+    this->video_dar = video_dar_value;
+    this->video_fps = video_fps_val;
+    this->vid_encoder_preset = encoder_preset_val;
+
+    //start encode
+    normal_mode_transcode();
 }
 
 //use with actionEncode
@@ -382,7 +400,7 @@ void Transcode::normal_mode_transcode()
     //}
 
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_vid_file << "-c:v" << video_codec /*"libx264"*/ << "-crf"
+         << "-i" << source_vid_file << "-c:v" << video_codec << "-crf"
          << crf_value << "-speed" << vid_encoder_preset << "-c:a" << audio_codec
          << output_vid_file;
 

@@ -233,42 +233,27 @@ void MainWindow::application_connections_setup()
     connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_processing,
             this, &MainWindow::normal_mode_enabled);
 
-    connect(this, &MainWindow::start_normal_mode_process,
-            &transcoder, &Transcode::start_normal_mode_transcode);
+    connect(this, &MainWindow::start_encode_process,
+            ui->VideoUIWidget, &VideoUI::get_selected_video_options);
 
     connect(this, &MainWindow::cancel_encode_process,
             &transcoder, &Transcode::cancel_encode_process);
 
     //--------------------------------------------------------------------------//
 
+    //---------------------------------------------------------------------------//
+
     connect(ui->VideoUIWidget, &VideoUI::two_pass_encode_enabled,
             &transcoder, &Transcode::enable_two_pass_encode);
-
-    connect(ui->VideoUIWidget, &VideoUI::send_average_bitrate_value,
-            &transcoder, &Transcode::receive_vid_avg_bitrate);
 }
 
 void MainWindow::transcoder_connections_setup()
 {
     //transcoding connections----------------------------------------------------//
     //video transcoding
-    connect(ui->VideoUIWidget, &VideoUI::send_video_codec_name,
-            &transcoder, &Transcode::receive_video_codec_name);
-
-    connect(ui->VideoUIWidget, &VideoUI::send_video_crf_val,
-            &transcoder, &Transcode::receive_video_crf_val);
-
-    connect(ui->VideoUIWidget, &VideoUI::send_video_qscale_val,
-            &transcoder, &Transcode::receive_video_qscale_val);
-
-    connect(ui->VideoUIWidget, &VideoUI::send_video_resolution_value,
-            &transcoder, &Transcode::receive_video_res_value);
-
-    connect(ui->VideoUIWidget, &VideoUI::send_vid_display_aspect_ratio_val,
-            &transcoder, &Transcode::receive_video_dar_value);
-
-    connect(ui->VideoUIWidget, &VideoUI::send_video_framerate_value,
-            &transcoder, &Transcode::receive_video_framerate_val);
+    //send video option values to Transcode
+    connect(ui->VideoUIWidget, &VideoUI::send_current_video_options,
+            &transcoder, &Transcode::receive_current_video_options);
 
     //audio transcoding
     connect(ui->AudioUIWidget, &AudioUI::send_audio_codec_name,
@@ -300,13 +285,12 @@ void MainWindow::start_action_encode()
         return;
     }
     //ui->actionEncode->setCheckable(false);
-    Q_EMIT start_normal_mode_process();
+    Q_EMIT start_encode_process();
 }
 
 void MainWindow::cancel_action_encode()
 {
     ui->actionEncode->setChecked(false);
-    ui->actionEncode->setCheckable(true);
     Q_EMIT cancel_encode_process();
 }
 

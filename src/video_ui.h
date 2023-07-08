@@ -52,14 +52,13 @@ public:
 Q_SIGNALS:
     void send_output_vid_extension(const QString &text);
     void two_pass_encode_enabled(const bool &status);
-    void send_average_bitrate_value(const QString &value);
-    void send_video_crf_val(const QString &crf_val);
-    void send_video_qscale_val(const QString &qs_val);
-    void send_video_codec_name(const QString &codec);
-    void send_video_resolution_value(const QString &value);
-    void send_vid_display_aspect_ratio_val(const QString &dar);
-    void send_video_framerate_value(const QString &franerate);
-    void send_vid_encoder_preset_val(const QString &preset);
+    /*void send_average_bitrate_value(const QString &value);*/
+
+    //send current video options
+    void send_current_video_options(const QString &codec, const QString &video_bitrate,
+                               const QString &crf_val, const QString &qs_val,
+                               const QString &resolution, const QString &dar,
+                               const QString &framerate, const QString &encoder_preset);
 
     //for testing only!
     void send_vid_data(const QString &data, const int &timeout);
@@ -74,6 +73,9 @@ public Q_SLOTS:
     void receive_vid_source_bitrate(const QString &bitrate);
     void receive_vid_source_display_aspect_ratio(const QString &dar);
     void receive_clear_request();
+
+    //experimental
+    void get_selected_video_options();
 
 private:
     Ui::VideoUI *ui;
@@ -99,17 +101,17 @@ private Q_SLOTS:
 private:
     //processing variables
     QString preset{"-preset"};
-    QString enc_preset{};
+    QString encoder_preset_val{};
     QString enc_level{};
     QString crf_value{};
     QString qscale_value{};
+    QString video_codec{};
+    QString video_res_value{};
+    QString video_dar_value{};
+    QString video_fps_val{};
     QString video_bitrate{};
-    QString pr_value{};
-    //QString video_codec{};
-    //QString video_res_value{};
-    //QString vid_aspect_val{};
-    //QString video_fps_val{};
-    //QString vid_ext{};
+
+    //video source variables
     QString source_ext{};
     QString source_res{};
     QString source_codec{};
