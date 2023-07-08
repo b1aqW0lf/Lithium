@@ -527,7 +527,8 @@ void VideoUI::select_vid_codec()
 void VideoUI::vid_codec_interface()
 {
     //video codec interface settings
-    if(ui->videoCodecBox->currentIndex() == 2 ||
+    if(ui->videoCodecBox->currentIndex() == 0 ||
+        ui->videoCodecBox->currentIndex() == 2 ||
             ui->videoCodecBox->currentIndex() == 3)//x264 10bit
     {
         //default libx264 crf value is 23
