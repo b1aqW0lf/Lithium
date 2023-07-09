@@ -58,6 +58,8 @@ public:
 
 Q_SIGNALS:
     void start_encode_process();
+    //test
+    void start_audio_encode_process();
     void cancel_encode_process();
 
 public Q_SLOTS:

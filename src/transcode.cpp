@@ -117,74 +117,27 @@ void Transcode::enable_two_pass_encode(const bool &status)
 {
     this->two_pass_val = status;
 }
-/*
-void Transcode::receive_vid_avg_bitrate(const QString &vid_avg_bitrate)
-{
-    this->vid_avg_bitrate = vid_avg_bitrate;
-}
 
-void Transcode::receive_video_crf_val(const QString &crf_val)
-{
-    this->crf_value = crf_val;
-}
-
-void Transcode::receive_video_qscale_val(const QString &qs_val)
-{
-    this->qscale_value = qs_val;
-}
-
-void Transcode::receive_video_codec_name(const QString &codec)
-{
-    this->video_codec = codec;
-}
-
-void Transcode::receive_video_res_value(const QString &value)
-{
-    this->video_res = value;
-}
-
-void Transcode::receive_video_dar_value(const QString &dar)
-{
-    this->video_dar = dar;
-}
-
-void Transcode::receive_video_framerate_val(const QString &framerate)
-{
-    this->video_fps = framerate;
-}
-
-void Transcode::receive_video_encoder_preset_val(const QString &preset)
-{
-    this->vid_encoder_preset = preset;
-}*/
-
-void Transcode::receive_audio_codec_name(const QString &codec)
+//receive current audio options
+void Transcode::receive_current_audio_options(const QString &codec, const QString &channels,
+                                              const QString &samplerate, const QString &bitrate)
 {
     this->audio_codec = codec;
-}
-
-void Transcode::receive_audio_channels_val(const QString &channels)
-{
     this->audio_channels = channels;
-}
-
-void Transcode::receive_audio_samplerate_val(const QString &samplerate)
-{
     this->audio_samplerate = samplerate;
-}
-
-void Transcode::receive_audio_bitrate_val(const QString &bitrate)
-{
     this->audio_bitrate = bitrate;
+
+    //start encode
+    audio_settings_ready = true;
 }
 
 //receive current video options
-void Transcode::receive_current_video_options(const QString &video_codec, const QString &video_bitrate,
+void Transcode::receive_current_video_options(const QString &codec, const QString &video_bitrate,
                                               const QString &crf_value, const QString &qscale_value,
                                               const QString &video_res_value, const QString &video_dar_value,
                                               const QString &video_fps_val, const QString &encoder_preset_val)
 {
-    this->video_codec = video_codec;
+    this->video_codec = codec;
     this->vid_avg_bitrate = video_bitrate;
     this->crf_value = crf_value;
     this->qscale_value = qscale_value;
@@ -194,13 +147,23 @@ void Transcode::receive_current_video_options(const QString &video_codec, const 
     this->vid_encoder_preset = encoder_preset_val;
 
     //start encode
-    normal_mode_transcode();
+    video_settings_ready = true;
+    start_encode_check();/**/
+}
+
+
+void Transcode::start_encode_check()
+{
+    if(video_settings_ready == true && audio_settings_ready == true)
+    {
+        normal_mode_transcode();/**/
+    }
 }
 
 //use with actionEncode
 void Transcode::start_normal_mode_transcode()
 {
-    normal_mode_transcode();
+    //normal_mode_transcode();
 }
 
 void Transcode::normal_mode_transcode()
@@ -392,17 +355,13 @@ void Transcode::normal_mode_transcode()
                  << "-preset" << vid_encoder_preset << "-crf" << crf_value << "-c:a"
                  << audio_codec << "-ar" << audio_samplerate << "-b:a"
                  << audio_bitrate << "-ac" << audio_channels << output_vid_file; */
-
-            /*args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << source_vid_file << "-c:v" << video_codec << crf_value
-                 << "-c:a" << audio_codec << output_vid_file;*/
         //}
     //}
 
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_vid_file << "-c:v" << video_codec << "-crf"
          << crf_value << "-speed" << vid_encoder_preset << "-c:a" << audio_codec
-         << output_vid_file;
+         << "-b:a" << audio_bitrate << output_vid_file;
 
     ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef Q_OS_WIN    
@@ -449,10 +408,14 @@ void Transcode::encoding_process_finished()
     //Set the encoding status by checking output file's existence
     ffmpeg->waitForFinished();
 
-    if(QFile::exists(output_vid_file) && (this->ffmpeg->QProcess::exitStatus() == QProcess::NormalExit))
+    if(ffmpeg->QProcess::state() == QProcess::NotRunning &&
+        this->ffmpeg->QProcess::exitStatus() == QProcess::NormalExit)
     {
-        Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
-        //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
+        if(QFile::exists(output_vid_file))
+        {
+            Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
+            //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
+        }
     }
     Q_EMIT process_encode_finished();
     ffmpeg->closeWriteChannel();//close write channel after encoding finishes

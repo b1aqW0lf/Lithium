@@ -43,14 +43,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "src/audio_ui.h"
-#include "src/output_display_ui.h"
-#include "src/process_mode_ui.h"
-#include "src/save_as_ui.h"
-#include "src/select_source_ui.h"
-#include "src/statusbar_ui.h"
-#include "src/transcode.h"
-#include "src/video_ui.h"
+#include "audio_ui.h"
+#include "output_display_ui.h"
+#include "process_mode_ui.h"
+#include "save_as_ui.h"
+#include "select_source_ui.h"
+#include "statusbar_ui.h"
+#include "transcode.h"
+#include "video_ui.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -234,6 +234,9 @@ void MainWindow::application_connections_setup()
             this, &MainWindow::normal_mode_enabled);
 
     connect(this, &MainWindow::start_encode_process,
+            ui->AudioUIWidget, &AudioUI::get_selected_audio_options);/**/
+
+    connect(this, &MainWindow::start_encode_process,
             ui->VideoUIWidget, &VideoUI::get_selected_video_options);
 
     connect(this, &MainWindow::cancel_encode_process,
@@ -250,23 +253,15 @@ void MainWindow::application_connections_setup()
 void MainWindow::transcoder_connections_setup()
 {
     //transcoding connections----------------------------------------------------//
+    //audio transcoding
+    //send audio option values to Transcode
+    connect(ui->AudioUIWidget, &AudioUI::send_current_audio_options,
+            &transcoder, &Transcode::receive_current_audio_options);/**/
+
     //video transcoding
     //send video option values to Transcode
     connect(ui->VideoUIWidget, &VideoUI::send_current_video_options,
             &transcoder, &Transcode::receive_current_video_options);
-
-    //audio transcoding
-    connect(ui->AudioUIWidget, &AudioUI::send_audio_codec_name,
-            &transcoder, &Transcode::receive_audio_codec_name);
-
-    connect(ui->AudioUIWidget, &AudioUI::send_audio_channels_val,
-            &transcoder, &Transcode::receive_audio_channels_val);
-
-    connect(ui->AudioUIWidget, &AudioUI::send_audio_samplerate_val,
-            &transcoder, &Transcode::receive_audio_channels_val);
-
-    connect(ui->AudioUIWidget, &AudioUI::send_audio_bitrate_val,
-            &transcoder, &Transcode::receive_audio_bitrate_val);
 
     //trancoding
     connect(&transcoder, &Transcode::process_encode_finished,
@@ -286,6 +281,7 @@ void MainWindow::start_action_encode()
     }
     //ui->actionEncode->setCheckable(false);
     Q_EMIT start_encode_process();
+    //Q_EMIT start_audio_encode_process();
 }
 
 void MainWindow::cancel_action_encode()

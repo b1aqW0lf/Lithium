@@ -52,10 +52,14 @@ public:
 
 Q_SIGNALS:
     void send_output_audio_extension(const QString &text);
-    void send_audio_codec_name(const QString &codec);
+    /*void send_audio_codec_name(const QString &codec);
     void send_audio_channels_val(const QString &channels);
     void send_audio_samplerate_val(const QString &samplerate);
-    void send_audio_bitrate_val(const QString &bitrate);
+    void send_audio_bitrate_val(const QString &bitrate);*/
+
+    //experimental
+    void send_current_audio_options(const QString &codec, const QString &channels,
+                                    const QString &samplerate, const QString &bitrate);
 
     //for testing only!
     void send_audio_data(const QString &data, const int &timeout);
@@ -68,6 +72,9 @@ public Q_SLOTS:
     void receive_audio_source_samplerate(const QString &samplerate);
     void receive_audio_source_channels(const QString &channels);
 
+    //experimental
+    void get_selected_audio_options();
+
 private:
     Ui::AudioUI *ui;
 
@@ -79,12 +86,14 @@ private Q_SLOTS:
     void select_aud_container();
 
 private:
-    //QString audio_br_value{};
-    //QString audio_codec{};
-    //QString audio_sr_value{};
-    //QString audio_ac_value{};
+    //audio variables
     QString audio_source_ext{};
     QString audio_container{};
+    //-----------------------------------
+    QString audio_codec{};
+    QString audio_bitrate{};
+    QString audio_samplerate{};
+    QString audio_channels{};
     //-----------------------------------
     QString source_codec{};
     QString source_bitrate{};

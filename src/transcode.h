@@ -59,26 +59,17 @@ public Q_SLOTS:
     void receive_output_file_path(const QString &output_path);
     //void verify_output_video_file(const QString &output_video);
     void enable_two_pass_encode(const bool &status);
-    /*void receive_vid_avg_bitrate(const QString &vid_avg_bitrate);
-    void receive_video_crf_val(const QString &crf_val);
-    void receive_video_qscale_val(const QString &qs_val);
-    void receive_video_codec_name(const QString &codec);
-    void receive_video_res_value(const QString &value);
-    void receive_video_dar_value(const QString &dar);
-    void receive_video_framerate_val(const QString &framerate);
-    void receive_video_encoder_preset_val(const QString &preset);*/
 
     //receive current video options - in normal mode
-    void receive_current_video_options(const QString &video_codec, const QString &video_bitrate,
+    void receive_current_video_options(const QString &codec, const QString &video_bitrate,
                                        const QString &crf_value, const QString &qscale_value,
                                        const QString &video_res_value, const QString &video_dar_value,
                                        const QString &video_fps_val, const QString &encoder_preset_val);
 
     //audio processing
-    void receive_audio_codec_name(const QString &codec);
-    void receive_audio_channels_val(const QString &channels);
-    void receive_audio_samplerate_val(const QString &samplerate);
-    void receive_audio_bitrate_val(const QString &bitrate);
+    //receive current audio options - in normal mode
+    void receive_current_audio_options(const QString &codec, const QString &channels,
+                                       const QString &samplerate, const QString &bitrate);
 
     //normal mode
     void start_normal_mode_transcode();
@@ -97,11 +88,14 @@ private:
     void source_input_file_check();
     void output_video_path_check();
     void normal_mode_transcode();
+    void start_encode_check();
 
     //processing variables
     QString source_vid_file{};
     QString output_vid_file{};
     bool two_pass_val{};
+    bool video_settings_ready{};
+    bool audio_settings_ready{};
 
     //transcoder variables
     //video
