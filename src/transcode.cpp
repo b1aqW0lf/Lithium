@@ -363,7 +363,7 @@ void Transcode::normal_mode_transcode()
          << crf_value << "-speed" << vid_encoder_preset << "-c:a" << audio_codec
          << "-b:a" << audio_bitrate << output_vid_file;
 
-    ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
+    this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef Q_OS_WIN    
     QString application_path{QCoreApplication::applicationDirPath()};
     QString application_dir{QDir(application_path).absolutePath()};
@@ -381,9 +381,9 @@ void Transcode::normal_mode_transcode()
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
 #endif
-    ffmpeg->start(this->ffmpeg_path, args);
-    ffmpeg->waitForStarted();
-    if((ffmpeg->QProcess::state() == QProcess::Running))
+    this->ffmpeg->start(this->ffmpeg_path, args);
+    this->ffmpeg->waitForStarted();
+    if((this->ffmpeg->QProcess::state() == QProcess::Running))
     {
         //this logic works!
         Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
@@ -395,9 +395,9 @@ void Transcode::cancel_encode_process()
 {
     int timeout{0};
 
-    ffmpeg->kill();
-    ffmpeg->close();
-    ffmpeg->closeWriteChannel();
+    this->ffmpeg->kill();
+    this->ffmpeg->close();
+    this->ffmpeg->closeWriteChannel();
     Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
 }
 
@@ -406,17 +406,14 @@ void Transcode::encoding_process_finished()
     int timeout{0};
 
     //Set the encoding status by checking output file's existence
-    ffmpeg->waitForFinished();
+    this->ffmpeg->waitForFinished();
 
-    if(ffmpeg->QProcess::state() == QProcess::NotRunning &&
-        this->ffmpeg->QProcess::exitStatus() == QProcess::NormalExit)
+    if(QFile::exists(output_vid_file) &&
+        (this->ffmpeg->QProcess::exitStatus() == QProcess::NormalExit))
     {
-        if(QFile::exists(output_vid_file))
-        {
-            Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
-            //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
-        }
+        Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
+        //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
     }
-    Q_EMIT process_encode_finished();
-    ffmpeg->closeWriteChannel();//close write channel after encoding finishes
+    Q_EMIT enable_encode_button();
+    this->ffmpeg->closeWriteChannel();//close write channel after encoding finishes
 }

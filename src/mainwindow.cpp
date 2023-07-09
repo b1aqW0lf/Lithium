@@ -264,7 +264,7 @@ void MainWindow::transcoder_connections_setup()
             &transcoder, &Transcode::receive_current_video_options);
 
     //trancoding
-    connect(&transcoder, &Transcode::process_encode_finished,
+    connect(&transcoder, &Transcode::enable_encode_button,
             this, &MainWindow::enable_encode_button);
 }
 
