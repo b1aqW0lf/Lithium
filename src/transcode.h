@@ -58,7 +58,7 @@ public Q_SLOTS:
     void receive_source_video_file(const QString &source_video);
     void receive_output_file_path(const QString &output_path);
     //void verify_output_video_file(const QString &output_video);
-    void enable_two_pass_encode(const bool &status);
+    void two_pass_encode_enabled(const bool &status);
 
     //receive current video options - in normal mode
     void receive_current_video_options(const QString &codec, const QString &video_bitrate,

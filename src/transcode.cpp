@@ -113,7 +113,7 @@ void Transcode::output_video_path_check()
     }
 }
 
-void Transcode::enable_two_pass_encode(const bool &status)
+void Transcode::two_pass_encode_enabled(const bool &status)
 {
     this->two_pass_val = status;
 }
