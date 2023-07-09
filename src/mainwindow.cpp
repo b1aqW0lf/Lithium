@@ -247,7 +247,7 @@ void MainWindow::application_connections_setup()
     //---------------------------------------------------------------------------//
 
     connect(ui->VideoUIWidget, &VideoUI::two_pass_encode_enabled,
-            &transcoder, &Transcode::enable_two_pass_encode);
+            &transcoder, &Transcode::two_pass_encode_enabled);
 }
 
 void MainWindow::transcoder_connections_setup()
