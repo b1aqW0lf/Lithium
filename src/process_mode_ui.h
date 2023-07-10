@@ -68,11 +68,6 @@ private Q_SLOTS:
 private:
     //processing button group
     QButtonGroup *processButtons;
-
-    //mode variables
-    bool normal_mode{};
-    bool merge_sources{};
-    bool extract_audio{};
 };
 
 #endif // PROCESS_MODE_UI_H

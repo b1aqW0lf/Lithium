@@ -118,6 +118,11 @@ void ProcessModeUI::normal_processing_mode()
 
 void ProcessModeUI::current_process_mode()
 {
+    //mode variables
+    bool normal_mode{};
+    bool merge_sources{};
+    bool extract_audio{};
+
     if(ui->normalModeRadio->isChecked() == true)
     {
         normal_mode = true;
