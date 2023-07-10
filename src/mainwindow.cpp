@@ -283,13 +283,7 @@ void MainWindow::normal_mode_enabled(const bool &value)
 void MainWindow::start_action_encode()
 {
     Q_EMIT encode_mode_check();
-    if(this->normal_mode_val == true)
-    {
-        return;
-    }
-    //ui->actionEncode->setCheckable(false);
     Q_EMIT start_encode_process();
-    //Q_EMIT start_audio_encode_process();
 }
 
 void MainWindow::cancel_action_encode()
