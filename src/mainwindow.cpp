@@ -230,8 +230,8 @@ void MainWindow::application_connections_setup()
 
     //------------------------------------------------------------------------//
 
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_processing,
-            this, &MainWindow::normal_mode_enabled);
+    /*connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_processing,
+            this, &MainWindow::normal_mode_enabled);*/
 
     connect(this, &MainWindow::start_encode_process,
             ui->AudioUIWidget, &AudioUI::get_selected_audio_options);/**/
@@ -243,7 +243,14 @@ void MainWindow::application_connections_setup()
             &transcoder, &Transcode::cancel_encode_process);
 
     //--------------------------------------------------------------------------//
+    connect(this, &MainWindow::encode_mode_check,
+            ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode);
 
+    connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_status,
+            ui->statusbar, &QStatusBar::showMessage);
+
+    connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_state,
+            &transcoder, &Transcode::transcode_processing_mode);
     //---------------------------------------------------------------------------//
 
     connect(ui->VideoUIWidget, &VideoUI::two_pass_encode_enabled,
@@ -275,6 +282,7 @@ void MainWindow::normal_mode_enabled(const bool &value)
 
 void MainWindow::start_action_encode()
 {
+    Q_EMIT encode_mode_check();
     if(this->normal_mode_val == true)
     {
         return;

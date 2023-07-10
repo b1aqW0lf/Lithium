@@ -118,6 +118,13 @@ void Transcode::two_pass_encode_enabled(const bool &status)
     this->two_pass_val = status;
 }
 
+void Transcode::transcode_processing_mode(const bool &normal, const bool &merge, const bool &extract)
+{
+    this->normal_mode = normal;
+    this->merge_mode = merge;
+    this->extract_mode = extract;
+}
+
 //receive current audio options
 void Transcode::receive_current_audio_options(const QString &codec, const QString &channels,
                                               const QString &samplerate, const QString &bitrate)
@@ -126,9 +133,6 @@ void Transcode::receive_current_audio_options(const QString &codec, const QStrin
     this->audio_channels = channels;
     this->audio_samplerate = samplerate;
     this->audio_bitrate = bitrate;
-
-    //start encode
-    audio_settings_ready = true;
 }
 
 //receive current video options
@@ -147,16 +151,23 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
     this->vid_encoder_preset = encoder_preset_val;
 
     //start encode
-    video_settings_ready = true;
-    start_encode_check();/**/
+    start_encode_mode_check();/**/
 }
 
 
-void Transcode::start_encode_check()
+void Transcode::start_encode_mode_check()
 {
-    if(video_settings_ready == true && audio_settings_ready == true)
+    if(this->normal_mode == true)
     {
-        normal_mode_transcode();/**/
+        normal_mode_transcode();
+    }
+    else if(this->merge_mode == true)
+    {
+        return;
+    }
+    else if(this->extract_mode == true)
+    {
+        return;
     }
 }
 
@@ -171,192 +182,6 @@ void Transcode::normal_mode_transcode()
     int timeout{0};
     source_input_file_check();
     output_video_path_check();
-
-    /*//encoding processing
-    //sending input and output arguments to ffmpeg and start processing
-    //two-pass encoding
-    if(ui->twoPassEncode->isChecked())
-    {
-        //two-pass encoding after video and audio file have been merged
-        if(ui->mergeSourcesRadio->isChecked())
-        {
-            //actual two-pass merged sources code must be written
-            args << "-version";
-        }
-        //two-pass encoding after normal processing
-        if(ui->normalModeRadio->isChecked())
-        {
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << input_file1 << "-passlogfile" << "ffmpeg2pass"
-                 << "-c:v" << video_codec << "-b:v" << "2048k"
-                 << "-pass" << "1" << "-r" << vid_framerate << "-color_primaries"
-                 << "1" << "-color_trc" << "1" << "-colorspace" << "1"
-                 << "-pix_fmt" << "yuv420p" << "-an" << "-f" << "null"
-                 << "/dev/null" << "-i" << input_file1 << "-passlogfile"
-                 << "ffmpeg2pass" << "-c:v" << video_codec << "-b:v" << "2048k"
-                 << "-pass" << "2" << "-r" << video_fps_val << "-color_primaries"
-                 << "1" << "-color_trc" << "1" << "-colorspace" << "1"
-                 << "-pix_fmt" << "yuv420p" << "-c:a" << audio_codec
-                 << output_file;
-        }
-    }
-    if(ui->mergeSourcesRadio->isChecked() &&
-        !ui->twoPassEncode->isChecked())
-    {
-        //merge sources
-        args <<"-i"<< input_file1 <<"-i"<< input_file2 << "-c:v" << "copy"
-             << "-color_primaries" << "1" << "-color_trc" << "1"
-             << "-colorspace" << "1" << "-pix_fmt" << "yuv420p" << "-c:a"
-             << "copy" << "-map" << "0:0" << "-map" << "1:0" << output_file;
-    }
-    if(ui->extractAudioRadio->isChecked() &&
-        !ui->twoPassEncode->isChecked())
-    {
-        //extract audio
-        args <<"-i"<< input_file1 << "-vn" << "-c:a" << audio_codec << "-b:a"
-             << audio_br_value << output_file;
-    }*/
-    /*//---> two_pass_val = false;
-    if(this->two_pass_val == false)
-    {
-        //Normal Encoding Mode Processing
-        //processing with libxvid specific settings
-        if(video_codec == "libxvid")
-        {
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
-                 << video_res << "-aspect" << video_dar
-                 << "-color_primaries" << "1" << "-color_trc" << "1"
-                 << "-colorspace" << "1" << "-r" << vid_framerate
-                 << "-qscale:v" << qscale_value << "-g" << "240"
-                 << "-bf" << "2" << "-c:a" << audio_codec << "-ar"
-                 << audio_samplerate << "-b:a" << audio_bitrate << "-ac"
-                 << audio_channels << output_vid_file;
-        //---->}*/
-        //processing with libvpx-vp9 settings - single pass
-        /*else if(ui->videoCodecBox->currentIndex() == 5)
-        {
-            //disconnect select_qscale() from videoRFSlider
-            disconnect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                       this, SLOT(select_qscale()));
-            //reconnect select_crf() to videoRFSlider
-            connect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                    this, SLOT(select_crf()));
-
-            if(ui->videoAVGBitField->text().isEmpty())
-            {
-                //libvpx constant quality mode
-                video_bitrate = "0";
-            }
-            else if(!ui->videoAVGBitField->text().isEmpty())
-            {
-                //libvpx constrained quality mode
-                video_bitrate = ui->videoAVGBitField->text()+"k";
-            }
-            else
-            {
-                video_bitrate = ui->videoAVGBitField->text()+"k";
-            }
-
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << input_file1 << "-c:v" << video_codec << "-b:v"
-                 << video_bitrate << "-vf" << video_res_value << "-aspect"
-                 << vid_aspect_val << "-color_primaries" << "1" << "-color_trc"
-                 << "1" << "-colorspace" << "1" << "-r" << video_fps_val << "-crf"
-                 << crf_value << "-b:v" << video_br_value << "-c:a" << audio_codec
-                 << "-ar" << audio_sr_value << "-b:a" << audio_br_value << "-ac"
-                 << audio_ac_value << output_file;
-        }
-        //processing with libtheora specific settings
-        else if(ui->videoCodecBox->currentIndex() == 6)
-        {
-            //disconnect select_crf() from videoRFSlider
-            disconnect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                       this, SLOT(select_crf()));
-            //connect select_qscale() to videoRFSlider
-            connect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                    this, SLOT(select_qscale()));
-
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << input_file1 << "-c:v" << video_codec << "-vf"
-                 << video_res_value << "-aspect" << vid_aspect_val
-                 << "-color_primaries" << "1" << "-color_trc" << "1"
-                 << "-colorspace" << "1" << "-r" << video_fps_val << "-qscale:v"
-                 << video_qs_value << "-c:a" << audio_codec << "-ar"
-                 << audio_sr_value << "-b:a" << audio_br_value << "-ac"
-                 << audio_ac_value << output_file;
-        }
-        //processing with mpeg1/mpeg2 specific settings
-        else if(ui->videoCodecBox->currentIndex() == 7 ||
-                 ui->videoCodecBox->currentIndex() == 8)
-        {
-            //disconnect select_crf() from videoRFSlider
-            disconnect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                       this, SLOT(select_crf()));
-            //connect select_qscale() to videoRFSlider
-            connect(ui->videoRFSlider, SIGNAL(valueChanged(int)),
-                    this, SLOT(select_qscale()));
-
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << input_file1 << "-c:v" << video_codec << "-b:v"
-                 << video_bitrate << "-vf" << video_res_value << "-aspect"
-                 << vid_aspect_val << "-color_primaries" << "1" << "-color_trc"
-                 << "1" << "-colorspace" << "1" << "-r" << video_fps_val
-                 << "-bufsize:v" << "20000k" << "-maxrate" << "200000k" << "-bf"
-                 << "2" << "-qscale:v" << video_qs_value << "-c:a" << audio_codec
-                 << "-ar" << audio_sr_value << "-b:a" << audio_br_value << "-ac"
-                 << audio_ac_value << output_file;
-        }
-        //processing with librav1e/av1 specific settings
-        else if(ui->videoCodecBox->currentIndex() == 9)
-        {
-            //disconnect select_crf() from videoRFSlider
-            disconnect(ui->videoRFSlider, &QSlider::valueChanged,
-                       this, &MainWindow::select_crf);
-            //connect select_qscale() to videoRFSlider
-            connect(ui->videoRFSlider, &QSlider::valueChanged,
-                    this, &MainWindow::select_qscale);
-
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << input_file1 << "-c:v" << video_codec << "-b:v"
-                 << video_bitrate << "-vf" << video_res_value << "-aspect"
-                 << vid_aspect_val << "-pix_fmt" << "yuv420p" << "-f"
-                 << "yuv4mpegpipe" << "-color_primaries" << "1" << "-color_trc"
-                 << "1" << "-colorspace" << "1" << "-r" << video_fps_val
-                 << "-qp" << video_qs_value << "-speed" << pr_value
-                 << "-c:a" << audio_codec << "-ar" << audio_sr_value
-                 << "-b:a" << audio_br_value << "-ac" << audio_ac_value
-                 << output_file;
-        }
-        //normal processing mode
-        //copy, not transcode
-        else if(ui->audioCodecBox->currentIndex() == 0 &&
-                 ui->audioBitrateBox->currentIndex() == 0 &&
-                 ui->audioSampleBox->currentIndex() == 0 &&
-                 ui->audioChannelBox->currentIndex() == 0 &&
-                 ui->videoCodecBox->currentIndex() == 0 &&
-                 ui->videoResBox->currentIndex() == 0 &&
-                 ui->videoAspectRatBox->currentIndex() == 0 &&
-                 ui->videoFPSBox->currentIndex() == 0)
-        {
-            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << input_file1 << "-c:v" << "copy"
-                 << "-color_primaries" << "1" << "-color_trc" << "1"
-                 << "-colorspace" << "1" << "-pix_fmt" << "yuv420p" << "-c:a"
-                 << "copy" << output_file;
-        }*/
-        /*else
-        {*/
-            /*args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                 << "-i" << source_vid_file << "-c:v" << video_codec << "-vf"
-                 << video_res << pixel_format << "-aspect"
-                 << video_dar << "-color_primaries" << "1" << "-color_trc"
-                 << "1" << "-colorspace" << "1" << "-r" << vid_framerate
-                 << "-preset" << vid_encoder_preset << "-crf" << crf_value << "-c:a"
-                 << audio_codec << "-ar" << audio_samplerate << "-b:a"
-                 << audio_bitrate << "-ac" << audio_channels << output_vid_file; */
-        //}
-    //}
 
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_vid_file << "-c:v" << video_codec << "-crf"

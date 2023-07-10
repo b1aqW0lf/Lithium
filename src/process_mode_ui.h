@@ -50,20 +50,29 @@ public:
     ~ProcessModeUI();
 
 Q_SIGNALS:
-    void enable_normal_mode_processing(const bool &value);
+    void current_process_mode_state(const bool &normal, const bool &merge, const bool &extract);
+    void current_process_mode_status(const QString &status, const int &timeout);
     void source_2_field_setenabled(const bool &enabled);
+
+public Q_SLOTS:
+    void current_process_mode();
 
 private:
     Ui::ProcessModeUI *ui;
 
 private Q_SLOTS:
-    /*void merge_sources();
-    void extract_audio();*/
-    void set_normal_mode();
+    void merge_sources_mode();
+    void extract_audio_mode();
+    void normal_processing_mode();
 
 private:
     //processing button group
     QButtonGroup *processButtons;
+
+    //mode variables
+    bool normal_mode{};
+    bool merge_sources{};
+    bool extract_audio{};
 };
 
 #endif // PROCESS_MODE_UI_H
