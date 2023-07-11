@@ -64,6 +64,7 @@ AudioUI::AudioUI(QWidget *parent) :
                    << "PCM_s32le" << "PCM_s16be" << "PCM_s24be" << "PCM_s32be"
                    << "PCM_alaw" << "PCM_mulaw" << "PCM_u8";
     ui->audioCodecBox->insertItems(2, audioCodecList);
+    ui->audioCodecBox->setCurrentIndex(0);
 
     //audio bitrate
     ui->audioBitrateBox->insertItem(0, "Source");
@@ -72,6 +73,7 @@ AudioUI::AudioUI(QWidget *parent) :
                      << "224" << "256" << "320" << "384" << "448" << "512"
                      << "576" << "640" << "1536";
     ui->audioBitrateBox->insertItems(2, audioBitrateList);
+    ui->audioBitrateBox->setCurrentIndex(0);
 
     //audio sample rate
     ui->audioSampleBox->insertItem(0, "Source");
