@@ -32,7 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QComboBox>
 #include <QGroupBox>
 #include <QLabel>
-#include <QStringListModel>
 
 #include "audio_ui.h"
 
