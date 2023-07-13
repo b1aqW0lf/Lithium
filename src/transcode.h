@@ -94,7 +94,7 @@ private:
     //processing variables
     QString source_vid_file{};
     QString output_vid_file{};
-    bool two_pass_val{};
+    bool two_pass_enabled{};
 
     //transcoder variables
     //video
