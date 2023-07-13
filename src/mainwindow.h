@@ -63,7 +63,6 @@ Q_SIGNALS:
     void cancel_encode_process();
 
 public Q_SLOTS:
-    void normal_mode_enabled(const bool &value);
     void enable_encode_button();
 
 private Q_SLOTS:

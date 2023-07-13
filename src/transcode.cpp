@@ -171,12 +171,6 @@ void Transcode::start_encode_mode_check()
     }
 }
 
-//use with actionEncode
-void Transcode::start_normal_mode_transcode()
-{
-    //normal_mode_transcode();
-}
-
 void Transcode::normal_mode_transcode()
 {
     int timeout{0};

@@ -72,9 +72,6 @@ public Q_SLOTS:
     void receive_current_audio_options(const QString &codec, const QString &channels,
                                        const QString &samplerate, const QString &bitrate);
 
-    //normal mode
-    void start_normal_mode_transcode();
-
     //cancel
     void cancel_encode_process();
     void encoding_process_finished();

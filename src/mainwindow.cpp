@@ -275,11 +275,6 @@ void MainWindow::transcoder_connections_setup()
             this, &MainWindow::enable_encode_button);
 }
 
-void MainWindow::normal_mode_enabled(const bool &value)
-{
-    this->normal_mode_val = value;
-}
-
 void MainWindow::start_action_encode()
 {
     Q_EMIT encode_mode_check();
