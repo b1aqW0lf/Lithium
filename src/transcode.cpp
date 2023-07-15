@@ -68,7 +68,7 @@ void Transcode::source_input_file_check()
                                  tr("Input file not specified"));
 
         //ui->actionEncode->setChecked(false);
-        Q_EMIT encode_button_set_checked(false);
+        Q_EMIT enable_encode_button();
         return; //nothing is returned
     }
 }
@@ -89,7 +89,7 @@ void Transcode::output_video_path_check()
         QMessageBox::information(this, tr("Lithium"),
                                  tr("Output file not specified"));
 
-        Q_EMIT encode_button_set_checked(false);
+        Q_EMIT enable_encode_button();
         return; //nothing is returned
     }
 

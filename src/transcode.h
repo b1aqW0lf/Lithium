@@ -50,7 +50,6 @@ Q_SIGNALS:
     void source_vid_file_status(const QString &status, const int &timeout);
     void output_vid_file_status(const QString &status, const int &timeout);
     void send_encoder_status(const QString &status, const int &timeout);
-    bool encode_button_set_checked(const bool &checked);
     void enable_encode_button();
 
 public Q_SLOTS:
