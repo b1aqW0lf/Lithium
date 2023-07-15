@@ -119,7 +119,7 @@ void FFprocess::ffmpeg_location_setup()
         //Lithium root directory + ffmpeg executable
         this->ffmpeg_path = application_dir+"/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir);
-        ffmpeg_ready = true;
+        this->ffmpeg_ready = true;
     }
     else if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe") &&
             !QFile::exists(application_dir+"/ffmpeg.exe"))
@@ -127,7 +127,7 @@ void FFprocess::ffmpeg_location_setup()
         //Lithium root directory + "ffmpeg" sub directory + ffmpeg executable
         this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-        ffmpeg_ready = true;
+        this->ffmpeg_ready = true;
     }
     else if(QFile::exists(application_dir+"/ffmpeg.exe") &&
              QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
@@ -138,14 +138,14 @@ void FFprocess::ffmpeg_location_setup()
         this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8()));
         Q_EMIT ffmpeg_found("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8());
-        ffmpeg_ready = true;
+        this->ffmpeg_ready = true;
     }
     else
     {
         /*ui->ffProcWindow->setText(tr("FFmpeg executables not detected"));
         ui->statusbar->showMessage(tr("FFmpeg executables not detected"));*/
         Q_EMIT ffmpeg_found("FFmpeg executables not detected");
-        ffmpeg_ready = false;
+        this->ffmpeg_ready = false;
     }
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
@@ -166,7 +166,7 @@ void FFprocess::ffprobe_location_setup()
         //Lithium root directory + ffprobe executable
         this->ffprobe_path = application_dir+"/ffprobe.exe";
         this->ffprobe->setWorkingDirectory(application_dir);
-        ffprobe_ready = true;
+        this->ffprobe_ready = true;
     }
     else if(QFile::exists(application_dir+"/ffmpeg/ffprobe.exe") &&
             !QFile::exists(application_dir+"/ffprobe.exe"))
@@ -174,7 +174,7 @@ void FFprocess::ffprobe_location_setup()
         //Lithium root directory + "ffmpeg" sub directory + ffprobe executable
         this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
         this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
-        ffprobe_ready = true;
+        this->ffprobe_ready = true;
     }
     else if(QFile::exists(application_dir+"/ffprobe.exe") &&
              QFile::exists(application_dir+"/ffmpeg/ffprobe.exe"))
@@ -185,14 +185,14 @@ void FFprocess::ffprobe_location_setup()
         this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8()));
         Q_EMIT ffprobe_found("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8());
-        ffprobe_ready = true;
+        this->ffprobe_ready = true;
     }
     else
     {
         /*ui->ffProcWindow->setText(tr("FFprobe executable not detected"));
         ui->statusbar->showMessage(tr("FFprobe executable not detected"));*/
         Q_EMIT ffprobe_found("FFprobe executable not detected");
-        ffprobe_ready = false;
+        this->ffprobe_ready = false;
     }
 #elif defined Q_OS_LINUX
     this->ffprobe_path = "ffprobe";
@@ -213,7 +213,7 @@ void FFprocess::ffplay_location_setup()
         //Lithium root directory + ffplay executable
         this->ffplay_path = application_dir+"/ffplay.exe";
         this->ffplay->setWorkingDirectory(application_dir);
-        ffplay_ready = true;
+        this->ffplay_ready = true;
     }
     else if(QFile::exists(application_dir+"/ffmpeg/ffplay.exe") &&
             !QFile::exists(application_dir+"/ffplay.exe"))
@@ -221,7 +221,7 @@ void FFprocess::ffplay_location_setup()
         //Lithium root directory + "ffmpeg" sub directory + ffplay executable
         this->ffplay_path = application_dir+"/ffmpeg/ffplay.exe";
         this->ffplay->setWorkingDirectory(application_dir+"/ffmpeg");
-        ffplay_ready = true;
+        this->ffplay_ready = true;
     }
     else if(QFile::exists(application_dir+"/ffplay.exe") &&
              QFile::exists(application_dir+"/ffmpeg/ffplay.exe"))
@@ -232,14 +232,14 @@ void FFprocess::ffplay_location_setup()
         this->ffplay->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8()));
         Q_EMIT ffmpeg_found("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8());
-        ffplay_ready = true;
+        this->ffplay_ready = true;
     }
     else
     {
         /*ui->ffProcWindow->setText(tr("FFplay executable not detected"));
         ui->statusbar->showMessage(tr("FFplay executable not detected"));*/
         Q_EMIT ffplay_found("FFplay executable not detected");
-        ffplay_ready = false;
+        this->ffplay_ready = false;
     }
 #elif defined Q_OS_LINUX
     this->ffplay_path = "ffplay";
@@ -298,7 +298,8 @@ void FFprocess::send_ffmpeg_status()
 {
     int message_timeout{0};//status bar message timeout value
 #ifdef Q_OS_WIN
-    if(ffmpeg_ready == true && ffprobe_ready == true && ffplay_ready == true)
+    if(this->ffmpeg_ready == true && this->ffprobe_ready == true &&
+        this->ffplay_ready == true)
     {
         Q_EMIT ffmpeg_ready_status("Ready",message_timeout);
     }
