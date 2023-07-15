@@ -154,8 +154,8 @@ void MainWindow::application_connections_setup()
             ui->statusbar, &QStatusBar::showMessage);*/
     //-------------------------------------------------------------//
 
-    /*connect(&process, &FFprocess::ffmpeg_ready_status,
-            ui->statusbar, &QStatusBar::showMessage);*/
+    connect(&process, &FFprocess::ffmpeg_ready_status,
+            ui->statusbar, &QStatusBar::showMessage);/**/
 
     connect(&process, &FFprocess::ffmpeg_read_output,
             ui->OuputDisplayWidget, &OutputDisplayUI::textEdit_display_output);

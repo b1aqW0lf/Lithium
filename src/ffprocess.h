@@ -100,6 +100,11 @@ private:
     QString ffmpeg_path{};
     QString ffprobe_path{};
     QString ffplay_path{};
+
+    //ffmpeg status variables
+    bool ffmpeg_ready{};
+    bool ffprobe_ready{};
+    bool ffplay_ready{};
 };
 
 #endif // FFPROCESS_H
