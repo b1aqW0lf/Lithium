@@ -223,10 +223,33 @@ void Transcode::cancel_encode_process()
 {
     int timeout{0};
 
-    this->ffmpeg->kill();
-    this->ffmpeg->close();
-    this->ffmpeg->closeWriteChannel();
-    Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
+    if(this->ffmpeg->QProcess::state() == QProcess::NotRunning)
+    {
+        //check for existence of the input file
+        if(this->source_vid_file.isEmpty())
+        {
+            Q_EMIT source_vid_file_status(tr("No Input to cancel"), timeout);
+            QMessageBox::information(this, tr("Lithium"),
+                                     tr("Input file not specified"));
+            return; //nothing is returned
+        }
+
+        //check for the existence of a specified output file
+        if(this->output_vid_file.isEmpty())
+        {
+            Q_EMIT output_vid_file_status(tr("No Output is being processed"), timeout);
+            QMessageBox::information(this, tr("Lithium"),
+                                     tr("No Output file was specified"));
+            return; //nothing is returned
+        }
+    }
+    else
+    {
+        this->ffmpeg->kill();
+        this->ffmpeg->close();
+        this->ffmpeg->closeWriteChannel();
+        Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
+    }
 }
 
 void Transcode::encoding_process_finished()
