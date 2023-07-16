@@ -64,6 +64,12 @@ MainWindow::MainWindow(QWidget *parent)
     application_connections_setup();
     transcoder_connections_setup();
 
+    //toolbar settings
+    ui->toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    ui->toolbar->setIconSize(QSize(32,32));
+    ui->toolbar->setMovable(false);
+    ui->toolbar->setFloatable(false);
+
     //enable action bar
     ui->toolbar->addAction(ui->actionEncode);
     ui->toolbar->addAction(ui->actionCancel);
@@ -77,6 +83,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionCancel->setShortcut(Qt::CTRL+Qt::Key_X);
     ui->actionEncode->setToolTip(tr("Start Encoding"));
     ui->actionCancel->setToolTip(tr("Cancel Encoding"));
+    ui->actionEncode->setIcon(QIcon(":/images/resources/ffmpeg_96x96.svg"));
+    ui->actionCancel->setIcon(QIcon(":/images/resources/actionCancel.svg"));
 
 
     //display progress bar and statusbar

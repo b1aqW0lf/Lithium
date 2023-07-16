@@ -12,5 +12,7 @@
         <file>resources/drive-harddisk_px16.png</file>
         <file>resources/hd_16px.png</file>
         <file>resources/clear_icon.png</file>
+        <file>resources/actionCancel.svg</file>
+        <file>resources/ffmpeg_96x96.svg</file>
     </qresource>
 </RCC>
