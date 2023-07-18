@@ -247,8 +247,6 @@ void FFprocess::ffplay_location_setup()
 
 }
 
-
-
 void FFprocess::ffmpeg_process_started()
 {
     ffmpeg->waitForStarted();
@@ -298,8 +296,9 @@ void FFprocess::send_ffmpeg_status()
 {
     int message_timeout{0};//status bar message timeout value
 #ifdef Q_OS_WIN
-    if(this->ffmpeg_ready == true && this->ffprobe_ready == true &&
-        this->ffplay_ready == true)
+    if((this->ffmpeg_ready == true) &&
+        (this->ffprobe_ready == true) &&
+        (this->ffplay_ready == true))
     {
         Q_EMIT ffmpeg_ready_status("Ready",message_timeout);
     }
