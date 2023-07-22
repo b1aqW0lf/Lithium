@@ -47,12 +47,6 @@ public:
     explicit FFprocess(QProcess *parent = nullptr);
     ~FFprocess();
 
-public:
-    //ffmpeg executables as processes
-    QProcess *ffmpeg; //transcodes, encodes, records, and streams files
-    QProcess *ffprobe;//examines input and output files
-    QProcess *ffplay; //play input and output files
-
 Q_SIGNALS:
     void ffmpeg_read_output(const QString &output);
     void ffprobe_read_output(const QString &output);
@@ -82,6 +76,11 @@ private Q_SLOTS:
     void ffprobe_process_cancelled();*/
 
 private:
+    //ffmpeg executables as processes
+    QProcess *ffmpeg; //transcodes, encodes, records, and streams files
+    QProcess *ffprobe;//examines input and output files
+    QProcess *ffplay; //play input and output files
+
     //ffmpeg status functions
     void ffmpeg_location_setup();
     void ffprobe_location_setup();
