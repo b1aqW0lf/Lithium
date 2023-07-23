@@ -242,6 +242,13 @@ void Transcode::cancel_encode_process()
                                      tr("No Output file was specified"));
             return; //nothing is returned
         }
+
+        //check if source_vid_file has data but ffmpeg is not running
+        if(!this->source_vid_file.isEmpty())
+        {
+            this->ffmpeg->closeWriteChannel();
+            Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
+        }
     }
     else
     {
