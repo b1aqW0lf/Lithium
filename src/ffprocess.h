@@ -50,9 +50,9 @@ public:
 Q_SIGNALS:
     void ffmpeg_read_output(const QString &output);
     void ffprobe_read_output(const QString &output);
-    void ffmpeg_found(const QString &status);
-    void ffprobe_found(const QString &status);
-    void ffplay_found(const QString &status);
+    void ffmpeg_detected_status(const QString &status);
+    void ffprobe_detected_status(const QString &status);
+    void ffplay_detected_status(const QString &status);
     void ffmpeg_ready_status(const QString &status, const int &stat);
     void ffmpeg_started();
     void ffprobe_started();

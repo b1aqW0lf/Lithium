@@ -137,14 +137,14 @@ void FFprocess::ffmpeg_location_setup()
         this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffmpeg_found("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8());
+        Q_EMIT ffmpeg_detected_status("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8());
         this->ffmpeg_ready = true;
     }
     else
     {
         /*ui->ffProcWindow->setText(tr("FFmpeg executables not detected"));
         ui->statusbar->showMessage(tr("FFmpeg executables not detected"));*/
-        Q_EMIT ffmpeg_found("FFmpeg executables not detected");
+        Q_EMIT ffmpeg_detected_status("FFmpeg executables not detected");
         this->ffmpeg_ready = false;
     }
 #elif defined Q_OS_LINUX
@@ -184,14 +184,14 @@ void FFprocess::ffprobe_location_setup()
         this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
         this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffprobe_found("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8());
+        Q_EMIT ffprobe_detected_status("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8());
         this->ffprobe_ready = true;
     }
     else
     {
         /*ui->ffProcWindow->setText(tr("FFprobe executable not detected"));
         ui->statusbar->showMessage(tr("FFprobe executable not detected"));*/
-        Q_EMIT ffprobe_found("FFprobe executable not detected");
+        Q_EMIT ffprobe_detected_status("FFprobe executable not detected");
         this->ffprobe_ready = false;
     }
 #elif defined Q_OS_LINUX
@@ -231,14 +231,14 @@ void FFprocess::ffplay_location_setup()
         this->ffplay_path = application_dir+"/ffmpeg/ffplay.exe";
         this->ffplay->setWorkingDirectory(application_dir+"/ffmpeg");
         //ui->statusbar->showMessage(tr("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffmpeg_found("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8());
+        Q_EMIT ffplay_detected_status("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8());
         this->ffplay_ready = true;
     }
     else
     {
         /*ui->ffProcWindow->setText(tr("FFplay executable not detected"));
         ui->statusbar->showMessage(tr("FFplay executable not detected"));*/
-        Q_EMIT ffplay_found("FFplay executable not detected");
+        Q_EMIT ffplay_detected_status("FFplay executable not detected");
         this->ffplay_ready = false;
     }
 #elif defined Q_OS_LINUX
