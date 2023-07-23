@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionCancel->setShortcut(Qt::CTRL+Qt::Key_X);
     ui->actionEncode->setToolTip(tr("Start Encoding"));
     ui->actionCancel->setToolTip(tr("Cancel Encoding"));
-    ui->actionEncode->setIcon(QIcon(":/images/resources/ffmpeg_96x96.svg"));
+    ui->actionEncode->setIcon(QIcon(":/images/resources/ffmpeg-96x96.svg"));
     ui->actionCancel->setIcon(QIcon(":/images/resources/actionCancel.svg"));
 
 
