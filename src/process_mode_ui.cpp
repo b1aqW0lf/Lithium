@@ -32,7 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "process_mode_ui.h"
 #include "ui_process_mode_ui.h"
 
-#include <QCheckBox>
 #include <QGroupBox>
 #include <QRadioButton>
 
