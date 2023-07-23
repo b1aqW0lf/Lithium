@@ -175,6 +175,19 @@ void MainWindow::application_connections_setup()
     connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
             ui->statusbar, &QStatusBar::showMessage);
 
+    //------------------------------------------------------------------//
+
+#ifdef Q_OS_WIN
+    connect(&process, &FFprocess::ffmpeg_detected_status,
+            ui->statusbar, &QStatusBar::showMessage);
+
+    connect(&process, &FFprocess::ffprobe_detected_status,
+            ui->statusbar, &QStatusBar::showMessage);
+
+    connect(&process, &FFprocess::ffplay_detected_status,
+            ui->statusbar, &QStatusBar::showMessage);
+#endif
+
     //temp connection-for testing only--------------------------------//
 
     connect(ui->VideoUIWidget, &VideoUI::send_vid_data,
