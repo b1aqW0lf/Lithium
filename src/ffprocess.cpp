@@ -137,9 +137,8 @@ void FFprocess::ffmpeg_location_setup()
         //use ffmpeg found in user-created "ffmpeg" subdirectory
         this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-        //ui->statusbar->showMessage(tr("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffmpeg_detected_status("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8(),
-                                      timeout);
+        Q_EMIT ffmpeg_detected_status(tr("Using ffmpeg found in "+(application_dir+"/ffmpeg").toUtf8(),
+                                         timeout));
         this->ffmpeg_ready = true;
     }
     else
@@ -186,9 +185,8 @@ void FFprocess::ffprobe_location_setup()
         //use ffprobe found in user-created "ffmpeg" subdirectory
         this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
         this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
-        //ui->statusbar->showMessage(tr("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffprobe_detected_status("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8(),
-                                       timeout);
+        Q_EMIT ffprobe_detected_status(tr("Using ffprobe found in "+(application_dir+"/ffmpeg").toUtf8(),
+                                          timeout));
         this->ffprobe_ready = true;
     }
     else
@@ -235,9 +233,8 @@ void FFprocess::ffplay_location_setup()
         //use ffplay found in user-created "ffmpeg" subdirectory
         this->ffplay_path = application_dir+"/ffmpeg/ffplay.exe";
         this->ffplay->setWorkingDirectory(application_dir+"/ffmpeg");
-        //ui->statusbar->showMessage(tr("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8()));
-        Q_EMIT ffplay_detected_status("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8(),
-                                      timeout);
+        Q_EMIT ffplay_detected_status(tr("Using ffplay found in "+(application_dir+"/ffmpeg").toUtf8(),
+                                         timeout));
         this->ffplay_ready = true;
     }
     else
