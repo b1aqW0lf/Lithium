@@ -251,9 +251,6 @@ void MainWindow::application_connections_setup()
 
     //------------------------------------------------------------------------//
 
-    /*connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_processing,
-            this, &MainWindow::normal_mode_enabled);*/
-
     connect(this, &MainWindow::start_encode_process,
             ui->AudioUIWidget, &AudioUI::get_selected_audio_options);/**/
 
