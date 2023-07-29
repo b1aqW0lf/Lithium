@@ -450,6 +450,7 @@ void VideoUI::receive_vid_source_codec(const QString &codec)
 
 void VideoUI::select_vid_codec()
 {
+    int timeout{0};
     this->video_codec = this->source_codec;
 
     //select video codec
@@ -521,7 +522,7 @@ void VideoUI::select_vid_codec()
     {
         video_codec = ui->videoCodecBox->currentText().toLower();
     }*/
-    Q_EMIT send_vid_data(video_codec,0);
+    Q_EMIT send_vid_data(video_codec,timeout);
 }
 
 void VideoUI::vid_codec_interface()
