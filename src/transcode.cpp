@@ -188,7 +188,8 @@ void Transcode::normal_mode_transcode()
         args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
              << "-i" << source_vid_file << "-c:v" << video_codec << "-crf"
              << crf_value << "-speed" << vid_encoder_preset << "-c:a" << audio_codec
-             << "-b:a" << audio_bitrate << "-map_metadata" << "0" << output_vid_file;
+             << "-b:a" << audio_bitrate << "-ar" << audio_samplerate << "-ac"
+             << audio_channels << "-map_metadata" << "0" << output_vid_file;
 
 #ifdef Q_OS_WIN
         QString application_path{QCoreApplication::applicationDirPath()};
