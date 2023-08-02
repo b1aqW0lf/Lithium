@@ -186,9 +186,11 @@ void Transcode::normal_mode_transcode()
     {
         //normal transcode
         args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-             << "-i" << source_vid_file << "-c:v" << video_codec << "-crf"
-             << crf_value << "-speed" << vid_encoder_preset << "-c:a" << audio_codec
-             << "-b:a" << audio_bitrate << "-ar" << audio_samplerate << "-ac"
+             << "-i" << source_vid_file << "-c:v" << video_codec
+             << "-crf" << crf_value << "-speed" << vid_encoder_preset
+             << "-color_primaries" << "1" << "-color_trc" << "1"
+             << "-colorspace" << "1" << "-c:a" << audio_codec << "-b:a"
+             << audio_bitrate << "-ar" << audio_samplerate << "-ac"
              << audio_channels << "-map_metadata" << "0" << output_vid_file;
 
 #ifdef Q_OS_WIN
