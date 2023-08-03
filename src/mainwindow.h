@@ -61,7 +61,6 @@ Q_SIGNALS:
     //test
     void encode_mode_check();
     void cancel_encode_process();
-    void stop_ffmpeg_process();
 
 public Q_SLOTS:
     void enable_encode_button();
