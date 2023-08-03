@@ -46,7 +46,11 @@ Transcode::Transcode(QWidget *parent)
             this, &Transcode::encoding_process_finished);
 }
 
-Transcode::~Transcode(){}
+Transcode::~Transcode()
+{
+    //stop ffmpeg if application closes before it exits normally
+    this->ffmpeg->terminate();
+}
 
 void Transcode::receive_source_video_file(const QString &source_video)
 {
