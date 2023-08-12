@@ -257,6 +257,9 @@ void MainWindow::application_connections_setup()
     connect(this, &MainWindow::start_encode_process,
             ui->VideoUIWidget, &VideoUI::get_selected_video_options);
 
+    connect(this, &MainWindow::start_encode_process,
+            ui->SaveASWidget, &SaveAsUI::send_output_file);
+
     connect(this, &MainWindow::cancel_encode_process,
             &transcoder, &Transcode::cancel_encode_process);
 
