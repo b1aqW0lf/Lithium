@@ -53,12 +53,16 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void receive_output_extension(const QString &text);
+    void send_output_file();
 
 private Q_SLOTS:
     void select_output();
 
 private:
     Ui::SaveAsUI *ui;
+
+    //variable
+    QString ext{};
 
 /*public:
     QString output_file{};*/
