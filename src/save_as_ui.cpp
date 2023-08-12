@@ -80,12 +80,7 @@ void SaveAsUI::select_output()
     Q_EMIT send_output_file_path(ui->saveASEdit->text());
 }
 
-void SaveAsUI::receive_output_extension(const QString &text)
-{
-    this->ext = text;
-}
-
-void SaveAsUI::send_output_file()
+void SaveAsUI::receive_output_extension(const QString &ext)
 {
     QString saveAs_line_data{ui->saveASEdit->text()};
     //based on code from qtffmpeg
@@ -94,5 +89,10 @@ void SaveAsUI::send_output_file()
     {
         ui->saveASEdit->setText(saveAs_line_data+ext);
     }
+    send_output_file();
+}
+
+void SaveAsUI::send_output_file()
+{
     Q_EMIT send_output_file_path(ui->saveASEdit->text());
 }

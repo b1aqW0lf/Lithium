@@ -61,9 +61,6 @@ private Q_SLOTS:
 private:
     Ui::SaveAsUI *ui;
 
-    //variable
-    QString ext{};
-
 /*public:
     QString output_file{};*/
 };
