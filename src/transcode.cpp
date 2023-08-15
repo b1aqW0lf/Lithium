@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
  Copyright (c) 2020-2023 b1aqW0lf
 All rights reserved.
 
@@ -49,7 +49,7 @@ Transcode::Transcode(QWidget *parent)
 Transcode::~Transcode()
 {
     //stop ffmpeg if application closes before it exits normally
-    this->ffmpeg->terminate();
+    delete ffmpeg;
 }
 
 void Transcode::receive_source_video_file(const QString &source_video)
@@ -98,10 +98,10 @@ void Transcode::output_video_path_check()
     }
 
     //check if specified output file already exists
-    //use output_vid_file in this test
-    Q_EMIT output_vid_file_status(tr("Output file check... ").append(this->output_vid_file), timeout);
     if(QFile::exists(this->output_vid_file))
     {
+        //use output_vid_file in this test
+        Q_EMIT output_vid_file_status(tr("Output file check... ").append(this->output_vid_file), timeout);
         if(QMessageBox::question(this, tr("Lithium"),
                                   tr("There already exists a file called %1 in "
                                      "the currect directory. Overwrite file?").arg(output_vid_file),
