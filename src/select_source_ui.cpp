@@ -66,7 +66,7 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     ui->sourceInput2Edit->setPlaceholderText(tr("Select audio file"));
     ui->source2Label->setText(tr("Source 2:"));
 
-    //source2 input field default settings
+    //default mode
     normal_mode_settings_enabled();
 
     //enable clear button
