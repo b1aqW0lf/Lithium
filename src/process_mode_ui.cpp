@@ -98,13 +98,8 @@ void ProcessModeUI::extract_audio_mode()
 void ProcessModeUI::normal_processing_mode()
 {
     int timeout{0};
-    //set default Source 2 field settings -- disable Source 2 fields
-    /*ui->sourceInput2Edit->setEnabled(false);
-    ui->sourceBrowse2->setEnabled(false);
-    ui->source2Label->setEnabled(false);
-    ui->sourceInput2Edit->setToolTip("");//turn off source 2 tool tip*/
-    //ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
-    //normal mode prcoessing in is done in conversion_prep()
+
+    //normal mode settinhs in select_source
     Q_EMIT current_process_mode_status("Normal Processing Mode Enabled", timeout);
     Q_EMIT enable_normal_mode_settings();
 }
