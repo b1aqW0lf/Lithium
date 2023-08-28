@@ -164,3 +164,11 @@ void SelectSourceUI::merge_sources_settings_enabled()
     ui->sourceBrowseBtn2->setEnabled(true);
     ui->source2Label->setEnabled(true);
 }
+
+void SelectSourceUI::normal_mode_settings_enabled()
+{
+    //normal mode settings
+    ui->sourceInput2Edit->setEnabled(false);
+    ui->sourceBrowseBtn2->setEnabled(false);
+    ui->source2Label->setEnabled(false);
+}

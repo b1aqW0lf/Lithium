@@ -106,7 +106,7 @@ void ProcessModeUI::normal_processing_mode()
     //ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
     //normal mode prcoessing in is done in conversion_prep()
     Q_EMIT current_process_mode_status("Normal Processing Mode Enabled", timeout);
-
+    Q_EMIT enable_normal_mode_settings();
 }
 
 void ProcessModeUI::current_process_mode()

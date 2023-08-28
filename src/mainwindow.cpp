@@ -282,6 +282,9 @@ void MainWindow::application_connections_setup()
     connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_merge_sources_settings,
             ui->SelectSourceWidget, &SelectSourceUI::merge_sources_settings_enabled);
 
+    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_settings,
+            ui->SelectSourceWidget, &SelectSourceUI::normal_mode_settings_enabled);
+
     //-----------------------------------------------------------------------------//
 }
 
