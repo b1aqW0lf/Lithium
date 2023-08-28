@@ -278,6 +278,11 @@ void MainWindow::application_connections_setup()
             &transcoder, &Transcode::two_pass_encode_enabled);
 
     //--------------------------------------------------------------------------//
+
+    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_merge_sources_settings,
+            ui->SelectSourceWidget, &SelectSourceUI::merge_sources_settings_enabled);
+
+    //-----------------------------------------------------------------------------//
 }
 
 void MainWindow::transcoder_connections_setup()

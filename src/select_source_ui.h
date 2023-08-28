@@ -55,6 +55,9 @@ Q_SIGNALS:
     void current_audio_source_file(const QString &text);
     void clear_input1_data();
 
+public Q_SLOTS:
+    void merge_sources_settings_enabled();
+
 private:
     Ui::SelectSourceUI *ui;
 

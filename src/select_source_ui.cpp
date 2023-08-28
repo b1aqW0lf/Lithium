@@ -156,3 +156,11 @@ void SelectSourceUI::select_input2()
         Q_EMIT current_audio_source_file(input_file2);
     }
 }
+
+void SelectSourceUI::merge_sources_settings_enabled()
+{
+    //merge sources settings
+    ui->sourceInput2Edit->setEnabled(true);
+    ui->sourceBrowseBtn2->setEnabled(true);
+    ui->source2Label->setEnabled(true);
+}

@@ -84,6 +84,7 @@ void ProcessModeUI::merge_sources_mode()
                                                 "with video source"));*/
     //merging sources 1 and 2 is done in encoding_started()
     Q_EMIT current_process_mode_status("Merge Sources Mode Enabled", timeout);
+    Q_EMIT enable_merge_sources_settings();
 }
 
 void ProcessModeUI::extract_audio_mode()
@@ -108,7 +109,6 @@ void ProcessModeUI::normal_processing_mode()
     ui->sourceBrowse2->setEnabled(false);
     ui->source2Label->setEnabled(false);
     ui->sourceInput2Edit->setToolTip("");//turn off source 2 tool tip*/
-    Q_EMIT source_2_field_setenabled(false);
     //ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
     //normal mode prcoessing in is done in conversion_prep()
     Q_EMIT current_process_mode_status("Normal Processing Mode Enabled", timeout);

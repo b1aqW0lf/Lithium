@@ -52,7 +52,7 @@ public:
 Q_SIGNALS:
     void current_process_mode_state(const bool &normal, const bool &merge, const bool &extract);
     void current_process_mode_status(const QString &status, const int &timeout);
-    void source_2_field_setenabled(const bool &enabled);
+    void enable_merge_sources_settings();
 
 public Q_SLOTS:
     void current_process_mode();
