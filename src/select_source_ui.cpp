@@ -62,15 +62,12 @@ SelectSourceUI::SelectSourceUI(QWidget *parent) :
     //source1 input field default settings
     ui->sourceInput1Edit->setToolTip(tr("Select video file to process"));
     ui->sourceInput1Edit->setPlaceholderText(tr("Select video file to process"));
-    //ui->source1Label->setTextFormat(Qt::RichText);//it works
     ui->source1Label->setText(tr("Source 1:"));//use HTML formating to bold text
-
-    //source2 input field default settings
-    ui->sourceInput2Edit->setEnabled(false);
-    ui->sourceBrowseBtn2->setEnabled(false);
-    ui->source2Label->setEnabled(false);
     ui->sourceInput2Edit->setPlaceholderText(tr("Select audio file"));
     ui->source2Label->setText(tr("Source 2:"));
+
+    //source2 input field default settings
+    normal_mode_settings_enabled();
 
     //enable clear button
     ui->sourceInput1Edit->setClearButtonEnabled(true);
