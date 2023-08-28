@@ -285,6 +285,9 @@ void MainWindow::application_connections_setup()
     connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_settings,
             ui->SelectSourceWidget, &SelectSourceUI::normal_mode_settings_enabled);
 
+    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_extract_audio_settings,
+            ui->SelectSourceWidget, &SelectSourceUI::extract_audio_settings_enabled);
+
     //-----------------------------------------------------------------------------//
 }
 

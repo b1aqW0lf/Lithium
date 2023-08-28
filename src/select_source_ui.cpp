@@ -171,3 +171,12 @@ void SelectSourceUI::normal_mode_settings_enabled()
     ui->source2Label->setEnabled(false);
     ui->sourceInput2Edit->setToolTip(tr(""));
 }
+
+void SelectSourceUI::extract_audio_settings_enabled()
+{
+    //extract audio settings
+    ui->sourceInput2Edit->setEnabled(false);
+    ui->sourceBrowseBtn2->setEnabled(false);
+    ui->source2Label->setEnabled(false);
+    ui->sourceInput2Edit->setToolTip(tr(""));
+}

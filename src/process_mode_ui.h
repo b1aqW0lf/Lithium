@@ -54,6 +54,7 @@ Q_SIGNALS:
     void current_process_mode_status(const QString &status, const int &timeout);
     void enable_merge_sources_settings();
     void enable_normal_mode_settings();
+    void enable_extract_audio_settings();
 
 public Q_SLOTS:
     void current_process_mode();

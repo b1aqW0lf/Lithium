@@ -58,6 +58,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void merge_sources_settings_enabled();
     void normal_mode_settings_enabled();
+    void extract_audio_settings_enabled();
 
 private:
     Ui::SelectSourceUI *ui;

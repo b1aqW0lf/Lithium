@@ -93,7 +93,8 @@ void ProcessModeUI::extract_audio_mode()
                                      " to extract an audio stream from"));*/
     //audio extraction prcoessing in is done in conversion_prep()
     Q_EMIT current_process_mode_status("Extract Audio Mode Enabled", timeout);
-}/**/
+    Q_EMIT enable_extract_audio_settings();
+}
 
 void ProcessModeUI::normal_processing_mode()
 {
