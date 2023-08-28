@@ -75,14 +75,8 @@ ProcessModeUI::~ProcessModeUI()
 void ProcessModeUI::merge_sources_mode()
 {
     int timeout{0};
-    /*//enable the Source 2 fields
-    ui->sourceInput2Edit->setEnabled(true);
-    ui->sourceBrowse2->setEnabled(true);
-    ui->source2Label->setEnabled(true);
-    ui->sourceInput1Edit->setToolTip(tr("Select video source to merge"));
-    ui->sourceInput2Edit->setToolTip(tr("Select audio source to merge "
-                                                "with video source"));*/
-    //merging sources 1 and 2 is done in encoding_started()
+
+    //merging sources settings in select_source
     Q_EMIT current_process_mode_status("Merge Sources Mode Enabled", timeout);
     Q_EMIT enable_merge_sources_settings();
 }
