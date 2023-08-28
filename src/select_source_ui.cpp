@@ -160,6 +160,7 @@ void SelectSourceUI::merge_sources_settings_enabled()
     ui->sourceInput2Edit->setEnabled(true);
     ui->sourceBrowseBtn2->setEnabled(true);
     ui->source2Label->setEnabled(true);
+    ui->sourceInput2Edit->setToolTip(tr("Select audio file"));
 }
 
 void SelectSourceUI::normal_mode_settings_enabled()
@@ -168,4 +169,5 @@ void SelectSourceUI::normal_mode_settings_enabled()
     ui->sourceInput2Edit->setEnabled(false);
     ui->sourceBrowseBtn2->setEnabled(false);
     ui->source2Label->setEnabled(false);
+    ui->sourceInput2Edit->setToolTip(tr(""));
 }
