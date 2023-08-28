@@ -84,14 +84,8 @@ void ProcessModeUI::merge_sources_mode()
 void ProcessModeUI::extract_audio_mode()
 {
     int timeout{0};
-    /*//disable the Source 2 fields
-    ui->sourceInput2Edit->setDisabled(true);
-    ui->sourceBrowse2->setDisabled(true);
-    ui->source2Label->setDisabled(true);
-    ui->sourceInput2Edit->setToolTip("");//turn off source 2 tool tip
-    ui->sourceInput1Edit->setToolTip(tr("Select video file in Source 1 field"
-                                     " to extract an audio stream from"));*/
-    //audio extraction prcoessing in is done in conversion_prep()
+
+    //audio extract settings in select_source
     Q_EMIT current_process_mode_status("Extract Audio Mode Enabled", timeout);
     Q_EMIT enable_extract_audio_settings();
 }
