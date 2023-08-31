@@ -110,14 +110,14 @@ void SelectSourceUI::send_video_source_data()
 void SelectSourceUI::send_audio_source_data()
 {
     //get current sourceInput2Edit file and extension
-    QString source_audio_text{};
-    QString source_audio_ext{};
-    source_audio_text = ui->sourceInput2Edit->text();
+    QString source_text{};
+    QString source_ext{};
+    source_text = ui->sourceInput2Edit->text();
     //Q_EMIT current_audio_source_file(source_audio_text);
 
     //based on code from qtffmpeg
-    source_audio_ext = source_audio_text.mid(source_audio_text.lastIndexOf("."));
-    Q_EMIT current_audio_source_extension(source_audio_ext);
+    source_ext = source_text.mid(source_text.lastIndexOf("."));
+    Q_EMIT current_audio_source_extension(source_ext);
 }
 
 //select first input file to convert
