@@ -82,7 +82,7 @@ private:
     QStringList args{};
 
     //functions
-    void source_input_file_check();
+    void source_video_file_check();
     void output_video_path_check();
     void normal_mode_transcode();
     void start_encode_mode_check();

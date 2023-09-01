@@ -57,7 +57,7 @@ void Transcode::receive_source_video_file(const QString &source_video)
     this->source_vid_file = source_video;
 }
 
-void Transcode::source_input_file_check()
+void Transcode::source_video_file_check()
 {
     //conversion preparation
     //ffmpeg argument
@@ -178,7 +178,7 @@ void Transcode::start_encode_mode_check()
 void Transcode::normal_mode_transcode()
 {
     int timeout{0};
-    source_input_file_check();
+    source_video_file_check();
     output_video_path_check();
 
     if(this->two_pass_enabled == true)
