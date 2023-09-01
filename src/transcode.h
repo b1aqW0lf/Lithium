@@ -87,6 +87,7 @@ private:
     void source_audio_file_check();
     void output_video_path_check();
     void normal_mode_transcode();
+    void merge_mode_transcode();
     void start_encode_mode_check();
 
     //processing variables
