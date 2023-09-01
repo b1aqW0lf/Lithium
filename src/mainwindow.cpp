@@ -237,7 +237,7 @@ void MainWindow::application_connections_setup()
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
             &transcoder, &Transcode::receive_source_video_file);
 
-    connect(&transcoder, &Transcode::source_vid_file_status,
+    connect(&transcoder, &Transcode::source_file_status,
             ui->statusbar, &QStatusBar::showMessage);
 
     connect(&transcoder, &Transcode::output_vid_file_status,

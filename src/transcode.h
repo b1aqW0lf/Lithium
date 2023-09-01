@@ -47,7 +47,7 @@ public:
     ~Transcode();
 
 Q_SIGNALS:
-    void source_vid_file_status(const QString &status, const int &timeout);
+    void source_file_status(const QString &status, const int &timeout);
     void output_vid_file_status(const QString &status, const int &timeout);
     void send_encoder_status(const QString &status, const int &timeout);
     void enable_encode_button();
@@ -83,12 +83,14 @@ private:
 
     //functions
     void source_video_file_check();
+    void source_audio_file_check();
     void output_video_path_check();
     void normal_mode_transcode();
     void start_encode_mode_check();
 
     //processing variables
-    QString source_vid_file{};
+    QString source_video_file{};
+    QString source_audio_file{};
     QString output_vid_file{};
     bool two_pass_enabled{};
 

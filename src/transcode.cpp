@@ -54,7 +54,7 @@ Transcode::~Transcode()
 
 void Transcode::receive_source_video_file(const QString &source_video)
 {
-    this->source_vid_file = source_video;
+    this->source_video_file = source_video;
 }
 
 void Transcode::source_video_file_check()
@@ -65,9 +65,27 @@ void Transcode::source_video_file_check()
     int timeout{0};
 
     //check for existence of the input file
-    if(this->source_vid_file.isEmpty())
+    if(this->source_video_file.isEmpty())
     {
-        Q_EMIT source_vid_file_status(tr("No Input"), timeout);
+        Q_EMIT source_file_status(tr("No Input"), timeout);
+        QMessageBox::information(this, tr("Lithium"),
+                                 tr("Input file not specified"));
+
+        //ui->actionEncode->setChecked(false);
+        Q_EMIT enable_encode_button();
+        return; //nothing is returned
+    }
+}
+
+void Transcode::source_audio_file_check()
+{
+    //conversion preparation
+    int timeout{0};
+
+    //check for existence of the input file
+    if(this->source_audio_file.isEmpty())
+    {
+        Q_EMIT source_file_status(tr("No Input"), timeout);
         QMessageBox::information(this, tr("Lithium"),
                                  tr("Input file not specified"));
 
@@ -190,7 +208,7 @@ void Transcode::normal_mode_transcode()
     {
         //normal transcode
         args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-             << "-i" << source_vid_file << "-c:v" << video_codec
+             << "-i" << source_video_file << "-c:v" << video_codec
              << "-crf" << crf_value << "-speed" << vid_encoder_preset
              << "-color_primaries" << "1" << "-color_trc" << "1"
              << "-colorspace" << "1" << "-c:a" << audio_codec << "-b:a"
@@ -233,9 +251,9 @@ void Transcode::cancel_encode_process()
     if(this->ffmpeg->QProcess::state() == QProcess::NotRunning)
     {
         //check for existence of the input file
-        if(this->source_vid_file.isEmpty())
+        if(this->source_video_file.isEmpty())
         {
-            Q_EMIT source_vid_file_status(tr("No Input to cancel"), timeout);
+            Q_EMIT source_file_status(tr("No Input to cancel"), timeout);
             QMessageBox::information(this, tr("Lithium"),
                                      tr("Input file not specified"));
             return; //nothing is returned
@@ -251,7 +269,7 @@ void Transcode::cancel_encode_process()
         }
 
         //check if source_vid_file has data but ffmpeg is not running
-        if(!this->source_vid_file.isEmpty())
+        if(!this->source_video_file.isEmpty())
         {
             this->ffmpeg->closeWriteChannel();
             Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
