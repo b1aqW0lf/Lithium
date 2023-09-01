@@ -57,6 +57,11 @@ void Transcode::receive_source_video_file(const QString &source_video)
     this->source_video_file = source_video;
 }
 
+void Transcode::receive_source_audio_file(const QString &source_audio)
+{
+    this->source_audio_file = source_audio;
+}
+
 void Transcode::source_video_file_check()
 {
     //conversion preparation
