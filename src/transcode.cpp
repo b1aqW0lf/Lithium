@@ -248,9 +248,9 @@ void Transcode::normal_mode_transcode()
 void Transcode::merge_mode_transcode()
 {
     int timeout{0};
-    /*source_video_file_check();
+    source_video_file_check();
     source_audio_file_check();
-    output_video_path_check();*/
+    output_video_path_check();
 
     //merge sources transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
