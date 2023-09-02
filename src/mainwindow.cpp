@@ -43,14 +43,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "audio_ui.h"
-#include "output_display_ui.h"
-#include "process_mode_ui.h"
-#include "save_as_ui.h"
-#include "select_source_ui.h"
-#include "statusbar_ui.h"
-#include "transcode.h"
-#include "video_ui.h"
+#include "src/audio_ui.h"
+#include "src/output_display_ui.h"
+#include "src/process_mode_ui.h"
+#include "src/save_as_ui.h"
+#include "src/select_source_ui.h"
+#include "src/statusbar_ui.h"
+#include "src/transcode.h"
+#include "src/video_ui.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -133,7 +133,7 @@ void MainWindow::local_connections_setup()
 
 void MainWindow::application_connections_setup()
 {
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_extension,
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_extension,
             ui->VideoUIWidget, &VideoUI::receive_vid_source_extension);
 
     connect(ui->VideoUIWidget, &VideoUI::send_output_vid_extension,
@@ -151,7 +151,7 @@ void MainWindow::application_connections_setup()
     /*connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
             &inputProbe, &InputSourceProbe::receive_audio_file_path);*/
 
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_file,
             &inputProbe, &InputSourceProbe::start_probe_process);
 
     //temp connection-for testing only-----------------------------//
@@ -234,7 +234,7 @@ void MainWindow::application_connections_setup()
 
     //----------------------------------------------------------------------//
 
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_vid_source_file,
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_file,
             &transcoder, &Transcode::receive_source_video_file);
 
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,

@@ -103,7 +103,7 @@ void SelectSourceUI::send_video_source_data()
 
     //based on code from qtffmpeg
     source_ext = source_text.mid(source_text.lastIndexOf("."));
-    Q_EMIT current_vid_source_extension(source_ext);
+    Q_EMIT current_video_source_extension(source_ext);
 }
 
 //send audio source input source extension
@@ -133,7 +133,7 @@ void SelectSourceUI::select_input1()//complete!
     if(!input_file1.isEmpty())
     {
         ui->sourceInput1Edit->setText(input_file1);
-        Q_EMIT current_vid_source_file(input_file1);
+        Q_EMIT current_video_source_file(input_file1);
     }
 }
 

@@ -49,9 +49,9 @@ public:
     ~SelectSourceUI();
 
 Q_SIGNALS:
-    void current_vid_source_extension(const QString &text);
+    void current_video_source_extension(const QString &text);
     void current_audio_source_extension(const QString &text);
-    void current_vid_source_file(const QString &text);
+    void current_video_source_file(const QString &text);
     void current_audio_source_file(const QString &text);
     void clear_input1_data();
 
