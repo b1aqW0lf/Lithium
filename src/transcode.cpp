@@ -212,9 +212,10 @@ void Transcode::normal_mode_transcode()
         //normal transcode
         args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
              << "-i" << source_video_file << "-c:v" << video_codec
+             << "-crf" << crf_value << "-preset" << vid_encoder_preset
              << "-color_primaries" << "1" << "-color_trc" << "1"
-             << "-colorspace" << "1" << "-map_metadata" << "0"
-             << "-c:a" << audio_codec << output_file;
+             << "-colorspace" << "1" << "-c:a" << audio_codec
+             << "-map_metadata" << "0" << output_file;
 
 #ifdef Q_OS_WIN
         QString application_path{QCoreApplication::applicationDirPath()};

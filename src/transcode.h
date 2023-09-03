@@ -57,7 +57,6 @@ public Q_SLOTS:
     void receive_source_video_file(const QString &source_video);
     void receive_source_audio_file(const QString &source_audio);
     void receive_output_file_path(const QString &output_path);
-    //void verify_output_video_file(const QString &output_video);
     void two_pass_encode_enabled(const bool &status);
     void transcode_processing_mode(const bool &normal, const bool &merge, const bool &extract);
 

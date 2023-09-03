@@ -71,6 +71,7 @@ public Q_SLOTS:
     void receive_audio_source_bitrate(const QString &bitrate);
     void receive_audio_source_samplerate(const QString &samplerate);
     void receive_audio_source_channels(const QString &channels);
+    void receive_process_mode_state(const bool &normal, const bool &merge, const bool &extract);
 
     //experimental
     void get_selected_audio_options();
@@ -99,7 +100,15 @@ private:
     QString source_bitrate{};
     QString source_samplerate{};
     QString source_channels{};
-    //-----------------------------------
+    //------------------------------------
+    //process mode state
+    bool normal_mode{};
+    bool merge_mode{};
+    bool extract_mode{};
+    //------------------------------------
+    //fuctions
+    void enable_extract_audio_settings(const bool &extract);
+    //------------------------------------
     //Interface String Lists
     QStringList audioCodecList{};
     QStringList audioBitrateList{};

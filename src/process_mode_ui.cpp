@@ -79,6 +79,7 @@ void ProcessModeUI::merge_sources_mode()
     //merging sources settings in select_source
     Q_EMIT current_process_mode_status("Merge Sources Mode Enabled", timeout);
     Q_EMIT enable_merge_sources_settings();
+    current_process_mode();
 }
 
 void ProcessModeUI::extract_audio_mode()
@@ -88,6 +89,7 @@ void ProcessModeUI::extract_audio_mode()
     //audio extract settings in select_source
     Q_EMIT current_process_mode_status("Extract Audio Mode Enabled", timeout);
     Q_EMIT enable_extract_audio_settings();
+    current_process_mode();
 }
 
 void ProcessModeUI::normal_processing_mode()
@@ -97,6 +99,7 @@ void ProcessModeUI::normal_processing_mode()
     //normal mode settings in select_source
     Q_EMIT current_process_mode_status("Normal Processing Mode Enabled", timeout);
     Q_EMIT enable_normal_mode_settings();
+    current_process_mode();
 }
 
 void ProcessModeUI::current_process_mode()

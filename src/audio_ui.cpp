@@ -309,3 +309,27 @@ void AudioUI::get_selected_audio_options()
     Q_EMIT send_current_audio_options(audio_codec, audio_channels,
                                       audio_samplerate, audio_bitrate);
 }
+
+void AudioUI::receive_process_mode_state(const bool &normal, const bool &merge,
+                                             const bool &extract)
+{
+    //process mode state
+    this->normal_mode = normal;
+    this->merge_mode = merge;
+    this->extract_mode = extract;
+
+    enable_extract_audio_settings(extract_mode);
+}
+
+void AudioUI::enable_extract_audio_settings(const bool &extract)
+{
+    //extract audio settings
+    if(extract == true)
+    {
+        ui->audioContainerBox->setEnabled(true);
+    }
+    else
+    {
+        ui->audioContainerBox->setEnabled(false);
+    }
+}
