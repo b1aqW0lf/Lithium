@@ -94,7 +94,7 @@ void ProcessModeUI::normal_processing_mode()
 {
     int timeout{0};
 
-    //normal mode settinhs in select_source
+    //normal mode settings in select_source
     Q_EMIT current_process_mode_status("Normal Processing Mode Enabled", timeout);
     Q_EMIT enable_normal_mode_settings();
 }

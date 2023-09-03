@@ -138,6 +138,41 @@ void Transcode::output_video_path_check()
     }
 }
 
+void Transcode::output_audio_path_check()//need to complete
+{
+    int timeout{0};
+
+    //check for the existence of a specified output file
+    if(this->output_audio_file.isEmpty())
+    {
+        Q_EMIT output_vid_file_status(tr("No Output"), timeout);
+        QMessageBox::information(this, tr("Lithium"),
+                                 tr("Output file not specified"));
+
+        Q_EMIT enable_encode_button();
+        return; //nothing is returned
+    }
+
+    //check if specified output file already exists
+    if(QFile::exists(this->output_audio_file))
+    {
+        //use output_vid_file in this test
+        Q_EMIT output_vid_file_status(tr("Output file check... ").append(this->output_audio_file), timeout);
+        if(QMessageBox::question(this, tr("Lithium"),
+                                  tr("There already exists a file called %1 in "
+                                     "the currect directory. Overwrite file?").arg(output_audio_file),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
+            == QMessageBox::No)
+            return;
+        QFile::remove(this->output_audio_file);
+
+        while(QFile::exists(this->output_audio_file))
+        {
+            Q_EMIT output_vid_file_status(tr("Output file path is set"), timeout);
+        }
+    }
+}
+
 void Transcode::two_pass_encode_enabled(const bool &status)
 {
     this->two_pass_enabled = status;
@@ -192,7 +227,7 @@ void Transcode::start_encode_mode_check()
     }
     else if(this->extract_mode == true)
     {
-        return;
+        extract_mode_transcode();
     }
 }
 
@@ -251,6 +286,47 @@ void Transcode::merge_mode_transcode()
     source_video_file_check();
     source_audio_file_check();
     output_video_path_check();
+
+    //merge sources transcode
+    args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+         << "-i" << source_video_file << "-i" << source_audio_file
+         << "-c:v" << video_codec << "-crf" << crf_value << "-preset"
+         << vid_encoder_preset << "-c:a" << audio_codec << "-map_metadata"
+         << "0" << output_vid_file;
+
+#ifdef Q_OS_WIN
+    QString application_path{QCoreApplication::applicationDirPath()};
+    QString application_dir{QDir(application_path).absolutePath()};
+
+    if(QFile::exists(application_dir+"/ffmpeg.exe"))
+    {
+        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir);
+    }
+    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
+    {
+        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
+    }
+#elif defined Q_OS_LINUX
+    this->ffmpeg_path = "ffmpeg";
+#endif
+    this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
+    this->ffmpeg->start(this->ffmpeg_path, args);
+    this->ffmpeg->waitForStarted();
+    if((this->ffmpeg->QProcess::state() == QProcess::Running))
+    {
+        //this logic works!
+        Q_EMIT send_encoder_status(tr("Encoding Started -- Merging "), timeout);
+    }
+    args.clear();
+}
+
+void Transcode::extract_mode_transcode()
+{
+    int timeout{0};
+    source_video_file_check();
+    output_audio_path_check();//-->need to implement
 
     //merge sources transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
