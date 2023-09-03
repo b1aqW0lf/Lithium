@@ -86,7 +86,6 @@ private:
     void source_video_file_check();
     void source_audio_file_check();
     void output_file_path_check();
-    void output_audio_path_check();
     void normal_mode_transcode();
     void merge_mode_transcode();
     void extract_mode_transcode();
@@ -96,7 +95,6 @@ private:
     QString source_video_file{};
     QString source_audio_file{};
     QString output_file{};
-    QString output_audio_file{};
     bool two_pass_enabled{};
 
     //transcoder variables

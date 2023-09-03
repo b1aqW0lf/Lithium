@@ -138,41 +138,6 @@ void Transcode::output_file_path_check()
     }
 }
 
-void Transcode::output_audio_path_check()//need to complete
-{
-    int timeout{0};
-
-    //check for the existence of a specified output file
-    if(this->output_audio_file.isEmpty())
-    {
-        Q_EMIT output_file_status(tr("No Output"), timeout);
-        QMessageBox::information(this, tr("Lithium"),
-                                 tr("Output file not specified"));
-
-        Q_EMIT enable_encode_button();
-        return; //nothing is returned
-    }
-
-    //check if specified output file already exists
-    if(QFile::exists(this->output_audio_file))
-    {
-        //use output_vid_file in this test
-        Q_EMIT output_file_status(tr("Output file check... ").append(this->output_audio_file), timeout);
-        if(QMessageBox::question(this, tr("Lithium"),
-                                  tr("There already exists a file called %1 in "
-                                     "the currect directory. Overwrite file?").arg(output_audio_file),
-                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
-            == QMessageBox::No)
-            return;
-        QFile::remove(this->output_audio_file);
-
-        while(QFile::exists(this->output_audio_file))
-        {
-            Q_EMIT output_file_status(tr("Output file path is set"), timeout);
-        }
-    }
-}
-
 void Transcode::two_pass_encode_enabled(const bool &status)
 {
     this->two_pass_enabled = status;
@@ -326,7 +291,7 @@ void Transcode::extract_mode_transcode()
 {
     int timeout{0};
     source_video_file_check();
-    output_audio_path_check();//-->need to implement
+    output_file_path_check();
 
     //merge sources transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
@@ -379,7 +344,7 @@ void Transcode::cancel_encode_process()
         //check for the existence of a specified output file
         if(this->output_file.isEmpty())
         {
-            Q_EMIT output_vid_file_status(tr("No Output is being processed"), timeout);
+            Q_EMIT output_file_status(tr("No Output is being processed"), timeout);
             QMessageBox::information(this, tr("Lithium"),
                                      tr("No Output file was specified"));
             return; //nothing is returned
