@@ -326,10 +326,12 @@ void AudioUI::enable_extract_audio_settings(const bool &extract)
     //extract audio settings
     if(extract == true)
     {
+        ui->audioContainerLabel->setEnabled(true);
         ui->audioContainerBox->setEnabled(true);
     }
     else
     {
+        ui->audioContainerLabel->setEnabled(false);
         ui->audioContainerBox->setEnabled(false);
     }
 }
