@@ -243,7 +243,7 @@ void MainWindow::application_connections_setup()
     connect(&transcoder, &Transcode::source_file_status,
             ui->statusbar, &QStatusBar::showMessage);
 
-    connect(&transcoder, &Transcode::output_vid_file_status,
+    connect(&transcoder, &Transcode::output_file_status,
             ui->statusbar, &QStatusBar::showMessage);
 
     connect(&transcoder, &Transcode::send_encoder_status,

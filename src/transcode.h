@@ -48,7 +48,7 @@ public:
 
 Q_SIGNALS:
     void source_file_status(const QString &status, const int &timeout);
-    void output_vid_file_status(const QString &status, const int &timeout);
+    void output_file_status(const QString &status, const int &timeout);
     void send_encoder_status(const QString &status, const int &timeout);
     void enable_encode_button();
 
@@ -85,7 +85,7 @@ private:
     //functions
     void source_video_file_check();
     void source_audio_file_check();
-    void output_video_path_check();
+    void output_file_path_check();
     void output_audio_path_check();
     void normal_mode_transcode();
     void merge_mode_transcode();
@@ -95,7 +95,7 @@ private:
     //processing variables
     QString source_video_file{};
     QString source_audio_file{};
-    QString output_vid_file{};
+    QString output_file{};
     QString output_audio_file{};
     bool two_pass_enabled{};
 

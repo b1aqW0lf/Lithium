@@ -100,17 +100,17 @@ void Transcode::source_audio_file_check()
 
 void Transcode::receive_output_file_path(const QString &output_path)
 {
-    this->output_vid_file = output_path;
+    this->output_file = output_path;
 }
 
-void Transcode::output_video_path_check()
+void Transcode::output_file_path_check()
 {
     int timeout{0};
 
     //check for the existence of a specified output file
-    if(this->output_vid_file.isEmpty())
+    if(this->output_file.isEmpty())
     {
-        Q_EMIT output_vid_file_status(tr("No Output"), timeout);
+        Q_EMIT output_file_status(tr("No Output"), timeout);
         QMessageBox::information(this, tr("Lithium"),
                                  tr("Output file not specified"));
 
@@ -119,21 +119,21 @@ void Transcode::output_video_path_check()
     }
 
     //check if specified output file already exists
-    if(QFile::exists(this->output_vid_file))
+    if(QFile::exists(this->output_file))
     {
         //use output_vid_file in this test
-        Q_EMIT output_vid_file_status(tr("Output file check... ").append(this->output_vid_file), timeout);
+        Q_EMIT output_file_status(tr("Output file check... ").append(this->output_file), timeout);
         if(QMessageBox::question(this, tr("Lithium"),
                                   tr("There already exists a file called %1 in "
-                                     "the currect directory. Overwrite file?").arg(output_vid_file),
+                                     "the currect directory. Overwrite file?").arg(output_file),
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
             == QMessageBox::No)
             return;
-        QFile::remove(this->output_vid_file);
+        QFile::remove(this->output_file);
 
-        while(QFile::exists(this->output_vid_file))
+        while(QFile::exists(this->output_file))
         {
-            Q_EMIT output_vid_file_status(tr("Output file path is set"), timeout);
+            Q_EMIT output_file_status(tr("Output file path is set"), timeout);
         }
     }
 }
@@ -145,7 +145,7 @@ void Transcode::output_audio_path_check()//need to complete
     //check for the existence of a specified output file
     if(this->output_audio_file.isEmpty())
     {
-        Q_EMIT output_vid_file_status(tr("No Output"), timeout);
+        Q_EMIT output_file_status(tr("No Output"), timeout);
         QMessageBox::information(this, tr("Lithium"),
                                  tr("Output file not specified"));
 
@@ -157,7 +157,7 @@ void Transcode::output_audio_path_check()//need to complete
     if(QFile::exists(this->output_audio_file))
     {
         //use output_vid_file in this test
-        Q_EMIT output_vid_file_status(tr("Output file check... ").append(this->output_audio_file), timeout);
+        Q_EMIT output_file_status(tr("Output file check... ").append(this->output_audio_file), timeout);
         if(QMessageBox::question(this, tr("Lithium"),
                                   tr("There already exists a file called %1 in "
                                      "the currect directory. Overwrite file?").arg(output_audio_file),
@@ -168,7 +168,7 @@ void Transcode::output_audio_path_check()//need to complete
 
         while(QFile::exists(this->output_audio_file))
         {
-            Q_EMIT output_vid_file_status(tr("Output file path is set"), timeout);
+            Q_EMIT output_file_status(tr("Output file path is set"), timeout);
         }
     }
 }
@@ -235,7 +235,7 @@ void Transcode::normal_mode_transcode()
 {
     int timeout{0};
     source_video_file_check();
-    output_video_path_check();
+    output_file_path_check();
 
     if(this->two_pass_enabled == true)
     {
@@ -249,7 +249,7 @@ void Transcode::normal_mode_transcode()
              << "-i" << source_video_file << "-c:v" << video_codec
              << "-color_primaries" << "1" << "-color_trc" << "1"
              << "-colorspace" << "1" << "-map_metadata" << "0"
-             << "-c:a" << audio_codec << output_vid_file;
+             << "-c:a" << audio_codec << output_file;
 
 #ifdef Q_OS_WIN
         QString application_path{QCoreApplication::applicationDirPath()};
@@ -285,14 +285,14 @@ void Transcode::merge_mode_transcode()
     int timeout{0};
     source_video_file_check();
     source_audio_file_check();
-    output_video_path_check();
+    output_file_path_check();
 
     //merge sources transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_video_file << "-i" << source_audio_file
          << "-c:v" << video_codec << "-crf" << crf_value << "-preset"
          << vid_encoder_preset << "-c:a" << audio_codec << "-map_metadata"
-         << "0" << output_vid_file;
+         << "0" << output_file;
 
 #ifdef Q_OS_WIN
     QString application_path{QCoreApplication::applicationDirPath()};
@@ -331,7 +331,7 @@ void Transcode::extract_mode_transcode()
     //merge sources transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_video_file << "-c:v" << "-vn"
-         << "-map_metadata" << "0" << "-c:a" << audio_codec << output_vid_file;
+         << "-map_metadata" << "0" << "-c:a" << audio_codec << output_file;
 
 #ifdef Q_OS_WIN
     QString application_path{QCoreApplication::applicationDirPath()};
@@ -377,7 +377,7 @@ void Transcode::cancel_encode_process()
         }
 
         //check for the existence of a specified output file
-        if(this->output_vid_file.isEmpty())
+        if(this->output_file.isEmpty())
         {
             Q_EMIT output_vid_file_status(tr("No Output is being processed"), timeout);
             QMessageBox::information(this, tr("Lithium"),
@@ -408,7 +408,7 @@ void Transcode::encoding_process_finished()
     //Set the encoding status by checking output file's existence
     this->ffmpeg->waitForFinished();
 
-    if(QFile::exists(output_vid_file) &&
+    if(QFile::exists(output_file) &&
         (this->ffmpeg->QProcess::exitStatus() == QProcess::NormalExit))
     {
         Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
