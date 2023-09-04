@@ -1558,3 +1558,75 @@ void VideoUI::enable_two_pass_encode()
         }
     }
 }
+
+void VideoUI::receive_process_mode_state(const bool &normal, const bool &merge,
+                                const bool &extract)
+{
+    //process mode state
+    this->normal_mode = normal;
+    this->merge_mode = merge;
+    this->extract_mode = extract;
+
+    //enable extract audio settings
+    //extracting audio is the only mode that requires changes to the VideoUI interface
+    enable_extract_audio_settings(extract_mode);
+}
+
+void VideoUI::enable_extract_audio_settings(const bool &extract)
+{
+    //extract audio settings
+    if(extract == true)
+    {
+        ui->videoAspectRatBox->setEnabled(false);
+        ui->videoAspectRatLabel->setEnabled(false);
+        ui->videoCodecBox->setEnabled(false);
+        ui->videoCodecLabel->setEnabled(false);
+        ui->videoContainerBox->setEnabled(false);
+        ui->videoContainerLabel->setEnabled(false);
+        ui->videoFPSBox->setEnabled(false);
+        ui->videoFPSLabel->setEnabled(false);
+        ui->videoResBox->setEnabled(false);
+        ui->videoResLabel->setEnabled(false);
+        //--------------------------------------------
+        ui->videoEncoderDial->setEnabled(false);
+        ui->videoDialLabel->setEnabled(false);
+        ui->videoDialPreset->setEnabled(false);
+        ui->videoEncLevelLabel->setEnabled(false);
+        ui->videoEncLevelDisplay->setEnabled(false);
+        ui->videoEncProfileBox->setEnabled(false);
+        ui->videoEncProfileLabel->setEnabled(false);
+        ui->videoCRFRadio->setEnabled(false);
+        ui->videoRFSlider->setEnabled(false);
+        ui->videoRFSpinBox->setEnabled(false);
+        ui->videoHQLabel->setEnabled(false);
+        ui->videoLQLabel->setEnabled(false);
+        ui->videoAVGBitRadio->setEnabled(false);
+    }
+    else
+    {
+        ui->videoAspectRatBox->setEnabled(true);
+        ui->videoAspectRatLabel->setEnabled(true);
+        ui->videoCodecBox->setEnabled(true);
+        ui->videoCodecLabel->setEnabled(true);
+        ui->videoContainerBox->setEnabled(true);
+        ui->videoContainerLabel->setEnabled(true);
+        ui->videoFPSBox->setEnabled(true);
+        ui->videoFPSLabel->setEnabled(true);
+        ui->videoResBox->setEnabled(true);
+        ui->videoResLabel->setEnabled(true);
+        //--------------------------------------------
+        ui->videoEncoderDial->setEnabled(true);
+        ui->videoDialLabel->setEnabled(true);
+        ui->videoDialPreset->setEnabled(true);
+        ui->videoEncLevelLabel->setEnabled(true);
+        ui->videoEncLevelDisplay->setEnabled(true);
+        ui->videoEncProfileBox->setEnabled(true);
+        ui->videoEncProfileLabel->setEnabled(true);
+        ui->videoCRFRadio->setEnabled(true);
+        ui->videoRFSlider->setEnabled(true);
+        ui->videoRFSpinBox->setEnabled(true);
+        ui->videoHQLabel->setEnabled(true);
+        ui->videoLQLabel->setEnabled(true);
+        ui->videoAVGBitRadio->setEnabled(true);
+    }
+}

@@ -73,6 +73,8 @@ public Q_SLOTS:
     void receive_vid_source_bitrate(const QString &bitrate);
     void receive_vid_source_display_aspect_ratio(const QString &dar);
     void receive_clear_request();
+    void receive_process_mode_state(const bool &normal, const bool &merge,
+                                    const bool &extract);
 
     //experimental
     void get_selected_video_options();
@@ -118,6 +120,11 @@ private:
     QString source_fps{};
     QString source_dar{};
     //-----------------------------------
+    //process mode state
+    bool normal_mode{};
+    bool merge_mode{};
+    bool extract_mode{};
+    //------------------------------------
 
     //Interface String Lists
     QStringList videoCodecList{};
@@ -130,6 +137,7 @@ private:
     QStringList enc_profile{"-profile:v"};
 
     //functions
+    void enable_extract_audio_settings(const bool &extract);
 
     //button group
     QButtonGroup *rateOptButtons;

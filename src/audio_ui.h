@@ -106,7 +106,7 @@ private:
     bool merge_mode{};
     bool extract_mode{};
     //------------------------------------
-    //fuctions
+    //functions
     void enable_extract_audio_settings(const bool &extract);
     //------------------------------------
     //Interface String Lists

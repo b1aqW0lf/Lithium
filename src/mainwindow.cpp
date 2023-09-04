@@ -292,6 +292,9 @@ void MainWindow::application_connections_setup()
             ui->SelectSourceWidget, &SelectSourceUI::extract_audio_settings_enabled);
 
     connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_state,
+            ui->VideoUIWidget, &VideoUI::receive_process_mode_state);
+
+    connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_state,
             ui->AudioUIWidget, &AudioUI::receive_process_mode_state);
 
     //-----------------------------------------------------------------------------//
