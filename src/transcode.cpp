@@ -294,10 +294,10 @@ void Transcode::extract_mode_transcode()
     source_video_file_check();
     output_file_path_check();
 
-    //merge sources transcode
+    //extract audio transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_video_file << "-c:v" << "-vn"
-         << "-map_metadata" << "0" << "-c:a" << audio_codec << output_file;
+         << "-i" << source_video_file << "-vn" << "-c:a" << audio_codec
+         << "-map_metadata" << "0" << output_file;
 
 #ifdef Q_OS_WIN
     QString application_path{QCoreApplication::applicationDirPath()};
