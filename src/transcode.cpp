@@ -322,7 +322,7 @@ void Transcode::extract_mode_transcode()
     if((this->ffmpeg->QProcess::state() == QProcess::Running))
     {
         //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started -- Merging "), timeout);
+        Q_EMIT send_encoder_status(tr("Encoding Started -- Extracting "), timeout);
     }
     args.clear();
 }
