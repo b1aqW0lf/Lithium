@@ -86,6 +86,8 @@ private:
     void source_audio_file_check();
     void output_file_path_check();
     void normal_mode_transcode();
+    void two_pass_encode_1st_pass();
+    void two_pass_encode_2nd_pass();
     void merge_mode_transcode();
     void extract_mode_transcode();
     void start_encode_mode_check();
@@ -106,6 +108,10 @@ private:
     QString video_dar{};
     QString video_fps{};
     QString vid_encoder_preset{};
+
+    //transcode variable
+    //2-pass log
+    QString pass_log_location{};
     //audio
     QString audio_codec{};
     QString audio_channels{};
