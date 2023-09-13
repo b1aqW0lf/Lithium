@@ -233,7 +233,7 @@ void Transcode::normal_mode_transcode()
         this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
         this->ffmpeg->start(this->ffmpeg_path, args);
         this->ffmpeg->waitForStarted();
-        if((this->ffmpeg->QProcess::state() == QProcess::Running))
+        if(this->ffmpeg->QProcess::state() == QProcess::Running)
         {
             //this logic works!
             Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
@@ -370,7 +370,7 @@ void Transcode::merge_mode_transcode()
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
-    if((this->ffmpeg->QProcess::state() == QProcess::Running))
+    if(this->ffmpeg->QProcess::state() == QProcess::Running)
     {
         //this logic works!
         Q_EMIT send_encoder_status(tr("Encoding Started -- Merging "), timeout);
@@ -409,7 +409,7 @@ void Transcode::extract_mode_transcode()
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
-    if((this->ffmpeg->QProcess::state() == QProcess::Running))
+    if(this->ffmpeg->QProcess::state() == QProcess::Running)
     {
         //this logic works!
         Q_EMIT send_encoder_status(tr("Encoding Started -- Extracting "), timeout);
