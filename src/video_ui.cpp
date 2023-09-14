@@ -1454,6 +1454,7 @@ void VideoUI::enable_average_bitrate_field()
     //enable video bitrate and two pass options
     ui->videoAVGBitField->setDisabled(false);
     ui->twoPassCheckBox->setDisabled(false);
+    Q_EMIT average_bitrate_encode_enabled(true);
 
     //disable the crf option
     ui->videoRFSlider->setDisabled(true);

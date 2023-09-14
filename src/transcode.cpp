@@ -208,7 +208,7 @@ void Transcode::normal_mode_transcode()
     output_file_path_check();
 
 
-    if(this->two_pass_enabled == false)
+    if(this->average_bitrate_enabled == false)
     {
         //normal transcode
         args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
@@ -243,12 +243,52 @@ void Transcode::normal_mode_transcode()
             //this logic works!
             Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
         }
-        args.clear();/**/
-    }    
-    if(this->two_pass_enabled == true)
+        args.clear();
+    }
+    if(this->average_bitrate_enabled == true)/**/
     {
-        two_pass_encode_1st_pass();
-        two_pass_encode_2nd_pass();
+        if(this->two_pass_enabled == false)
+        {
+            //normal transcode + average bitrate
+            args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
+                 << "-i" << source_video_file << "-c:v" << video_codec
+                 << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
+                 << "-color_primaries" << "1" << "-color_trc" << "1"
+                 << "-colorspace" << "1" << "-c:a" << audio_codec
+                 << "-map_metadata" << "0" << output_file;
+
+#ifdef Q_OS_WIN
+            QString application_path{QCoreApplication::applicationDirPath()};
+            QString application_dir{QDir(application_path).absolutePath()};
+
+            if(QFile::exists(application_dir+"/ffmpeg.exe"))
+            {
+                this->ffmpeg_path = application_dir+"/ffmpeg.exe";
+                this->ffmpeg->setWorkingDirectory(application_dir);
+            }
+            if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
+            {
+                this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
+                this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
+            }
+#elif defined Q_OS_LINUX
+            this->ffmpeg_path = "ffmpeg";
+#endif
+            this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
+            this->ffmpeg->start(this->ffmpeg_path, args);
+            this->ffmpeg->waitForStarted();
+            if(this->ffmpeg->QProcess::state() == QProcess::Running)
+            {
+                //this logic works!
+                Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
+            }
+            args.clear();
+        }
+        if(this->two_pass_enabled == true)
+        {
+            two_pass_encode_1st_pass();
+            two_pass_encode_2nd_pass();
+        }
     }
 }
 
