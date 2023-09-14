@@ -87,6 +87,7 @@ private:
     void source_audio_file_check();
     void output_file_path_check();
     void normal_mode_transcode();
+    void average_bitrate_encode();
     void two_pass_encode_1st_pass();
     void two_pass_encode_2nd_pass();
     void merge_mode_transcode();
