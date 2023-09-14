@@ -1488,6 +1488,9 @@ void VideoUI::get_vid_bitrate_field_data()
     if(ui->videoAVGBitRadio->isChecked() == true &&
             ui->videoCRFRadio->isChecked() == false)
     {
+        //report that the average bitrate field is enabled
+        Q_EMIT average_bitrate_encode_enabled(true);
+
         if(!ui->videoAVGBitField->text().isEmpty())
         {
             //check contents of videoAVGBitField entry for valid data
@@ -1525,6 +1528,11 @@ void VideoUI::get_vid_bitrate_field_data()
             //Q_EMIT send_average_bitrate_value(video_bitrate);
             //ui->statusbar->showMessage("defaulting data to 6000k");
         }
+    }
+    else
+    {
+        //report that the average bitrate field is disabled
+        Q_EMIT average_bitrate_encode_enabled(false);
     }
 }
 

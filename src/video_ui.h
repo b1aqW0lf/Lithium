@@ -53,6 +53,7 @@ Q_SIGNALS:
     void send_output_vid_extension(const QString &text);
     void two_pass_encode_enabled(const bool &status);
     /*void send_average_bitrate_value(const QString &value);*/
+    void average_bitrate_encode_enabled(const bool &status);
 
     //send current video options
     void send_current_video_options(const QString &codec, const QString &video_bitrate,
