@@ -143,6 +143,11 @@ void Transcode::two_pass_encode_enabled(const bool &status)
     this->two_pass_enabled = status;
 }
 
+void Transcode::average_bitrate_encode_enabled(const bool &status)
+{
+    this->average_bitrate_enabled = status;
+}
+
 void Transcode::transcode_processing_mode(const bool &normal, const bool &merge, const bool &extract)
 {
     this->normal_mode = normal;

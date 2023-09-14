@@ -58,6 +58,7 @@ public Q_SLOTS:
     void receive_source_audio_file(const QString &source_audio);
     void receive_output_file_path(const QString &output_path);
     void two_pass_encode_enabled(const bool &status);
+    void average_bitrate_encode_enabled(const bool &status);
     void transcode_processing_mode(const bool &normal, const bool &merge, const bool &extract);
 
     //receive current video options - in normal mode
@@ -97,6 +98,7 @@ private:
     QString source_audio_file{};
     QString output_file{};
     bool two_pass_enabled{};
+    bool average_bitrate_enabled{};
 
     //transcoder variables
     //video

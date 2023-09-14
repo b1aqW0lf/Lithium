@@ -280,6 +280,9 @@ void MainWindow::application_connections_setup()
     connect(ui->VideoUIWidget, &VideoUI::two_pass_encode_enabled,
             &transcoder, &Transcode::two_pass_encode_enabled);
 
+    connect(ui->VideoUIWidget, &VideoUI::average_bitrate_encode_enabled,
+            &transcoder, &Transcode::average_bitrate_encode_enabled);
+
     //--------------------------------------------------------------------------//
 
     connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_merge_sources_settings,
