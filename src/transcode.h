@@ -93,6 +93,7 @@ private:
     void two_pass_encode_2nd_pass();
     void merge_mode_transcode();
     void extract_mode_transcode();
+    void ffmpeg_path_check();
     void start_encode_mode_check();
 
     //processing variables

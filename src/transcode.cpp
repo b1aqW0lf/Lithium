@@ -239,19 +239,7 @@ void Transcode::normal_mode_transcode()
          << "-map_metadata" << "0" << output_file;
 
 #ifdef Q_OS_WIN
-    QString application_path{QCoreApplication::applicationDirPath()};
-    QString application_dir{QDir(application_path).absolutePath()};
-
-    if(QFile::exists(application_dir+"/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir);
-    }
-    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
+    ffmpeg_path_check();
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
 #endif
@@ -279,19 +267,7 @@ void Transcode::average_bitrate_encode()
          << "-map_metadata" << "0" << output_file;
 
 #ifdef Q_OS_WIN
-    QString application_path{QCoreApplication::applicationDirPath()};
-    QString application_dir{QDir(application_path).absolutePath()};
-
-    if(QFile::exists(application_dir+"/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir);
-    }
-    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
+    ffmpeg_path_check();
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
 #endif
@@ -324,19 +300,7 @@ void Transcode::two_pass_encode_1st_pass()
          << "-f" << "mp4" << "/dev/null";
 
 #ifdef Q_OS_WIN
-    QString application_path{QCoreApplication::applicationDirPath()};
-    QString application_dir{QDir(application_path).absolutePath()};
-
-    if(QFile::exists(application_dir+"/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir);
-    }
-    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
+    ffmpeg_path_check();
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
 #endif
@@ -367,19 +331,7 @@ void Transcode::two_pass_encode_2nd_pass()
          << "-f" << "mp4" << output_file;
 
 #ifdef Q_OS_WIN
-    QString application_path{QCoreApplication::applicationDirPath()};
-    QString application_dir{QDir(application_path).absolutePath()};
-
-    if(QFile::exists(application_dir+"/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir);
-    }
-    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
+    ffmpeg_path_check();
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
 #endif
@@ -410,19 +362,7 @@ void Transcode::merge_mode_transcode()
          << "0" << output_file;
 
 #ifdef Q_OS_WIN
-    QString application_path{QCoreApplication::applicationDirPath()};
-    QString application_dir{QDir(application_path).absolutePath()};
-
-    if(QFile::exists(application_dir+"/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir);
-    }
-    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
+    ffmpeg_path_check();
 #elif defined Q_OS_LINUX
     this->ffmpeg_path = "ffmpeg";
 #endif
@@ -449,6 +389,23 @@ void Transcode::extract_mode_transcode()
          << "-map_metadata" << "0" << output_file;
 
 #ifdef Q_OS_WIN
+    ffmpeg_path_check();
+#elif defined Q_OS_LINUX
+    this->ffmpeg_path = "ffmpeg";
+#endif
+    this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
+    this->ffmpeg->start(this->ffmpeg_path, args);
+    this->ffmpeg->waitForStarted();
+    if(this->ffmpeg->QProcess::state() == QProcess::Running)
+    {
+        //this logic works!
+        Q_EMIT send_encoder_status(tr("Encoding Started -- Extracting "), timeout);
+    }
+    args.clear();
+}
+
+void Transcode::ffmpeg_path_check()
+{
     QString application_path{QCoreApplication::applicationDirPath()};
     QString application_dir{QDir(application_path).absolutePath()};
 
@@ -462,18 +419,6 @@ void Transcode::extract_mode_transcode()
         this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
     }
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
-    this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
-    this->ffmpeg->start(this->ffmpeg_path, args);
-    this->ffmpeg->waitForStarted();
-    if(this->ffmpeg->QProcess::state() == QProcess::Running)
-    {
-        //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started -- Extracting "), timeout);
-    }
-    args.clear();
 }
 
 void Transcode::cancel_encode_process()
