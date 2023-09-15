@@ -189,7 +189,7 @@ void Transcode::start_encode_mode_check()
 {
     if(this->normal_mode == true)
     {
-        normal_mode_check();
+        normal_mode_transcode_check();
     }
     else if(this->merge_mode == true)
     {
@@ -201,7 +201,7 @@ void Transcode::start_encode_mode_check()
     }
 }
 
-void Transcode::normal_mode_check()
+void Transcode::normal_mode_transcode_check()
 {
     //input and output file check
     source_video_file_check();
