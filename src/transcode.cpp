@@ -409,6 +409,14 @@ void Transcode::ffmpeg_path_check()
     QString application_path{QCoreApplication::applicationDirPath()};
     QString application_dir{QDir(application_path).absolutePath()};
 
+    if(QFile::exists(application_dir+"/ffmpeg.exe") &&
+       QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
+    {
+        //If ffmpeg is found in both root directory and subdirectory
+        //use ffmpeg found in user-created "ffmpeg" subdirectory
+        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
+        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
+    }
     if(QFile::exists(application_dir+"/ffmpeg.exe"))
     {
         this->ffmpeg_path = application_dir+"/ffmpeg.exe";
