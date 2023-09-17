@@ -297,7 +297,12 @@ void Transcode::two_pass_encode_1st_pass()
          << "-pix_fmt" << "yuv420p" << "-b:v" << vid_avg_bitrate << "-preset"
          << vid_encoder_preset << "-map_metadata" << "0" << "-y"
          << "-passlogfile" << pass_log_location << "-pass" << "1" << "-an"
-         << "-f" << "mp4" << "/dev/null";
+         << "-f" << "null"
+#ifdef Q_OS_LINUX
+         << "/dev/null";
+#elif defined Q_OS_WIN
+         << "NUL";
+#endif
 
 #ifdef Q_OS_WIN
     ffmpeg_path_check();
