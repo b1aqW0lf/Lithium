@@ -45,8 +45,6 @@ public:
     ~InputSourceProbe();
 
 public Q_SLOTS:
-    void receive_vid_file_path(const QString &file);
-    void receive_audio_file_path(const QString &file);
     void start_probe_process(const QString &file);
 
 Q_SIGNALS:

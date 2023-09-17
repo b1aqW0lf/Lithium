@@ -70,26 +70,6 @@ InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
 //destructor
 InputSourceProbe::~InputSourceProbe(){}
 
-void InputSourceProbe::receive_vid_file_path(const QString &file)
-{
-    /*this->input_vid = file;
-
-    //temp code - used to test statusbar connection only
-    int message_timeout{0};
-    Q_EMIT file_path(file,message_timeout);
-    //---temp code------------------------------------//*/
-}
-
-void InputSourceProbe::receive_audio_file_path(const QString &file)
-{
-    /*this->input_aud = file;
-
-    //temp code - used to test statusbar connection only
-    int message_timeout{0};
-    Q_EMIT file_path(file,message_timeout);
-    //---temp code------------------------------------//*/
-}
-
 //experimental
 void InputSourceProbe::start_probe_process(const QString &file)
 {
