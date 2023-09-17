@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //toolbar settings
     ui->toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    ui->toolbar->setIconSize(QSize(32,32));
+    ui->toolbar->setIconSize(QSize(28,28));
     ui->toolbar->setMovable(false);
     ui->toolbar->setFloatable(false);
 
