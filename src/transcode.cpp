@@ -329,7 +329,7 @@ void Transcode::two_pass_encode_2nd_pass()
          << "-pix_fmt" << "yuv420p" << "-b:v" << vid_avg_bitrate << "-preset"
          << vid_encoder_preset << "-map_metadata" << "0" << "-y" << "-passlogfile"
          << pass_log_location << "-pass" << "2" << "-c:a" << audio_codec
-         << "-f" << "mp4" << output_file;
+         << output_file;
 
     //check for path to ffmpeg
     ffmpeg_path_check();
