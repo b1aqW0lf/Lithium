@@ -238,7 +238,6 @@ void Transcode::normal_mode_transcode()
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
 
-
     //check for path to ffmpeg
     ffmpeg_path_check();
 
@@ -264,7 +263,6 @@ void Transcode::average_bitrate_encode()
          << "-color_primaries" << "1" << "-color_trc" << "1"
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
-
 
     //check for path to ffmpeg
     ffmpeg_path_check();
