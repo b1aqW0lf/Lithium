@@ -238,11 +238,10 @@ void Transcode::normal_mode_transcode()
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
 
-#ifdef Q_OS_WIN
+
+    //check for path to ffmpeg
     ffmpeg_path_check();
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
+
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
@@ -266,11 +265,10 @@ void Transcode::average_bitrate_encode()
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
 
-#ifdef Q_OS_WIN
+
+    //check for path to ffmpeg
     ffmpeg_path_check();
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
+
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
@@ -304,11 +302,9 @@ void Transcode::two_pass_encode_1st_pass()
          << "NUL";
 #endif
 
-#ifdef Q_OS_WIN
+    //check for path to ffmpeg
     ffmpeg_path_check();
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
+
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
@@ -335,11 +331,9 @@ void Transcode::two_pass_encode_2nd_pass()
          << pass_log_location << "-pass" << "2" << "-c:a" << audio_codec
          << "-f" << "mp4" << output_file;
 
-#ifdef Q_OS_WIN
+    //check for path to ffmpeg
     ffmpeg_path_check();
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
+
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
@@ -364,13 +358,11 @@ void Transcode::merge_mode_transcode()
          << "-i" << source_video_file << "-i" << source_audio_file
          << "-c:v" << video_codec << "-crf" << crf_value << "-preset"
          << vid_encoder_preset << "-c:a" << audio_codec << "-map_metadata"
-         << "0" << output_file;
+         << "0" << output_file;    
 
-#ifdef Q_OS_WIN
+    //check for path to ffmpeg
     ffmpeg_path_check();
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
+
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
@@ -391,13 +383,11 @@ void Transcode::extract_mode_transcode()
     //extract audio transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_video_file << "-vn" << "-c:a" << audio_codec
-         << "-map_metadata" << "0" << output_file;
+         << "-map_metadata" << "0" << output_file;    
 
-#ifdef Q_OS_WIN
+    //check for path to ffmpeg
     ffmpeg_path_check();
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
+
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
@@ -411,6 +401,7 @@ void Transcode::extract_mode_transcode()
 
 void Transcode::ffmpeg_path_check()
 {
+#ifdef Q_OS_WIN
     QString application_path{QCoreApplication::applicationDirPath()};
     QString application_dir{QDir(application_path).absolutePath()};
 
@@ -432,6 +423,9 @@ void Transcode::ffmpeg_path_check()
         this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
         this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
     }
+#elif defined Q_OS_LINUX
+    this->ffmpeg_path = "ffmpeg";
+#endif
 }
 
 void Transcode::cancel_encode_process()
