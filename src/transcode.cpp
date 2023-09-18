@@ -179,8 +179,11 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
     this->video_dar = video_dar_value;
     this->video_fps = video_fps_val;
     this->vid_encoder_preset = encoder_preset_val;
+}
 
-    //start encode
+void Transcode::start_encode_process()
+{
+    //start encode process
     start_encode_mode_check();/**/
 }
 
