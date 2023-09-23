@@ -131,7 +131,7 @@ private:
 
     //ffprobe process
     QProcess *ffprobe;
-    QString ffprobe_path{"ffprobe"};//for linux
+    QString ffprobe_path{};
 
     //struct instances
     VideoStream videostream;
@@ -139,6 +139,7 @@ private:
     InputStream inputstream;
 
     //functions
+    void ffprobe_path_check();
     void ffprobe_started();
     void parse_output(const QString &data);
     void parse_video_output(const QString &data);

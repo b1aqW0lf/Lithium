@@ -72,11 +72,41 @@ InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
 //destructor
 InputSourceProbe::~InputSourceProbe(){}
 
+void InputSourceProbe::ffprobe_path_check()
+{
+#ifdef Q_OS_WIN
+    QString application_path{QCoreApplication::applicationDirPath()};
+    QString application_dir{QDir(application_path).absolutePath()};
+
+    if(QFile::exists(application_dir+"/ffprobe.exe") &&
+        QFile::exists(application_dir+"/ffmpeg/ffprobe.exe"))
+    {
+        //If ffprobe is found in both root directory and subdirectory
+        //use ffprobe found in user-created "ffmpeg" subdirectory
+        this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
+        this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
+    }
+    if(QFile::exists(application_dir+"/ffprobe.exe"))
+    {
+        this->ffprobe_path = application_dir+"/ffprobe.exe";
+        this->ffprobe->setWorkingDirectory(application_dir);
+    }
+    if(QFile::exists(application_dir+"/ffmpeg/ffprobe.exe"))
+    {
+        this->ffprobe_path = application_dir+"/ffmpeg/ffprobe.exe";
+        this->ffprobe->setWorkingDirectory(application_dir+"/ffmpeg");
+    }
+#elif defined Q_OS_LINUX
+    this->ffprobe_path = "ffprobe";
+#endif
+}
+
 //experimental
 void InputSourceProbe::start_probe_process(const QString &file)
 {
     //run ffprobe on input file
     int timeout{0};
+    ffprobe_path_check();
     if(ffprobe->QProcess::state() == QProcess::NotRunning)
     {
         this->ffprobe->setProcessChannelMode(QProcess::MergedChannels);
