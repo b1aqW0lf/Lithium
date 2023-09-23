@@ -51,6 +51,8 @@ namespace Analyze
     const char pixelformat_data[] = "^pix_fmt=\\s*([\\w\\d]*)$";
     const char codectype_audio[] = "\\s*Stream #[\\d]*:[\\d]*: Audio";
     //const char bitrate_data[] = "^bit_rate\\s*=\\s*([\\w\\d]*[\\/]?[\\w\\d]*)?$(?!.*\1)";
+    const char video_codec_type[] = "codec_type=([video]+)";
+    const char audio_codec_type[] = "codec_type=([audio]+)";
 }
 
 InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
@@ -215,7 +217,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
     }
     Q_EMIT source_vid_pixel_format(vidstream.pixel_format);
 
-    Q_EMIT show_vid_data(vidstream.pixel_format, timeout);
+    //Q_EMIT show_vid_data(vidstream.pixel_format, timeout);
 
     //verifying the bitrate value
     /*QRegExp regx_brate(Analyze::bitrate_data);//this was on
@@ -228,6 +230,14 @@ void InputSourceProbe::parse_video_output(const QString &data)
         }
     }*/
     //Q_EMIT show_vid_data(vidstream.display_aspect_ratio, timeout);
+
+    QRegExp codectype_regx(Analyze::video_codec_type);
+    int ctype_index{codectype_regx.indexIn(data)};
+    if(ctype_index != -1)
+    {
+        this->vidstream.codec_type = codectype_regx.cap(1);
+    }
+     Q_EMIT show_vid_data(vidstream.codec_type, timeout);
 }
 
 void InputSourceProbe::parse_audio_output(const QString &data)
