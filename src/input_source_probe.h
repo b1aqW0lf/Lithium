@@ -134,7 +134,7 @@ private:
     QString ffprobe_path{"ffprobe"};//for linux
 
     //struct instances
-    VideoStream vidstream;
+    VideoStream videostream;
     AudioStream audiostream;
     InputStream inputstream;
 

@@ -133,19 +133,19 @@ void InputSourceProbe::parse_video_output(const QString &data)
     if(index != -1)
     {
         //reading the ffprobe output for desired data
-        this->vidstream.video_str  = regx_vid.cap(0);
-        this->vidstream.stream_index1 = regx_vid.cap(1);//VideoStream::stream_index1
-        this->vidstream.stream_index2 = regx_vid.cap(2);//VideoStream::stream_index2
-        this->vidstream.codec_name = regx_vid.cap(3);//VideoStream::codec_name
-        this->vidstream.resolution = regx_vid.cap(5);//VideoStream::resolution
-        this->vidstream.sample_aspect_ratio  = regx_vid.cap(7);//VideoStream::sample_aspect_ratio
-        this->vidstream.display_aspect_ratio = regx_vid.cap(8);//VideoStream::display_aspect_ratio
+        this->videostream.video_str  = regx_vid.cap(0);
+        this->videostream.stream_index1 = regx_vid.cap(1);//VideoStream::stream_index1
+        this->videostream.stream_index2 = regx_vid.cap(2);//VideoStream::stream_index2
+        this->videostream.codec_name = regx_vid.cap(3);//VideoStream::codec_name
+        this->videostream.resolution = regx_vid.cap(5);//VideoStream::resolution
+        this->videostream.sample_aspect_ratio  = regx_vid.cap(7);//VideoStream::sample_aspect_ratio
+        this->videostream.display_aspect_ratio = regx_vid.cap(8);//VideoStream::display_aspect_ratio
         //this->vidstream.bit_rate   = regx_vid.cap(10);//VideoStream::bit_rate
-        this->vidstream.frame_rate = regx_vid.cap(12);//VideoStream::frame_rate
+        this->videostream.frame_rate = regx_vid.cap(12);//VideoStream::frame_rate
     }
-    Q_EMIT source_vid_codec_name(vidstream.codec_name);
-    Q_EMIT source_vid_resolution(vidstream.resolution);
-    Q_EMIT source_vid_frame_rate(vidstream.frame_rate);
+    Q_EMIT source_vid_codec_name(videostream.codec_name);
+    Q_EMIT source_vid_resolution(videostream.resolution);
+    Q_EMIT source_vid_frame_rate(videostream.frame_rate);
     //used for testing only
     //Q_EMIT show_vid_data(vidstream.sample_aspect_ratio, timeout);
 
@@ -153,69 +153,69 @@ void InputSourceProbe::parse_video_output(const QString &data)
     int bitrate_index{bitrate_regx.indexIn(data)};
     if(bitrate_index != -1)
     {
-        this->vidstream.bit_rate = bitrate_regx.cap(6);
+        this->videostream.bit_rate = bitrate_regx.cap(6);
     }/**/
-    Q_EMIT source_vid_bit_rate(vidstream.bit_rate);
+    Q_EMIT source_vid_bit_rate(videostream.bit_rate);
     //check other meta data information
     if(bitrate_index != -1)
     {
-        this->vidstream.duration = bitrate_regx.cap(1);
-        this->vidstream.dur_hours = bitrate_regx.cap(2).toInt();
-        this->vidstream.dur_mins = bitrate_regx.cap(3).toInt();
-        this->vidstream.dur_secs = bitrate_regx.cap(4).toDouble();
-        this->vidstream.start_time = bitrate_regx.cap(5).toDouble();
+        this->videostream.duration = bitrate_regx.cap(1);
+        this->videostream.dur_hours = bitrate_regx.cap(2).toInt();
+        this->videostream.dur_mins = bitrate_regx.cap(3).toInt();
+        this->videostream.dur_secs = bitrate_regx.cap(4).toDouble();
+        this->videostream.start_time = bitrate_regx.cap(5).toDouble();
     }
-    Q_EMIT source_vid_duration(vidstream.duration);
-    Q_EMIT source_vid_dur_hours(vidstream.dur_hours);
-    Q_EMIT source_vid_dur_mins(vidstream.dur_mins);
-    Q_EMIT source_vid_dur_secs(vidstream.dur_secs);
-    Q_EMIT source_vid_start_time(vidstream.start_time);
+    Q_EMIT source_vid_duration(videostream.duration);
+    Q_EMIT source_vid_dur_hours(videostream.dur_hours);
+    Q_EMIT source_vid_dur_mins(videostream.dur_mins);
+    Q_EMIT source_vid_dur_secs(videostream.dur_secs);
+    Q_EMIT source_vid_start_time(videostream.start_time);
 
     //used for testing only--------------------------------//
     //Q_EMIT show_vid_data(vidstream.duration, timeout);
     //----experimental------------------------------------//
 
     //verifying sample aspect ratio value
-    if(vidstream.sample_aspect_ratio.isEmpty() == true)
+    if(videostream.sample_aspect_ratio.isEmpty() == true)
     {
         QRegExp regx_sar(Analyze::sar_data);
         int index_sar{regx_sar.indexIn(data)};
         if(index_sar != -1)
         {
-            this->vidstream.sample_aspect_ratio = regx_sar.cap(1);
+            this->videostream.sample_aspect_ratio = regx_sar.cap(1);
         }
     }
-    Q_EMIT source_vid_sample_aspect_ratio(vidstream.sample_aspect_ratio);
+    Q_EMIT source_vid_sample_aspect_ratio(videostream.sample_aspect_ratio);
 
     //verifying the display aspect ratio value
-    if(vidstream.display_aspect_ratio.isEmpty() == true)
+    if(videostream.display_aspect_ratio.isEmpty() == true)
     {
         QRegExp regx_dar(Analyze::dar_data);
         int index_dar{regx_dar.indexIn(data)};
         if(index_dar != -1)
         {
-            this->vidstream.display_aspect_ratio = regx_dar.cap(1);
+            this->videostream.display_aspect_ratio = regx_dar.cap(1);
         }
     }
-    Q_EMIT source_vid_display_aspect_ratio(vidstream.display_aspect_ratio);
+    Q_EMIT source_vid_display_aspect_ratio(videostream.display_aspect_ratio);
 
     //verifying color space
     QRegExp colorspace_regx(Analyze::colorspace_data);
     int cspace_index{colorspace_regx.indexIn(data)};
     if(cspace_index != -1)
     {
-        this->vidstream.color_space = colorspace_regx.cap(1);
+        this->videostream.color_space = colorspace_regx.cap(1);
     }
-    Q_EMIT source_vid_color_space(vidstream.color_space);
+    Q_EMIT source_vid_color_space(videostream.color_space);
 
     //verifying pixel format
     QRegExp pixformat_regx(Analyze::pixelformat_data);
     int pformat_index{pixformat_regx.indexIn(data)};
     if(pformat_index != -1)
     {
-        this->vidstream.pixel_format = pixformat_regx.cap(1);
+        this->videostream.pixel_format = pixformat_regx.cap(1);
     }
-    Q_EMIT source_vid_pixel_format(vidstream.pixel_format);
+    Q_EMIT source_vid_pixel_format(videostream.pixel_format);
 
     //Q_EMIT show_vid_data(vidstream.pixel_format, timeout);
 
@@ -235,9 +235,9 @@ void InputSourceProbe::parse_video_output(const QString &data)
     int ctype_index{codectype_regx.indexIn(data)};
     if(ctype_index != -1)
     {
-        this->vidstream.codec_type = codectype_regx.cap(1);
+        this->videostream.codec_type = codectype_regx.cap(1);
     }
-     Q_EMIT show_vid_data(vidstream.codec_type, timeout);
+     Q_EMIT show_vid_data(videostream.codec_type, timeout);
 }
 
 void InputSourceProbe::parse_audio_output(const QString &data)
