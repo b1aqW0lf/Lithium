@@ -279,10 +279,6 @@ void InputSourceProbe::parse_audio_output(const QString &data)
     }
     Q_EMIT source_audio_bitrate(audiostream.bit_rate);
 
-    //used for testing only
-    Q_EMIT show_audio_data(audiostream.channels, timeout);
-    //---------^--------------------------------------------//
-
     /*//additional duration check
     if(this->audiostream.duration.isEmpty() == true)
     {
@@ -293,4 +289,14 @@ void InputSourceProbe::parse_audio_output(const QString &data)
             this->audiostream.duration = regx_duration.cap(1);
         }
     }*/
+
+    QRegExp codectype_regx(Analyze::audio_codec_type);
+    int ctype_index{codectype_regx.indexIn(data)};
+    if(ctype_index != -1)
+    {
+        this->audiostream.codec_type = codectype_regx.cap(1);
+    }
+    //used for testing only
+    Q_EMIT show_audio_data(audiostream.codec_type, timeout);
+    //---------^--------------------------------------------//
 }
