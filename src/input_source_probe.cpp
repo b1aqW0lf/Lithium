@@ -31,6 +31,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "input_source_probe.h"
 
+#include <QCoreApplication>
+#include <QDir>
 #include <QRegExp>
 
 
