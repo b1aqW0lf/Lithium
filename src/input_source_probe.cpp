@@ -237,7 +237,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
     {
         this->videostream.codec_type = codectype_regx.cap(1);
     }
-     Q_EMIT show_vid_data(videostream.codec_type, timeout);
+    Q_EMIT show_vid_data(videostream.codec_type, timeout);
 }
 
 void InputSourceProbe::parse_audio_output(const QString &data)
