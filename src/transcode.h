@@ -54,8 +54,8 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     //video processing
-    void receive_source_video_file(const QString &source_video);
-    void receive_source_audio_file(const QString &source_audio);
+    void receive_source_video_file(const QString &source_video, const QString &input_flag);
+    void receive_source_audio_file(const QString &source_audio, const QString &input_flag);
     void receive_output_file_path(const QString &output_path);
     void two_pass_encode_enabled(const bool &status);
     void average_bitrate_encode_enabled(const bool &status);
@@ -102,6 +102,8 @@ private:
     QString source_video_file{};
     QString source_audio_file{};
     QString output_file{};
+    QString input_file_flag1{};
+    QString input_file_flag2{};
     bool two_pass_enabled{};
     bool average_bitrate_enabled{};
 

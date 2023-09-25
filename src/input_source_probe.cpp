@@ -104,9 +104,11 @@ void InputSourceProbe::ffprobe_path_check()
 }
 
 //experimental
-void InputSourceProbe::start_probe_process(const QString &file)
+void InputSourceProbe::start_probe_process(const QString &file, const QString &input_flag)
 {
     //run ffprobe on input file
+    this->input_file_flag = input_flag;
+
     int timeout{0};
     ffprobe_path_check();
     if(ffprobe->QProcess::state() == QProcess::NotRunning)
@@ -140,21 +142,35 @@ void InputSourceProbe::read_ffprobe_output()
     //verify ffprobe has stopped before reading data begins
     if(ffprobe->QProcess::exitStatus() == QProcess::NormalExit)
     {
-        //after ffprobe has exited
-        while(this->ffprobe->canReadLine())
+        if(input_file_flag == "input1")
         {
-            //begin reading data
-            ffprobe_output = QString(this->ffprobe->readLine().trimmed());
-            parse_output(ffprobe_output);
+            //after ffprobe has exited
+            while(this->ffprobe->canReadLine())
+            {
+                //begin reading data
+                ffprobe_output = QString(this->ffprobe->readLine().trimmed());
+                parse_video_output(ffprobe_output);
+                parse_audio_output(ffprobe_output);
+            }
+        }
+        if(input_file_flag == "input2")
+        {
+            //after ffprobe has exited
+            while(this->ffprobe->canReadLine())
+            {
+                //begin reading data
+                ffprobe_output = QString(this->ffprobe->readLine().trimmed());
+                parse_audio_output(ffprobe_output);
+            }
         }
     }
 }
 
-void InputSourceProbe::parse_output(const QString &data)
+/*void InputSourceProbe::parse_output(const QString &data)
 {
     parse_video_output(data);
     parse_audio_output(data);
-}
+}*/
 
 //experimental
 void InputSourceProbe::parse_video_output(const QString &data)
@@ -322,13 +338,16 @@ void InputSourceProbe::parse_audio_output(const QString &data)
         }
     }*/
 
-    QRegExp codectype_regx(Analyze::audio_codec_type);
-    int ctype_index{codectype_regx.indexIn(data)};
-    if(ctype_index != -1)
+    if(input_file_flag == "input2")
     {
-        this->audiostream.codec_type = codectype_regx.cap(1);
+        QRegExp codectype_regx(Analyze::audio_codec_type);
+        int ctype_index{codectype_regx.indexIn(data)};
+        if(ctype_index != -1)
+        {
+            this->audiostream.codec_type = codectype_regx.cap(1);
+        }
+        //used for testing only
+        Q_EMIT show_audio_data(audiostream.codec_type, timeout);
     }
-    //used for testing only
-    Q_EMIT show_audio_data(audiostream.codec_type, timeout);
     //---------^--------------------------------------------//
 }

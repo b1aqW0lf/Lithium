@@ -148,12 +148,15 @@ void MainWindow::application_connections_setup()
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_file,
             &inputProbe, &InputSourceProbe::start_probe_process);
 
+    connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
+            &inputProbe, &InputSourceProbe::start_probe_process);
+
     //temp connection-for testing only-----------------------------//
     connect(&inputProbe, &InputSourceProbe::show_vid_data,
             ui->statusbar, &QStatusBar::showMessage);
 
-    /*connect(&inputProbe, &InputSourceProbe::show_audio_data,
-            ui->statusbar, &QStatusBar::showMessage);*/
+    connect(&inputProbe, &InputSourceProbe::show_audio_data,
+            ui->statusbar, &QStatusBar::showMessage);/**/
     //-------------------------------------------------------------//
 
     connect(&process, &FFprocess::ffmpeg_ready_status,

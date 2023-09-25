@@ -51,8 +51,8 @@ public:
 Q_SIGNALS:
     void current_video_source_extension(const QString &text);
     void current_audio_source_extension(const QString &text);
-    void current_video_source_file(const QString &text);
-    void current_audio_source_file(const QString &text);
+    void current_video_source_file(const QString &text, const QString &input_flag);
+    void current_audio_source_file(const QString &text, const QString &input_flag);
     void clear_input1_data();
 
 public Q_SLOTS:

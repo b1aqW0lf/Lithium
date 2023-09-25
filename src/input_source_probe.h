@@ -45,7 +45,7 @@ public:
     ~InputSourceProbe();
 
 public Q_SLOTS:
-    void start_probe_process(const QString &file);
+    void start_probe_process(const QString &file, const QString &input_flag);
 
 Q_SIGNALS:
     void file_path(const QString &text, const int &time);
@@ -129,6 +129,9 @@ private Q_SLOTS:
 private:
     QString input_vid{};
     QString input_aud{};
+
+    //input file flag
+    QString input_file_flag{};
 
     //ffprobe process
     QProcess *ffprobe;

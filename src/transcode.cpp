@@ -52,13 +52,15 @@ Transcode::~Transcode()
     delete ffmpeg;
 }
 
-void Transcode::receive_source_video_file(const QString &source_video)
+void Transcode::receive_source_video_file(const QString &source_video, const QString &input_flag)
 {
+    this->input_file_flag1 = input_flag;
     this->source_video_file = source_video;
 }
 
-void Transcode::receive_source_audio_file(const QString &source_audio)
+void Transcode::receive_source_audio_file(const QString &source_audio, const QString &input_flag)
 {
+    this->input_file_flag2 = input_flag;
     this->source_audio_file = source_audio;
 }
 

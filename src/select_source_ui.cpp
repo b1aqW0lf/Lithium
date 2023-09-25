@@ -133,7 +133,7 @@ void SelectSourceUI::select_input1()//complete!
     if(!input_file1.isEmpty())
     {
         ui->sourceInput1Edit->setText(input_file1);
-        Q_EMIT current_video_source_file(input_file1);
+        Q_EMIT current_video_source_file(input_file1, "input1");
     }
 }
 
@@ -150,7 +150,7 @@ void SelectSourceUI::select_input2()
     if(!input_file2.isEmpty())
     {
         ui->sourceInput2Edit->setText(input_file2);
-        Q_EMIT current_audio_source_file(input_file2);
+        Q_EMIT current_audio_source_file(input_file2, "input2");
     }
 }
 
