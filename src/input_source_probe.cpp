@@ -166,12 +166,6 @@ void InputSourceProbe::read_ffprobe_output()
     }
 }
 
-/*void InputSourceProbe::parse_output(const QString &data)
-{
-    parse_video_output(data);
-    parse_audio_output(data);
-}*/
-
 //experimental
 void InputSourceProbe::parse_video_output(const QString &data)
 {
