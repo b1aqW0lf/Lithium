@@ -142,7 +142,7 @@ void InputSourceProbe::read_ffprobe_output()
     //verify ffprobe has stopped before reading data begins
     if(ffprobe->QProcess::exitStatus() == QProcess::NormalExit)
     {
-        if(input_file_flag == "input1")
+        if(this->input_file_flag == "input1")
         {
             //after ffprobe has exited
             while(this->ffprobe->canReadLine())
@@ -153,7 +153,7 @@ void InputSourceProbe::read_ffprobe_output()
                 parse_audio_output(ffprobe_output);
             }
         }
-        if(input_file_flag == "input2")
+        if(this->input_file_flag == "input2")
         {
             //after ffprobe has exited
             while(this->ffprobe->canReadLine())
@@ -332,7 +332,7 @@ void InputSourceProbe::parse_audio_output(const QString &data)
         }
     }*/
 
-    if(input_file_flag == "input2")
+    if(this->input_file_flag == "input2")
     {
         QRegExp codectype_regx(Analyze::audio_codec_type);
         int ctype_index{codectype_regx.indexIn(data)};
