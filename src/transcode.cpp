@@ -359,8 +359,7 @@ void Transcode::merge_mode_transcode()
     //merge sources transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_video_file << "-i" << source_audio_file
-         << "-c:v" << video_codec << "-crf" << crf_value << "-preset"
-         << vid_encoder_preset << "-c:a" << audio_codec << "-map_metadata"
+         << "-c:v" << "copy" << "-c:a" << "copy" << "-map_metadata"
          << "0" << output_file;    
 
     //check for path to ffmpeg
