@@ -147,6 +147,7 @@ private:
     void ffprobe_started();
     void parse_video_output(const QString &data);
     void parse_audio_output(const QString &data);
+    void input_file_title_check(const QString &file);
 
 };
 

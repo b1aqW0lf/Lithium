@@ -108,6 +108,7 @@ void InputSourceProbe::start_probe_process(const QString &file, const QString &i
 {
     //run ffprobe on input file
     this->input_file_flag = input_flag;
+    input_file_title_check(file);
 
     int timeout{0};
     ffprobe_path_check();
@@ -344,4 +345,10 @@ void InputSourceProbe::parse_audio_output(const QString &data)
         Q_EMIT show_audio_data(audiostream.codec_type, timeout);
     }
     //---------^--------------------------------------------//
+}
+
+void InputSourceProbe::input_file_title_check(const QString &file)
+{
+    QString file_name = QFileInfo(file).fileName();
+    QString input_title = file_name.left(file_name.lastIndexOf("."));
 }
