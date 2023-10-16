@@ -351,4 +351,5 @@ void InputSourceProbe::input_file_title_check(const QString &file)
 {
     QString file_name = QFileInfo(file).fileName();
     QString input_title = file_name.left(file_name.lastIndexOf("."));
+    Q_EMIT source_file_title(input_title);
 }

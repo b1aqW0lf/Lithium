@@ -67,6 +67,9 @@ Q_SIGNALS:
     void source_vid_pixel_format(const QString &pix_fmt);
     void source_vid_color_space(const QString &cspace);
 
+    //source signal
+    void source_file_title(const QString &title);
+
     //source audio signals
     void source_audio_codec_name(const QString &codec);
     void source_audio_samplerate(const QString &samplerate);
