@@ -58,8 +58,12 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoRFSlider, &QSlider::valueChanged,
             ui->videoRFSpinBox, &QSpinBox::setValue);
     //-------------------------------------------------------------------------
-    connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    //experimental-----------------------------------------------------------------//
+    connect(ui->videoCodecBox, &QComboBox::textActivated,
             this, &VideoUI::select_vid_codec);
+    //------------------------------------------------------------------------------//
+    /*connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &VideoUI::select_vid_codec);*/
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::vid_codec_interface);
     connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
