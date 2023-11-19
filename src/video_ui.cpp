@@ -61,13 +61,15 @@ VideoUI::VideoUI(QWidget *parent) :
     //experimental-----------------------------------------------------------------//
     connect(ui->videoCodecBox, &QComboBox::textActivated,
             this, &VideoUI::select_vid_codec);
+    connect(ui->videoContainerBox, &QComboBox::textActivated,
+            this, &VideoUI::select_container);
     //------------------------------------------------------------------------------//
     /*connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_vid_codec);*/
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::vid_codec_interface);
-    connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_container);/**/
+    /*connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &VideoUI::select_container);*/
     connect(ui->videoResBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_vid_res);
     connect(ui->videoAspectRatBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
