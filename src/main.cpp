@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     MainWindow window;
 
-    window.setWindowTitle("Lithium ""pre-alpha""-"+git_hash_str);
+    window.setWindowTitle("Lithium ""alpha""-"+git_hash_str);
     window.setWindowIcon(QIcon(":/images/resources/Logo1.png"));
     app.setOrganizationName("The Lithium Team");
     app.setApplicationName("Lithium");
