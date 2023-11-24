@@ -63,6 +63,8 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::select_vid_codec);
     connect(ui->videoContainerBox, &QComboBox::textActivated,
             this, &VideoUI::select_container);
+    connect(ui->videoResBox, &QComboBox::textActivated,
+            this, &VideoUI::select_vid_res);
     //------------------------------------------------------------------------------//
     /*connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_vid_codec);*/
@@ -70,8 +72,8 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::vid_codec_interface);
     /*connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_container);*/
-    connect(ui->videoResBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_vid_res);
+    /*connect(ui->videoResBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &VideoUI::select_vid_res);*/
     connect(ui->videoAspectRatBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_dar_value);
     connect(ui->videoFPSBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -819,6 +821,7 @@ void VideoUI::select_dar_value()
     {
         this->video_dar_value = ui->videoAspectRatBox->currentText();
     }
+    Q_EMIT send_vid_data(video_dar_value, 0);
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
