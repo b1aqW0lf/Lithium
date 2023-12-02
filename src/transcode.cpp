@@ -237,7 +237,7 @@ void Transcode::normal_mode_transcode()
 
     //normal transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_video_file << "-c:v" << video_codec
+         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec
          << "-crf" << crf_value << "-preset" << vid_encoder_preset
          << "-color_primaries" << "1" << "-color_trc" << "1"
          << "-colorspace" << "1" << "-c:a" << audio_codec
