@@ -51,6 +51,8 @@ AudioUI::AudioUI(QWidget *parent) :
             this, &AudioUI::select_samplerate);
     connect(ui->audioChannelBox, &QComboBox::textActivated,
             this, &AudioUI::select_channels);
+    connect(ui->audioContainerBox, &QComboBox::textActivated,
+            this, &AudioUI::select_aud_container);
     //------------------------------------------------------------------------------//
     /*connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_aud_codec);*/
@@ -60,8 +62,8 @@ AudioUI::AudioUI(QWidget *parent) :
             this, &AudioUI::select_samplerate);*/
     /*connect(ui->audioChannelBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_channels);*/
-    connect(ui->audioContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AudioUI::select_aud_container);
+    /*connect(ui->audioContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &AudioUI::select_aud_container);*/
     //-------------------------------------------------------------------------
 
 
