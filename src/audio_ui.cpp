@@ -45,11 +45,13 @@ AudioUI::AudioUI(QWidget *parent) :
     //experimental------------------------------------------------------------------//
     connect(ui->audioCodecBox, &QComboBox::textActivated,
             this, &AudioUI::select_aud_codec);
+    connect(ui->audioBitrateBox, &QComboBox::textActivated,
+            this, &AudioUI::select_aud_bitrate);
     //------------------------------------------------------------------------------//
     /*connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_aud_codec);*/
-    connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AudioUI::select_aud_bitrate);
+    /*connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &AudioUI::select_aud_bitrate);*/
     connect(ui->audioSampleBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_samplerate);
     connect(ui->audioChannelBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
