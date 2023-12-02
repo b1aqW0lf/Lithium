@@ -42,8 +42,12 @@ AudioUI::AudioUI(QWidget *parent) :
     ui->setupUi(this);
 
     //connect signals and slots
-    connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    //experimental------------------------------------------------------------------//
+    connect(ui->audioCodecBox, &QComboBox::textActivated,
             this, &AudioUI::select_aud_codec);
+    //------------------------------------------------------------------------------//
+    /*connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &AudioUI::select_aud_codec);*/
     connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_aud_bitrate);
     connect(ui->audioSampleBox, QOverload<int>::of(&QComboBox::currentIndexChanged),

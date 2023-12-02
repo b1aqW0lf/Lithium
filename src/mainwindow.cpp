@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //toolbar settings
     ui->toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    ui->toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
     ui->toolbar->setIconSize(QSize(28,28));
     ui->toolbar->setMovable(false);
     ui->toolbar->setFloatable(false);
@@ -75,7 +76,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->toolbar->addAction(ui->actionCancel);
     ui->toolbar->addSeparator();
     ui->toolbar->addAction(ui->actionAbout);
-    ui->toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
     ui->actionEncode->setCheckable(true);
     ui->actionEncode->setText(tr("Encode"));
     ui->actionCancel->setText(tr("Cancel"));
