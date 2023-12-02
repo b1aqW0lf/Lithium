@@ -74,17 +74,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->toolbar->addAction(ui->actionEncode);
     ui->toolbar->addAction(ui->actionCancel);
     ui->toolbar->addSeparator();
+    ui->toolbar->addAction(ui->actionAbout);
     ui->actionEncode->setCheckable(true);
     ui->actionEncode->setText(tr("Encode"));
     ui->actionCancel->setText(tr("Cancel"));
+    ui->actionAbout->setText(tr("About"));
     ui->actionEncode->setIconText(tr("Encode"));
     ui->actionCancel->setIconText(tr("Cancel"));
+    ui->actionAbout->setIconText(tr("About"));
     ui->actionEncode->setShortcut(Qt::CTRL+Qt::Key_E);
     ui->actionCancel->setShortcut(Qt::CTRL+Qt::Key_X);
+    ui->actionCancel->setShortcut(Qt::CTRL+Qt::Key_I);
     ui->actionEncode->setToolTip(tr("Start Encoding"));
     ui->actionCancel->setToolTip(tr("Cancel Encoding"));
+    ui->actionAbout->setToolTip(tr("About Qt"));
     ui->actionEncode->setIcon(QIcon(":/images/resources/ffmpeg-96x96.svg"));
     ui->actionCancel->setIcon(QIcon(":/images/resources/actionCancel.svg"));
+    ui->actionAbout->setIcon(QIcon(":/images/resources/info_black_48dp.png"));
 
 
     //display progress bar and statusbar
@@ -129,6 +135,9 @@ void MainWindow::local_connections_setup()
 
     connect(ui->actionCancel, &QAction::triggered,
             this, &MainWindow::cancel_action_encode);
+
+    connect(ui->actionAbout, &QAction::triggered,
+            qApp, &QApplication::aboutQt);
 }
 
 void MainWindow::application_connections_setup()
