@@ -30,7 +30,7 @@
     <item>
      <widget class="QTabWidget" name="avTabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -89,7 +89,7 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="0">
-          <widget class="OutputDisplayUI" name="OuputDisplayWidget" native="true"/>
+          <widget class="OutputDisplayUI" name="OutputDisplayWidget" native="true"/>
          </item>
         </layout>
        </widget>
@@ -171,39 +171,39 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>OutputDisplayUI</class>
+   <class>SelectSourceUI</class>
    <extends>QWidget</extends>
-   <header location="global">output_display_ui.h</header>
+   <header>select_source_ui.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>SelectSourceUI</class>
+   <class>VideoUI</class>
    <extends>QWidget</extends>
-   <header location="global">select_source_ui.h</header>
+   <header>video_ui.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>SaveAsUI</class>
    <extends>QWidget</extends>
-   <header location="global">save_as_ui.h</header>
+   <header>save_as_ui.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AudioUI</class>
+   <extends>QWidget</extends>
+   <header>audio_ui.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OutputDisplayUI</class>
+   <extends>QWidget</extends>
+   <header>output_display_ui.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ProcessModeUI</class>
    <extends>QWidget</extends>
    <header location="global">process_mode_ui.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>VideoUI</class>
-   <extends>QWidget</extends>
-   <header location="global">video_ui.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>AudioUI</class>
-   <extends>QWidget</extends>
-   <header location="global">audio_ui.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

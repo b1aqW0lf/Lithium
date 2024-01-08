@@ -173,10 +173,10 @@ void MainWindow::application_connections_setup()
             ui->statusbar, &QStatusBar::showMessage);/**/
 
     connect(&process, &FFprocess::ffmpeg_read_output,
-            ui->OuputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
+            ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 
     connect(&process, &FFprocess::ffprobe_read_output,
-            ui->OuputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
+            ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 
     //experimental
     connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
