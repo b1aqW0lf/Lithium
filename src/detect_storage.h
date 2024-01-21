@@ -46,12 +46,12 @@ public:
 
     //creating the variables that hold values for available disk space
     //total disc space, and their comparison
-private:
-    QStorageInfo storage{};
 
 public:
-    QString stor_avail{};//available disk space
-    QString stor_total{};//total disk space
+    QString get_available_storage_size();//available disk space
+
+private:
+    QStorageInfo storage{};
 };
 
 #endif // DETECT_STORAGE_H

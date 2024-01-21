@@ -105,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
     statusBarLabel2 = new QLabel(this);
     statusBarLabel1->setPixmap(tr(":/images/resources/hd_16px.png"));
     statusBarLabel1->setToolTip(tr("Available storage on main disk").toUtf8());
-    statusBarLabel2->setText(dsx.stor_avail);
+    statusBarLabel2->setText(dsx.get_available_storage_size());
     ui->statusbar->addPermanentWidget(statusBarLabel1);
     ui->statusbar->addPermanentWidget(statusBarLabel2);
 

@@ -31,12 +31,60 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "detect_storage.h"
 
+#include<QLocale>
+
 
 DetectStorage::DetectStorage(QObject *parent) : QObject(parent)
 {
-    storage = QStorageInfo::root();
-    stor_avail = stor_avail.setNum(storage.bytesAvailable()/1000/1000/1000.00) + " GB";
-    stor_total = stor_total.setNum(storage.bytesTotal()/1000/1000/1000.00) + " GB";
+    //empty constructor
 }
 
 DetectStorage::~DetectStorage(){}
+
+QString DetectStorage::get_available_storage_size()
+{
+    //the get_available_storage_size function is based on the smartSize function from the Torrent File Editor project
+    //with some modifications for this project
+
+    storage = QStorageInfo::root();
+    double bytes = storage.bytesAvailable();
+    int i = 0;
+
+    while (bytes >= 1000.0) {
+        bytes /= 1000.0;
+        ++i;
+    }
+
+    QString res = QLocale::system().toString(bytes, 'g', 4);
+
+    // Drop zeroes
+    while (res.contains(QLocale::system().decimalPoint()) && res.right(1) == QLatin1String("0"))
+        res.chop(1);
+
+    if (res.right(1)[0] == QLocale::system().decimalPoint())
+        res.chop(1);
+
+    switch (i) {
+    case 0:
+        res += QStringLiteral(" ") + tr("B");
+        break;
+
+    case 1:
+        res += QStringLiteral(" ") + tr("KB");
+        break;
+
+    case 2:
+        res += QStringLiteral(" ") + tr("MB");
+        break;
+
+    case 3:
+        res += QStringLiteral(" ") + tr("GB");
+        break;
+
+    case 4:
+        res += QStringLiteral(" ") + tr("TB");
+        break;
+    }
+
+    return res;
+}
