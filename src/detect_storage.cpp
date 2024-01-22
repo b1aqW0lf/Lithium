@@ -43,8 +43,8 @@ DetectStorage::~DetectStorage(){}
 
 QString DetectStorage::get_available_storage_size()
 {
-    //the get_available_storage_size function is based on the smartSize function from the Torrent File Editor project
-    //with some modifications for this project
+    //the get_available_storage_size function is based on the smartSize function
+    //from the Torrent File Editor project with some modifications for this project
 
     storage = QStorageInfo::root();
     double bytes = storage.bytesAvailable();
