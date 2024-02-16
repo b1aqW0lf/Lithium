@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QToolButton>
+#include <QAction>
 
 #include "save_as_ui.h"
 #include "ui_save_as_ui.h"
@@ -53,7 +53,7 @@ SaveAsUI::SaveAsUI(QWidget *parent) :
 
     //enable clear button
     ui->saveASEdit->setClearButtonEnabled(true);
-    QToolButton *clearButton = ui->saveASEdit->findChild<QToolButton *>();
+    QAction *clearButton = ui->saveASEdit->findChild<QAction *>();
     clearButton->setIcon(QIcon(":/images/resources/clear_icon.png"));
     clearButton->setToolTip("clear");
 }
