@@ -61,7 +61,7 @@ VideoUI::VideoUI(QWidget *parent) :
             ui->videoRFSpinBox, &QSpinBox::setValue);
     //-------------------------------------------------------------------------
     //experimental-----------------------------------------------------------------//
-    connect(ui->videoCodecBox, &QComboBox::textActivated,
+    connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_vid_codec);
     connect(ui->videoContainerBox, &QComboBox::textActivated,
             this, &VideoUI::select_container);
