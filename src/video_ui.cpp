@@ -485,7 +485,7 @@ void VideoUI::select_vid_codec(const int index)
     switch(index) {
     case 0:
         //copy from source
-        videoCodecBoxItem->setData(source_codec, Qt::UserRole);
+        videoCodecBoxItem->setData(this->source_codec, Qt::UserRole);
         this->video_codec = ui->videoCodecBox->itemData(0).toString();
         break;
     case 1:
