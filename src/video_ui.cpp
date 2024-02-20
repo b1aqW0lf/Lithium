@@ -478,81 +478,68 @@ void VideoUI::source_vid_codec_check(const QString &codec)
     }
 }
 
-void VideoUI::select_vid_codec()
+void VideoUI::select_vid_codec(const int index)
 {
     int timeout{0};
-    this->video_codec = this->source_codec;
 
-    //select video codec
-    if(ui->videoCodecBox->currentIndex() == 0)
-    {
-        //copy
-        //video_codec = "copy";
-        this->video_codec = this->source_codec;
-    }
-    if(ui->videoCodecBox->currentIndex() == 2)
-    {
+    switch(index) {
+    case 0:
+        //copy from source
+        videoCodecBoxItem->setData(source_codec, Qt::UserRole);
+        this->video_codec = ui->videoCodecBox->itemData(0).toString();
+        break;
+    case 1:
+        //separator - cannot be selected by user
+        break;
+    case 2:
         //x264
         this->video_codec = "libx264";
-    }
-    if(ui->videoCodecBox->currentIndex() == 3)
-    {
+        break;
+    case 3:
         //x264 10bit
         this->video_codec = "libx264";
         pixel_format[1] = "yuv420p10le";
-    }
-    if(ui->videoCodecBox->currentIndex() == 4)
-    {
+        break;
+    case 4:
         //x265
         this->video_codec = "libx265";
-    }
-    if(ui->videoCodecBox->currentIndex() == 5)
-    {
+        break;
+    case 5:
         //x265 10bit
         this->video_codec = "libx265";
         pixel_format[1] = "yuv444p10le";
-    }
-    if(ui->videoCodecBox->currentIndex() == 6)
-    {
+        break;
+    case 6:
         //x265 12bit
         this->video_codec = "libx265";
         pixel_format[1] = "yuv444p12le";
-    }
-    if(ui->videoCodecBox->currentIndex() == 7)
-    {
+        break;
+    case 7:
         //Xvid
         this->video_codec = "libxvid";
-    }
-    if(ui->videoCodecBox->currentIndex() == 8)
-    {
+        break;
+    case 8:
         //vp9
         this->video_codec = "libvpx-vp9";
-    }
-    if(ui->videoCodecBox->currentIndex() == 9)
-    {
+        break;
+    case 9:
         //theora
         this->video_codec = "libtheora";
-    }
-    if(ui->videoCodecBox->currentIndex() == 10)
-    {
+        break;
+    case 10:
         //MPEG-1
         this->video_codec = "mpeg1video";
-    }
-    if(ui->videoCodecBox->currentIndex() == 11)
-    {
+        break;
+    case 11:
         //MPEG-2
         this->video_codec = "mpeg2video";
-    }
-    if(ui->videoCodecBox->currentIndex() == 12)
-    {
-        //rav1e
+        break;
+    case 12:
+        //rav1e0
         this->video_codec = "librav1e";
+        break;
     }
-    /*else
-    {
-        video_codec = ui->videoCodecBox->currentText().toLower();
-    }*/
-    Q_EMIT send_vid_data(video_codec,timeout);
+    Q_EMIT send_vid_data(this->video_codec,timeout);
 }
 
 void VideoUI::vid_codec_interface()
