@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <QButtonGroup>
+#include <QStandardItem>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -120,6 +121,8 @@ private:
     QString source_codec{};
     QString source_fps{};
     QString source_dar{};
+    //-----------------------------------
+    QStandardItem *videoCodecBoxItem{};
     //-----------------------------------
     //process mode state
     bool normal_mode{};

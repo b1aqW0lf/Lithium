@@ -37,6 +37,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QRadioButton>
 #include <QSlider>
 #include <QSpinBox>
+#include <QStandardItemModel>
+
 
 #include "ui_video_ui.h"
 #include "video_ui.h"
@@ -153,7 +155,12 @@ VideoUI::VideoUI(QWidget *parent) :
     //ui->videoEncoderDial->setInvertedAppearance(true);
 
     //video codec interface
-    ui->videoCodecBox->insertItem(0, "Source");
+    videoCodecBoxItem =  new QStandardItem();
+    videoCodecBoxItem->setData(tr("Source"), Qt::DisplayRole);
+    QStandardItemModel *videoCodecBoxModel = new QStandardItemModel(this);
+    videoCodecBoxModel->setItem(0, videoCodecBoxItem);
+    ui->videoCodecBox->setModel(videoCodecBoxModel);
+
     ui->videoCodecBox->insertSeparator(1);
     videoCodecList << "x264" << "x264 10-bit" << "x265" << "x265 10-bit"
                    << "x265 12-bit" << "Xvid" << "VP9" << "Theora" << "MPEG-1"
