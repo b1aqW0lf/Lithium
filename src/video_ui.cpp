@@ -37,12 +37,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QRadioButton>
 #include <QSlider>
 #include <QSpinBox>
+#include <QStandardItem>
 #include <QStandardItemModel>
 
 
 #include "ui_video_ui.h"
 #include "video_ui.h"
 
+namespace VideoStandardItem
+{
+    QStandardItem *videoCodecBoxItem{};
+}
 
 VideoUI::VideoUI(QWidget *parent) :
     QWidget(parent),
@@ -155,10 +160,10 @@ VideoUI::VideoUI(QWidget *parent) :
     //ui->videoEncoderDial->setInvertedAppearance(true);
 
     //video codec interface
-    videoCodecBoxItem =  new QStandardItem();
-    videoCodecBoxItem->setData(tr("Source"), Qt::DisplayRole);
+    VideoStandardItem::videoCodecBoxItem =  new QStandardItem();
+    VideoStandardItem::videoCodecBoxItem->setData(tr("Source"), Qt::DisplayRole);
     QStandardItemModel *videoCodecBoxModel = new QStandardItemModel(this);
-    videoCodecBoxModel->setItem(0, videoCodecBoxItem);
+    videoCodecBoxModel->setItem(0, VideoStandardItem::videoCodecBoxItem);
     ui->videoCodecBox->setModel(videoCodecBoxModel);
 
     ui->videoCodecBox->insertSeparator(1);
@@ -485,7 +490,7 @@ void VideoUI::select_vid_codec(const int index)
     switch(index) {
     case 0:
         //copy from source
-        videoCodecBoxItem->setData(this->source_codec, Qt::UserRole);
+        VideoStandardItem::videoCodecBoxItem->setData(this->source_codec, Qt::UserRole);
         this->video_codec = ui->videoCodecBox->itemData(0).toString();
         break;
     case 1:
