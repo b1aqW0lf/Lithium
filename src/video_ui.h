@@ -139,7 +139,6 @@ private:
 
     //functions
     void enable_extract_audio_settings(const bool &extract);
-    void source_vid_codec_check(const QString &codec);
 
     //button group
     QButtonGroup *rateOptButtons;

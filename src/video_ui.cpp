@@ -471,15 +471,13 @@ void VideoUI::select_qscale()
 
 void VideoUI::receive_vid_source_codec(const QString &codec)
 {
-    this->source_codec = codec;
-    source_vid_codec_check(codec);
-}
-
-void VideoUI::source_vid_codec_check(const QString &codec)
-{
     if(codec.contains("("))
     {
         this->source_codec = codec.left(codec.lastIndexOf("(")).remove(" ");
+    }
+    else
+    {
+        this->source_codec = codec;
     }
 }
 
