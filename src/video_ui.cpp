@@ -40,9 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QStandardItem>
 #include <QStandardItemModel>
 
-
 #include "ui_video_ui.h"
 #include "video_ui.h"
+
 
 namespace VideoStandardItem
 {
@@ -501,7 +501,8 @@ void VideoUI::select_vid_codec(const int index)
     case 3:
         //x264 10bit
         this->video_codec = "libx264";
-        pixel_format[1] = "yuv420p10le";
+        pixel_format.clear();
+        pixel_format << "-pix_fmt" << "yuv420p10le";
         break;
     case 4:
         //x265
@@ -510,12 +511,14 @@ void VideoUI::select_vid_codec(const int index)
     case 5:
         //x265 10bit
         this->video_codec = "libx265";
-        pixel_format[1] = "yuv444p10le";
+        pixel_format.clear();
+        pixel_format << "-pix_fmt" << "yuv444p10le";
         break;
     case 6:
         //x265 12bit
         this->video_codec = "libx265";
-        pixel_format[1] = "yuv444p12le";
+        pixel_format.clear();
+        pixel_format << "-pix_fmt" << "yuv444p12le";
         break;
     case 7:
         //Xvid

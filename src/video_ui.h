@@ -134,7 +134,7 @@ private:
     QStringList videoAspecRatList{};
     QStringList videoFPSList{};
     QStringList videoEncProfileList{};
-    QStringList pixel_format{"-pix_fmt"};
+    QStringList pixel_format{};
     QStringList enc_profile{"-profile:v"};
 
     //functions
