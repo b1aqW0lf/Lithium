@@ -323,6 +323,9 @@ void MainWindow::transcoder_connections_setup()
     connect(ui->VideoUIWidget, &VideoUI::send_current_video_options,
             &transcoder, &Transcode::receive_current_video_options);
 
+    connect(ui->VideoUIWidget, &VideoUI::send_pixel_format_data,
+            &transcoder, &Transcode::receive_pixel_format_data);
+
     //start transcode
     connect(this, &MainWindow::start_encode_process,
             &transcoder, &Transcode::start_encode_process);

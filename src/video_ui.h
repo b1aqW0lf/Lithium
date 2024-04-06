@@ -54,6 +54,7 @@ Q_SIGNALS:
     void two_pass_encode_enabled(const bool &status);
     /*void send_average_bitrate_value(const QString &value);*/
     void average_bitrate_encode_enabled(const bool &status);
+    void send_pixel_format_data(const QStringList &pixel_format, const bool &pixel_format_enabled);
 
     //send current video options
     void send_current_video_options(const QString &codec, const QString &video_bitrate,
@@ -134,7 +135,6 @@ private:
     QStringList videoAspecRatList{};
     QStringList videoFPSList{};
     QStringList videoEncProfileList{};
-    QStringList pixel_format{};
     QStringList enc_profile{"-profile:v"};
 
     //functions

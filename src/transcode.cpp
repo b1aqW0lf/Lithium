@@ -183,6 +183,12 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
     this->vid_encoder_preset = encoder_preset_val;
 }
 
+void Transcode::receive_pixel_format_data(const QStringList &pixel_format, const bool &pixel_format_enbled)
+{
+    this->pixel_format = pixel_format;
+    this->pixel_format_enabled = pixel_format_enbled;
+}
+
 void Transcode::start_encode_process()
 {
     //start encode process
