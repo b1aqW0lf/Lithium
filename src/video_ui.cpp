@@ -485,8 +485,7 @@ void VideoUI::receive_vid_source_codec(const QString &codec)
 void VideoUI::select_vid_codec(const int index)
 {
     int timeout{0};
-    QStringList pixel_format{};
-    bool pixel_format_enabled{};
+    this->pixel_format_enabled = false;
 
     switch(index) {
     case 0:
@@ -503,9 +502,9 @@ void VideoUI::select_vid_codec(const int index)
     case 3:
         //x264 10bit
         this->video_codec = "libx264";
-        pixel_format.clear();
-        pixel_format << "-pix_fmt" << "yuv420p10le";
-        pixel_format_enabled = true;
+        this->pixel_format.clear();
+        this->pixel_format << "-pix_fmt" << "yuv420p10le";
+        this->pixel_format_enabled = true;
         break;
     case 4:
         //x265
@@ -514,16 +513,16 @@ void VideoUI::select_vid_codec(const int index)
     case 5:
         //x265 10bit
         this->video_codec = "libx265";
-        pixel_format.clear();
-        pixel_format << "-pix_fmt" << "yuv444p10le";
-        pixel_format_enabled = true;
+        this->pixel_format.clear();
+        this->pixel_format << "-pix_fmt" << "yuv444p10le";
+        this->pixel_format_enabled = true;
         break;
     case 6:
         //x265 12bit
         this->video_codec = "libx265";
-        pixel_format.clear();
-        pixel_format << "-pix_fmt" << "yuv444p12le";
-        pixel_format_enabled = true;
+        this->pixel_format.clear();
+        this->pixel_format << "-pix_fmt" << "yuv444p12le";
+        this->pixel_format_enabled = true;
         break;
     case 7:
         //Xvid
@@ -551,7 +550,6 @@ void VideoUI::select_vid_codec(const int index)
         break;
     }
     Q_EMIT send_vid_data(this->video_codec,timeout);
-    Q_EMIT send_pixel_format_data(pixel_format, pixel_format_enabled);
 }
 
 void VideoUI::vid_codec_interface()
@@ -1578,7 +1576,8 @@ void VideoUI::get_selected_video_options()
     //emit the current selected video options
     Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
                                 qscale_value, video_res_value, video_dar_value,
-                                video_fps_val, encoder_preset_val);
+                                video_fps_val, encoder_preset_val,
+                                pixel_format, pixel_format_enabled);
 }
 
 void VideoUI::receive_clear_request()

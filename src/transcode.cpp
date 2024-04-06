@@ -171,7 +171,8 @@ void Transcode::receive_current_audio_options(const QString &codec, const QStrin
 void Transcode::receive_current_video_options(const QString &codec, const QString &video_bitrate,
                                               const QString &crf_value, const QString &qscale_value,
                                               const QString &video_res_value, const QString &video_dar_value,
-                                              const QString &video_fps_val, const QString &encoder_preset_val)
+                                              const QString &video_fps_val, const QString &encoder_preset_val,
+                                              const QStringList &pixel_format, const bool &pixel_format_enabled)
 {
     this->video_codec = codec;
     this->vid_avg_bitrate = video_bitrate;
@@ -181,12 +182,8 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
     this->video_dar = video_dar_value;
     this->video_fps = video_fps_val;
     this->vid_encoder_preset = encoder_preset_val;
-}
-
-void Transcode::receive_pixel_format_data(const QStringList &pixel_format, const bool &pixel_format_enbled)
-{
     this->pixel_format = pixel_format;
-    this->pixel_format_enabled = pixel_format_enbled;
+    this->pixel_format_enabled = pixel_format_enabled;
 }
 
 void Transcode::start_encode_process()

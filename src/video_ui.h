@@ -54,13 +54,13 @@ Q_SIGNALS:
     void two_pass_encode_enabled(const bool &status);
     /*void send_average_bitrate_value(const QString &value);*/
     void average_bitrate_encode_enabled(const bool &status);
-    void send_pixel_format_data(const QStringList &pixel_format, const bool &pixel_format_enabled);
 
     //send current video options
     void send_current_video_options(const QString &codec, const QString &video_bitrate,
                                const QString &crf_val, const QString &qs_val,
                                const QString &resolution, const QString &dar,
-                               const QString &framerate, const QString &encoder_preset);
+                               const QString &framerate, const QString &encoder_preset,
+                               const QStringList &pixel_format, const bool &pixel_format_enabled);
 
     //for testing only!
     void send_vid_data(const QString &data, const int &timeout);
@@ -114,6 +114,8 @@ private:
     QString video_dar_value{};
     QString video_fps_val{};
     QString video_bitrate{};
+    QStringList pixel_format{};
+    bool pixel_format_enabled{};
 
     //video source variables
     QString source_ext{};
