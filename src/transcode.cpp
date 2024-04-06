@@ -243,8 +243,14 @@ void Transcode::normal_mode_transcode()
 
     //normal transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec
-         << "-crf" << crf_value << "-preset" << vid_encoder_preset
+         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec;
+
+    if(pixel_format_enabled == true)
+    {
+        args.append(pixel_format);
+    }
+
+    args << "-crf" << crf_value << "-preset" << vid_encoder_preset
          << "-color_primaries" << "1" << "-color_trc" << "1"
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
@@ -269,8 +275,14 @@ void Transcode::average_bitrate_encode()
 
     //normal transcode + average bitrate
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_video_file << "-c:v" << video_codec
-         << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
+         << "-i" << source_video_file << "-c:v" << video_codec;
+
+    if(pixel_format_enabled == true)
+    {
+        args.append(pixel_format);
+    }
+
+    args << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
          << "-color_primaries" << "1" << "-color_trc" << "1"
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
@@ -300,8 +312,14 @@ void Transcode::two_pass_encode_1st_pass()
     pass_log_location = file.absolutePath()+"/passlogfile";
 
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec
-         << "-pix_fmt" << "yuv420p" << "-b:v" << vid_avg_bitrate << "-preset"
+         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec;
+
+    if(pixel_format_enabled == true)
+    {
+        args.append(pixel_format);
+    }
+
+    args << "-b:v" << vid_avg_bitrate << "-preset"
          << vid_encoder_preset << "-map_metadata" << "0" << "-y"
          << "-passlogfile" << pass_log_location << "-pass" << "1" << "-an"
          << "-f" << "null"
@@ -334,8 +352,14 @@ void Transcode::two_pass_encode_2nd_pass()
     //normal transcode + 2-pass encoding
     //2nd Pass
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec
-         << "-pix_fmt" << "yuv420p" << "-b:v" << vid_avg_bitrate << "-preset"
+         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec;
+
+    if(pixel_format_enabled == true)
+    {
+        args.append(pixel_format);
+    }
+
+    args << "-b:v" << vid_avg_bitrate << "-preset"
          << vid_encoder_preset << "-map_metadata" << "0" << "-y" << "-passlogfile"
          << pass_log_location << "-pass" << "2" << "-c:a" << audio_codec
          << output_file;
