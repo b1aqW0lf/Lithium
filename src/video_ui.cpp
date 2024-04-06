@@ -485,6 +485,7 @@ void VideoUI::receive_vid_source_codec(const QString &codec)
 void VideoUI::select_vid_codec(const int index)
 {
     int timeout{0};
+    this->pixel_format.clear();
     this->pixel_format_enabled = false;
 
     switch(index) {
@@ -502,7 +503,6 @@ void VideoUI::select_vid_codec(const int index)
     case 3:
         //x264 10bit
         this->video_codec = "libx264";
-        this->pixel_format.clear();
         this->pixel_format << "-pix_fmt" << "yuv420p10le";
         this->pixel_format_enabled = true;
         break;
@@ -513,14 +513,12 @@ void VideoUI::select_vid_codec(const int index)
     case 5:
         //x265 10bit
         this->video_codec = "libx265";
-        this->pixel_format.clear();
         this->pixel_format << "-pix_fmt" << "yuv444p10le";
         this->pixel_format_enabled = true;
         break;
     case 6:
         //x265 12bit
         this->video_codec = "libx265";
-        this->pixel_format.clear();
         this->pixel_format << "-pix_fmt" << "yuv444p12le";
         this->pixel_format_enabled = true;
         break;
