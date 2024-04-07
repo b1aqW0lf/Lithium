@@ -438,7 +438,7 @@ void VideoUI::encoder_preset()
         }
     }
     if(ui->videoEncoderDial->value() == 10 &&
-            ui->videoEncoderDial->sliderPosition() == 10)//<==Speed 10 does not appear in application
+            ui->videoEncoderDial->sliderPosition() == 10)
     {
         //test for AV1/rav1e
         if(ui->videoCodecBox->currentIndex() == 12)
@@ -446,11 +446,7 @@ void VideoUI::encoder_preset()
             ui->videoDialPreset->setText(tr("Speed 10"));
             encoder_preset_val = "10";
             ui->videoEncoderDial->setToolTip(tr("Speed 10 Encoding"));
-        }/*
-        else
-        {
-            ui->videoEncoderDial->setRange(0, 9);
-        }*/
+        }
     }
     if(ui->videoEncoderDial->value() == 11 &&
         ui->videoEncoderDial->sliderPosition() == 11)
