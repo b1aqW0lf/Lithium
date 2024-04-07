@@ -261,7 +261,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 0)
     {
         //test for AV1 codec/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 0"));
             encoder_preset_val = "0";
@@ -279,7 +279,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 1)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 1"));
             encoder_preset_val = "1";
@@ -297,7 +297,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 2)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 2"));
             encoder_preset_val = "2";
@@ -315,7 +315,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 3)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 3"));
             encoder_preset_val = "3";
@@ -333,7 +333,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 4)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 4"));
             encoder_preset_val = "4";
@@ -351,7 +351,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 5)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 5"));
             encoder_preset_val = "5";
@@ -369,7 +369,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 6)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 6"));
             encoder_preset_val = "6";
@@ -387,7 +387,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 7)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 7"));
             encoder_preset_val = "7";
@@ -405,7 +405,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 8)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 8"));
             encoder_preset_val = "8";
@@ -423,7 +423,7 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 9)
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 9"));
             encoder_preset_val = "9";
@@ -441,15 +441,48 @@ void VideoUI::encoder_preset()
             ui->videoEncoderDial->sliderPosition() == 10)//<==Speed 10 does not appear in application
     {
         //test for AV1/rav1e
-        if(ui->videoCodecBox->currentIndex() == 9)
+        if(ui->videoCodecBox->currentIndex() == 12)
         {
             ui->videoDialPreset->setText(tr("Speed 10"));
             encoder_preset_val = "10";
             ui->videoEncoderDial->setToolTip(tr("Speed 10 Encoding"));
-        }
+        }/*
         else
         {
             ui->videoEncoderDial->setRange(0, 9);
+        }*/
+    }
+    if(ui->videoEncoderDial->value() == 11 &&
+        ui->videoEncoderDial->sliderPosition() == 11)
+    {
+        //test for AV1/rav1e
+        if(ui->videoCodecBox->currentIndex() == 12)
+        {
+            ui->videoDialPreset->setText(tr("Speed 11"));
+            encoder_preset_val = "11";
+            ui->videoEncoderDial->setToolTip(tr("Speed 11 Encoding"));
+        }
+    }
+    if(ui->videoEncoderDial->value() == 12 &&
+        ui->videoEncoderDial->sliderPosition() == 12)
+    {
+        //test for AV1/rav1e
+        if(ui->videoCodecBox->currentIndex() == 12)
+        {
+            ui->videoDialPreset->setText(tr("Speed 12"));
+            encoder_preset_val = "12";
+            ui->videoEncoderDial->setToolTip(tr("Speed 12 Encoding"));
+        }
+    }
+    if(ui->videoEncoderDial->value() == 13 &&
+        ui->videoEncoderDial->sliderPosition() == 13)
+    {
+        //test for AV1/rav1e
+        if(ui->videoCodecBox->currentIndex() == 12)
+        {
+            ui->videoDialPreset->setText(tr("Speed 13"));
+            encoder_preset_val = "13";
+            ui->videoEncoderDial->setToolTip(tr("Speed 13 Encoding"));
         }
     }//test, it works!
 }
