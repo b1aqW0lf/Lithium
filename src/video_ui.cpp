@@ -727,16 +727,16 @@ void VideoUI::vid_codec_interface()
     }
     else if(ui->videoCodecBox->currentIndex() == 12)
     {
-        //default svt-av1 settings, qp range is 0-255, 0 is highest
+        //default svt-av1 settings, crf range is 0-63, 0 is highest, 35 is default
         ui->videoRFSlider->setTickPosition(QSlider::TicksBelow);
-        ui->videoRFSpinBox->setRange(0, 255);
-        ui->videoRFSlider->setRange(0, 255);
+        ui->videoRFSpinBox->setRange(0, 63);
+        ui->videoRFSlider->setRange(0, 63);
         ui->videoEncoderDial->setRange(0, 13);
-        ui->videoRFSlider->setValue(100);
-        ui->videoRFSpinBox->setValue(100);
-        ui->videoRFSlider->setSliderPosition(100);
+        ui->videoRFSlider->setValue(35);
+        ui->videoRFSpinBox->setValue(35);
+        ui->videoRFSlider->setSliderPosition(35);
         ui->videoRFSlider->setSingleStep(1);
-        ui->videoCRFRadio->setText(tr("Quantizer Factor"));
+        ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
         ui->videoLQLabel->setText(tr("Low Quality |"));
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
