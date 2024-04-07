@@ -735,7 +735,7 @@ void VideoUI::vid_codec_interface()
         ui->videoRFSlider->setTickPosition(QSlider::TicksBelow);
         ui->videoRFSpinBox->setRange(0, 255);
         ui->videoRFSlider->setRange(0, 255);
-        ui->videoEncoderDial->setRange(0, 10);
+        ui->videoEncoderDial->setRange(0, 13);
         ui->videoRFSlider->setValue(100);
         ui->videoRFSpinBox->setValue(100);
         ui->videoRFSlider->setSliderPosition(100);
@@ -746,6 +746,7 @@ void VideoUI::vid_codec_interface()
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setToolTip(tr("default: Speed 4 Encoding"));
+        ui->videoEncoderDial->setValue(4);//default value
         ui->videoDialPreset->setText(tr("Speed 4"));//default value
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qp value
         ui->videoEncLevelSlider->setRange(0,20);
