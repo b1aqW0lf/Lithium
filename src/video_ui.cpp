@@ -48,6 +48,7 @@ namespace VideoStandardItem
 {
     QStandardItem *videoCodecBoxItem{};
     QStandardItem *videoContainerBoxItem{};
+    QStandardItem *videoResBoxItem{};
 }
 
 VideoUI::VideoUI(QWidget *parent) :
@@ -187,7 +188,12 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoContainerLabel->setText(tr("Container"));
 
     //video resolution
-    ui->videoResBox->insertItem(0, "Source");
+    VideoStandardItem::videoResBoxItem = new QStandardItem();
+    VideoStandardItem::videoResBoxItem->setData(tr("Source"), Qt::DisplayRole);
+    QStandardItemModel *videoResBoxModel = new QStandardItemModel(this);
+    videoResBoxModel->setItem(0, VideoStandardItem::videoResBoxItem);
+    ui->videoResBox->setModel(videoResBoxModel);
+
     ui->videoResBox->insertSeparator(1);
     videoResList << "640x360" << "720x480" << "720x576" << "1024x768"
                  << "1280x720" << "1366x768" << "1600x900" << "1920x1080"
@@ -829,6 +835,7 @@ void VideoUI::select_container()//fixed!!!
 void VideoUI::receive_vid_source_resolution(const QString &display)
 {
     this->source_res = display;
+    VideoStandardItem::videoResBoxItem->setData(this->source_res, Qt::UserRole);
 }
 
 void VideoUI::select_vid_res()
@@ -838,9 +845,8 @@ void VideoUI::select_vid_res()
     //select video resolution
     if(ui->videoResBox->currentIndex() == 0)//it works!
     {
-        //input1_vid_res holds the default res value for input_file1
-        //video_res_value = "copy";
-        this->video_res_value = "scale="+this->source_res;
+        //video_res_value = source file value
+        this->video_res_value = "scale="+ui->videoResBox->itemData(0).toString();
     }
     else
     {
