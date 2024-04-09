@@ -161,7 +161,7 @@ VideoUI::VideoUI(QWidget *parent) :
     //ui->videoEncoderDial->setInvertedAppearance(true);
 
     //video codec interface
-    VideoStandardItem::videoCodecBoxItem =  new QStandardItem();
+    VideoStandardItem::videoCodecBoxItem = new QStandardItem();
     VideoStandardItem::videoCodecBoxItem->setData(tr("Source"), Qt::DisplayRole);
     QStandardItemModel *videoCodecBoxModel = new QStandardItemModel(this);
     videoCodecBoxModel->setItem(0, VideoStandardItem::videoCodecBoxItem);
@@ -175,7 +175,7 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoCodecLabel->setText(tr("Codec "));
 
     //video container
-    VideoStandardItem::videoContainerBoxItem =  new QStandardItem();
+    VideoStandardItem::videoContainerBoxItem = new QStandardItem();
     VideoStandardItem::videoContainerBoxItem->setData(tr("Source"), Qt::DisplayRole);
     QStandardItemModel *videoContainerBoxModel = new QStandardItemModel(this);
     videoContainerBoxModel->setItem(0, VideoStandardItem::videoContainerBoxItem);
