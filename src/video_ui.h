@@ -90,7 +90,7 @@ private Q_SLOTS:
     void select_qscale();
     void select_vid_codec(const int index);
     void select_vid_res();
-    void select_container();
+    void select_container(const int index);
     void select_dar_value();
     void select_vid_fps();
     void vid_codec_interface();

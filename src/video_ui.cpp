@@ -72,7 +72,7 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::select_vid_codec);
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::vid_codec_interface);
-    connect(ui->videoContainerBox, &QComboBox::textActivated,
+    connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_container);
     connect(ui->videoResBox, &QComboBox::textActivated,
             this, &VideoUI::select_vid_res);
@@ -790,45 +790,45 @@ void VideoUI::receive_vid_source_extension(const QString &extension)
     VideoStandardItem::videoContainerBoxItem->setData(this->source_ext, Qt::UserRole);
 }
 
-void VideoUI::select_container()//fixed!!!
+void VideoUI::select_container(const int index)
 {
-    QString vid_ext{this->source_ext};
-    if(ui->videoContainerBox->currentIndex() == 0)
-    {
-        //source file extension
+    QString vid_ext{this->source_ext};    
+
+    switch(index) {
+    case 0:
+        //copy from source
         //source file extension from receive_vid_source_extension
         vid_ext = ui->videoContainerBox->itemData(0).toString();
         Q_EMIT send_output_vid_extension(vid_ext);
-    }
-    if(ui->videoContainerBox->currentIndex() == 2)
-    {
+        break;
+    case 1:
+        //separator - cannot be selected by user
+        break;
+    case 2:
         //mp4
         vid_ext = ui->videoContainerBox->currentText().toLower();
         Q_EMIT send_output_vid_extension("."+vid_ext);
-    }
-    if(ui->videoContainerBox->currentIndex() == 3)
-    {
+        break;
+    case 3:
         //mkv
         vid_ext = ui->videoContainerBox->currentText().toLower();
         Q_EMIT send_output_vid_extension("."+vid_ext);
-    }
-    if(ui->videoContainerBox->currentIndex() == 4)
-    {
+        break;
+    case 4:
         //webm
         vid_ext = ui->videoContainerBox->currentText().toLower();
         Q_EMIT send_output_vid_extension("."+vid_ext);
-    }
-    if(ui->videoContainerBox->currentIndex() == 5)
-    {
+        break;
+    case 5:
         //ts
         vid_ext = ui->videoContainerBox->currentText().toLower();
         Q_EMIT send_output_vid_extension("."+vid_ext);
-    }
-    if(ui->videoContainerBox->currentIndex() == 6)
-    {
+        break;
+    case 6:
         //ogv
         vid_ext = ui->videoContainerBox->currentText().toLower();
         Q_EMIT send_output_vid_extension("."+vid_ext);
+        break;
     }
 }
 
