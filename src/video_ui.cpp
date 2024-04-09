@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace VideoStandardItem
 {
     QStandardItem *videoCodecBoxItem{};
+    QStandardItem *videoContainerBoxItem{};
 }
 
 VideoUI::VideoUI(QWidget *parent) :
@@ -68,6 +69,8 @@ VideoUI::VideoUI(QWidget *parent) :
     //experimental-----------------------------------------------------------------//
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_vid_codec);
+    connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &VideoUI::vid_codec_interface);
     connect(ui->videoContainerBox, &QComboBox::textActivated,
             this, &VideoUI::select_container);
     connect(ui->videoResBox, &QComboBox::textActivated,
@@ -81,8 +84,6 @@ VideoUI::VideoUI(QWidget *parent) :
     //------------------------------------------------------------------------------//
     /*connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_vid_codec);*/
-    connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::vid_codec_interface);
     /*connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_container);*/
     /*connect(ui->videoResBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -174,7 +175,12 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoCodecLabel->setText(tr("Codec "));
 
     //video container
-    ui->videoContainerBox->insertItem(0, "Source");
+    VideoStandardItem::videoContainerBoxItem =  new QStandardItem();
+    VideoStandardItem::videoContainerBoxItem->setData(tr("Source"), Qt::DisplayRole);
+    QStandardItemModel *videoContainerBoxModel = new QStandardItemModel(this);
+    videoContainerBoxModel->setItem(0, VideoStandardItem::videoContainerBoxItem);
+    ui->videoContainerBox->setModel(videoContainerBoxModel);
+
     ui->videoContainerBox->insertSeparator(1);
     videoContainerList << "MP4" << "MKV" << "WebM" << "TS" << "OGV";
     ui->videoContainerBox->insertItems(2, videoContainerList);
@@ -775,6 +781,7 @@ void VideoUI::vid_codec_interface()
 void VideoUI::receive_vid_source_extension(const QString &extension)
 {
     this->source_ext = extension;
+    VideoStandardItem::videoContainerBoxItem->setData(this->source_ext, Qt::UserRole);
 }
 
 void VideoUI::select_container()//fixed!!!
@@ -783,8 +790,8 @@ void VideoUI::select_container()//fixed!!!
     if(ui->videoContainerBox->currentIndex() == 0)
     {
         //source file extension
-        //source file extension from receive_vid_source_data(const QString &text)
-        vid_ext = this->source_ext;
+        //source file extension from receive_vid_source_extension
+        vid_ext = ui->videoContainerBox->itemData(0).toString();
         Q_EMIT send_output_vid_extension(vid_ext);
     }
     if(ui->videoContainerBox->currentIndex() == 2)
