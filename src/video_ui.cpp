@@ -792,7 +792,7 @@ void VideoUI::receive_vid_source_extension(const QString &extension)
 
 void VideoUI::select_container(const int index)
 {
-    QString vid_ext{this->source_ext};    
+    QString vid_ext{this->source_ext};
 
     switch(index) {
     case 0:
