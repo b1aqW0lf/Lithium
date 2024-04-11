@@ -792,43 +792,19 @@ void VideoUI::receive_vid_source_extension(const QString &extension)
 
 void VideoUI::select_container(const int index)
 {
-    QString vid_ext{this->source_ext};
+    QString vid_ext{};
 
-    switch(index) {
-    case 0:
+    if(index == 0)
+    {
         //copy from source
         //source file extension from receive_vid_source_extension
         vid_ext = ui->videoContainerBox->itemData(0).toString();
         Q_EMIT send_output_vid_extension(vid_ext);
-        break;
-    case 1:
-        //separator - cannot be selected by user
-        break;
-    case 2:
-        //mp4
+    }
+    else
+    {
         vid_ext = ui->videoContainerBox->currentText().toLower();
         Q_EMIT send_output_vid_extension("."+vid_ext);
-        break;
-    case 3:
-        //mkv
-        vid_ext = ui->videoContainerBox->currentText().toLower();
-        Q_EMIT send_output_vid_extension("."+vid_ext);
-        break;
-    case 4:
-        //webm
-        vid_ext = ui->videoContainerBox->currentText().toLower();
-        Q_EMIT send_output_vid_extension("."+vid_ext);
-        break;
-    case 5:
-        //ts
-        vid_ext = ui->videoContainerBox->currentText().toLower();
-        Q_EMIT send_output_vid_extension("."+vid_ext);
-        break;
-    case 6:
-        //ogv
-        vid_ext = ui->videoContainerBox->currentText().toLower();
-        Q_EMIT send_output_vid_extension("."+vid_ext);
-        break;
     }
 }
 
