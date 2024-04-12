@@ -89,7 +89,7 @@ private Q_SLOTS:
     void select_crf();
     void select_qscale();
     void select_vid_codec(const int index);
-    void select_video_res();
+    void select_video_res(const int index);
     void select_container(const int index);
     void select_dar_value();
     void select_vid_fps();
