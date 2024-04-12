@@ -75,7 +75,7 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_container);
     connect(ui->videoResBox, &QComboBox::textActivated,
-            this, &VideoUI::select_vid_res);
+            this, &VideoUI::select_video_res);
     connect(ui->videoAspectRatBox, &QComboBox::textActivated,
             this, &VideoUI::select_dar_value);
     connect(ui->videoFPSBox, &QComboBox::textActivated,
@@ -814,7 +814,7 @@ void VideoUI::receive_vid_source_resolution(const QString &display)
     VideoStandardItem::videoResBoxItem->setData(this->source_res, Qt::UserRole);
 }
 
-void VideoUI::select_vid_res()
+void VideoUI::select_video_res()
 {
     this->video_res_value = this->source_res;
 
