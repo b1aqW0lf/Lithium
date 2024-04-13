@@ -247,7 +247,7 @@ void Transcode::normal_mode_transcode()
         args.append(pixel_format);
     }
 
-    args << "-crf" << crf_value << "-preset" << vid_encoder_preset
+    args << "-vf" << video_res << "-crf" << crf_value << "-preset" << vid_encoder_preset
          << "-color_primaries" << "1" << "-color_trc" << "1"
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
@@ -279,7 +279,7 @@ void Transcode::average_bitrate_encode()
         args.append(pixel_format);
     }
 
-    args << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
+    args << "-vf" << video_res << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
          << "-color_primaries" << "1" << "-color_trc" << "1"
          << "-colorspace" << "1" << "-c:a" << audio_codec
          << "-map_metadata" << "0" << output_file;
@@ -316,7 +316,7 @@ void Transcode::two_pass_encode_1st_pass()
         args.append(pixel_format);
     }
 
-    args << "-b:v" << vid_avg_bitrate << "-preset"
+    args << "-vf" << video_res << "-b:v" << vid_avg_bitrate << "-preset"
          << vid_encoder_preset << "-map_metadata" << "0" << "-y"
          << "-passlogfile" << pass_log_location << "-pass" << "1" << "-an"
          << "-f" << "null"
@@ -356,7 +356,7 @@ void Transcode::two_pass_encode_2nd_pass()
         args.append(pixel_format);
     }
 
-    args << "-b:v" << vid_avg_bitrate << "-preset"
+    args << "-vf" << video_res << "-b:v" << vid_avg_bitrate << "-preset"
          << vid_encoder_preset << "-map_metadata" << "0" << "-y" << "-passlogfile"
          << pass_log_location << "-pass" << "2" << "-c:a" << audio_codec
          << output_file;
