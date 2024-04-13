@@ -1592,6 +1592,10 @@ void VideoUI::get_selected_video_options()
     {
         this->video_codec = ui->videoCodecBox->itemData(0).toString();
     }
+    if(ui->videoResBox->currentIndex() == 0)
+    {
+        this->video_res_value = "scale="+ui->videoResBox->itemData(0).toString();
+    }
 
     //emit the current selected video options
     Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
