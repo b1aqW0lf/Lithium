@@ -516,19 +516,25 @@ void Transcode::encoding_process_started()
     }
 }
 
-void Transcode::encoding_process_finished()
+void Transcode::encoding_process_finished(const int index)
 {
     int timeout{0};
 
     //Set the encoding status by checking output file's existence
     this->ffmpeg->waitForFinished();
 
-    if(QFile::exists(output_file) &&
-        (this->ffmpeg->QProcess::exitStatus() == QProcess::NormalExit))
+    if(index == 0)//QProcess::NormalExit
     {
-        Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
-        //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
+        if(QFile::exists(output_file))
+        {
+            Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
+            //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
+            Q_EMIT enable_encode_button();
+            this->ffmpeg->closeWriteChannel();//close write channel after encoding finishes
+        }
     }
-    Q_EMIT enable_encode_button();
-    this->ffmpeg->closeWriteChannel();//close write channel after encoding finishes
+    else if(index == 1)//QProcess::CrashExit
+    {
+        Q_EMIT send_encoder_status(tr("Encoding Status: Stopped Abnormally "), timeout);
+    }
 }

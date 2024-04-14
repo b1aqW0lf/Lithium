@@ -80,7 +80,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void encoding_process_started();
-    void encoding_process_finished();
+    void encoding_process_finished(const int index);
 
 private:
     //ffmpeg process
