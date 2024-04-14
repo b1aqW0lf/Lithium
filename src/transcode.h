@@ -79,6 +79,7 @@ public Q_SLOTS:
     void cancel_encode_process();
 
 private Q_SLOTS:
+    void encoding_process_started();
     void encoding_process_finished();
 
 private:

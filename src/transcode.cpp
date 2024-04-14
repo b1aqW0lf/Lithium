@@ -44,6 +44,8 @@ Transcode::Transcode(QWidget *parent)
     //local connection
     connect(this->ffmpeg, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &Transcode::encoding_process_finished);
+
+    connect(this->ffmpeg, &QProcess::started, this, &Transcode::encoding_process_started);
 }
 
 Transcode::~Transcode()
@@ -258,11 +260,6 @@ void Transcode::normal_mode_transcode()
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
-    if(this->ffmpeg->QProcess::state() == QProcess::Running)
-    {
-        //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
-    }
     args.clear();
 }
 
@@ -290,11 +287,6 @@ void Transcode::average_bitrate_encode()
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
-    if(this->ffmpeg->QProcess::state() == QProcess::Running)
-    {
-        //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
-    }
     args.clear();
 }
 
@@ -395,11 +387,6 @@ void Transcode::merge_mode_transcode()
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
-    if(this->ffmpeg->QProcess::state() == QProcess::Running)
-    {
-        //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started -- Merging "), timeout);
-    }
     args.clear();
 }
 
@@ -420,11 +407,6 @@ void Transcode::extract_mode_transcode()
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
-    if(this->ffmpeg->QProcess::state() == QProcess::Running)
-    {
-        //this logic works!
-        Q_EMIT send_encoder_status(tr("Encoding Started -- Extracting "), timeout);
-    }
     args.clear();
 }
 
@@ -494,6 +476,43 @@ void Transcode::cancel_encode_process()
         this->ffmpeg->close();
         this->ffmpeg->closeWriteChannel();
         Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
+    }
+}
+
+void Transcode::encoding_process_started()
+{
+    int timeout{0};
+
+    if(this->ffmpeg->QProcess::state() == QProcess::Running)
+    {
+        if(normal_mode == true &&
+            average_bitrate_enabled == false)
+        {
+            //this logic works!
+            Q_EMIT send_encoder_status(tr("Encoding Started "), timeout);
+        }
+        else if(average_bitrate_enabled == true &&
+                   two_pass_enabled == false)
+        {
+            Q_EMIT send_encoder_status(tr("Average Bitrate Encoding Started "), timeout);
+        }
+        else if(average_bitrate_enabled == true &&
+                 two_pass_enabled == true)
+        {
+            Q_EMIT send_encoder_status(tr("Two Pass Encoding Started "), timeout);
+        }
+        else if(merge_mode == true)
+        {
+            Q_EMIT send_encoder_status(tr("Encoding Started -- Merging "), timeout);
+        }
+        else if(extract_mode == true)
+        {
+            Q_EMIT send_encoder_status(tr("Encoding Started -- Extracting "), timeout);
+        }
+        else
+        {
+            return;
+        }
     }
 }
 
