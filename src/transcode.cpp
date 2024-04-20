@@ -358,7 +358,7 @@ void Transcode::two_pass_encode_2nd_pass()
 
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
-    this->ffmpeg->waitForStarted();
+    //this->ffmpeg->waitForStarted();
     if(this->ffmpeg->QProcess::state() == QProcess::Running)
     {
         //this logic works!
@@ -516,7 +516,7 @@ void Transcode::encoding_process_started()
     }
 }
 
-void Transcode::encoding_process_finished(const int index)
+void Transcode::encoding_process_finished(const int &index)
 {
     int timeout{0};
 
