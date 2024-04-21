@@ -141,6 +141,7 @@ private:
 
     //functions
     void enable_extract_audio_settings(const bool &extract);
+    void default_options_check();
 
     //button group
     QButtonGroup *rateOptButtons;

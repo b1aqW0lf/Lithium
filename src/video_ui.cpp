@@ -1586,6 +1586,17 @@ void VideoUI::get_vid_bitrate_field_data()
 
 void VideoUI::get_selected_video_options()
 {
+    default_options_check();
+
+    //emit the current selected video options
+    Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
+                                qscale_value, video_res_value, video_dar_value,
+                                video_fps_val, encoder_preset_val,
+                                pixel_format, pixel_format_enabled);
+}
+
+void VideoUI::default_options_check()
+{
     //setting default value
     //we need a better solution!--maybe check for mouse clicks?
     if(ui->videoCodecBox->currentIndex() == 0)
@@ -1596,12 +1607,10 @@ void VideoUI::get_selected_video_options()
     {
         this->video_res_value = "scale="+ui->videoResBox->itemData(0).toString();
     }
-
-    //emit the current selected video options
-    Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
-                                qscale_value, video_res_value, video_dar_value,
-                                video_fps_val, encoder_preset_val,
-                                pixel_format, pixel_format_enabled);
+    if(ui->videoContainerBox->currentIndex() == 0)
+    {
+        Q_EMIT send_output_vid_extension(ui->videoContainerBox->itemData(0).toString());
+    }
 }
 
 void VideoUI::receive_clear_request()
