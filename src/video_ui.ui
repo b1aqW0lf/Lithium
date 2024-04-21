@@ -39,7 +39,7 @@
                </widget>
               </item>
               <item row="0" column="3">
-               <widget class="QLabel" name="videoResLabel">
+               <widget class="QLabel" name="videoResolutionLabel">
                 <property name="text">
                  <string>TextLabel</string>
                 </property>
@@ -52,7 +52,7 @@
                <widget class="QComboBox" name="videoContainerBox"/>
               </item>
               <item row="0" column="2">
-               <widget class="QComboBox" name="videoResBox"/>
+               <widget class="QComboBox" name="videoResolutionBox"/>
               </item>
               <item row="1" column="2">
                <widget class="QComboBox" name="videoAspectRatBox"/>

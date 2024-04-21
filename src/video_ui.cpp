@@ -74,7 +74,7 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::vid_codec_interface);
     connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_container);
-    connect(ui->videoResBox, QOverload<int>::of(&QComboBox::activated),
+    connect(ui->videoResolutionBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_video_res);
     /*connect(ui->videoResBox, &QComboBox::textActivated,
             this, &VideoUI::select_video_res);*/
@@ -194,15 +194,15 @@ VideoUI::VideoUI(QWidget *parent) :
     VideoStandardItem::videoResBoxItem->setData(tr("Source"), Qt::DisplayRole);
     QStandardItemModel *videoResBoxModel = new QStandardItemModel(this);
     videoResBoxModel->setItem(0, VideoStandardItem::videoResBoxItem);
-    ui->videoResBox->setModel(videoResBoxModel);
+    ui->videoResolutionBox->setModel(videoResBoxModel);
 
-    ui->videoResBox->insertSeparator(1);
+    ui->videoResolutionBox->insertSeparator(1);
     videoResList << "640x360" << "720x480" << "720x576" << "1024x768"
                  << "1280x720" << "1366x768" << "1600x900" << "1920x1080"
                  << "1920x1200" << "2048x1080" << "2048x1152" << "2560x1440"
                  << "3840x2160" << "4096x2160";
-    ui->videoResBox->insertItems(2, videoResList);
-    ui->videoResLabel->setText(tr("Resolution"));
+    ui->videoResolutionBox->insertItems(2, videoResList);
+    ui->videoResolutionLabel->setText(tr("Resolution"));
 
     //video aspect ratio
     ui->videoAspectRatBox->insertItem(0, "Source");
@@ -824,11 +824,11 @@ void VideoUI::select_video_res(const int index)
     if(index == 0)//it works!
     {
         //video_res_value = source file value
-        this->video_res_value = "scale="+ui->videoResBox->itemData(0).toString();
+        this->video_res_value = "scale="+ui->videoResolutionBox->itemData(0).toString();
     }
     else
     {
-        this->video_res_value = "scale="+ui->videoResBox->currentText();
+        this->video_res_value = "scale="+ui->videoResolutionBox->currentText();
     }
 }
 
@@ -1603,9 +1603,9 @@ void VideoUI::default_options_check()
     {
         this->video_codec = ui->videoCodecBox->itemData(0).toString();
     }
-    if(ui->videoResBox->currentIndex() == 0)
+    if(ui->videoResolutionBox->currentIndex() == 0)
     {
-        this->video_res_value = "scale="+ui->videoResBox->itemData(0).toString();
+        this->video_res_value = "scale="+ui->videoResolutionBox->itemData(0).toString();
     }
     if(ui->videoContainerBox->currentIndex() == 0)
     {
@@ -1662,8 +1662,8 @@ void VideoUI::enable_extract_audio_settings(const bool &extract)
         ui->videoContainerLabel->setEnabled(false);
         ui->videoFPSBox->setEnabled(false);
         ui->videoFPSLabel->setEnabled(false);
-        ui->videoResBox->setEnabled(false);
-        ui->videoResLabel->setEnabled(false);
+        ui->videoResolutionBox->setEnabled(false);
+        ui->videoResolutionLabel->setEnabled(false);
         //--------------------------------------------
         ui->videoEncoderDial->setEnabled(false);
         ui->videoDialLabel->setEnabled(false);
@@ -1689,8 +1689,8 @@ void VideoUI::enable_extract_audio_settings(const bool &extract)
         ui->videoContainerLabel->setEnabled(true);
         ui->videoFPSBox->setEnabled(true);
         ui->videoFPSLabel->setEnabled(true);
-        ui->videoResBox->setEnabled(true);
-        ui->videoResLabel->setEnabled(true);
+        ui->videoResolutionBox->setEnabled(true);
+        ui->videoResolutionLabel->setEnabled(true);
         //--------------------------------------------
         ui->videoEncoderDial->setEnabled(true);
         ui->videoDialLabel->setEnabled(true);
