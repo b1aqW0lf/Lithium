@@ -81,7 +81,7 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoAspectRatBox, &QComboBox::textActivated,
             this, &VideoUI::select_dar_value);
     connect(ui->videoFPSBox, &QComboBox::textActivated,
-            this, &VideoUI::select_vid_fps);
+            this, &VideoUI::select_video_fps);
     connect(ui->videoEncProfileBox, &QComboBox::textActivated,
             this, &VideoUI::select_encoder_profile);
     //------------------------------------------------------------------------------//
@@ -858,7 +858,7 @@ void VideoUI::receive_vid_source_framerate(const QString &framerate)
     this->source_fps = framerate;
 }
 
-void VideoUI::select_vid_fps()
+void VideoUI::select_video_fps()
 {
     this->video_fps_val = this->source_fps;
 
