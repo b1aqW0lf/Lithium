@@ -49,6 +49,7 @@ namespace VideoStandardItem
     QStandardItem *videoCodecBoxItem{};
     QStandardItem *videoContainerBoxItem{};
     QStandardItem *videoResBoxItem{};
+    QStandardItem *videoAspectRatBoxItem{};
 }
 
 VideoUI::VideoUI(QWidget *parent) :
@@ -205,7 +206,12 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoResolutionLabel->setText(tr("Resolution"));
 
     //video aspect ratio
-    ui->videoAspectRatBox->insertItem(0, "Source");
+    VideoStandardItem::videoAspectRatBoxItem = new QStandardItem();
+    VideoStandardItem::videoAspectRatBoxItem->setData(tr("Source"), Qt::DisplayRole);
+    QStandardItemModel *videoAspectRatBoxModel = new QStandardItemModel(this);
+    videoAspectRatBoxModel->setItem(0, VideoStandardItem::videoAspectRatBoxItem);
+    ui->videoAspectRatBox->setModel(videoAspectRatBoxModel);
+
     ui->videoAspectRatBox->insertSeparator(1);
     videoAspecRatList << "4:3" << "16:9" << "21:9";
     ui->videoAspectRatBox->insertItems(2, videoAspecRatList);
@@ -835,22 +841,23 @@ void VideoUI::select_video_res(const int index)
 void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)
 {
     this->source_dar = dar;
+    VideoStandardItem::videoAspectRatBoxItem->setData(this->source_dar, Qt::UserRole);
 }
 
 //diplay aspect ratio
 void VideoUI::select_dar_value()
 {
-    this->video_dar_value = this->source_dar;
-
+    //select display aspect ratio
     if(ui->videoAspectRatBox->currentIndex() == 0)
     {
         //vid_aspect_val = "copy";
-        this->video_dar_value = this->source_dar;
+        this->video_dar_value = ui->videoAspectRatBox->itemData(0).toString();
     }
     else
     {
         this->video_dar_value = ui->videoAspectRatBox->currentText();
     }
+    Q_EMIT send_vid_data(this->video_dar_value,0);//just to test
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
