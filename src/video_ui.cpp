@@ -77,10 +77,10 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::select_container);
     connect(ui->videoResolutionBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_video_res);
-    /*connect(ui->videoResBox, &QComboBox::textActivated,
-            this, &VideoUI::select_video_res);*/
-    connect(ui->videoAspectRatBox, &QComboBox::textActivated,
+    connect(ui->videoAspectRatBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_dar_value);
+    /*connect(ui->videoAspectRatBox, &QComboBox::textActivated,
+            this, &VideoUI::select_dar_value);*/
     connect(ui->videoFPSBox, &QComboBox::textActivated,
             this, &VideoUI::select_video_fps);
     connect(ui->videoEncProfileBox, &QComboBox::textActivated,
@@ -845,10 +845,10 @@ void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)
 }
 
 //diplay aspect ratio
-void VideoUI::select_dar_value()
+void VideoUI::select_dar_value(const int index)
 {
     //select display aspect ratio
-    if(ui->videoAspectRatBox->currentIndex() == 0)
+    if(index == 0)
     {
         //vid_aspect_val = "copy";
         this->video_dar_value = ui->videoAspectRatBox->itemData(0).toString();
