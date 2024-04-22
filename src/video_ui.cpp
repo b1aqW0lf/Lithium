@@ -1618,6 +1618,10 @@ void VideoUI::default_options_check()
     {
         Q_EMIT send_output_vid_extension(ui->videoContainerBox->itemData(0).toString());
     }
+    if(ui->videoAspectRatBox->currentIndex() == 0)
+    {
+        this->video_dar_value = ui->videoAspectRatBox->itemData(0).toString();
+    }
 }
 
 void VideoUI::receive_clear_request()
