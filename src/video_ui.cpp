@@ -80,10 +80,10 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::select_video_res);
     connect(ui->videoAspectRatBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_dar_value);
-    /*connect(ui->videoAspectRatBox, &QComboBox::textActivated,
-            this, &VideoUI::select_dar_value);*/
-    connect(ui->videoFPSBox, &QComboBox::textActivated,
+    connect(ui->videoFPSBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_video_fps);
+    /*connect(ui->videoFPSBox, &QComboBox::textActivated,
+            this, &VideoUI::select_video_fps);*/
     connect(ui->videoEncProfileBox, &QComboBox::textActivated,
             this, &VideoUI::select_encoder_profile);
     //------------------------------------------------------------------------------//
@@ -873,8 +873,6 @@ void VideoUI::receive_vid_source_framerate(const QString &framerate)
 
 void VideoUI::select_video_fps()
 {
-    this->video_fps_val = this->source_fps;
-
     if(ui->videoFPSBox->currentIndex() == 0)
     {
         //video_fps_val = "copy";
@@ -884,7 +882,6 @@ void VideoUI::select_video_fps()
     {
         this->video_fps_val = ui->videoFPSBox->currentText();
     }
-    Q_EMIT send_vid_data(this->video_fps_val,0);//just to test
 }
 
 //creating options for encoder profile combobox
