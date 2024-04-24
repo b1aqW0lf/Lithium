@@ -50,6 +50,7 @@ namespace VideoStandardItem
     QStandardItem *videoContainerBoxItem{};
     QStandardItem *videoResBoxItem{};
     QStandardItem *videoAspectRatBoxItem{};
+    QStandardItem *videoFPSBoxItem{};
 }
 
 VideoUI::VideoUI(QWidget *parent) :
@@ -218,7 +219,12 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoAspectRatLabel->setText(tr("Aspect Ratio"));
 
     //video framerate
-    ui->videoFPSBox->insertItem(0, "Source");
+    VideoStandardItem::videoFPSBoxItem = new QStandardItem();
+    VideoStandardItem::videoFPSBoxItem->setData(tr("Source"), Qt::DisplayRole);
+    QStandardItemModel *videoFPSBoxModel = new QStandardItemModel(this);
+    videoFPSBoxModel->setItem(0, VideoStandardItem::videoFPSBoxItem);
+    ui->videoFPSBox->setModel(videoFPSBoxModel);
+
     ui->videoFPSBox->insertSeparator(1);
     videoFPSList << "23.976" << "24" << "25" << "29.97" << "30" << "60" << "120";
     ui->videoFPSBox->insertItems(2, videoFPSList);
@@ -857,12 +863,12 @@ void VideoUI::select_dar_value(const int index)
     {
         this->video_dar_value = ui->videoAspectRatBox->currentText();
     }
-    Q_EMIT send_vid_data(this->video_dar_value,0);//just to test
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
 {
     this->source_fps = framerate;
+    VideoStandardItem::videoFPSBoxItem->setData(this->source_fps, Qt::UserRole);
 }
 
 void VideoUI::select_video_fps()
@@ -872,12 +878,13 @@ void VideoUI::select_video_fps()
     if(ui->videoFPSBox->currentIndex() == 0)
     {
         //video_fps_val = "copy";
-        this->video_fps_val = this->source_fps;
+        this->video_fps_val = ui->videoFPSBox->itemData(0).toString();
     }
     else
     {
         this->video_fps_val = ui->videoFPSBox->currentText();
     }
+    Q_EMIT send_vid_data(this->video_fps_val,0);//just to test
 }
 
 //creating options for encoder profile combobox
