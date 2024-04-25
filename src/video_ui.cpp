@@ -1627,6 +1627,10 @@ void VideoUI::default_options_check()
     {
         this->video_dar_value = ui->videoAspectRatBox->itemData(0).toString();
     }
+    if(ui->videoFPSBox->currentIndex() == 0)
+    {
+        this->video_fps_val = ui->videoFPSBox->itemData(0).toString();
+    }
 }
 
 void VideoUI::receive_clear_request()
