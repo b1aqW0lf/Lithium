@@ -871,9 +871,10 @@ void VideoUI::receive_vid_source_framerate(const QString &framerate)
     VideoStandardItem::videoFPSBoxItem->setData(this->source_fps, Qt::UserRole);
 }
 
-void VideoUI::select_video_fps()
+void VideoUI::select_video_fps(const int index)
 {
-    if(ui->videoFPSBox->currentIndex() == 0)
+    //select video frames per second value
+    if(index == 0)
     {
         //video_fps_val = "copy";
         this->video_fps_val = ui->videoFPSBox->itemData(0).toString();

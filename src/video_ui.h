@@ -92,7 +92,7 @@ private Q_SLOTS:
     void select_video_res(const int index);
     void select_container(const int index);
     void select_dar_value(const int index);
-    void select_video_fps();
+    void select_video_fps(const int index);
     void vid_codec_interface();
     void set_enc_profile_options();
     void select_encoder_profile();
