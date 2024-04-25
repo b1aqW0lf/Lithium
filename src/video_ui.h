@@ -112,7 +112,7 @@ private:
     QString video_codec{};
     QString video_res_value{};
     QString video_dar_value{};
-    QString video_fps_val{};
+    QString video_fps_value{};
     QString video_bitrate{};
     QStringList pixel_format{};
     bool pixel_format_enabled{};

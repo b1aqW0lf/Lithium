@@ -877,12 +877,13 @@ void VideoUI::select_video_fps(const int index)
     if(index == 0)
     {
         //video_fps_val = "copy";
-        this->video_fps_val = ui->videoFPSBox->itemData(0).toString();
+        this->video_fps_value = ui->videoFPSBox->itemData(0).toString();
     }
     else
     {
-        this->video_fps_val = ui->videoFPSBox->currentText();
+        this->video_fps_value = ui->videoFPSBox->currentText();
     }
+    Q_EMIT send_vid_data(video_fps_value,0);
 }
 
 //creating options for encoder profile combobox
@@ -1603,7 +1604,7 @@ void VideoUI::get_selected_video_options()
     //emit the current selected video options
     Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
                                 qscale_value, video_res_value, video_dar_value,
-                                video_fps_val, encoder_preset_val,
+                                video_fps_value, encoder_preset_val,
                                 pixel_format, pixel_format_enabled);
 }
 
@@ -1629,7 +1630,7 @@ void VideoUI::default_options_check()
     }
     if(ui->videoFPSBox->currentIndex() == 0)
     {
-        this->video_fps_val = ui->videoFPSBox->itemData(0).toString();
+        this->video_fps_value = ui->videoFPSBox->itemData(0).toString();
     }
 }
 
