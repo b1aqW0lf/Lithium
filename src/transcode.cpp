@@ -309,7 +309,7 @@ void Transcode::two_pass_encode_1st_pass()
     }
 
     args << "-vf" << video_res << "-aspect" << video_dar << "-b:v" << vid_avg_bitrate
-         << "-preset" << vid_encoder_preset << "-map_metadata" << "0" << "-y"
+         << "-preset" << vid_encoder_preset << "-map_metadata" << "0"
          << "-passlogfile" << pass_log_location << "-pass" << "1" << "-an"
          << "-f" << "null"
 #ifdef Q_OS_LINUX
@@ -349,7 +349,7 @@ void Transcode::two_pass_encode_2nd_pass()
     }
 
     args << "-vf" << video_res << "-aspect" << video_dar << "-b:v" << vid_avg_bitrate
-         << "-preset" << vid_encoder_preset << "-map_metadata" << "0" << "-y"
+         << "-preset" << vid_encoder_preset << "-map_metadata" << "0"
          << "-passlogfile" << pass_log_location << "-pass" << "2" << "-c:a" << audio_codec
          << output_file;
 
