@@ -32,8 +32,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QComboBox>
 #include <QGroupBox>
 #include <QLabel>
+#include <QStandardItem>
+#include <QStandardItemModel>
 
 #include "audio_ui.h"
+
+
+namespace AudioStandardItem
+{
+    QStandardItem *audioCodecBoxItem{};
+    QStandardItem *audioBitrateBoxItem{};
+    QStandardItem *audioSampleBoxItem{};
+    QStandardItem *audioChannelBoxItem{};
+    QStandardItem *audioContainerBoxItem{};
+}
 
 AudioUI::AudioUI(QWidget *parent) :
     QWidget(parent),
