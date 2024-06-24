@@ -55,7 +55,7 @@ AudioUI::AudioUI(QWidget *parent) :
 
     //connect signals and slots
     //experimental------------------------------------------------------------------//
-    connect(ui->audioCodecBox, &QComboBox::textActivated,
+    connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &AudioUI::select_aud_codec);
     connect(ui->audioBitrateBox, &QComboBox::textActivated,
             this, &AudioUI::select_aud_bitrate);
@@ -141,41 +141,61 @@ void AudioUI::receive_audio_source_codec(const QString &codec)
     this->source_codec = codec;
 }
 
-void AudioUI::select_aud_codec()
+void AudioUI::select_aud_codec(const int index)
 {
-    this->audio_codec = this->source_codec;
-
-    if(ui->audioCodecBox->currentIndex() == 0)//it works!
-    {
-        audio_codec = this->source_codec;
-    }
-    else if(ui->audioCodecBox->currentIndex() == 2)
-    {
-        //aac settings
+    switch(index) {
+    case 0:
+        //copy from source
+        this->audio_codec = this->source_codec;
+        break;
+    case 1:
+        //separator - cannot be selected by user
+        break;
+    case 2:
+        //AAC
 #ifdef Q_OS_WIN
         this->audio_codec = "libfdk_aac";//create test to verify user has libfdk_aac
 #else
-        audio_codec = "aac";
+        this->audio_codec = "aac";
 #endif
-    }
-    else if(ui->audioCodecBox->currentIndex() == 8)
-    {
-        //settings for WAV
-        audio_codec = "wavpack";
-    }
-    else if(ui->audioCodecBox->currentIndex() == 9)
-    {
-        //ensure vorbis codec is libvorbis
-        audio_codec = "libvorbis";
-    }
-    else if(ui->audioCodecBox->currentIndex() == 10)
-    {
-        //ensure opus codec is libopus
-        audio_codec = "libopus";
-    }
-    else
-    {
-        audio_codec = ui->audioCodecBox->currentText().toLower();
+        break;
+    case 3:
+        //AC3
+        this->audio_codec = ui->audioCodecBox->currentText().toLower();
+        break;
+    case 4:
+        //AC3_FIXED
+        this->audio_codec = ui->audioCodecBox->currentText().toLower();
+        break;
+    case 5:
+        //EAC3
+        this->audio_codec = ui->audioCodecBox->currentText().toLower();
+        break;
+    case 6:
+        //FLAC
+        this->audio_codec = ui->audioCodecBox->currentText().toLower();
+        break;
+    case 7:
+        //MP3
+        this->audio_codec = "libmp3lame";
+        break;
+    case 8:
+        //WAV
+        this->audio_codec = "wavpack";
+        break;
+    case 9:
+        //VORBIS
+        this->audio_codec = "libvorbis";
+        break;
+    case 10:
+        //OPUS
+        this->audio_codec = "libopus";
+        break;
+    case 11: case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
+        //PCM_s16le, PCM_s24le, PCM_s32le, PCM_s16be, PCM_s24be, PCM_s32be
+        //PCM_alaw, PCM_mulaw, PCM_u8
+        this->audio_codec = ui->audioCodecBox->currentText().toLower();
+        break;
     }
     //Q_EMIT send_audio_codec_name(audio_codec);
 }
