@@ -211,7 +211,7 @@ void AudioUI::select_aud_bitrate()
 
     if(ui->audioBitrateBox->currentIndex() == 0)
     {
-        if(source_bitrate.contains("N/A"))
+        if(source_bitrate.contains("N/A", Qt::CaseInsensitive))
         {
             audio_bitrate = this->source_bitrate;
         }
