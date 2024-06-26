@@ -104,6 +104,7 @@ private:
     //------------------------------------
     //functions
     void enable_extract_audio_settings(const bool &extract);
+    void default_options_check();
     //------------------------------------
     //Interface String Lists
     QStringList audioCodecList{};

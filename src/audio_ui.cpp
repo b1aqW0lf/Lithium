@@ -81,7 +81,12 @@ AudioUI::AudioUI(QWidget *parent) :
 
     //Initialize audio interface widgets
     //audio codec
-    ui->audioCodecBox->insertItem(0, "Source");
+    AudioStandardItem::audioCodecBoxItem = new QStandardItem();
+    AudioStandardItem::audioCodecBoxItem->setData("Source", Qt::DisplayRole);
+    QStandardItemModel *audioCodecBoxModel = new QStandardItemModel(this);
+    audioCodecBoxModel->setItem(0, AudioStandardItem::audioCodecBoxItem);
+    ui->audioCodecBox->setModel(audioCodecBoxModel);
+
     ui->audioCodecBox->insertSeparator(1);
     audioCodecList << "AAC" << "AC3" << "AC3_Fixed" << "EAC3" << "FLAC" <<"MP3"
                    << "WAV" << "Vorbis" << "Opus" << "PCM_s16le" << "PCM_s24le"
@@ -139,6 +144,7 @@ AudioUI::~AudioUI()
 void AudioUI::receive_audio_source_codec(const QString &codec)
 {
     this->source_codec = codec;
+    AudioStandardItem::audioCodecBoxItem->setData(this->source_codec, Qt::UserRole);
 }
 
 void AudioUI::select_aud_codec(const int index)
@@ -146,7 +152,7 @@ void AudioUI::select_aud_codec(const int index)
     switch(index) {
     case 0:
         //copy from source
-        this->audio_codec = this->source_codec;
+        this->audio_codec = ui->audioCodecBox->itemData(0).toString();
         break;
     case 1:
         //separator - cannot be selected by user
@@ -350,8 +356,21 @@ void AudioUI::select_aud_container()
 //experimental
 void AudioUI::get_selected_audio_options()
 {
+    default_options_check();
+
+    //emit the current selected audio options
     Q_EMIT send_current_audio_options(audio_codec, audio_channels,
                                       audio_samplerate, audio_bitrate);
+}
+
+void AudioUI::default_options_check()
+{
+    //setting default value
+    //we need a better solution!
+    if(ui->audioCodecBox->currentIndex() == 0)
+    {
+        this->audio_codec = ui->audioCodecBox->itemData(0).toString();
+    }
 }
 
 void AudioUI::receive_process_mode_state(const bool &normal, const bool &merge,
