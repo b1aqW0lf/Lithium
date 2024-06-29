@@ -95,7 +95,12 @@ AudioUI::AudioUI(QWidget *parent) :
     ui->audioCodecBox->insertItems(2, audioCodecList);
 
     //audio bitrate
-    ui->audioBitrateBox->insertItem(0, "Source");
+    AudioStandardItem::audioBitrateBoxItem = new QStandardItem();
+    AudioStandardItem::audioBitrateBoxItem->setData("Source", Qt::DisplayRole);
+    QStandardItemModel *audioBitrateBoxModel = new QStandardItemModel(this);
+    audioBitrateBoxModel->setItem(0, AudioStandardItem::audioBitrateBoxItem);
+    ui->audioBitrateBox->setModel(audioBitrateBoxModel);
+
     ui->audioBitrateBox->insertSeparator(1);
     audioBitrateList << "64" << "80" << "96" << "112" << "128" << "160" <<"192"
                      << "224" << "256" << "320" << "384" << "448" << "512"
@@ -209,6 +214,7 @@ void AudioUI::select_aud_codec(const int index)
 void AudioUI::receive_audio_source_bitrate(const QString &bitrate)
 {
     this->source_bitrate = bitrate;
+    AudioStandardItem::audioBitrateBoxItem->setData(this->source_bitrate, Qt::UserRole);
 }
 
 void AudioUI::select_aud_bitrate()
