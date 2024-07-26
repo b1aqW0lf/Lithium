@@ -57,7 +57,7 @@ AudioUI::AudioUI(QWidget *parent) :
     //experimental------------------------------------------------------------------//
     connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &AudioUI::select_aud_codec);
-    connect(ui->audioBitrateBox, &QComboBox::textActivated,
+    connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::activated),
             this, &AudioUI::select_aud_bitrate);
     connect(ui->audioSampleBox, &QComboBox::textActivated,
             this, &AudioUI::select_samplerate);
@@ -207,7 +207,7 @@ void AudioUI::select_aud_codec(const int index)
         //PCM_alaw, PCM_mulaw, PCM_u8
         this->audio_codec = ui->audioCodecBox->currentText().toLower();
         break;
-    }
+    }Q_EMIT send_audio_data(audio_codec, 0);
     //Q_EMIT send_audio_codec_name(audio_codec);
 }
 
@@ -217,28 +217,32 @@ void AudioUI::receive_audio_source_bitrate(const QString &bitrate)
     AudioStandardItem::audioBitrateBoxItem->setData(this->source_bitrate, Qt::UserRole);
 }
 
-void AudioUI::select_aud_bitrate()
+void AudioUI::select_aud_bitrate(const int index)
 {
-    this-> audio_bitrate = this->source_bitrate;
-
-    if(ui->audioBitrateBox->currentIndex() == 0)
-    {
+    int timeout{0};
+    switch(index) {
+    case 0:
+        //copy from source
         if(source_bitrate.contains("N/A", Qt::CaseInsensitive))
         {
-            audio_bitrate = this->source_bitrate;
+            //assign a default value
+            this->audio_bitrate = "128k";
         }
         else
         {
-            //audio_br_value = "copy";
-            audio_bitrate = this->source_bitrate+"k";
+            //audio_bitrate = source;
+            this->audio_bitrate = ui->audioBitrateBox->itemData(0).toString()+"k";
         }
+        break;
+    case 1:
+        //separator - cannot be selected by user
+        break;
+    case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
+    case 11: case 12: case 13: case 14: case 15: case 16: case 17:
+        this->audio_bitrate = ui->audioBitrateBox->currentText()+"k";
+        break;
     }
-    else
-    {
-        //audio bitrate processing is done in encoding_started()
-        audio_bitrate = ui->audioBitrateBox->currentText()+"k";
-    }
-    //Q_EMIT send_audio_bitrate_val(audio_bitrate);
+    Q_EMIT send_audio_data(audio_bitrate, timeout);
 }
 
 void AudioUI::receive_audio_source_samplerate(const QString &samplerate)
@@ -376,6 +380,10 @@ void AudioUI::default_options_check()
     if(ui->audioCodecBox->currentIndex() == 0)
     {
         this->audio_codec = ui->audioCodecBox->itemData(0).toString();
+    }
+    if(ui->audioBitrateBox->currentIndex() == 0)
+    {
+        this->audio_bitrate = ui->audioBitrateBox->itemData(0).toString()+"k";
     }
 }
 
