@@ -76,11 +76,11 @@ private:
     Ui::AudioUI *ui;
 
 private Q_SLOTS:
-    void select_aud_codec(const int index);
-    void select_aud_bitrate(const int index);
+    void select_audio_codec(const int index);
+    void select_audio_bitrate(const int index);
     void select_samplerate();
     void select_channels();
-    void select_aud_container();
+    void select_audio_container();
 
 private:
     //audio variables

@@ -56,15 +56,15 @@ AudioUI::AudioUI(QWidget *parent) :
     //connect signals and slots
     //experimental------------------------------------------------------------------//
     connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::activated),
-            this, &AudioUI::select_aud_codec);
+            this, &AudioUI::select_audio_codec);
     connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::activated),
-            this, &AudioUI::select_aud_bitrate);
+            this, &AudioUI::select_audio_bitrate);
     connect(ui->audioSampleBox, &QComboBox::textActivated,
             this, &AudioUI::select_samplerate);
     connect(ui->audioChannelBox, &QComboBox::textActivated,
             this, &AudioUI::select_channels);
     connect(ui->audioContainerBox, &QComboBox::textActivated,
-            this, &AudioUI::select_aud_container);
+            this, &AudioUI::select_audio_container);
     //------------------------------------------------------------------------------//
     /*connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_aud_codec);*/
@@ -152,7 +152,7 @@ void AudioUI::receive_audio_source_codec(const QString &codec)
     AudioStandardItem::audioCodecBoxItem->setData(this->source_codec, Qt::UserRole);
 }
 
-void AudioUI::select_aud_codec(const int index)
+void AudioUI::select_audio_codec(const int index)
 {
     switch(index) {
     case 0:
@@ -217,7 +217,7 @@ void AudioUI::receive_audio_source_bitrate(const QString &bitrate)
     AudioStandardItem::audioBitrateBoxItem->setData(this->source_bitrate, Qt::UserRole);
 }
 
-void AudioUI::select_aud_bitrate(const int index)
+void AudioUI::select_audio_bitrate(const int index)
 {
     int timeout{0};
     switch(index) {
@@ -302,7 +302,7 @@ void AudioUI::receive_audio_source_extension(const QString &extension)
     this->audio_source_ext = extension;
 }
 
-void AudioUI::select_aud_container()
+void AudioUI::select_audio_container()
 {
     //source file extension from receive_audio_source_data(const QString &text)
     QString audio_ext{this->audio_source_ext};
