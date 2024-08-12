@@ -115,7 +115,12 @@ AudioUI::AudioUI(QWidget *parent) :
     ui->audioSampleBox->insertItems(2, audioSampleList);
 
     //audio channel
-    ui->audioChannelBox->insertItem(0, "Source");
+    AudioStandardItem::audioChannelBoxItem = new QStandardItem();
+    AudioStandardItem::audioChannelBoxItem->setData("Source", Qt::DisplayRole);
+    QStandardItemModel *audioChannelBoxModel = new QStandardItemModel(this);
+    audioChannelBoxModel->setItem(0, AudioStandardItem::audioChannelBoxItem);
+    ui->audioChannelBox->setModel(audioChannelBoxModel);
+
     ui->audioChannelBox->insertSeparator(1);
     audioChannelList << "Mono" << "Stereo" << "3" << "4" << "5" << "6" << "7"
                      << "8";
@@ -268,6 +273,7 @@ void AudioUI::select_samplerate()
 void AudioUI::receive_audio_source_channels(const QString &channels)
 {
     this->source_channels = channels;
+    AudioStandardItem::audioChannelBoxItem->setData(this->source_channels, Qt::UserRole);
 }
 
 void AudioUI::select_channels()
