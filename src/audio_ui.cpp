@@ -272,7 +272,21 @@ void AudioUI::select_samplerate()
 }
 void AudioUI::receive_audio_source_channels(const QString &channels)
 {
-    this->source_channels = channels;
+    //check for "mono" or "stereo"
+    if(channels.contains("Mono", Qt::CaseInsensitive))
+    {
+        //use numeric value for mono
+        this->source_channels = "1";
+    }
+    else if(channels.contains("Stereo", Qt::CaseInsensitive))
+    {
+        //use numeric value for stereo
+        this->source_channels = "2";
+    }
+    else
+    {
+        this->source_channels = channels;
+    }
     AudioStandardItem::audioChannelBoxItem->setData(this->source_channels, Qt::UserRole);
 }
 
@@ -299,7 +313,7 @@ void AudioUI::select_channels()
     {
         audio_channels = ui->audioChannelBox->currentText();
     }
-    //Q_EMIT send_audio_channels_val(audio_channels);
+    Q_EMIT send_audio_data(audio_channels,0);
 }
 
 //receive audio extension
