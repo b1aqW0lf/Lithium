@@ -52,7 +52,6 @@ FFprocess::FFprocess(QProcess *parent)
     ffmpeg_location_setup();
     ffprobe_location_setup();
     ffplay_location_setup();
-    send_ffmpeg_status();
 
     //loads ffmpeg on startup
     generate_ffmpeg_version_prompt();
@@ -168,7 +167,6 @@ void FFprocess::ffmpeg_process_started()
     //check if ffmpeg process has started
     if(this->ffmpeg->QProcess::state() == QProcess::Running)
     {
-        Q_EMIT ffmpeg_started();
         send_ffmpeg_status();
     }
 }

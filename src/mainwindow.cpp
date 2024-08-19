@@ -175,9 +175,6 @@ void MainWindow::application_connections_setup()
     connect(&process, &FFprocess::ffmpeg_read_output,
             ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 
-    connect(&process, &FFprocess::ffprobe_read_output,
-            ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
-
     //experimental
     connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
             ui->statusbar, &QStatusBar::showMessage);

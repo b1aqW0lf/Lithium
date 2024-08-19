@@ -51,7 +51,6 @@ Q_SIGNALS:
     void ffmpeg_read_output(const QString &output);
     void ffmpeg_detected_status(const QString &status, const int &timeout);
     void ffmpeg_ready_status(const QString &status, const int &stat);
-    void ffmpeg_started();
 
 private Q_SLOTS:
     void ffmpegReadStandardOutput();//ffmpeg QProcess function
