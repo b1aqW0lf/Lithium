@@ -184,12 +184,6 @@ void MainWindow::application_connections_setup()
 #ifdef Q_OS_WIN
     connect(&process, &FFprocess::ffmpeg_detected_status,
             ui->statusbar, &QStatusBar::showMessage);
-
-    connect(&process, &FFprocess::ffprobe_detected_status,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(&process, &FFprocess::ffplay_detected_status,
-            ui->statusbar, &QStatusBar::showMessage);
 #endif
 
     //temp connection-for testing only--------------------------------//
