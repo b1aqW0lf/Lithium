@@ -30,7 +30,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+***********************************************************************************/
 
 
 #include <QProcess>
@@ -49,37 +49,17 @@ public:
 
 Q_SIGNALS:
     void ffmpeg_read_output(const QString &output);
-    void ffprobe_read_output(const QString &output);
     void ffmpeg_detected_status(const QString &status, const int &timeout);
-    void ffprobe_detected_status(const QString &status, const int &timeout);
-    void ffplay_detected_status(const QString &status, const int &timeout);
     void ffmpeg_ready_status(const QString &status, const int &stat);
     void ffmpeg_started();
-    void ffprobe_started();
-    void ffmpeg_finished();
-    void ffprobe_finished();
-
-    //not impelemented yet
-    /*void ffmpeg_cancelled();
-    void ffprobe_cancelled();*/
 
 private Q_SLOTS:
     void ffmpegReadStandardOutput();//ffmpeg QProcess function
-    void ffprobeReadStandardOutput();//ffprobe QProcess function
     void ffmpeg_process_started();
-    void ffmpeg_process_finished();
-    void ffprobe_process_started();
-    void ffprobe_process_finished();
-
-    //not impelemented yet
-    /*void ffmpeg_process_cancelled();
-    void ffprobe_process_cancelled();*/
 
 private:
-    //ffmpeg executables as processes
-    QProcess *ffmpeg; //transcodes, encodes, records, and streams files
-    QProcess *ffprobe;//examines input and output files
-    QProcess *ffplay; //play input and output files
+    //ffmpeg executable as a process
+    QProcess *ffmpeg;
 
     //ffmpeg status functions
     void ffmpeg_location_setup();
@@ -87,13 +67,10 @@ private:
     void ffplay_location_setup();
 
     //function
+    void ffmpeg_location_check(const QString &app);
+    void set_ffmpeg_ready_status(const QString &app);
     void send_ffmpeg_status();
-
-    //ffplay output strings
-    QString ffplay_output{};
-
-    //ffmpeg argument
-    QStringList args{};
+    void generate_ffmpeg_version_prompt();
 
     //ffmpeg file path -> path to ffmpeg
     QString ffmpeg_path{};
