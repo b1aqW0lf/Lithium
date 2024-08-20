@@ -159,6 +159,10 @@ void FFprocess::set_ffmpeg_ready_status(const QString &app)
     {
         this->ffplay_ready = true;
     }
+    else
+    {
+        return;
+    }
 }
 
 void FFprocess::ffmpeg_process_started()
