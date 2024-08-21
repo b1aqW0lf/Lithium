@@ -68,6 +68,7 @@ void FFprocess::ffmpegReadStandardOutput()
     //ffmpeg process' readyReadStandardOutput implementation
     ffmpeg_output = this->ffmpeg->readAllStandardOutput();//single line stats
     Q_EMIT ffmpeg_read_output(ffmpeg_output);
+    send_ffmpeg_status();
 }
 
 void FFprocess::ffmpeg_location_setup()
@@ -171,7 +172,8 @@ void FFprocess::ffmpeg_process_started()
     //check if ffmpeg process has started
     if(this->ffmpeg->QProcess::state() == QProcess::Running)
     {
-        send_ffmpeg_status();
+        //does nothing
+        return;
     }
 }
 
