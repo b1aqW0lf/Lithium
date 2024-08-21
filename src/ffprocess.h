@@ -37,15 +37,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QWidget>
 
 
-class FFprocess : public QProcess
+class DetectFFmpeg : public QProcess
 {
     Q_OBJECT
 
     friend class InputSourceProbe;
 
 public:
-    explicit FFprocess(QProcess *parent = nullptr);
-    ~FFprocess();
+    explicit DetectFFmpeg(QProcess *parent = nullptr);
+    ~DetectFFmpeg();
 
 Q_SIGNALS:
     void ffmpeg_read_output(const QString &output);

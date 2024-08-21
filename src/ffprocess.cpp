@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ffprocess.h"
 
 
-FFprocess::FFprocess(QProcess *parent)
+DetectFFmpeg::DetectFFmpeg(QProcess *parent)
     : QProcess{parent}
 {
     //create the processto be used
@@ -43,10 +43,10 @@ FFprocess::FFprocess(QProcess *parent)
 
     //connect signals and slots
     connect(this->ffmpeg, &QProcess::readyReadStandardOutput,
-            this, &FFprocess::ffmpegReadStandardOutput);
+            this, &DetectFFmpeg::ffmpegReadStandardOutput);
 
     connect(this->ffmpeg, &QProcess::started,
-            this, &FFprocess::ffmpeg_process_started);
+            this, &DetectFFmpeg::ffmpeg_process_started);
 
     //location of ffmpeg, ffplay, and ffprobe
     ffmpeg_location_setup();
@@ -57,12 +57,12 @@ FFprocess::FFprocess(QProcess *parent)
     generate_ffmpeg_version_prompt();
 }
 
-FFprocess::~FFprocess()
+DetectFFmpeg::~DetectFFmpeg()
 {
     delete ffmpeg;
 }
 
-void FFprocess::ffmpegReadStandardOutput()
+void DetectFFmpeg::ffmpegReadStandardOutput()
 {
     QString ffmpeg_output{};
     //ffmpeg process' readyReadStandardOutput implementation
@@ -71,7 +71,7 @@ void FFprocess::ffmpegReadStandardOutput()
     send_ffmpeg_status();
 }
 
-void FFprocess::ffmpeg_location_setup()
+void DetectFFmpeg::ffmpeg_location_setup()
 {
 
 #ifdef Q_OS_WIN
@@ -82,7 +82,7 @@ void FFprocess::ffmpeg_location_setup()
 
 }
 
-void FFprocess::ffprobe_location_setup()
+void DetectFFmpeg::ffprobe_location_setup()
 {
 
 #ifdef Q_OS_WIN
@@ -93,7 +93,7 @@ void FFprocess::ffprobe_location_setup()
 
 }
 
-void FFprocess::ffplay_location_setup()
+void DetectFFmpeg::ffplay_location_setup()
 {
 
 #ifdef Q_OS_WIN
@@ -105,7 +105,7 @@ void FFprocess::ffplay_location_setup()
 }
 
 //check the location of ffmpeg, ffprobe and ffplay
-void FFprocess::ffmpeg_location_check(const QString &app)
+void DetectFFmpeg::ffmpeg_location_check(const QString &app)
 {
     int timeout{0};
     QString application_path{QCoreApplication::applicationDirPath()};
@@ -146,7 +146,7 @@ void FFprocess::ffmpeg_location_check(const QString &app)
     }
 }
 
-void FFprocess::set_ffmpeg_ready_status(const QString &app)
+void DetectFFmpeg::set_ffmpeg_ready_status(const QString &app)
 {
     if(app == "ffmpeg")
     {
@@ -166,7 +166,7 @@ void FFprocess::set_ffmpeg_ready_status(const QString &app)
     }
 }
 
-void FFprocess::ffmpeg_process_started()
+void DetectFFmpeg::ffmpeg_process_started()
 {
     ffmpeg->waitForStarted();
     //check if ffmpeg process has started
@@ -177,7 +177,7 @@ void FFprocess::ffmpeg_process_started()
     }
 }
 
-void FFprocess::send_ffmpeg_status()
+void DetectFFmpeg::send_ffmpeg_status()
 {
     int message_timeout{0};//status bar message timeout value
 #ifdef Q_OS_WIN
@@ -192,7 +192,7 @@ void FFprocess::send_ffmpeg_status()
 #endif
 }
 
-void FFprocess::generate_ffmpeg_version_prompt()
+void DetectFFmpeg::generate_ffmpeg_version_prompt()
 {
     ffmpeg->waitForStarted();
     ffmpeg->start(ffmpeg_path, QStringList() << "-version");

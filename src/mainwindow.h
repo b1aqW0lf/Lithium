@@ -72,7 +72,7 @@ private Q_SLOTS:
 private:
     Ui::MainWindow *ui;
     InputSourceProbe inputProbe;
-    FFprocess process;
+    DetectFFmpeg process;
     Transcode transcoder;
 
     //variables
