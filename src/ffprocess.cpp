@@ -134,7 +134,7 @@ void FFprocess::ffmpeg_location_check(const QString &app)
         //use ffmpeg found in user-created "ffmpeg" subdirectory
         this->ffmpeg_path = application_dir + "/ffmpeg/" + app + ".exe";
         this->ffmpeg->setWorkingDirectory(application_dir + "/ffmpeg");
-        Q_EMIT ffmpeg_detected_status("Using ffmpeg found in " + (application_dir + "/ffmpeg").toUtf8(),
+        Q_EMIT ffmpeg_status_message("Using ffmpeg found in " + (application_dir + "/ffmpeg").toUtf8(),
                                       timeout);
         set_ffmpeg_ready_status(app);
     }
@@ -142,7 +142,7 @@ void FFprocess::ffmpeg_location_check(const QString &app)
     {
         /*ui->ffProcWindow->setText(tr("FFmpeg executables not detected"));
         ui->statusbar->showMessage(tr("FFmpeg executables not detected"));*/
-        Q_EMIT ffmpeg_detected_status("FFmpeg executables not detected", timeout);
+        Q_EMIT ffmpeg_status_message("FFmpeg executables not detected", timeout);
     }
 }
 
@@ -185,10 +185,10 @@ void FFprocess::send_ffmpeg_status()
         (this->ffprobe_ready == true) &&
         (this->ffplay_ready == true))
     {
-        Q_EMIT ffmpeg_ready_status("Ready",message_timeout);
+        Q_EMIT ffmpeg_status_message("Ready",message_timeout);
     }
 #elif defined Q_OS_LINUX
-    Q_EMIT ffmpeg_ready_status("Ready",message_timeout);
+    Q_EMIT ffmpeg_status_message("Ready",message_timeout);
 #endif
 }
 

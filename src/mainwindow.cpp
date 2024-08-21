@@ -169,7 +169,7 @@ void MainWindow::application_connections_setup()
             ui->statusbar, &QStatusBar::showMessage);/**/
     //-------------------------------------------------------------//
 
-    connect(&process, &FFprocess::ffmpeg_ready_status,
+    connect(&process, &FFprocess::ffmpeg_status_message,
             ui->statusbar, &QStatusBar::showMessage);/**/
 
     connect(&process, &FFprocess::ffmpeg_read_output,
@@ -178,13 +178,6 @@ void MainWindow::application_connections_setup()
     //experimental
     connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
             ui->statusbar, &QStatusBar::showMessage);
-
-    //------------------------------------------------------------------//
-
-#ifdef Q_OS_WIN
-    connect(&process, &FFprocess::ffmpeg_detected_status,
-            ui->statusbar, &QStatusBar::showMessage);
-#endif
 
     //temp connection-for testing only--------------------------------//
 
