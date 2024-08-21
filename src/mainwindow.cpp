@@ -169,10 +169,10 @@ void MainWindow::application_connections_setup()
             ui->statusbar, &QStatusBar::showMessage);/**/
     //-------------------------------------------------------------//
 
-    connect(&process, &DetectFFmpeg::ffmpeg_status_message,
+    connect(&detectFFmpeg, &DetectFFmpeg::ffmpeg_status_message,
             ui->statusbar, &QStatusBar::showMessage);/**/
 
-    connect(&process, &DetectFFmpeg::ffmpeg_read_output,
+    connect(&detectFFmpeg, &DetectFFmpeg::ffmpeg_read_output,
             ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 
     //experimental
