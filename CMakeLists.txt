@@ -34,6 +34,8 @@ set(PROJECT_SOURCES
         src/mainwindow.ui
         src/app_location.cpp
         src/app_location.h
+        src/detect_ffmpeg.h
+        src/detect_ffmpeg.cpp
         src/detect_storage.cpp
         src/detect_storage.h
         src/qt5_connection_archive.h
@@ -55,8 +57,6 @@ set(PROJECT_SOURCES
         src/process_mode_ui.cpp
         src/process_mode_ui.h
         src/process_mode_ui.ui
-        src/ffprocess.h
-        src/ffprocess.cpp
         src/output_display_ui.h
         src/output_display_ui.cpp
         src/output_display_ui.ui

@@ -37,7 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QMainWindow>
 #include <QWidget>
 
-#include "ffprocess.h"
+#include "detect_ffmpeg.h"
 #include "input_source_probe.h"
 #include "transcode.h"
 

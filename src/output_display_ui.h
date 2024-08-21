@@ -35,8 +35,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QWidget>
 
-#include "ffprocess.h"
-
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
