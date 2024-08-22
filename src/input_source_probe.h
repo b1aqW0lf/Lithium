@@ -66,6 +66,7 @@ Q_SIGNALS:
     void source_vid_start_time(const double &start);
     void source_vid_pixel_format(const QString &pix_fmt);
     void source_vid_color_space(const QString &cspace);
+    void source_vid_coded_resolution(const QString &width, const QString &height);
 
     //source signal
     void source_file_title(const QString &title);
@@ -89,6 +90,8 @@ private:
         QString codec_long_name{};
         QString codec_type{};
         QString codec_profile{};
+        QString coded_width{};
+        QString coded_height{};
         QString resolution{};
         QString sample_aspect_ratio{};
         QString display_aspect_ratio{};

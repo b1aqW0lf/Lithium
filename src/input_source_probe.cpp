@@ -55,6 +55,8 @@ namespace Analyze
     //const char bitrate_data[] = "^bit_rate\\s*=\\s*([\\w\\d]*[\\/]?[\\w\\d]*)?$(?!.*\1)";
     const char video_codec_type[] = "codec_type=([video]+)";
     const char audio_codec_type[] = "codec_type=([audio]+)";
+    const char coded_width_data[] = "^coded_width\\s*=\\s*([\\d]*)$";
+    const char coded_height_data[] = "^coded_height\\s*=\\s*([\\d]*)$";
 }
 
 InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
@@ -281,6 +283,21 @@ void InputSourceProbe::parse_video_output(const QString &data)
         this->videostream.codec_type = codectype_regx.cap(1);
     }
     Q_EMIT show_vid_data(videostream.codec_type, timeout);
+
+    QRegExp coded_width_regex(Analyze::coded_width_data);
+    int cwidth_index{coded_width_regex.indexIn(data)};
+    if(cwidth_index != -1)
+    {
+        this->videostream.coded_width = coded_width_regex.cap(1);
+    }
+
+    QRegExp coded_height_regex(Analyze::coded_height_data);
+    int cheight_index{coded_height_regex.indexIn(data)};
+    if(cheight_index != -1)
+    {
+        this->videostream.coded_height = coded_height_regex.cap(1);
+    }
+    Q_EMIT source_vid_coded_resolution(videostream.coded_width, videostream.coded_height);
 }
 
 void InputSourceProbe::parse_audio_output(const QString &data)

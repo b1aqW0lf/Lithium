@@ -863,6 +863,7 @@ void VideoUI::select_dar_value(const int index)
     {
         this->video_dar_value = ui->videoAspectRatBox->currentText();
     }
+    Q_EMIT send_vid_data(video_dar_value,0);
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)

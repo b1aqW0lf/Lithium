@@ -204,6 +204,9 @@ void MainWindow::application_connections_setup()
     connect(&inputProbe, &InputSourceProbe::source_vid_display_aspect_ratio,
             ui->VideoUIWidget, &VideoUI::receive_vid_source_display_aspect_ratio);
 
+    connect(&inputProbe, &InputSourceProbe::source_vid_coded_resolution,
+            ui->VideoUIWidget, &VideoUI::receive_vid_source_coded_size);
+
     //----------------------------------------------------------------------//
 
     connect(&inputProbe, &InputSourceProbe::source_audio_codec_name,

@@ -70,10 +70,10 @@ public Q_SLOTS:
     void receive_vid_source_codec(const QString &codec);
     void receive_vid_source_extension(const QString &extension);
     void receive_vid_source_resolution(const QString &display);
-    //void receive_vid_source_aspect_ratio(const QString &aratio);
     void receive_vid_source_framerate(const QString &framerate);
     void receive_vid_source_bitrate(const QString &bitrate);
     void receive_vid_source_display_aspect_ratio(const QString &dar);
+    void receive_vid_source_coded_size(const QString &width, const QString &height);
     void receive_clear_request();
     void receive_process_mode_state(const bool &normal, const bool &merge,
                                     const bool &extract);
@@ -123,6 +123,8 @@ private:
     QString source_codec{};
     QString source_fps{};
     QString source_dar{};
+    QString source_coded_width{};
+    QString source_coded_height{};
     //-----------------------------------
     //process mode state
     bool normal_mode{};
