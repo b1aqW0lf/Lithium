@@ -173,8 +173,9 @@ void Transcode::receive_current_audio_options(const QString &codec, const QStrin
 void Transcode::receive_current_video_options(const QString &codec, const QString &video_bitrate,
                                               const QString &crf_value, const QString &qscale_value,
                                               const QString &video_res_value, const QString &video_dar_value,
-                                              const QString &video_fps_val, const QString &encoder_preset_val,
-                                              const QStringList &pixel_format, const bool &pixel_format_enabled)
+                                              const bool &calculate_dar_enabled, const QString &video_fps_val,
+                                              const QString &encoder_preset_val, const QStringList &pixel_format,
+                                              const bool &pixel_format_enabled)
 {
     this->video_codec = codec;
     this->vid_avg_bitrate = video_bitrate;
@@ -182,6 +183,7 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
     this->qscale_value = qscale_value;
     this->video_res = video_res_value;
     this->video_dar = video_dar_value;
+    this->calculate_dar_enabled = calculate_dar_enabled;
     this->video_fps = video_fps_val;
     this->vid_encoder_preset = encoder_preset_val;
     this->pixel_format = pixel_format;
@@ -249,10 +251,18 @@ void Transcode::normal_mode_transcode()
         args.append(pixel_format);
     }
 
-    args << "-vf" << video_res << "-aspect" << video_dar << "-crf" << crf_value
-         << "-preset" << vid_encoder_preset << "-color_primaries" << "1"
-         << "-color_trc" << "1" << "-colorspace" << "1" << "-c:a" << audio_codec
-         << "-map_metadata" << "0" << output_file;
+    if(calculate_dar_enabled == true)
+    {
+        args << "-vf" << video_res+","+video_dar;
+    }
+    else
+    {
+        args << "-vf" << video_res << "-aspect" << video_dar;
+    }
+
+    args << "-crf" << crf_value << "-preset" << vid_encoder_preset
+         << "-color_primaries" << "1" << "-color_trc" << "1" << "-colorspace"
+         << "1" << "-c:a" << audio_codec << "-map_metadata" << "0" << output_file;
 
     //check for path to ffmpeg
     ffmpeg_path_check();
@@ -276,10 +286,18 @@ void Transcode::average_bitrate_encode()
         args.append(pixel_format);
     }
 
-    args << "-vf" << video_res << "-aspect" << video_dar << "-b:v" << vid_avg_bitrate
-         << "-preset" << vid_encoder_preset << "-color_primaries" << "1"
-         << "-color_trc" << "1" << "-colorspace" << "1" << "-c:a" << audio_codec
-         << "-map_metadata" << "0" << output_file;
+    if(calculate_dar_enabled == true)
+    {
+        args << "-vf" << video_res+","+video_dar;
+    }
+    else
+    {
+        args << "-vf" << video_res << "-aspect" << video_dar;
+    }
+
+    args << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
+         << "-color_primaries" << "1" << "-color_trc" << "1" << "-colorspace"
+         << "1" << "-c:a" << audio_codec << "-map_metadata" << "0" << output_file;
 
     //check for path to ffmpeg
     ffmpeg_path_check();
@@ -308,10 +326,18 @@ void Transcode::two_pass_encode_1st_pass()
         args.append(pixel_format);
     }
 
-    args << "-vf" << video_res << "-aspect" << video_dar << "-b:v" << vid_avg_bitrate
-         << "-preset" << vid_encoder_preset << "-map_metadata" << "0"
-         << "-passlogfile" << pass_log_location << "-pass" << "1" << "-an"
-         << "-f" << "null"
+    if(calculate_dar_enabled == true)
+    {
+        args << "-vf" << video_res+","+video_dar;
+    }
+    else
+    {
+        args << "-vf" << video_res << "-aspect" << video_dar;
+    }
+
+    args << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
+         << "-map_metadata" << "0" << "-passlogfile" << pass_log_location
+         << "-pass" << "1" << "-an" << "-f" << "null"
 #ifdef Q_OS_LINUX
          << "/dev/null";
 #elif defined Q_OS_WIN
@@ -348,10 +374,18 @@ void Transcode::two_pass_encode_2nd_pass()
         args.append(pixel_format);
     }
 
-    args << "-vf" << video_res << "-aspect" << video_dar << "-b:v" << vid_avg_bitrate
-         << "-preset" << vid_encoder_preset << "-map_metadata" << "0"
-         << "-passlogfile" << pass_log_location << "-pass" << "2" << "-c:a" << audio_codec
-         << output_file;
+    if(calculate_dar_enabled == true)
+    {
+        args << "-vf" << video_res+","+video_dar;
+    }
+    else
+    {
+        args << "-vf" << video_res << "-aspect" << video_dar;
+    }
+
+    args << "-b:v" << vid_avg_bitrate << "-preset" << vid_encoder_preset
+         << "-map_metadata" << "0" << "-passlogfile" << pass_log_location
+         << "-pass" << "2" << "-c:a" << audio_codec << output_file;
 
     //check for path to ffmpeg
     ffmpeg_path_check();

@@ -844,26 +844,49 @@ void VideoUI::select_video_res(const int index)
     }
 }
 
+void VideoUI::receive_vid_source_coded_size(const QString &width, const QString &height)
+{
+    this->source_coded_width = width;
+    this->source_coded_height = height;
+}
+
 void VideoUI::receive_vid_source_display_aspect_ratio(const QString &dar)
 {
-    this->source_dar = dar;
+    if(dar.contains("N/A", Qt::CaseInsensitive) || dar.isEmpty())
+    {
+        //force ffmpeg to calculate the display aspect resolution from source
+        const QString aspect_ratio{source_coded_width+"/"+source_coded_height};
+        this->source_dar = "setdar="+aspect_ratio;
+        this->calculate_dar_enabled = true;
+    }
+    else
+    {
+        //copy display aspect ratio value
+        this->source_dar = dar;
+        this->calculate_dar_enabled = false;
+    }
     VideoStandardItem::videoAspectRatBoxItem->setData(this->source_dar, Qt::UserRole);
 }
 
 //diplay aspect ratio
 void VideoUI::select_dar_value(const int index)
 {
+    int timeout{0};
     //select display aspect ratio
     if(index == 0)
     {
-        //vid_aspect_val = "copy";
+        //copy display aspect ratio value
         this->video_dar_value = ui->videoAspectRatBox->itemData(0).toString();
     }
-    else
+    else if(index > 0)
     {
         this->video_dar_value = ui->videoAspectRatBox->currentText();
     }
-    Q_EMIT send_vid_data(video_dar_value,0);
+    else
+    {
+        return;
+    }
+    Q_EMIT send_vid_data(video_dar_value, timeout);
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
@@ -1605,8 +1628,9 @@ void VideoUI::get_selected_video_options()
     //emit the current selected video options
     Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
                                 qscale_value, video_res_value, video_dar_value,
-                                video_fps_value, encoder_preset_val,
-                                pixel_format, pixel_format_enabled);
+                                calculate_dar_enabled, video_fps_value,
+                                encoder_preset_val, pixel_format,
+                                pixel_format_enabled);
 }
 
 void VideoUI::default_options_check()

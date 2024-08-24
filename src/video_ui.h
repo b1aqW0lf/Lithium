@@ -59,8 +59,9 @@ Q_SIGNALS:
     void send_current_video_options(const QString &codec, const QString &video_bitrate,
                                const QString &crf_val, const QString &qs_val,
                                const QString &resolution, const QString &dar,
-                               const QString &framerate, const QString &encoder_preset,
-                               const QStringList &pixel_format, const bool &pixel_format_enabled);
+                               const bool &calculate_dar_enabled, const QString &framerate,
+                               const QString &encoder_preset, const QStringList &pixel_format,
+                                const bool &pixel_format_enabled);
 
     //for testing only!
     void send_vid_data(const QString &data, const int &timeout);
@@ -116,6 +117,7 @@ private:
     QString video_bitrate{};
     QStringList pixel_format{};
     bool pixel_format_enabled{};
+    bool calculate_dar_enabled{};
 
     //video source variables
     QString source_ext{};
