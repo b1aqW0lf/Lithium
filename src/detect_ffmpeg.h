@@ -49,7 +49,7 @@ public:
 
 Q_SIGNALS:
     void ffmpeg_read_output(const QString &output);
-    void ffmpeg_status_message(const QString &status, const int &message);
+    void ffmpeg_status_message(const QString &status, const int &timeout);
 
 private Q_SLOTS:
     void ffmpegReadStandardOutput();//ffmpeg QProcess function
