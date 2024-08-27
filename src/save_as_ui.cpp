@@ -46,7 +46,7 @@ SaveAsUI::SaveAsUI(QWidget *parent) :
     ui->setupUi(this);
 
     //connect signals and slots
-    connect(ui->saveASButton, SIGNAL(clicked()), this, SLOT(select_output()));
+    connect(ui->saveASButton, &QPushButton::clicked, this, &SaveAsUI::select_output);
 
     //saveAS label
     ui->saveASLabel->setText(tr("Save As: "));
