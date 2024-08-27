@@ -108,6 +108,7 @@ void DetectFFmpeg::ffplay_location_setup()
 void DetectFFmpeg::ffmpeg_location_check(const QString &app)
 {
     int timeout{0};
+    QString app_path{};
     QString application_path{QCoreApplication::applicationDirPath()};
     QString application_dir{QDir(application_path).absolutePath()};
 
@@ -115,26 +116,26 @@ void DetectFFmpeg::ffmpeg_location_check(const QString &app)
         !QFile::exists(application_dir + "/ffmpeg/" + app + ".exe"))
     {
         //Lithium root directory + ffmpeg executable
-        this->ffmpeg_path = application_dir + "/" + app + ".exe";
+        app_path = application_dir + "/" + app + ".exe";
         this->ffmpeg->setWorkingDirectory(application_dir);
-        set_ffmpeg_ready_status(app);
+        set_ffmpeg_ready_and_path(app, app_path);
     }
     else if(QFile::exists(application_dir + "/ffmpeg/" + app + ".exe") &&
             !QFile::exists(application_dir + "/" + app + ".exe"))
     {
         //Lithium root directory + "ffmpeg" sub directory + ffmpeg executable
-        this->ffmpeg_path = application_dir + "/ffmpeg/" + app + ".exe";
+        app_path = application_dir + "/ffmpeg/" + app + ".exe";
         this->ffmpeg->setWorkingDirectory(application_dir + "/ffmpeg");
-        set_ffmpeg_ready_status(app);
+        set_ffmpeg_ready_and_path(app, app_path);
     }
     else if(QFile::exists(application_dir + "/" + app + ".exe") &&
              QFile::exists(application_dir + "/ffmpeg/" + app + ".exe"))
     {
         //If ffmpeg is found in both root directory and subdirectory
         //use ffmpeg found in user-created "ffmpeg" subdirectory
-        this->ffmpeg_path = application_dir + "/ffmpeg/" + app + ".exe";
+        app_path = application_dir + "/ffmpeg/" + app + ".exe";
         this->ffmpeg->setWorkingDirectory(application_dir + "/ffmpeg");
-        set_ffmpeg_ready_status(app);
+        set_ffmpeg_ready_and_path(app, app_path);
         Q_EMIT ffmpeg_status_message("Using ffmpeg found in " + (application_dir + "/ffmpeg").toUtf8(),
                                       timeout);
     }
@@ -145,19 +146,22 @@ void DetectFFmpeg::ffmpeg_location_check(const QString &app)
     }
 }
 
-void DetectFFmpeg::set_ffmpeg_ready_status(const QString &app)
+void DetectFFmpeg::set_ffmpeg_ready_and_path(const QString &app, const QString &app_path)
 {
     if(app == "ffmpeg")
     {
         this->ffmpeg_ready = true;
+        this->ffmpeg_path = app_path;
     }
     else if(app == "ffprobe")
     {
         this->ffprobe_ready = true;
+        this->ffprobe_path = app_path;
     }
     else if(app == "ffplay")
     {
         this->ffplay_ready = true;
+        this->ffplay_path = app_path;
     }
     else
     {

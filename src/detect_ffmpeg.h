@@ -66,7 +66,7 @@ private:
 
     //function
     void ffmpeg_location_check(const QString &app);
-    void set_ffmpeg_ready_status(const QString &app);
+    void set_ffmpeg_ready_and_path(const QString &app, const QString &app_path);
     void send_ffmpeg_status();
     void generate_ffmpeg_version_prompt();
 
