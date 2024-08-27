@@ -104,6 +104,7 @@ void DetectFFmpeg::ffplay_location_setup()
 
 }
 
+#ifdef Q_OS_WIN
 //check the location of ffmpeg, ffprobe and ffplay
 void DetectFFmpeg::ffmpeg_location_check(const QString &app)
 {
@@ -145,7 +146,9 @@ void DetectFFmpeg::ffmpeg_location_check(const QString &app)
         Q_EMIT ffmpeg_status_message("FFmpeg executables not detected", timeout);
     }
 }
+#endif
 
+#ifdef Q_OS_WIN
 void DetectFFmpeg::set_ffmpeg_ready_and_path(const QString &app, const QString &app_path)
 {
     if(app == "ffmpeg")
@@ -168,6 +171,7 @@ void DetectFFmpeg::set_ffmpeg_ready_and_path(const QString &app, const QString &
         return;
     }
 }
+#endif
 
 void DetectFFmpeg::ffmpeg_process_started()
 {
