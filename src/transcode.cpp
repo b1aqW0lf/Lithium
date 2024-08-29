@@ -316,7 +316,7 @@ void Transcode::two_pass_encode_1st_pass()
     //normal transcode + 2-pass encoding
     //1st pass
     QDir file = QFileInfo(source_video_file).absoluteDir();
-    pass_log_location = file.absolutePath()+"/passlogfile";
+    pass_log_location = file.absolutePath()+"/ffmpeg2pass";
 
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
          << "-i" << source_video_file << "-sn" << "-c:v" << video_codec;
