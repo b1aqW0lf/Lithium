@@ -83,9 +83,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionEncode->setIconText(tr("Encode"));
     ui->actionCancel->setIconText(tr("Cancel"));
     ui->actionAbout->setIconText(tr("About"));
-    ui->actionEncode->setShortcut(Qt::CTRL+Qt::Key_E);
-    ui->actionCancel->setShortcut(Qt::CTRL+Qt::Key_X);
-    ui->actionCancel->setShortcut(Qt::CTRL+Qt::Key_I);
+    ui->actionEncode->setShortcut(Qt::CTRL|Qt::Key_E);
+    ui->actionCancel->setShortcut(Qt::CTRL|Qt::Key_X);
+    ui->actionCancel->setShortcut(Qt::CTRL|Qt::Key_I);
     ui->actionEncode->setToolTip(tr("Start Encoding"));
     ui->actionCancel->setToolTip(tr("Cancel Encoding"));
     ui->actionAbout->setToolTip(tr("About Qt"));
