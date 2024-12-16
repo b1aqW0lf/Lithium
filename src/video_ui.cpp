@@ -1575,39 +1575,23 @@ void VideoUI::receive_vid_source_bitrate(const QString &bitrate)
 void VideoUI::get_vid_bitrate_field_data()
 {
     if(ui->videoAVGBitRadio->isChecked() == true &&
-            ui->videoCRFRadio->isChecked() == false)
+        ui->videoCRFRadio->isChecked() == false)
     {
         //report that the average bitrate field is enabled
         Q_EMIT average_bitrate_encode_enabled(true);
 
         if(!ui->videoAVGBitField->text().isEmpty())
         {
-            //check contents of videoAVGBitField entry for valid data
-            QRegularExpression rx(QRegularExpression::anchoredPattern(QLatin1String("^(\\d+)(\\.?)(\\d*)(\\s*)([\\kmKM]?)$")));
-            QRegularExpressionMatch match = rx.match(ui->videoAVGBitField->text());
-            if (match.hasMatch())
+            //videoAVGBitField data ends with a "k", "m", "K", or "M"
+            if(ui->videoAVGBitField->text().endsWith("K", Qt::CaseInsensitive) ||
+                ui->videoAVGBitField->text().endsWith("M", Qt::CaseInsensitive))
             {
-                //videoAVGBitField data ends with a "k", "m", "K", or "M"
-                if(ui->videoAVGBitField->text().endsWith("K", Qt::CaseInsensitive) ||
-                        ui->videoAVGBitField->text().endsWith("M", Qt::CaseInsensitive))
-                {
-                    video_bitrate = ui->videoAVGBitField->text().toLower().remove(" ");
-                    //Q_EMIT send_average_bitrate_value(video_bitrate);
-                }
-                else
-                {
-                    //videoAVGBitField data with numbers only
-                    video_bitrate = ui->videoAVGBitField->text().remove(" ");
-                    //Q_EMIT send_average_bitrate_value(video_bitrate);
-                }
+                video_bitrate = ui->videoAVGBitField->text().toLower().remove(" ");
             }
             else
             {
-                //found invalid data->send message to statusbar->below is placeholder
-                ui->videoAVGBitField->setText(tr("invalid, defaulting to 6000k"));
-
-                //default to 6000k
-                video_bitrate = "6000k";
+                //videoAVGBitField data with numbers only
+                video_bitrate = ui->videoAVGBitField->text().remove(" ");
                 //Q_EMIT send_average_bitrate_value(video_bitrate);
             }
         }
