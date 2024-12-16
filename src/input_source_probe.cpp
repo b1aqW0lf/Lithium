@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QCoreApplication>
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 
 
 namespace Analyze
@@ -173,20 +173,23 @@ void InputSourceProbe::read_ffprobe_output()
 void InputSourceProbe::parse_video_output(const QString &data)
 {
     int timeout{0};
-    QRegExp regx_vid(Analyze::video_data);
-    int index{regx_vid.indexIn(data)};
-    if(index != -1)
+    //QRegExp regx_vid(Analyze::video_data);
+    QRegularExpression regx_vid(QRegularExpression::anchoredPattern(QLatin1String(Analyze::video_data)));
+    QRegularExpressionMatch match = regx_vid.match(data);
+    //int index{regx_vid.indexIn(data)};
+    //if(index != -1)
+    if(match.hasMatch())
     {
         //reading the ffprobe output for desired data
-        this->videostream.video_str  = regx_vid.cap(0);
-        this->videostream.stream_index1 = regx_vid.cap(1);//VideoStream::stream_index1
-        this->videostream.stream_index2 = regx_vid.cap(2);//VideoStream::stream_index2
-        this->videostream.codec_name = regx_vid.cap(3);//VideoStream::codec_name
-        this->videostream.resolution = regx_vid.cap(5);//VideoStream::resolution
-        this->videostream.sample_aspect_ratio  = regx_vid.cap(7);//VideoStream::sample_aspect_ratio
-        this->videostream.display_aspect_ratio = regx_vid.cap(8);//VideoStream::display_aspect_ratio
+        //this->videostream.video_str  = regx_vid.cap(0);
+        this->videostream.stream_index1 = match.captured(1);//VideoStream::stream_index1
+        this->videostream.stream_index2 = match.captured(2);//VideoStream::stream_index2
+        this->videostream.codec_name = match.captured(3);//VideoStream::codec_name
+        this->videostream.resolution = match.captured(5);//VideoStream::resolution
+        this->videostream.sample_aspect_ratio  = match.captured(7);//VideoStream::sample_aspect_ratio
+        this->videostream.display_aspect_ratio = match.captured(8);//VideoStream::display_aspect_ratio
         //this->vidstream.bit_rate   = regx_vid.cap(10);//VideoStream::bit_rate
-        this->videostream.frame_rate = regx_vid.cap(12);//VideoStream::frame_rate
+        this->videostream.frame_rate = match.captured(12);//VideoStream::frame_rate
     }
     Q_EMIT source_vid_codec_name(videostream.codec_name);
     Q_EMIT source_vid_resolution(videostream.resolution);
@@ -194,21 +197,24 @@ void InputSourceProbe::parse_video_output(const QString &data)
     //used for testing only
     //Q_EMIT show_vid_data(vidstream.sample_aspect_ratio, timeout);
 
-    QRegExp bitrate_regx(Analyze::meta_data);
-    int bitrate_index{bitrate_regx.indexIn(data)};
-    if(bitrate_index != -1)
+    QRegularExpression bitrate_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::meta_data)));
+    match = bitrate_regx.match(data);
+    //int bitrate_index{bitrate_regx.indexIn(data)};
+    //if(bitrate_index != -1)
+    if(match.hasMatch())
     {
-        this->videostream.bit_rate = bitrate_regx.cap(6);
+        this->videostream.bit_rate = match.captured(6);
     }/**/
     Q_EMIT source_vid_bit_rate(videostream.bit_rate);
     //check other meta data information
-    if(bitrate_index != -1)
+    //if(bitrate_index != -1)
+    if(match.hasMatch())
     {
-        this->videostream.duration = bitrate_regx.cap(1);
-        this->videostream.dur_hours = bitrate_regx.cap(2).toInt();
-        this->videostream.dur_mins = bitrate_regx.cap(3).toInt();
-        this->videostream.dur_secs = bitrate_regx.cap(4).toDouble();
-        this->videostream.start_time = bitrate_regx.cap(5).toDouble();
+        this->videostream.duration = match.captured(1);
+        this->videostream.dur_hours = match.captured(2).toInt();
+        this->videostream.dur_mins = match.captured(3).toInt();
+        this->videostream.dur_secs = match.captured(4).toDouble();
+        this->videostream.start_time = match.captured(5).toDouble();
     }
     Q_EMIT source_vid_duration(videostream.duration);
     Q_EMIT source_vid_dur_hours(videostream.dur_hours);
@@ -223,11 +229,13 @@ void InputSourceProbe::parse_video_output(const QString &data)
     //verifying sample aspect ratio value
     if(videostream.sample_aspect_ratio.isEmpty() == true)
     {
-        QRegExp regx_sar(Analyze::sar_data);
-        int index_sar{regx_sar.indexIn(data)};
-        if(index_sar != -1)
+        QRegularExpression regx_sar(QRegularExpression::anchoredPattern(QLatin1String(Analyze::sar_data)));
+        //int index_sar{regx_sar.indexIn(data)};
+        //if(index_sar != -1)
+        match = regx_sar.match(data);
+        if(match.hasMatch())
         {
-            this->videostream.sample_aspect_ratio = regx_sar.cap(1);
+            this->videostream.sample_aspect_ratio = match.captured(1);
         }
     }
     Q_EMIT source_vid_sample_aspect_ratio(videostream.sample_aspect_ratio);
@@ -235,30 +243,36 @@ void InputSourceProbe::parse_video_output(const QString &data)
     //verifying the display aspect ratio value
     if(videostream.display_aspect_ratio.isEmpty() == true)
     {
-        QRegExp regx_dar(Analyze::dar_data);
-        int index_dar{regx_dar.indexIn(data)};
-        if(index_dar != -1)
+        QRegularExpression regx_dar(QRegularExpression::anchoredPattern(QLatin1String(Analyze::dar_data)));
+        //int index_dar{regx_dar.indexIn(data)};
+        //if(index_dar != -1)
+        match = regx_dar.match(data);
+        if(match.hasMatch())
         {
-            this->videostream.display_aspect_ratio = regx_dar.cap(1);
+            this->videostream.display_aspect_ratio = match.captured(1);
         }
     }
     Q_EMIT source_vid_display_aspect_ratio(videostream.display_aspect_ratio);
 
     //verifying color space
-    QRegExp colorspace_regx(Analyze::colorspace_data);
-    int cspace_index{colorspace_regx.indexIn(data)};
-    if(cspace_index != -1)
+    QRegularExpression colorspace_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::colorspace_data)));
+    //int cspace_index{colorspace_regx.indexIn(data)};
+    //if(cspace_index != -1)
+    match = colorspace_regx.match(data);
+    if(match.hasMatch())
     {
-        this->videostream.color_space = colorspace_regx.cap(1);
+        this->videostream.color_space = match.captured(1);
     }
     Q_EMIT source_vid_color_space(videostream.color_space);
 
     //verifying pixel format
-    QRegExp pixformat_regx(Analyze::pixelformat_data);
-    int pformat_index{pixformat_regx.indexIn(data)};
-    if(pformat_index != -1)
+    QRegularExpression pixformat_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::pixelformat_data)));
+    //int pformat_index{pixformat_regx.indexIn(data)};
+    //if(pformat_index != -1)
+    match = pixformat_regx.match(data);
+    if(match.hasMatch())
     {
-        this->videostream.pixel_format = pixformat_regx.cap(1);
+        this->videostream.pixel_format = match.captured(1);
     }
     Q_EMIT source_vid_pixel_format(videostream.pixel_format);
 
@@ -276,26 +290,32 @@ void InputSourceProbe::parse_video_output(const QString &data)
     }*/
     //Q_EMIT show_vid_data(vidstream.display_aspect_ratio, timeout);
 
-    QRegExp codectype_regx(Analyze::video_codec_type);
-    int ctype_index{codectype_regx.indexIn(data)};
-    if(ctype_index != -1)
+    QRegularExpression codectype_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::video_codec_type)));
+    //int ctype_index{codectype_regx.indexIn(data)};
+    //if(ctype_index != -1)
+    match = codectype_regx.match(data);
+    if(match.hasMatch())
     {
-        this->videostream.codec_type = codectype_regx.cap(1);
+        this->videostream.codec_type = match.captured(1);
     }
     Q_EMIT show_vid_data(videostream.codec_type, timeout);
 
-    QRegExp coded_width_regex(Analyze::coded_width_data);
-    int cwidth_index{coded_width_regex.indexIn(data)};
-    if(cwidth_index != -1)
+    QRegularExpression coded_width_regex(QRegularExpression::anchoredPattern(QLatin1String(Analyze::coded_width_data)));
+    //int cwidth_index{coded_width_regex.indexIn(data)};
+    //if(cwidth_index != -1)
+    match = coded_width_regex.match(data);
+    if(match.hasMatch())
     {
-        this->videostream.coded_width = coded_width_regex.cap(1);
+        this->videostream.coded_width = match.captured(1);
     }
 
-    QRegExp coded_height_regex(Analyze::coded_height_data);
-    int cheight_index{coded_height_regex.indexIn(data)};
-    if(cheight_index != -1)
+    QRegularExpression coded_height_regex(QRegularExpression::anchoredPattern(QLatin1String(Analyze::coded_height_data)));
+    //int cheight_index{coded_height_regex.indexIn(data)};
+    //if(cheight_index != -1)
+    match = coded_height_regex.match(data);
+    if(match.hasMatch())
     {
-        this->videostream.coded_height = coded_height_regex.cap(1);
+        this->videostream.coded_height = match.captured(1);
     }
     Q_EMIT source_vid_coded_resolution(videostream.coded_width, videostream.coded_height);
 }
@@ -303,19 +323,21 @@ void InputSourceProbe::parse_video_output(const QString &data)
 void InputSourceProbe::parse_audio_output(const QString &data)
 {
     int timeout{0};
-    QRegExp regx_aud(Analyze::audio_data);
-    int index{regx_aud.indexIn(data)};
-    if(index != -1)
+    QRegularExpression regx_aud(QRegularExpression::anchoredPattern(QLatin1String(Analyze::audio_data)));
+    QRegularExpressionMatch match = regx_aud.match(data);
+    //int index{regx_aud.indexIn(data)};
+    //if(index != -1)
+    if(match.hasMatch())
     {
         //reading the ffprobe output for desired data
-        this->audiostream.audio_str = regx_aud.cap(1);
-        this->audiostream.stream_index1 = regx_aud.cap(2);//AudioStream::index1
-        this->audiostream.stream_index2 = regx_aud.cap(3);//AudioStream::index2
-        this->audiostream.codec_name = regx_aud.cap(4);//AudioStream::codec_name
-        this->audiostream.sample_rate = regx_aud.cap(5);//AudioStream::sample_rate
-        this->audiostream.channels = regx_aud.cap(6);//AudioStream::channels
-        this->audiostream.bit_rate = regx_aud.cap(8);//AudioStream::bit_rate
-        this->audiostream.duration = regx_aud.cap(9);//AudioStream::duration
+        this->audiostream.audio_str = match.captured(1);
+        this->audiostream.stream_index1 = match.captured(2);//AudioStream::index1
+        this->audiostream.stream_index2 = match.captured(3);//AudioStream::index2
+        this->audiostream.codec_name = match.captured(4);//AudioStream::codec_name
+        this->audiostream.sample_rate = match.captured(5);//AudioStream::sample_rate
+        this->audiostream.channels = match.captured(6);//AudioStream::channels
+        this->audiostream.bit_rate = match.captured(8);//AudioStream::bit_rate
+        this->audiostream.duration = match.captured(9);//AudioStream::duration
     }
     Q_EMIT source_audio_codec_name(audiostream.codec_name);
     Q_EMIT source_audio_channels(audiostream.channels);
@@ -323,11 +345,13 @@ void InputSourceProbe::parse_audio_output(const QString &data)
     //check to verify if sample_rate string is empty
     if(this->audiostream.sample_rate.isEmpty() == true)
     {
-        QRegExp regx_check(Analyze::samplerate_data);
-        int index_sr{regx_check.indexIn(data)};
-        if(index_sr != -1)
+        QRegularExpression regx_check(QRegularExpression::anchoredPattern(QLatin1String(Analyze::samplerate_data)));
+        //int index_sr{regx_check.indexIn(data)};
+        //if(index_sr != -1)
+        match = regx_check.match(data);
+        if(match.hasMatch())
         {
-            this->audiostream.sample_rate = regx_check.cap(1);
+            this->audiostream.sample_rate = match.captured(1);
         }
     }
     Q_EMIT source_audio_samplerate(audiostream.sample_rate);
@@ -352,11 +376,13 @@ void InputSourceProbe::parse_audio_output(const QString &data)
 
     if(this->input_file_flag == "input2")
     {
-        QRegExp codectype_regx(Analyze::audio_codec_type);
-        int ctype_index{codectype_regx.indexIn(data)};
-        if(ctype_index != -1)
+        QRegularExpression codectype_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::audio_codec_type)));
+        //int ctype_index{codectype_regx.indexIn(data)};
+        //if(ctype_index != -1)
+        match = codectype_regx.match(data);
+        if(match.hasMatch())
         {
-            this->audiostream.codec_type = codectype_regx.cap(1);
+            this->audiostream.codec_type = match.captured(1);
         }
         //used for testing only
         Q_EMIT show_audio_data(audiostream.codec_type, timeout);

@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QLabel>
 #include <QLineEdit>
 #include <QRadioButton>
+#include <QRegularExpression>
 #include <QSlider>
 #include <QSpinBox>
 #include <QStandardItem>
@@ -1579,8 +1580,9 @@ void VideoUI::get_vid_bitrate_field_data()
         if(!ui->videoAVGBitField->text().isEmpty())
         {
             //check contents of videoAVGBitField entry for valid data
-            QRegExp rx("^(\\d+)(\\.?)(\\d*)(\\s*)([\\kmKM]?)$");
-            if (rx.exactMatch(ui->videoAVGBitField->text()))
+            QRegularExpression rx(QRegularExpression::anchoredPattern(QLatin1String("^(\\d+)(\\.?)(\\d*)(\\s*)([\\kmKM]?)$")));
+            QRegularExpressionMatch match = rx.match(ui->videoAVGBitField->text());
+            if (match.hasMatch())
             {
                 //videoAVGBitField data ends with a "k", "m", "K", or "M"
                 if(ui->videoAVGBitField->text().endsWith("K", Qt::CaseInsensitive) ||
