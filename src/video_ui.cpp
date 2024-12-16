@@ -245,6 +245,9 @@ VideoUI::VideoUI(QWidget *parent) :
     /*ui->videoAVGBitField->setFixedHeight(25);*/
     ui->videoAVGBitField->setFixedWidth(115);
     ui->videoAVGBitField->setPlaceholderText("6000");
+    QRegularExpression rx("^[1-9]+[0]*[.]?\\d*[\\s]?[kKmM]?$");//accept only digits as input - first digit cannot be zero
+    QValidator *validator = new QRegularExpressionValidator(rx, this);
+    ui->videoAVGBitField->setValidator(validator);
 
     //video groupbox
     ui->videoGroupBox->setTitle(tr("Video"));
