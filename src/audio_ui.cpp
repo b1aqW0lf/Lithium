@@ -278,6 +278,10 @@ void AudioUI::receive_audio_source_channels(const QString &channels)
         //use numeric value for mono
         this->source_channels = "1";
     }
+    else if(channels.contains("1 channels", Qt::CaseInsensitive))
+    {
+        this->source_channels = "1";
+    }
     else if(channels.contains("Stereo", Qt::CaseInsensitive))
     {
         //use numeric value for stereo
