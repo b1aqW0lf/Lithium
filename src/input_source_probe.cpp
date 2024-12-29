@@ -41,10 +41,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace Analyze
 {
     const char input_index[] = "Input\\s*#\\s*[\\d]*[,]?\\s*([\\w\\d]*\\s*[,]?\\s*[\\w\\d]*)";
-    const char video_data[] = "Stream #([0-9]+):([0-9]+)[^.]*: Video:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^.]*\\s+([[0-9]*x[0-9]*)\\s?([^.]*SAR\\s*([0-9]*:[0-9]*)\\s*DAR\\s*([0-9]*:[0-9]*)[]]*)?(,\\s*([\\d]*)\\s*kb\\s)?(,[^.]*)?,\\s*([\\d]*[.]*[\\d]*)?\\s*fps";
-    const char audio_data[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
+    const char video_data[] = "Stream #([0-9]+):([0-9]+)[^.]*: Video:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^.]*\\s+([[0-9]*x[0-9]*)\\s?([^.]*SAR\\s*([0-9]*:[0-9]*)\\s*DAR\\s*([0-9]*:[0-9]*)[]]*)?(,\\s*([\\d]*)\\s*kb\\/s)?(,[^.]*)?,\\s*([\\d]*[.]*[\\d]*)?\\s*fps";
+    const char audio_data[] = "Stream #([0-9]+):([0-9]+).*: Audio:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
     //const char video_data[] = "Stream #([0-9]+).([0-9]+).*: Video:\\s*(([\\w\\d]*)\\s*[(\\w\\d)]*)\\s*[^)]*[)]*,[^)]*[)],\\s*([[0-9]*x[0-9]*)([^.]*SAR\\s*([0-9]*:[0-9]*)\\s*DAR\\s*([0-9]*:[0-9]*)[]]*)?(,\\s*([\\d]*)\\s*kb\\/s)?(,[^.]*)?,\\s*([\\d]*[.]*[\\d]*)?\\s*fps";
-    //const char audio_data[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?(\\s*[^]*\\s*Metadata:[^.]*[^]*[^.]*\\s*DURATION\\s*:\\s*([\\d]*[:]?[\\d]*[:]?[\\d]*[.]?[\\d]*))?";
+    //const char audio_data[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
     const char meta_data[] = "Duration:\\s*(([\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
     const char profile_data[] = "profile\\s*=\\s*([\\d\\w]*)";
     const char sar_data[] = "sample_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
@@ -301,17 +301,18 @@ void InputSourceProbe::parse_video_output(const QString &data)
 void InputSourceProbe::parse_audio_output(const QString &data)
 {
     int timeout{0};
-    QRegularExpression regx_aud(QRegularExpression::anchoredPattern(QLatin1String(Analyze::audio_data)));
-    QRegularExpressionMatch match = regx_aud.match(data);
-    //int index{regx_aud.indexIn(data)};
-    //if(index != -1)
-    if(match.hasMatch())
+    QRegularExpression regx_aud(Analyze::audio_data);
+    QRegularExpressionMatchIterator itr = regx_aud.globalMatch(data);
+
+    while(itr.hasNext())
     {
+        QRegularExpressionMatch match = itr.next();
+
         //reading the ffprobe output for desired data
-        this->audiostream.audio_str = match.captured(1);
-        this->audiostream.stream_index1 = match.captured(2);//AudioStream::index1
-        this->audiostream.stream_index2 = match.captured(3);//AudioStream::index2
-        this->audiostream.codec_name = match.captured(4);//AudioStream::codec_name
+        this->audiostream.stream_index1 = match.captured(1);//AudioStream::index1
+        this->audiostream.stream_index2 = match.captured(2);//AudioStream::index2
+        this->audiostream.codec_name = match.captured(3);//AudioStream::codec_name
+        this->audiostream.codec_profile = match.captured(4);//AudioStream::codec_profile
         this->audiostream.sample_rate = match.captured(5);//AudioStream::sample_rate
         this->audiostream.channels = match.captured(6);//AudioStream::channels
         this->audiostream.bit_rate = match.captured(8);//AudioStream::bit_rate
@@ -323,12 +324,11 @@ void InputSourceProbe::parse_audio_output(const QString &data)
     //check to verify if sample_rate string is empty
     if(this->audiostream.sample_rate.isEmpty() == true)
     {
-        QRegularExpression regx_check(QRegularExpression::anchoredPattern(QLatin1String(Analyze::samplerate_data)));
-        //int index_sr{regx_check.indexIn(data)};
-        //if(index_sr != -1)
-        match = regx_check.match(data);
-        if(match.hasMatch())
+        QRegularExpression regx_check(Analyze::samplerate_data);
+        itr = regx_check.globalMatch(data);
+        while(itr.hasNext())
         {
+            QRegularExpressionMatch match = itr.next();
             this->audiostream.sample_rate = match.captured(1);
         }
     }
@@ -341,25 +341,13 @@ void InputSourceProbe::parse_audio_output(const QString &data)
     }
     Q_EMIT source_audio_bitrate(audiostream.bit_rate);
 
-    /*//additional duration check
-    if(this->audiostream.duration.isEmpty() == true)
-    {
-        QRegExp regx_duration(Analyze::duration_data);
-        int index_dur{regx_duration.indexIn(data)};
-        if(index_dur != -1)
-        {
-            this->audiostream.duration = regx_duration.cap(1);
-        }
-    }*/
-
     if(this->input_file_flag == "input2")
     {
-        QRegularExpression codectype_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::audio_codec_type)));
-        //int ctype_index{codectype_regx.indexIn(data)};
-        //if(ctype_index != -1)
-        match = codectype_regx.match(data);
-        if(match.hasMatch())
+        QRegularExpression codectype_regx(Analyze::audio_codec_type);
+        itr = codectype_regx.globalMatch(data);
+        while(itr.hasNext())
         {
+            QRegularExpressionMatch match = itr.next();
             this->audiostream.codec_type = match.captured(1);
         }
         //used for testing only

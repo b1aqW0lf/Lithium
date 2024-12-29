@@ -115,6 +115,7 @@ private:
         QString audio_str{};
         QString codec_name{};
         QString codec_type{};
+        QString codec_profile{};
         QString sample_rate{};
         QString channels{};
         double start_time{};
