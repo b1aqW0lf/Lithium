@@ -34,6 +34,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QCoreApplication>
 #include <QDir>
 #include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QRegularExpressionMatchIterator>
 
 
 namespace Analyze
@@ -174,17 +176,18 @@ void InputSourceProbe::parse_video_output(const QString &data)
 {
     int timeout{0};
     //QRegExp regx_vid(Analyze::video_data);
-    QRegularExpression regx_vid(QRegularExpression::anchoredPattern(QLatin1String(Analyze::video_data)));
-    QRegularExpressionMatch match = regx_vid.match(data);
-    //int index{regx_vid.indexIn(data)};
-    //if(index != -1)
-    if(match.hasMatch())
+    QRegularExpression regx_vid(Analyze::video_data);
+    QRegularExpressionMatchIterator itr = regx_vid.globalMatch(data);
+
+    while (itr.hasNext())
     {
+        QRegularExpressionMatch match = itr.next();
+
         //reading the ffprobe output for desired data
-        //this->videostream.video_str  = regx_vid.cap(0);
         this->videostream.stream_index1 = match.captured(1);//VideoStream::stream_index1
         this->videostream.stream_index2 = match.captured(2);//VideoStream::stream_index2
         this->videostream.codec_name = match.captured(3);//VideoStream::codec_name
+        this->videostream.codec_profile = match.captured(4);//VideoStream::codec_profile
         this->videostream.resolution = match.captured(5);//VideoStream::resolution
         this->videostream.sample_aspect_ratio  = match.captured(7);//VideoStream::sample_aspect_ratio
         this->videostream.display_aspect_ratio = match.captured(8);//VideoStream::display_aspect_ratio
@@ -195,27 +198,22 @@ void InputSourceProbe::parse_video_output(const QString &data)
     Q_EMIT source_vid_resolution(videostream.resolution);
     Q_EMIT source_vid_frame_rate(videostream.frame_rate);
     //used for testing only
-    //Q_EMIT show_vid_data(vidstream.sample_aspect_ratio, timeout);
+    Q_EMIT show_vid_data(videostream.sample_aspect_ratio, timeout);
 
-    QRegularExpression bitrate_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::meta_data)));
-    match = bitrate_regx.match(data);
-    //int bitrate_index{bitrate_regx.indexIn(data)};
-    //if(bitrate_index != -1)
-    if(match.hasMatch())
+    QRegularExpression bitrate_regx(Analyze::meta_data);
+    itr = bitrate_regx.globalMatch(data);
+    while (itr.hasNext())
     {
-        this->videostream.bit_rate = match.captured(6);
-    }/**/
-    Q_EMIT source_vid_bit_rate(videostream.bit_rate);
-    //check other meta data information
-    //if(bitrate_index != -1)
-    if(match.hasMatch())
-    {
+        QRegularExpressionMatch match = itr.next();
+        //check other meta data information
         this->videostream.duration = match.captured(1);
         this->videostream.dur_hours = match.captured(2).toInt();
         this->videostream.dur_mins = match.captured(3).toInt();
         this->videostream.dur_secs = match.captured(4).toDouble();
         this->videostream.start_time = match.captured(5).toDouble();
+        this->videostream.bit_rate = match.captured(6);
     }
+    Q_EMIT source_vid_bit_rate(videostream.bit_rate);
     Q_EMIT source_vid_duration(videostream.duration);
     Q_EMIT source_vid_dur_hours(videostream.dur_hours);
     Q_EMIT source_vid_dur_mins(videostream.dur_mins);
@@ -229,12 +227,11 @@ void InputSourceProbe::parse_video_output(const QString &data)
     //verifying sample aspect ratio value
     if(videostream.sample_aspect_ratio.isEmpty() == true)
     {
-        QRegularExpression regx_sar(QRegularExpression::anchoredPattern(QLatin1String(Analyze::sar_data)));
-        //int index_sar{regx_sar.indexIn(data)};
-        //if(index_sar != -1)
-        match = regx_sar.match(data);
-        if(match.hasMatch())
+        QRegularExpression regx_sar(Analyze::sar_data);
+        itr = regx_sar.globalMatch(data);
+        while(itr.hasNext())
         {
+            QRegularExpressionMatch match = itr.next();
             this->videostream.sample_aspect_ratio = match.captured(1);
         }
     }
@@ -243,78 +240,59 @@ void InputSourceProbe::parse_video_output(const QString &data)
     //verifying the display aspect ratio value
     if(videostream.display_aspect_ratio.isEmpty() == true)
     {
-        QRegularExpression regx_dar(QRegularExpression::anchoredPattern(QLatin1String(Analyze::dar_data)));
-        //int index_dar{regx_dar.indexIn(data)};
-        //if(index_dar != -1)
-        match = regx_dar.match(data);
-        if(match.hasMatch())
+        QRegularExpression regx_dar(Analyze::dar_data);
+        itr = regx_dar.globalMatch(data);
+        while(itr.hasNext())
         {
+            QRegularExpressionMatch match = itr.next();
             this->videostream.display_aspect_ratio = match.captured(1);
         }
     }
     Q_EMIT source_vid_display_aspect_ratio(videostream.display_aspect_ratio);
 
     //verifying color space
-    QRegularExpression colorspace_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::colorspace_data)));
-    //int cspace_index{colorspace_regx.indexIn(data)};
-    //if(cspace_index != -1)
-    match = colorspace_regx.match(data);
-    if(match.hasMatch())
+    QRegularExpression colorspace_regx(Analyze::colorspace_data);
+    itr = colorspace_regx.globalMatch(data);
+    while(itr.hasNext())
     {
+        QRegularExpressionMatch match = itr.next();
         this->videostream.color_space = match.captured(1);
     }
     Q_EMIT source_vid_color_space(videostream.color_space);
 
     //verifying pixel format
-    QRegularExpression pixformat_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::pixelformat_data)));
-    //int pformat_index{pixformat_regx.indexIn(data)};
-    //if(pformat_index != -1)
-    match = pixformat_regx.match(data);
-    if(match.hasMatch())
+    QRegularExpression pixformat_regx(Analyze::pixelformat_data);
+    itr = pixformat_regx.globalMatch(data);
+    while(itr.hasNext())
     {
+        QRegularExpressionMatch match = itr.next();
         this->videostream.pixel_format = match.captured(1);
     }
     Q_EMIT source_vid_pixel_format(videostream.pixel_format);
-
     //Q_EMIT show_vid_data(vidstream.pixel_format, timeout);
 
-    //verifying the bitrate value
-    /*QRegExp regx_brate(Analyze::bitrate_data);//this was on
-    int index_brate{regx_brate.indexIn(data)};
-    if(vidstream.bit_rate.isEmpty() == true)
+    QRegularExpression codectype_regx(Analyze::video_codec_type);
+    itr = codectype_regx.globalMatch(data);
+    while(itr.hasNext())
     {
-        if(index_brate != -1)
-        {
-            this->vidstream.bit_rate = regx_brate.cap(1);
-        }
-    }*/
-    //Q_EMIT show_vid_data(vidstream.display_aspect_ratio, timeout);
-
-    QRegularExpression codectype_regx(QRegularExpression::anchoredPattern(QLatin1String(Analyze::video_codec_type)));
-    //int ctype_index{codectype_regx.indexIn(data)};
-    //if(ctype_index != -1)
-    match = codectype_regx.match(data);
-    if(match.hasMatch())
-    {
+        QRegularExpressionMatch match = itr.next();
         this->videostream.codec_type = match.captured(1);
     }
     Q_EMIT show_vid_data(videostream.codec_type, timeout);
 
-    QRegularExpression coded_width_regex(QRegularExpression::anchoredPattern(QLatin1String(Analyze::coded_width_data)));
-    //int cwidth_index{coded_width_regex.indexIn(data)};
-    //if(cwidth_index != -1)
-    match = coded_width_regex.match(data);
-    if(match.hasMatch())
+    QRegularExpression coded_width_regex(Analyze::coded_width_data);
+    itr = coded_width_regex.globalMatch(data);
+    while(itr.hasNext())
     {
+        QRegularExpressionMatch match = itr.next();
         this->videostream.coded_width = match.captured(1);
     }
 
-    QRegularExpression coded_height_regex(QRegularExpression::anchoredPattern(QLatin1String(Analyze::coded_height_data)));
-    //int cheight_index{coded_height_regex.indexIn(data)};
-    //if(cheight_index != -1)
-    match = coded_height_regex.match(data);
-    if(match.hasMatch())
+    QRegularExpression coded_height_regex(Analyze::coded_height_data);
+    itr = coded_height_regex.globalMatch(data);
+    while(itr.hasNext())
     {
+        QRegularExpressionMatch match = itr.next();
         this->videostream.coded_height = match.captured(1);
     }
     Q_EMIT source_vid_coded_resolution(videostream.coded_width, videostream.coded_height);
