@@ -49,5 +49,5 @@ OutputDisplayUI::~OutputDisplayUI()
 
 void OutputDisplayUI::textEdit_display_output(const QString &data)
 {
-    ui->outputDisplayEdit->setText(data);
+    ui->outputDisplayEdit->append(data);
 }
