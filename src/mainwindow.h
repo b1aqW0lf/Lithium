@@ -77,7 +77,7 @@ private:
     QLabel *statusBarLabel1, *statusBarLabel2;
     InputSourceProbe inputProbe;
     DetectFFmpeg detectFFmpeg;
-    DetectStorage detectStoarge;
+    DetectStorage detectStorage;
     Transcode transcoder;
 
     //variables

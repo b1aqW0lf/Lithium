@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     statusBarLabel2 = new QLabel(this);
     statusBarLabel1->setPixmap(tr(":/images/resources/hd_16px.png"));
     statusBarLabel1->setToolTip(tr("Available storage on main disk").toUtf8());
-    statusBarLabel2->setText(detectStoarge.get_available_storage_size());
+    statusBarLabel2->setText(detectStorage.get_available_storage_size());
     ui->statusbar->addPermanentWidget(statusBarLabel1);
     ui->statusbar->addPermanentWidget(statusBarLabel2);
 
@@ -339,6 +339,6 @@ void MainWindow::check_storage_size(const QString &status)
 {
     if(status.contains("Successful"))
     {
-        statusBarLabel2->setText(detectStoarge.get_available_storage_size());
+        statusBarLabel2->setText(detectStorage.get_available_storage_size());
     }
 }
