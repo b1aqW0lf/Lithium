@@ -34,10 +34,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //#include "ffmpeg_commands_list.h"
 
+#include <QLabel>
 #include <QMainWindow>
 #include <QWidget>
 
 #include "detect_ffmpeg.h"
+#include "detect_storage.h"
 #include "input_source_probe.h"
 #include "transcode.h"
 
@@ -64,6 +66,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void enable_encode_button();
+    void check_storage_size(const QString &status);
 
 private Q_SLOTS:
     void start_action_encode();
@@ -71,8 +74,10 @@ private Q_SLOTS:
 
 private:
     Ui::MainWindow *ui;
+    QLabel *statusBarLabel1, *statusBarLabel2;
     InputSourceProbe inputProbe;
     DetectFFmpeg detectFFmpeg;
+    DetectStorage detectStoarge;
     Transcode transcoder;
 
     //variables

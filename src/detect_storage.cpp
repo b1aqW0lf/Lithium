@@ -47,6 +47,7 @@ QString DetectStorage::get_available_storage_size()
     //from the Torrent File Editor project with some modifications for this project
 
     storage = QStorageInfo::root();
+    storage.refresh();
     double bytes = storage.bytesAvailable();
     int i = 0;
 
