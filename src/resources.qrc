@@ -13,5 +13,7 @@
         <file>resources/actionCancel.svg</file>
         <file>resources/ffmpeg-96x96.svg</file>
         <file>resources/info_black_48dp.png</file>
+        <file>resources/button_minus.svg</file>
+        <file>resources/button_plus.svg</file>
     </qresource>
 </RCC>

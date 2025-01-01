@@ -249,6 +249,17 @@ VideoUI::VideoUI(QWidget *parent) :
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     ui->videoAVGBitField->setValidator(validator);
 
+    minusAction = new QAction(this);
+    plusAction = new QAction(this);
+    ui->videoAVGBitField->addAction(minusAction, QLineEdit::TrailingPosition);
+    ui->videoAVGBitField->addAction(plusAction, QLineEdit::TrailingPosition);
+    minusAction->setIcon(QIcon(":/images/resources/button_minus.svg"));
+    plusAction->setIcon(QIcon(":/images/resources/button_plus.svg"));
+    minusAction->setToolTip(tr("Decrease the entered average bitrate"));
+    plusAction->setToolTip(tr("Increase the entered average bitrate"));
+    connect(minusAction, &QAction::triggered, this, &VideoUI::decrease_vid_bitrate_field_value);
+    connect(plusAction, &QAction::triggered, this, &VideoUI::increase_vid_bitrate_field_value);
+
     //video groupbox
     ui->videoGroupBox->setTitle(tr("Video"));
     ui->videoGroupBox->setAlignment(Qt::AlignLeft);
@@ -1607,6 +1618,52 @@ void VideoUI::get_vid_bitrate_field_data()
     {
         //report that the average bitrate field is disabled
         Q_EMIT average_bitrate_encode_enabled(false);
+    }
+}
+
+void VideoUI::decrease_vid_bitrate_field_value()
+{
+    int line_edit_val{ui->videoAVGBitField->text().toInt()};
+    int val{10};
+
+    if(ui->videoAVGBitField->text().isEmpty() || line_edit_val <= 0)
+    {
+        //do nothing
+        return;
+    }
+    else if(line_edit_val <= 10 && line_edit_val > 0)
+    {
+        //subtract bitrate by itself
+        line_edit_val = line_edit_val - line_edit_val;
+        ui->videoAVGBitField->setText(QString::number(line_edit_val));
+    }
+    else
+    {
+        //decrement bitrate by 10
+        line_edit_val = line_edit_val - val;
+        ui->videoAVGBitField->setText(QString::number(line_edit_val));
+    }
+}
+
+void VideoUI::increase_vid_bitrate_field_value()
+{
+    int line_edit_val{ui->videoAVGBitField->text().toInt()};
+    int val{10};
+
+    if(line_edit_val < 0)
+    {
+        //do nothing
+        return;
+    }
+    else if(ui->videoAVGBitField->text().isEmpty())
+    {
+        line_edit_val = val;
+    }
+    else
+    {
+        //increment bitrate by 10
+        line_edit_val = line_edit_val + val;
+        ui->videoAVGBitField->setText(QString::number(line_edit_val));
     }
 }
 

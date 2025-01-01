@@ -102,6 +102,8 @@ private Q_SLOTS:
     void enable_average_bitrate_field();
     void enable_crf_option();
     void get_vid_bitrate_field_data();
+    void decrease_vid_bitrate_field_value();
+    void increase_vid_bitrate_field_value();
 
 private:
     //processing variables
@@ -149,6 +151,10 @@ private:
 
     //button group
     QButtonGroup *rateOptButtons;
+
+    //misc
+    QAction *minusAction;
+    QAction *plusAction;
 };
 
 #endif // VIDEO_UI_H
