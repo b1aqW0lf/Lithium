@@ -175,7 +175,7 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoCodecBox->setModel(videoCodecBoxModel);
 
     ui->videoCodecBox->insertSeparator(1);
-    videoCodecList << "x264" << "x264 10-bit" << "x265" << "x265 10-bit"
+    videoCodecList << "H264/x264" << "x264 10-bit" << "HEVC/x265" << "x265 10-bit"
                    << "x265 12-bit" << "Xvid" << "VP9" << "Theora" << "MPEG-1"
                    << "MPEG-2" << "AV1/SVT-AV1";
     ui->videoCodecBox->insertItems(2, videoCodecList);
