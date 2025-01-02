@@ -197,6 +197,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
     Q_EMIT source_vid_codec_name(videostream.codec_name);
     Q_EMIT source_vid_resolution(videostream.resolution);
     Q_EMIT source_vid_frame_rate(videostream.frame_rate);
+    Q_EMIT source_vid_codec_profile(videostream.codec_profile);
     //used for testing only
     Q_EMIT show_vid_data(videostream.sample_aspect_ratio, timeout);
 

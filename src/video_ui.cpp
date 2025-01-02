@@ -926,6 +926,11 @@ void VideoUI::select_video_fps(const int index)
     Q_EMIT send_vid_data(video_fps_value,0);
 }
 
+void VideoUI::receive_vid_source_codec_profile(const QString &profile)
+{
+    this->source_codec_profile = profile;
+}
+
 //creating options for encoder profile combobox
 void VideoUI::set_enc_profile_options()
 {

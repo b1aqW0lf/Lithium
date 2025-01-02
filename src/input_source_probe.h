@@ -56,6 +56,7 @@ Q_SIGNALS:
     void source_vid_codec_name(const QString &codec);
     void source_vid_resolution(const QString &display);
     void source_vid_frame_rate(const QString &framerate);
+    void source_vid_codec_profile(const QString &profile);
     void source_vid_sample_aspect_ratio(const QString &sar);
     void source_vid_display_aspect_ratio(const QString &dar);
     void source_vid_bit_rate(const QString &bitrate);
