@@ -59,7 +59,7 @@ namespace Analyze
     const char audio_codec_type[] = "codec_type=([audio]+)";
     const char coded_width_data[] = "^coded_width\\s*=\\s*([\\d]*)$";
     const char coded_height_data[] = "^coded_height\\s*=\\s*([\\d]*)$";
-    const char av1_profile_data[] = "Stream #[0-9]+:[0-9]+[^.]*: Video: av1\\s*[^]*[libdav1d]?[^(]*[(]?([\\d\\w]*)?[)]?";
+    const char av1_profile_data[] = "Stream #[0-9]+:[0-9]+[^.]*: Video: av1\\s*[^]*[\\d\\w]?[^(]*[(]?([\\d\\w]*)?[)]?";
 }
 
 InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
