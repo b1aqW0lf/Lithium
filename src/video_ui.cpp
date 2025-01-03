@@ -232,11 +232,12 @@ VideoUI::VideoUI(QWidget *parent) :
     //ui->videoFPSBox->setCurrentIndex(5);--->test, it works!
 
     //video encoder profile
-    /*ui->videoEncProfileBox->insertItem(0, "Auto");
+    ui->videoEncProfileBox->insertItem(0, "Source");
     ui->videoEncProfileBox->insertSeparator(1);
-    videoEncProfileList << "Baseline" << "Main" << "High";
+    videoEncProfileList << "auto" << "baseline" << "main"
+                        << "high" << "high10" << "high422" << "high444";
     ui->videoEncProfileBox->insertItems(2, videoEncProfileList);
-    ui->videoEncProfileBox->setToolTip(tr("Default = Auto"));*/
+    ui->videoEncProfileBox->setCurrentIndex(2);
 
     //video average bitrate
     ui->videoAVGBitRadio->setText(tr("Avg Bitrate (Kbps)"));
