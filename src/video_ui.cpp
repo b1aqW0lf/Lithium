@@ -1000,7 +1000,7 @@ void VideoUI::set_video_codec_profile_box_settings(const QStringList &list)
 }
 
 //select encoder profile
-void VideoUI::select_encoder_profile(int index)
+void VideoUI::select_encoder_profile(const int index)
 {
     //default: auto - default in FFmpeg
     //ffmpeg suggests omitting encoder profile option to allow encoder to choose
