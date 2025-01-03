@@ -84,20 +84,7 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::select_dar_value);
     connect(ui->videoFPSBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_video_fps);
-    /*connect(ui->videoFPSBox, &QComboBox::textActivated,
-            this, &VideoUI::select_video_fps);*/
     //------------------------------------------------------------------------------//
-    /*connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_vid_codec);*/
-    /*connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_container);*/
-    /*connect(ui->videoResBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_vid_res);*/
-    /*connect(ui->videoAspectRatBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_dar_value);*/
-    /*connect(ui->videoFPSBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_vid_fps);*/
-    //-------------------------------------------------------------------------
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::set_enc_profile_options);
     connect(ui->videoEncProfileBox, QOverload<int>::of(&QComboBox::activated),
