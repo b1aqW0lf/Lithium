@@ -949,34 +949,26 @@ void VideoUI::set_enc_profile_options(int index)
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "baseline" << "main"
                                             << "high" << "high10" << "high422" << "high444";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else if(ui->videoCodecBox->itemText(index).contains("x264 10-bit", Qt::CaseInsensitive))
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "high10" << "high422" << "high444";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else if(ui->videoCodecBox->itemText(index).contains("HEVC", Qt::CaseInsensitive))
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "main" << "main-intra"
                                             << "mainstillpicture" << "main444-8" << "main444-intra"
                                             << "main444-stillpicture";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else if(ui->videoCodecBox->itemText(index).contains("x265 10-bit", Qt::CaseInsensitive))
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "main10" << "main10-intra"
                                             << "main422-10" << "main422-10-intra" << "main444-10"
                                             << "main444-10-intra";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
 
     else if(ui->videoCodecBox->itemText(index).contains("x265 12-bit", Qt::CaseInsensitive))
@@ -984,43 +976,40 @@ void VideoUI::set_enc_profile_options(int index)
         videoEncProfileList = QStringList() << "Source" << "auto" << "main12" << "main12-intra"
                                             << "main422-12" << "main422-12-intra" << "main444-12"
                                             << "main444-12-intra";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else if(ui->videoCodecBox->itemText(index).contains("VP9", Qt::CaseInsensitive))
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "0" << "1" << "2" << "3";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else if(ui->videoCodecBox->itemText(index).contains("Xvid", Qt::CaseInsensitive))
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "1" << "2" << "3" << "4"
                                             << "5" << "6" <<"7" << "8" << "9";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else if(ui->videoCodecBox->itemText(index).contains("MPEG-2", Qt::CaseInsensitive))
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "main" << "high";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else if(ui->videoCodecBox->itemText(index).contains("AV1", Qt::CaseInsensitive))
     {
         videoEncProfileList = QStringList() << "Source" << "auto" << "main";
-        ui->videoEncProfileBox->insertItems(0, videoEncProfileList);
-        ui->videoEncProfileBox->insertSeparator(1);
-        ui->videoEncProfileBox->setCurrentIndex(2);
+        set_video_codec_profile_box_settings(videoEncProfileList);
     }
     else
     {
         return;
     }
+}
+
+void VideoUI::set_video_codec_profile_box_settings(const QStringList &list)
+{
+    ui->videoEncProfileBox->insertItems(0, list);
+    ui->videoEncProfileBox->insertSeparator(1);
+    ui->videoEncProfileBox->setCurrentIndex(2);
 }
 
 //select encoder profile
