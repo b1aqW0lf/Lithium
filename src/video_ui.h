@@ -97,7 +97,7 @@ private Q_SLOTS:
     void select_video_fps(const int index);
     void vid_codec_interface();
     void set_enc_profile_options(int index);
-    void select_encoder_profile();
+    void select_encoder_profile(int index);
     void select_encoder_level();
     void enable_two_pass_encode();
     void enable_average_bitrate_field();
@@ -126,7 +126,7 @@ private:
     QString source_ext{};
     QString source_res{};
     QString source_codec{};
-    QString source_codec_profile{};
+    QString video_codec_profile{};
     QString source_fps{};
     QString source_dar{};
     QString source_coded_width{};

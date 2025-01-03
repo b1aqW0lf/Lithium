@@ -86,8 +86,6 @@ VideoUI::VideoUI(QWidget *parent) :
             this, &VideoUI::select_video_fps);
     /*connect(ui->videoFPSBox, &QComboBox::textActivated,
             this, &VideoUI::select_video_fps);*/
-    connect(ui->videoEncProfileBox, &QComboBox::textActivated,
-            this, &VideoUI::select_encoder_profile);
     //------------------------------------------------------------------------------//
     /*connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &VideoUI::select_vid_codec);*/
@@ -102,8 +100,8 @@ VideoUI::VideoUI(QWidget *parent) :
     //-------------------------------------------------------------------------
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::set_enc_profile_options);
-    /*connect(ui->videoEncProfileBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::select_encoder_profile);*/
+    connect(ui->videoEncProfileBox, QOverload<int>::of(&QComboBox::activated),
+            this, &VideoUI::select_encoder_profile);
     connect(ui->videoEncLevelSlider, &QSlider::valueChanged,
             this, &VideoUI::select_encoder_level);
     //-------------------------------------------------------------------------
@@ -928,10 +926,10 @@ void VideoUI::select_video_fps(const int index)
 
 void VideoUI::receive_vid_source_codec_profile(const QString &profile)
 {
-    this->source_codec_profile = profile;
+    this->video_codec_profile = profile.toLower();
 }
 
-//creating options for encoder profile combobox
+//creating options for encoder profile combobox/
 void VideoUI::set_enc_profile_options(int index)
 {
     //video encoder profile depends on which encoder is selected
@@ -939,9 +937,9 @@ void VideoUI::set_enc_profile_options(int index)
     videoEncProfileList.clear();
     if(ui->videoCodecBox->currentIndex() == 0)
     {
-        if(ui->videoCodecBox->findText(source_codec.toUpper(),Qt::MatchContains))
+        if(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains))
         {
-            const int val{ui->videoCodecBox->findText(source_codec.toUpper(),Qt::MatchContains)};
+            const int val{ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains)};
             index = val;
         }
     }
@@ -1025,14 +1023,21 @@ void VideoUI::set_enc_profile_options(int index)
 }
 
 //select encoder profile
-void VideoUI::select_encoder_profile()
+void VideoUI::select_encoder_profile(int index)
 {
     //default: auto - default in FFmpeg
     //ffmpeg suggests omitting encoder profile option to allow encoder to choose
-    if(ui->videoEncProfileBox->currentIndex() > 0)
+    QString codec_profile{};
+
+    if(ui->videoEncProfileBox->itemText(index) == "Source")
     {
-        //enc_profile index[0] is -profile:v
-        enc_profile[1] = ui->videoEncProfileBox->currentText().toLower().remove(" ");
+        //this->video_codec_profile;
+        send_vid_data(this->video_codec_profile, 0);
+    }
+    else
+    {
+        this->video_codec_profile = ui->videoEncProfileBox->itemText(index);
+        send_vid_data(this->video_codec_profile, 0);
     }
 }
 
