@@ -59,6 +59,7 @@ namespace Analyze
     const char audio_codec_type[] = "codec_type=([audio]+)";
     const char coded_width_data[] = "^coded_width\\s*=\\s*([\\d]*)$";
     const char coded_height_data[] = "^coded_height\\s*=\\s*([\\d]*)$";
+    const char av1_profile_data[] = "Stream #[0-9]+:[0-9]+[^.]*: Video: av1\\s*[^]*[libdav1d]?[^(]*[(]?([\\d\\w]*)?[)]?";
 }
 
 InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
@@ -197,8 +198,19 @@ void InputSourceProbe::parse_video_output(const QString &data)
     Q_EMIT source_vid_codec_name(videostream.codec_name);
     Q_EMIT source_vid_resolution(videostream.resolution);
     Q_EMIT source_vid_frame_rate(videostream.frame_rate);
-    Q_EMIT source_vid_codec_profile(videostream.codec_profile);
     //used for testing only
+    //extra check for video codec profile - make sure a profile has been captured
+    if(videostream.codec_profile.contains("libdav1d"))
+    {
+        QRegularExpression profile_regx(Analyze::av1_profile_data);
+        itr = profile_regx.globalMatch(data);
+        while (itr.hasNext())
+        {
+            QRegularExpressionMatch match = itr.next();
+            this->videostream.codec_profile = match.captured(1);
+        }
+    }
+    Q_EMIT source_vid_codec_profile(videostream.codec_profile);
     Q_EMIT show_vid_data(videostream.sample_aspect_ratio, timeout);
 
     QRegularExpression bitrate_regx(Analyze::meta_data);
