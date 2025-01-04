@@ -99,7 +99,8 @@ private Q_SLOTS:
     void vid_codec_interface();
     void set_enc_profile_options(int index);
     void select_encoder_profile(const int index);
-    void select_encoder_level();
+    void set_enc_level_options(int index);
+    void select_encoder_level(const int index);
     void enable_two_pass_encode();
     void enable_average_bitrate_field();
     void enable_crf_option();
@@ -148,12 +149,14 @@ private:
     QStringList videoAspecRatList{};
     QStringList videoFPSList{};
     QStringList videoEncProfileList{};
+    QStringList videoEncLevelList{};
     QStringList enc_profile{"-profile:v"};
 
     //functions
     void enable_extract_audio_settings(const bool &extract);
     void default_options_check();
     void set_video_codec_profile_box_settings(const QStringList &list);
+    void set_video_codec_level_slider_settings(const QStringList &list);
 
     //button group
     QButtonGroup *rateOptButtons;
