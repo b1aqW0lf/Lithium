@@ -914,7 +914,7 @@ void VideoUI::select_video_fps(const int index)
 
 void VideoUI::receive_vid_source_codec_profile(const QString &profile)
 {
-    this->video_codec_profile = profile.toLower();
+    this->source_codec_profile = profile.toLower();
 }
 
 //creating options for encoder profile combobox/
@@ -1003,19 +1003,33 @@ void VideoUI::set_video_codec_profile_box_settings(const QStringList &list)
 void VideoUI::select_encoder_profile(const int index)
 {
     //default: auto - default in FFmpeg
-    //ffmpeg suggests omitting encoder profile option to allow encoder to choose
-    QString codec_profile{};
+    //ffmpeg suggests omitting encoder profile option to allow ffmpeg to choose
+    this->video_codec_profile.clear();
+    this->codec_profile_enabled = false;
 
-    if(ui->videoEncProfileBox->itemText(index) == "Source")
+    if(ui->videoEncProfileBox->itemText(index).contains("Source", Qt::CaseInsensitive))
     {
-        //this->video_codec_profile;
-        send_vid_data(this->video_codec_profile, 0);
+        //this->video_codec_profile
+        this->video_codec_profile = this->source_codec_profile;
+        this->codec_profile_enabled = true;
+    }
+    else if(ui->videoEncProfileBox->itemText(index).contains("Auto", Qt::CaseInsensitive))
+    {
+        //do not send codec_profile info and let ffmpeg decide
+        this->codec_profile_enabled = false;
+    }
+    else if((ui->videoEncProfileBox->itemText(index).isEmpty()))
+    {
+        //no profile to send to encoder
+        this->codec_profile_enabled = false;
     }
     else
     {
         this->video_codec_profile = ui->videoEncProfileBox->itemText(index);
-        send_vid_data(this->video_codec_profile, 0);
+        this->codec_profile_enabled = true;
     }
+    //for testing purposes ONLY!!
+    send_vid_data(this->video_codec_profile, 0);
 }
 
 //initializing selected encoder level
@@ -1710,7 +1724,8 @@ void VideoUI::get_selected_video_options()
                                 qscale_value, video_res_value, video_dar_value,
                                 calculate_dar_enabled, video_fps_value,
                                 encoder_preset_val, pixel_format,
-                                pixel_format_enabled);
+                                pixel_format_enabled, video_codec_profile,
+                                codec_profile_enabled);
 }
 
 void VideoUI::default_options_check()
@@ -1736,6 +1751,10 @@ void VideoUI::default_options_check()
     if(ui->videoFPSBox->currentIndex() == 0)
     {
         this->video_fps_value = ui->videoFPSBox->itemData(0).toString();
+    }
+    if(ui->videoEncProfileBox->currentIndex() == 0)
+    {
+        this->video_codec_profile = this->source_codec_profile;
     }
 }
 

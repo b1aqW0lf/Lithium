@@ -175,7 +175,8 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
                                               const QString &video_res_value, const QString &video_dar_value,
                                               const bool &calculate_dar_enabled, const QString &video_fps_val,
                                               const QString &encoder_preset_val, const QStringList &pixel_format,
-                                              const bool &pixel_format_enabled)
+                                              const bool &pixel_format_enabled, const QString &codec_profile,
+                                              const bool &codec_profile_enabled)
 {
     this->video_codec = codec;
     this->vid_avg_bitrate = video_bitrate;
@@ -188,6 +189,8 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
     this->vid_encoder_preset = encoder_preset_val;
     this->pixel_format = pixel_format;
     this->pixel_format_enabled = pixel_format_enabled;
+    this->video_codec_profile = codec_profile;
+    this->codec_profile_enabled = codec_profile_enabled;
 }
 
 void Transcode::start_encode_process()
@@ -250,7 +253,10 @@ void Transcode::normal_mode_transcode()
     {
         args.append(pixel_format);
     }
-
+    if(codec_profile_enabled == true)
+    {
+        args << "-profile:v" << video_codec_profile;
+    }
     if(calculate_dar_enabled == true)
     {
         args << "-vf" << video_res+","+video_dar;
@@ -285,7 +291,10 @@ void Transcode::average_bitrate_encode()
     {
         args.append(pixel_format);
     }
-
+    if(codec_profile_enabled == true)
+    {
+        args << "-profile:v" << video_codec_profile;
+    }
     if(calculate_dar_enabled == true)
     {
         args << "-vf" << video_res+","+video_dar;
@@ -325,7 +334,10 @@ void Transcode::two_pass_encode_1st_pass()
     {
         args.append(pixel_format);
     }
-
+    if(codec_profile_enabled == true)
+    {
+        args << "-profile:v" << video_codec_profile;
+    }
     if(calculate_dar_enabled == true)
     {
         args << "-vf" << video_res+","+video_dar;
@@ -373,7 +385,10 @@ void Transcode::two_pass_encode_2nd_pass()
     {
         args.append(pixel_format);
     }
-
+    if(codec_profile_enabled == true)
+    {
+        args << "-profile:v" << video_codec_profile;
+    }
     if(calculate_dar_enabled == true)
     {
         args << "-vf" << video_res+","+video_dar;
