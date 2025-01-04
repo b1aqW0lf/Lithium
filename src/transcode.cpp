@@ -132,6 +132,7 @@ void Transcode::output_file_path_check()
                                      "the currect directory. Overwrite file?").arg(output_file),
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
             == QMessageBox::No)
+            Q_EMIT enable_encode_button();
             return;
         QFile::remove(this->output_file);
 
