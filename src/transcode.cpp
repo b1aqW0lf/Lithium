@@ -126,7 +126,7 @@ void Transcode::output_file_path_check()
     if(QFile::exists(this->output_file))
     {
         //use output_vid_file in this test
-        Q_EMIT output_file_status(tr("Output file check... ").append(this->output_file), timeout);
+        Q_EMIT output_file_status(tr("Destination file already exists"), timeout);
         if(QMessageBox::question(this, tr("Lithium"),
                                   tr("There already exists a file called %1 in "
                                      "the currect directory. Overwrite file?").arg(output_file),
