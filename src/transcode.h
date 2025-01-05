@@ -68,7 +68,8 @@ public Q_SLOTS:
                                        const bool &calculate_dar_enabled, const QString &video_fps_val,
                                        const QString &encoder_preset_val, const QStringList &pixel_format,
                                        const bool &pixel_format_enabled, const QString &codec_profile,
-                                       const bool &codec_profile_enabled);
+                                       const bool &codec_profile_enabled, const QString &codec_level,
+                                        const bool &codec_level_enabled);
 
     //audio processing
     //receive current audio options - in normal mode
@@ -124,10 +125,12 @@ private:
     QString video_fps{};
     QString vid_encoder_preset{};
     QString video_codec_profile{};
+    QString video_codec_level{};
     QStringList pixel_format{};
     bool pixel_format_enabled{};
     bool calculate_dar_enabled{};
     bool codec_profile_enabled{};
+    bool video_codec_level_enabled{};
 
     //transcode variable
     //2-pass log

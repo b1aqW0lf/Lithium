@@ -62,7 +62,8 @@ Q_SIGNALS:
                                const bool &calculate_dar_enabled, const QString &framerate,
                                const QString &encoder_preset, const QStringList &pixel_format,
                                 const bool &pixel_format_enabled, const QString &codec_profile,
-                                const bool &codec_profile_enabled);
+                                const bool &codec_profile_enabled, const QString &codec_level,
+                                const bool &codec_level_enabled);
 
     //for testing only!
     void send_vid_data(const QString &data, const int &timeout);
@@ -112,7 +113,7 @@ private:
     //processing variables
     QString preset{"-preset"};
     QString encoder_preset_val{};
-    QString encoder_level{};
+    QString video_codec_level{};
     QString crf_value{};
     QString qscale_value{};
     QString video_codec{};
@@ -125,6 +126,7 @@ private:
     bool pixel_format_enabled{};
     bool calculate_dar_enabled{};
     bool codec_profile_enabled{};
+    bool codec_level_enabled{};
 
     //video source variables
     QString source_ext{};

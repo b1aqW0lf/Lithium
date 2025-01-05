@@ -1097,18 +1097,22 @@ void VideoUI::set_video_codec_level_slider_settings(const QStringList &list)
 void VideoUI::select_encoder_level(const int index)
 {
     //encoder level settings
+    this->codec_level_enabled = false;
+    this->video_codec_level.clear();
     if(this->videoEncLevelList[index].contains("Auto", Qt::CaseInsensitive))
     {
         //do not send codec level info and let ffmpeg decide
         ui->videoEncLevelDisplay->setText(this->videoEncLevelList[index]);//display the option
+        this->codec_level_enabled = false;
     }
     else
     {
         ui->videoEncLevelDisplay->setText(this->videoEncLevelList[index]);
-        this->encoder_level = this->videoEncLevelList[index];
+        this->video_codec_level = this->videoEncLevelList[index];
+        this->codec_level_enabled = true;
     }
     //testing only!!
-    send_vid_data(this->encoder_level, 0);
+    send_vid_data(this->video_codec_level, 0);
 }
 
 void VideoUI::enable_average_bitrate_field()
@@ -1240,7 +1244,8 @@ void VideoUI::get_selected_video_options()
                                 calculate_dar_enabled, video_fps_value,
                                 encoder_preset_val, pixel_format,
                                 pixel_format_enabled, video_codec_profile,
-                                codec_profile_enabled);
+                                codec_profile_enabled, video_codec_level,
+                                codec_level_enabled);
 }
 
 void VideoUI::default_options_check()
