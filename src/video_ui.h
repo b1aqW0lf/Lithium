@@ -112,7 +112,7 @@ private:
     //processing variables
     QString preset{"-preset"};
     QString encoder_preset_val{};
-    QString enc_level{};
+    QString encoder_level{};
     QString crf_value{};
     QString qscale_value{};
     QString video_codec{};

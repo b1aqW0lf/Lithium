@@ -255,13 +255,8 @@ VideoUI::VideoUI(QWidget *parent) :
 
     //video endoder level
     //initalize video encoder level slider with default values
-    const int index{ui->videoCodecBox->findText(QString("Source").toUpper(),Qt::MatchContains)};
-    if(ui->videoCodecBox->itemText(index).contains("Source", Qt::CaseInsensitive))
-    {
-        this->videoEncLevelList = QStringList() << "Auto";
-        set_video_codec_level_slider_settings(videoEncLevelList);
-    }
-    ui->videoEncLevelSlider->setRange(0, videoEncLevelList.size() - 1);
+    set_video_codec_level_slider_settings(this->videoEncLevelList = QStringList() << "Auto");
+    ui->videoEncLevelSlider->setRange(0, this->videoEncLevelList.size() - 1);
     ui->videoEncLevelSlider->setTickPosition(QSlider::TicksBelow);
     ui->videoEncLevelSlider->setSingleStep(1);
     ui->videoEncLevelLabel->setText(tr("Encoder Level:"));
@@ -1110,10 +1105,10 @@ void VideoUI::select_encoder_level(const int index)
     else
     {
         ui->videoEncLevelDisplay->setText(this->videoEncLevelList[index]);
-        this->enc_level = this->videoEncLevelList[index];
+        this->encoder_level = this->videoEncLevelList[index];
     }
     //testing only!!
-    send_vid_data(enc_level, 0);
+    send_vid_data(this->encoder_level, 0);
 }
 
 void VideoUI::enable_average_bitrate_field()
