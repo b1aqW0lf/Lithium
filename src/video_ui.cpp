@@ -254,17 +254,21 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoGroupBox->setAlignment(Qt::AlignLeft);
 
     //video endoder level
-    ui->videoEncLevelLabel->setText(tr("Encoder Level:"));
-    ui->videoEncLevelSlider->setRange(0, 30);
+    //initalize video encoder level slider with default values
+    const int index{ui->videoCodecBox->findText(QString("Source").toUpper(),Qt::MatchContains)};
+    if(ui->videoCodecBox->itemText(index).contains("Source", Qt::CaseInsensitive))
+    {
+        this->videoEncLevelList = QStringList() << "None";
+        set_video_codec_level_slider_settings(videoEncLevelList);
+    }
+    ui->videoEncLevelSlider->setRange(0, videoEncLevelList.size() - 1);
     ui->videoEncLevelSlider->setTickPosition(QSlider::TicksBelow);
     ui->videoEncLevelSlider->setSingleStep(1);
-    //ui->videoEncLevelSlider->setValue(0);//default value for the encoderlevel slider
-    //ui->videoEncLevelSlider->setSliderPosition(0);
+    ui->videoEncLevelLabel->setText(tr("Encoder Level:"));
     ui->videoEncLevelSlider->setToolTip(tr("Encoder Level Selector"));
     ui->videoEncLevelDisplay->setAlignment(Qt::AlignCenter);
-    //ui->videoEncLevelDisplay->setText(tr("auto")); //default value for encoder level
     ui->videoEncLevelDisplay->setFixedWidth(35);
-    ui->videoEncLevelDisplay->setFixedHeight(35);
+    ui->videoEncLevelDisplay->setFixedHeight(40);
     ui->videoEncLevelDisplay->setStyleSheet("QLabel { background-color : white }");
     ui->videoEncLevelDisplay->setStyleSheet("QLabel { border : 0.5px solid black }");
 
@@ -640,9 +644,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         ui->videoEncoderDial->setValue(4);//default value
-        /*ui->videoEncLevelSlider->setRange(0,20);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
     else if(ui->videoCodecBox->currentIndex() == 4 ||
             ui->videoCodecBox->currentIndex() == 5 || //x265 10bit
@@ -670,9 +671,6 @@ void VideoUI::vid_codec_interface()
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
-        /*ui->videoEncLevelSlider->setRange(0,13);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
     else if(ui->videoCodecBox->currentIndex() == 7)
     {
@@ -690,9 +688,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
-        /*ui->videoEncLevelSlider->setRange(0,20);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
     else if(ui->videoCodecBox->currentIndex() == 8)
     {
@@ -709,9 +704,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         video_bitrate = "0";
-        /*ui->videoEncLevelSlider->setRange(0, 14);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
     else if(ui->videoCodecBox->currentIndex() == 9)
     {
@@ -730,9 +722,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
-        /*ui->videoEncLevelSlider->setRange(0,20);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
     else if(ui->videoCodecBox->currentIndex() == 10 ||
             ui->videoCodecBox->currentIndex() == 11)
@@ -752,9 +741,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
         ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
-        /*ui->videoEncLevelSlider->setRange(0,20);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
     else if(ui->videoCodecBox->currentIndex() == 12)
     {
@@ -776,9 +762,6 @@ void VideoUI::vid_codec_interface()
         ui->videoEncoderDial->setValue(10);//default value
         ui->videoDialPreset->setText(tr("Speed 10"));//default value
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qp value
-        /*ui->videoEncLevelSlider->setRange(0,20);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
     else
     {
@@ -796,9 +779,6 @@ void VideoUI::vid_codec_interface()
         ui->videoEncoderDial->setRange(0, 9);
         ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
         ui->videoDialPreset->setText(tr("medium"));//default value
-        /*ui->videoEncLevelSlider->setRange(0,20);
-        ui->videoEncLevelSlider->setValue(0);
-        ui->videoEncLevelSlider->setSliderPosition(0);*/
     }
 }
 
@@ -1104,6 +1084,9 @@ void VideoUI::set_enc_level_options(int index)
     }
     else
     {
+        //no settings
+        this->videoEncLevelList = QStringList() << "None";
+        set_video_codec_level_slider_settings(this->videoEncLevelList);
         return;
     }
 }
