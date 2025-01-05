@@ -258,7 +258,7 @@ VideoUI::VideoUI(QWidget *parent) :
     const int index{ui->videoCodecBox->findText(QString("Source").toUpper(),Qt::MatchContains)};
     if(ui->videoCodecBox->itemText(index).contains("Source", Qt::CaseInsensitive))
     {
-        this->videoEncLevelList = QStringList() << "None";
+        this->videoEncLevelList = QStringList() << "Auto";
         set_video_codec_level_slider_settings(videoEncLevelList);
     }
     ui->videoEncLevelSlider->setRange(0, videoEncLevelList.size() - 1);
