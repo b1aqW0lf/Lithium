@@ -147,14 +147,10 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoEncoderDial->setRange(0, this->videoEncPresetList.size()- 1);
     ui->videoEncoderDial->setNotchesVisible(true);
     ui->videoEncoderDial->setSingleStep(1);
-    //ui->videoEncoderDial->setValue(4);//setting default value
-    //ui->videoEncoderDial->setSliderPosition(4);
-    ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
-    ui->videoDialPreset->setText(tr("medium"));//default value
+    ui->videoEncoderDial->setToolTip(tr("Select encoder preset/speed."));
+    ui->videoDialPreset->setText(tr("None"));//default value
     ui->videoDialPreset->setStyleSheet("QLabel { background-color : white }");
     ui->videoDialPreset->setStyleSheet("QLabel { border : 0.5px solid black }");
-    encoder_preset_val = "medium";//send default to encoder
-    //ui->videoEncoderDial->setInvertedAppearance(true);
 
     //video codec interface
     VideoStandardItem::videoCodecBoxItem = new QStandardItem();
@@ -518,8 +514,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setRange(0, 9);
-        //ui->videoEncoderDial->setValue(4);//default value
     }
     else if(ui->videoCodecBox->currentIndex() == 4 ||
             ui->videoCodecBox->currentIndex() == 5 || //x265 10bit
@@ -546,7 +540,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setRange(0, 9);
     }
     else if(ui->videoCodecBox->currentIndex() == 7)
     {
@@ -562,7 +555,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
     }
     else if(ui->videoCodecBox->currentIndex() == 8)
@@ -578,7 +570,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setRange(0, 9);
         video_bitrate = "0";
     }
     else if(ui->videoCodecBox->currentIndex() == 9)
@@ -596,7 +587,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| Low Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
     }
     else if(ui->videoCodecBox->currentIndex() == 10 ||
@@ -615,7 +605,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
     }
     else if(ui->videoCodecBox->currentIndex() == 12)
@@ -634,9 +623,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setToolTip(tr("default: Speed 4 Encoding"));
-        //ui->videoEncoderDial->setValue(10);//default value
-        //ui->videoDialPreset->setText(tr("Speed 10"));//default value
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qp value
     }
     else
@@ -652,9 +638,6 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        //ui->videoEncoderDial->setRange(0, 9);
-        //ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
-        //ui->videoDialPreset->setText(tr("medium"));//default value
     }
 }
 
