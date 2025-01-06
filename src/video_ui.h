@@ -90,7 +90,7 @@ private:
 
 private Q_SLOTS:
     void set_encoder_preset_options(int index);
-    void encoder_preset();
+    void select_encoder_preset(const int &index);
     void select_crf();
     void select_qscale();
     void select_vid_codec(const int index);
