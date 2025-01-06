@@ -89,6 +89,7 @@ private:
     Ui::VideoUI *ui;
 
 private Q_SLOTS:
+    void set_encoder_preset_options(int index);
     void encoder_preset();
     void select_crf();
     void select_qscale();
@@ -152,13 +153,14 @@ private:
     QStringList videoFPSList{};
     QStringList videoEncProfileList{};
     QStringList videoEncLevelList{};
-    QStringList enc_profile{"-profile:v"};
+    QStringList videoEncPresetList{};
 
     //functions
     void enable_extract_audio_settings(const bool &extract);
     void default_options_check();
     void set_video_codec_profile_box_settings(const QStringList &list);
     void set_video_codec_level_slider_settings(const QStringList &list);
+    void set_video_codec_preset_dial_settings(const QStringList &list);
 
     //button group
     QButtonGroup *rateOptButtons;

@@ -62,6 +62,8 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->setupUi(this);
 
     //connect signals and slots
+    connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
+            this, &VideoUI::set_encoder_preset_options);
     connect(ui->videoEncoderDial, &QDial::valueChanged,
             this, &VideoUI::encoder_preset);
     connect(ui->videoRFSlider, &QSlider::valueChanged,
@@ -142,11 +144,11 @@ VideoUI::VideoUI(QWidget *parent) :
 
     //encoder dial
     ui->videoDialPreset->setAlignment(Qt::AlignCenter);
-    ui->videoEncoderDial->setRange(0, 9);
+    ui->videoEncoderDial->setRange(0, this->videoEncPresetList.size()- 1);
     ui->videoEncoderDial->setNotchesVisible(true);
     ui->videoEncoderDial->setSingleStep(1);
-    ui->videoEncoderDial->setValue(4);//setting default value
-    ui->videoEncoderDial->setSliderPosition(4);
+    //ui->videoEncoderDial->setValue(4);//setting default value
+    //ui->videoEncoderDial->setSliderPosition(4);
     ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
     ui->videoDialPreset->setText(tr("medium"));//default value
     ui->videoDialPreset->setStyleSheet("QLabel { background-color : white }");
@@ -283,10 +285,112 @@ VideoUI::~VideoUI()
     delete ui;
 }
 
+void VideoUI::set_encoder_preset_options(int index)
+{
+    ui->videoEncoderDial->setSliderPosition(0);
+    if(ui->videoCodecBox->currentIndex() == 0)
+    {
+        if(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains))
+        {
+            const int val{ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains)};
+            index = val;
+        }
+    }
+
+    if(ui->videoCodecBox->itemText(index).contains("H264", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("x264 10-bit", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("HEVC", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("x265 10-bit", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("x265 12-bit", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("VP9", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "-16" << "-15" << "-14" << "-13" << "-12" << "-11"//-speed
+                                                 << "-10" << "-9" << "-8" << "-7" << "-6" << "-5"
+                                                 << "-4" << "-3" << "-2" << "-1" << "0" << "1" << "2"
+                                                 << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10"
+                                                 << "11" << "12" << "13" << "14" << "15" << "16";
+        const QStringList time_to_spend_encoding = QStringList() << "-quality" << "good";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(17);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("Xvid", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("Theora", Qt::CaseInsensitive))
+    {
+        const QStringList speed = QStringList() << "-speed" << "0";//default ffmpeg setting is zero(0)
+        this->videoEncPresetList = QStringList() << "good" << "best" << "realtime"; //accessed with -quality or -cpu-used
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(1);
+
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("MPEG-1", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("MPEG-2", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
+                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(4);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("AV1", Qt::CaseInsensitive))
+    {
+        this->videoEncPresetList = QStringList() << "0" << "1" << "2" << "3" << "4" << "5" << "6"  << "7" << "8"
+                                                 << "9" << "10" << "11" << "12" << "13"; //accessed with -preset
+        set_video_codec_preset_dial_settings(this->videoEncPresetList);
+        ui->videoEncoderDial->setSliderPosition(10);
+    }
+}
+
+void VideoUI::set_video_codec_preset_dial_settings(const QStringList &list)
+{
+    ui->videoEncoderDial->setRange(0, list.size() - 1);
+    ui->videoDialPreset->setText(list[ui->videoEncoderDial->value()]);
+}
+
 //ui->videoEncoderDial->setRange(0, 9);
 void VideoUI::encoder_preset()
 {
-    if(ui->videoEncoderDial->value() == 0 &&
+    /*if(ui->videoEncoderDial->value() == 0 &&
             ui->videoEncoderDial->sliderPosition() == 0)
     {
         //test for AV1 codec/svt-av1
@@ -509,7 +613,7 @@ void VideoUI::encoder_preset()
             encoder_preset_val = "13";
             ui->videoEncoderDial->setToolTip(tr("Speed 13 Encoding"));
         }
-    }//test, it works!
+    }//test, it works!*/
 }
 
 //initalizing selected crf value
@@ -637,8 +741,8 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setRange(0, 9);
-        ui->videoEncoderDial->setValue(4);//default value
+        //ui->videoEncoderDial->setRange(0, 9);
+        //ui->videoEncoderDial->setValue(4);//default value
     }
     else if(ui->videoCodecBox->currentIndex() == 4 ||
             ui->videoCodecBox->currentIndex() == 5 || //x265 10bit
@@ -665,7 +769,7 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setRange(0, 9);
+        //ui->videoEncoderDial->setRange(0, 9);
     }
     else if(ui->videoCodecBox->currentIndex() == 7)
     {
@@ -681,7 +785,7 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setRange(0, 9);
+        //ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
     }
     else if(ui->videoCodecBox->currentIndex() == 8)
@@ -697,7 +801,7 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setRange(0, 9);
+        //ui->videoEncoderDial->setRange(0, 9);
         video_bitrate = "0";
     }
     else if(ui->videoCodecBox->currentIndex() == 9)
@@ -715,7 +819,7 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| Low Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setRange(0, 9);
+        //ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
     }
     else if(ui->videoCodecBox->currentIndex() == 10 ||
@@ -734,7 +838,7 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setRange(0, 9);
+        //ui->videoEncoderDial->setRange(0, 9);
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
     }
     else if(ui->videoCodecBox->currentIndex() == 12)
@@ -753,9 +857,9 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setToolTip(tr("default: Speed 4 Encoding"));
-        ui->videoEncoderDial->setValue(10);//default value
-        ui->videoDialPreset->setText(tr("Speed 10"));//default value
+        //ui->videoEncoderDial->setToolTip(tr("default: Speed 4 Encoding"));
+        //ui->videoEncoderDial->setValue(10);//default value
+        //ui->videoDialPreset->setText(tr("Speed 10"));//default value
         this->qscale_value.setNum(ui->videoRFSlider->value());//setting qp value
     }
     else
@@ -771,9 +875,9 @@ void VideoUI::vid_codec_interface()
         ui->videoHQLabel->setText(tr("| High Quality"));
         ui->videoLQLabel->setAlignment(Qt::AlignTop);
         ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        ui->videoEncoderDial->setRange(0, 9);
-        ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
-        ui->videoDialPreset->setText(tr("medium"));//default value
+        //ui->videoEncoderDial->setRange(0, 9);
+        //ui->videoEncoderDial->setToolTip(tr("default: medium encoding"));
+        //ui->videoDialPreset->setText(tr("medium"));//default value
     }
 }
 
