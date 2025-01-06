@@ -161,6 +161,7 @@ private:
     void set_video_codec_profile_box_settings(const QStringList &list);
     void set_video_codec_level_slider_settings(const QStringList &list);
     void set_video_codec_preset_dial_settings(const QStringList &list);
+    void load_video_source_options(int index);
 
     //button group
     QButtonGroup *rateOptButtons;

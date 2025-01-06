@@ -415,6 +415,7 @@ void VideoUI::receive_vid_source_codec(const QString &codec)
         this->source_codec = codec;
     }
     VideoStandardItem::videoCodecBoxItem->setData(this->source_codec, Qt::UserRole);
+    load_video_source_options(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains));
 }
 
 void VideoUI::select_vid_codec(const int index)
@@ -977,6 +978,13 @@ void VideoUI::select_encoder_level(const int index)
     }
     //testing only!!
     send_vid_data(this->video_codec_level, 0);
+}
+
+void VideoUI::load_video_source_options(int index)
+{
+    set_encoder_preset_options(index);
+    set_enc_profile_options(index);
+    set_enc_level_options(index);
 }
 
 void VideoUI::enable_average_bitrate_field()
