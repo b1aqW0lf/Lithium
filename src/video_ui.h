@@ -112,7 +112,6 @@ private Q_SLOTS:
 
 private:
     //processing variables
-    QString preset{"-preset"};
     QString encoder_preset_val{};
     QString video_codec_level{};
     QString crf_value{};
