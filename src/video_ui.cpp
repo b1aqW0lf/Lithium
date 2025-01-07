@@ -285,6 +285,7 @@ VideoUI::~VideoUI()
 
 void VideoUI::set_encoder_preset_options(int index)
 {
+    this->videoEncPresetList.clear();
     if(ui->videoCodecBox->currentIndex() == 0)
     {
         if(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains))
