@@ -147,7 +147,9 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoEncoderDial->setRange(0, this->videoEncPresetList.size()- 1);
     ui->videoEncoderDial->setNotchesVisible(true);
     ui->videoEncoderDial->setSingleStep(1);
-    ui->videoEncoderDial->setToolTip(tr("Select encoder preset/speed."));
+    ui->videoEncoderDial->setToolTip(tr("<p>Select encoder preset/speed. A preset is a collection of options that will"
+                                        " provide a certain encoding speed to compression ratio. Use the slowest preset "
+                                        "that you have patience for.</p>"));
     ui->videoDialPreset->setText(tr("None"));//default value
     ui->videoDialPreset->setStyleSheet("QLabel { background-color : white }");
     ui->videoDialPreset->setStyleSheet("QLabel { border : 0.5px solid black }");
