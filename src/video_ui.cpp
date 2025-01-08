@@ -67,7 +67,9 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoEncoderDial, &QDial::valueChanged,
             this, &VideoUI::select_encoder_preset);
     connect(ui->videoRFSlider, &QSlider::valueChanged,
-            this, &VideoUI::select_crf);
+            this, &VideoUI::select_encoder_crf_qscale);
+    connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
+            this, &VideoUI::set_encoder_crf_qscale_options);
     connect(ui->videoRFSlider, &QSlider::valueChanged,
             this, &VideoUI::select_qscale);
     connect(ui->videoRFSlider, &QSlider::valueChanged,
@@ -76,8 +78,6 @@ VideoUI::VideoUI(QWidget *parent) :
     //experimental-----------------------------------------------------------------//
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_vid_codec);
-    connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &VideoUI::vid_codec_interface);
     connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_container);
     connect(ui->videoResolutionBox, QOverload<int>::of(&QComboBox::activated),
@@ -133,6 +133,7 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoRFSlider->setRange(0, 51);
     ui->videoRFSlider->setTickPosition(QSlider::TicksBelow);
     ui->videoRFSlider->setSingleStep(1);
+    ui->videoRFSlider->setTickInterval(1);
     ui->videoRFSlider->setValue(23);//default value for the slider
     ui->videoRFSlider->setSliderPosition(23);
     ui->videoRFSlider->setToolTip(tr("Constant Rate Factor Selector"));
@@ -392,12 +393,133 @@ void VideoUI::select_encoder_preset(const int &index)
     this->encoder_preset_val = this->videoEncPresetList[index];
 }
 
+void VideoUI::set_encoder_crf_qscale_options(int index)
+{
+    get_video_source_index(index);
+
+    if(ui->videoCodecBox->itemText(index).contains("H264", Qt::CaseInsensitive))
+    {
+        //default libx264 crf value is 23
+        ui->videoRFSpinBox->setRange(0, 51);
+        ui->videoRFSlider->setRange(0, 51);
+        ui->videoRFSlider->setValue(23);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("x264 10-bit", Qt::CaseInsensitive))
+    {
+        //default libx264 10-bit crf value is 23
+        ui->videoRFSpinBox->setRange(0, 51);
+        ui->videoRFSlider->setRange(0, 51);
+        ui->videoRFSlider->setValue(23);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("HEVC", Qt::CaseInsensitive))
+    {
+        //default libx265 crf value is 28
+        ui->videoRFSpinBox->setRange(0, 51);
+        ui->videoRFSlider->setRange(0, 51);
+        ui->videoRFSlider->setValue(28);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("x265 10-bit", Qt::CaseInsensitive))
+    {
+        //default libx265 10-bit crf value is 28
+        ui->videoRFSpinBox->setRange(0, 51);
+        ui->videoRFSlider->setRange(0, 51);
+        ui->videoRFSlider->setValue(28);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("x265 12-bit", Qt::CaseInsensitive))
+    {
+        //default libx265 12-bit crf value is 28
+        ui->videoRFSpinBox->setRange(0, 51);
+        ui->videoRFSlider->setRange(0, 51);
+        ui->videoRFSlider->setValue(28);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("VP9", Qt::CaseInsensitive))
+    {
+        //default libvpx-vp9 crf value is 31
+        //requires -b:v 0 flag as well to enable constant quality (cq) mode ---> -crf val -b:v 0
+        ui->videoRFSpinBox->setRange(0, 63);
+        ui->videoRFSlider->setRange(0, 63);
+        ui->videoRFSlider->setValue(31);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("Xvid", Qt::CaseInsensitive))
+    {
+        //default libxvid crf value is 12
+        ui->videoRFSpinBox->setRange(1, 31);
+        ui->videoRFSlider->setRange(1, 31);
+        ui->videoRFSlider->setValue(12);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("Theora", Qt::CaseInsensitive))
+    {
+        //default libtheora variable bitrate (vbr) value is 7
+        //accessed with the -qscale:v flag, higher numbers equals higher/better quality
+        //requires -b:v 0 flag as well to enable constant quality (vbr) mode ---> -qscale:v val -b:v 0
+        ui->videoRFSpinBox->setRange(0, 10);
+        ui->videoRFSlider->setRange(0, 10);
+        ui->videoRFSlider->setValue(7);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("MPEG-1", Qt::CaseInsensitive))
+    {
+        //default mpeg1video crf value is 5
+        ui->videoRFSpinBox->setRange(1, 31);
+        ui->videoRFSlider->setRange(1, 31);
+        ui->videoRFSlider->setValue(5);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("MPEG-2", Qt::CaseInsensitive))
+    {
+        //default mpeg2video crf value is 5
+        ui->videoRFSpinBox->setRange(1, 31);
+        ui->videoRFSlider->setRange(1, 31);
+        ui->videoRFSlider->setValue(5);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("AV1", Qt::CaseInsensitive))
+    {
+        //default libsvt-av1 crf value is 35
+        ui->videoRFSpinBox->setRange(0, 63);
+        ui->videoRFSlider->setRange(0, 63);
+        ui->videoRFSlider->setValue(35);
+        set_video_codec_crf_qscale_level_ui(index);
+    }
+    else
+    {
+        return;
+    }
+}
+
+void VideoUI::set_video_codec_crf_qscale_level_ui(const int index)
+{
+    if(ui->videoCodecBox->itemText(index).contains("Theora", Qt::CaseInsensitive))
+    {
+        ui->videoCRFRadio->setText(tr("Variable Bit Rate"));
+        ui->videoLQLabel->setText(tr("High Quality |"));
+        ui->videoHQLabel->setText(tr("| Low Quality"));
+    }
+    else if(ui->videoCodecBox->itemText(index).contains("MPEG-2",Qt::CaseInsensitive))
+    {
+        ui->videoCRFRadio->setText(tr("Quality Rate Factor"));
+    }
+    else
+    {
+        ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
+        ui->videoLQLabel->setText(tr("Low Quality |"));
+        ui->videoHQLabel->setText(tr("| High Quality"));
+    }
+}
+
 //initalizing selected crf value
-void VideoUI::select_crf()
+void VideoUI::select_encoder_crf_qscale(int index)
 {
     //crf_value is part of input for ffmpeg args in encoding_started()
     //setting the crf value to string
-    this->crf_value.setNum(ui->videoRFSlider->value());
+    this->crf_value.setNum(index);
 }
 
 //initalizing selected qscale value
@@ -405,6 +527,18 @@ void VideoUI::select_qscale()
 {
     //setting qscale value to string
     this->qscale_value.setNum(ui->videoRFSlider->value());
+}
+
+void VideoUI::get_video_source_index(int index)
+{
+    if(ui->videoCodecBox->currentIndex() == 0)
+    {
+        if(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains))
+        {
+            const int val{ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains)};
+            index = val;
+        }
+    }
 }
 
 void VideoUI::receive_vid_source_codec(const QString &codec)
@@ -487,162 +621,6 @@ void VideoUI::select_vid_codec(const int index)
         break;
     }
     Q_EMIT send_vid_data(this->video_codec,timeout);
-}
-
-void VideoUI::vid_codec_interface()
-{
-    //video codec interface settings
-    if(ui->videoCodecBox->currentIndex() == 0 ||
-        ui->videoCodecBox->currentIndex() == 2 ||
-            ui->videoCodecBox->currentIndex() == 3)//x264 10bit
-    {
-        //default libx264 crf value is 23
-        ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
-        ui->videoRFSpinBox->setRange(0, 51);
-        ui->videoRFSlider->setRange(0, 51);
-        //x264
-        if(ui->videoCodecBox->currentIndex() == 2)
-        {
-            ui->videoRFSlider->setValue(23);
-            ui->videoRFSpinBox->setValue(23);
-            ui->videoRFSlider->setSliderPosition(23);
-        }
-        //x264 10bit
-        if(ui->videoCodecBox->currentIndex() == 3)
-        {
-            ui->videoRFSlider->setValue(20);
-            ui->videoRFSpinBox->setValue(20);
-            ui->videoRFSlider->setSliderPosition(20);
-        }
-        ui->videoLQLabel->setText(tr("Low Quality |"));
-        ui->videoHQLabel->setText(tr("| High Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-    }
-    else if(ui->videoCodecBox->currentIndex() == 4 ||
-            ui->videoCodecBox->currentIndex() == 5 || //x265 10bit
-            ui->videoCodecBox->currentIndex() == 6) //x265 12bit
-    {
-        //default libx265 crf value is 28
-        ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
-        ui->videoRFSpinBox->setRange(0, 51);
-        ui->videoRFSlider->setRange(0, 51);
-        if(ui->videoCodecBox->currentIndex() == 4)
-        {
-            ui->videoRFSlider->setValue(28);
-            ui->videoRFSpinBox->setValue(28);
-            ui->videoRFSlider->setSliderPosition(28);
-        }
-        if(ui->videoCodecBox->currentIndex() == 5 ||//x265 10bit
-           ui->videoCodecBox->currentIndex() == 6) //x265 12bit
-        {
-            ui->videoRFSlider->setValue(20);
-            ui->videoRFSpinBox->setValue(20);
-            ui->videoRFSlider->setSliderPosition(20);
-        }
-        ui->videoLQLabel->setText(tr("Low Quality |"));
-        ui->videoHQLabel->setText(tr("| High Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-    }
-    else if(ui->videoCodecBox->currentIndex() == 7)
-    {
-        //default Xvid settings
-        ui->videoRFSlider->setTickPosition(QSlider::TicksBelow);
-        ui->videoRFSpinBox->setRange(1, 31);
-        ui->videoRFSlider->setRange(1, 31);
-        ui->videoRFSlider->setValue(12);
-        ui->videoRFSpinBox->setValue(12);
-        ui->videoRFSlider->setSliderPosition(12);
-        ui->videoCRFRadio->setText(tr("Variable Bit Rate"));
-        ui->videoLQLabel->setText(tr("Low Quality |"));
-        ui->videoHQLabel->setText(tr("| High Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
-    }
-    else if(ui->videoCodecBox->currentIndex() == 8)
-    {
-        //default libvpx-vp9 crf value is 31, range is 0-63
-        ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
-        ui->videoRFSpinBox->setRange(0, 63);
-        ui->videoRFSlider->setRange(0, 63);
-        ui->videoRFSlider->setValue(31);
-        ui->videoRFSpinBox->setValue(31);
-        ui->videoRFSlider->setSliderPosition(31);
-        ui->videoLQLabel->setText(tr("Low Quality |"));
-        ui->videoHQLabel->setText(tr("| High Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        video_bitrate = "0";
-    }
-    else if(ui->videoCodecBox->currentIndex() == 9)
-    {
-        //default libtheora settings, range is 0-10, 10 is higest quality
-        ui->videoRFSlider->setTickPosition(QSlider::TicksBelow);
-        ui->videoRFSpinBox->setRange(0, 10);
-        ui->videoRFSlider->setRange(0, 10);
-        ui->videoRFSlider->setValue(7);
-        ui->videoRFSpinBox->setValue(7);
-        ui->videoRFSlider->setSliderPosition(7);
-        ui->videoRFSlider->setSingleStep(1);
-        ui->videoCRFRadio->setText(tr("Variable Bit Rate"));
-        ui->videoLQLabel->setText(tr("High Quality |"));
-        ui->videoHQLabel->setText(tr("| Low Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
-    }
-    else if(ui->videoCodecBox->currentIndex() == 10 ||
-            ui->videoCodecBox->currentIndex() == 11)
-    {
-        //default mpeg1 and mpeg2 settimgs, range is 1-31, 1 is highest
-        ui->videoRFSlider->setTickPosition(QSlider::TicksBelow);
-        ui->videoRFSpinBox->setRange(1, 31);
-        ui->videoRFSlider->setRange(1, 31);
-        ui->videoRFSlider->setValue(5);
-        ui->videoRFSpinBox->setValue(5);
-        ui->videoRFSlider->setSliderPosition(5);
-        ui->videoRFSlider->setSingleStep(1);
-        ui->videoCRFRadio->setText(tr("Quality Rate Factor"));
-        ui->videoLQLabel->setText(tr("Low Quality |"));
-        ui->videoHQLabel->setText(tr("| High Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qscale value
-    }
-    else if(ui->videoCodecBox->currentIndex() == 12)
-    {
-        //default svt-av1 settings, crf range is 0-63, 0 is highest, 35 is default
-        ui->videoRFSlider->setTickPosition(QSlider::TicksBelow);
-        ui->videoRFSpinBox->setRange(0, 63);
-        ui->videoRFSlider->setRange(0, 63);
-        ui->videoEncoderDial->setRange(0, 13);
-        ui->videoRFSlider->setValue(35);
-        ui->videoRFSpinBox->setValue(35);
-        ui->videoRFSlider->setSliderPosition(35);
-        ui->videoRFSlider->setSingleStep(1);
-        ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
-        ui->videoLQLabel->setText(tr("Low Quality |"));
-        ui->videoHQLabel->setText(tr("| High Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-        this->qscale_value.setNum(ui->videoRFSlider->value());//setting qp value
-    }
-    else
-    {
-        ui->videoCRFRadio->setText(tr("Constant Rate Factor"));
-        ui->videoRFSlider->setRange(0, 51);
-        ui->videoRFSpinBox->setRange(0, 51);
-        ui->videoRFSlider->setValue(23);
-        ui->videoRFSpinBox->setValue(23);
-        ui->videoRFSlider->setSingleStep(1);
-        ui->videoRFSlider->setSliderPosition(23);
-        ui->videoLQLabel->setText(tr("Low Quality |"));
-        ui->videoHQLabel->setText(tr("| High Quality"));
-        ui->videoLQLabel->setAlignment(Qt::AlignTop);
-        ui->videoHQLabel->setAlignment(Qt::AlignTop);
-    }
 }
 
 void VideoUI::receive_vid_source_extension(const QString &extension)
@@ -988,6 +966,7 @@ void VideoUI::load_video_source_options(int index)
     set_encoder_preset_options(index);
     set_enc_profile_options(index);
     set_enc_level_options(index);
+    set_encoder_crf_qscale_options(index);
 }
 
 void VideoUI::enable_average_bitrate_field()

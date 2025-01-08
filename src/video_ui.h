@@ -91,14 +91,14 @@ private:
 private Q_SLOTS:
     void set_encoder_preset_options(int index);
     void select_encoder_preset(const int &index);
-    void select_crf();
+    void set_encoder_crf_qscale_options(int index);
+    void select_encoder_crf_qscale(int index);
     void select_qscale();
     void select_vid_codec(const int index);
     void select_video_res(const int index);
     void select_container(const int index);
     void select_dar_value(const int index);
     void select_video_fps(const int index);
-    void vid_codec_interface();
     void set_enc_profile_options(int index);
     void select_encoder_profile(const int index);
     void set_enc_level_options(int index);
@@ -160,6 +160,8 @@ private:
     void set_video_codec_profile_box_settings(const QStringList &list);
     void set_video_codec_level_slider_settings(const QStringList &list);
     void set_video_codec_preset_dial_settings(const QStringList &list);
+    void set_video_codec_crf_qscale_level_ui(const int index);
+    void get_video_source_index(int index);
     void load_video_source_options(int index);
 
     //button group
