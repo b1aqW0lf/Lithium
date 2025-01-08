@@ -161,8 +161,8 @@ VideoUI::VideoUI(QWidget *parent) :
 
     ui->videoCodecBox->insertSeparator(1);
     videoCodecList << "H264/libx264" << "x264 10-bit" << "HEVC/libx265" << "x265 10-bit"
-                   << "x265 12-bit" << "Xvid" << "VP9" << "Theora" << "MPEG-1"
-                   << "MPEG-2" << "AV1/SVT-AV1";
+                   << "x265 12-bit" << "Xvid" << "VP9" << "Theora" << "MPEG-2"
+                   << "AV1/SVT-AV1";
     ui->videoCodecBox->insertItems(2, videoCodecList);
     ui->videoCodecLabel->setText(tr("Codec "));
 
@@ -354,13 +354,6 @@ void VideoUI::set_encoder_preset_options(int index)
         ui->videoEncoderDial->setSliderPosition(1);
 
     }
-    else if(ui->videoCodecBox->itemText(index).contains("MPEG-1", Qt::CaseInsensitive))
-    {
-        this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                 << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
-        set_video_codec_preset_dial_settings(this->videoEncPresetList);
-        ui->videoEncoderDial->setSliderPosition(4);
-    }
     else if(ui->videoCodecBox->itemText(index).contains("MPEG-2", Qt::CaseInsensitive))
     {
         this->videoEncPresetList = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
@@ -467,14 +460,6 @@ void VideoUI::set_encoder_crf_qscale_options(int index)
         ui->videoRFSpinBox->setRange(0, 10);
         ui->videoRFSlider->setRange(0, 10);
         ui->videoRFSlider->setValue(7);
-        set_video_codec_crf_qscale_level_ui(index);
-    }
-    else if(ui->videoCodecBox->itemText(index).contains("MPEG-1", Qt::CaseInsensitive))
-    {
-        //default mpeg1video crf value is 5
-        ui->videoRFSpinBox->setRange(1, 31);
-        ui->videoRFSlider->setRange(1, 31);
-        ui->videoRFSlider->setValue(5);
         set_video_codec_crf_qscale_level_ui(index);
     }
     else if(ui->videoCodecBox->itemText(index).contains("MPEG-2", Qt::CaseInsensitive))
@@ -594,14 +579,10 @@ void VideoUI::select_video_codec(const int index)
         this->video_codec = "libtheora";
         break;
     case 10:
-        //MPEG-1
-        this->video_codec = "mpeg1video";
-        break;
-    case 11:
         //MPEG-2
         this->video_codec = "mpeg2video";
         break;
-    case 12:
+    case 11:
         //rav1e0
         this->video_codec = "libsvtav1";
         break;
