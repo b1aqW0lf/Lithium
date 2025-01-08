@@ -352,7 +352,6 @@ void VideoUI::set_encoder_preset_options(int index)
         this->videoEncPresetList = QStringList() << "good" << "best" << "realtime"; //accessed with -quality or -cpu-used
         set_video_codec_preset_dial_settings(this->videoEncPresetList);
         ui->videoEncoderDial->setSliderPosition(1);
-
     }
     else if(ui->videoCodecBox->itemText(index).contains("MPEG-2", Qt::CaseInsensitive))
     {
