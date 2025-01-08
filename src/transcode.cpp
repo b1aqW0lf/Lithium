@@ -249,8 +249,12 @@ void Transcode::normal_mode_transcode()
 
     //normal transcode
     args << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec;
+         << "-i" << source_video_file << "-sn" << "-c:v" << video_codec;    
 
+    if(video_codec.contains("VP9", Qt::CaseInsensitive))
+    {
+        args << "-b:v" << "0";
+    }
     if(pixel_format_enabled == true)
     {
         args.append(pixel_format);
@@ -271,11 +275,19 @@ void Transcode::normal_mode_transcode()
     else
     {
         args << "-vf" << video_res << "-aspect" << video_dar;
-    }
+    }    
 
-    args << "-crf" << crf_qscale_value << "-preset" << vid_encoder_preset
-         << "-color_primaries" << "1" << "-color_trc" << "1" << "-colorspace"
-         << "1" << "-c:a" << audio_codec << "-map_metadata" << "0" << output_file;
+    if(video_codec.contains("Theora", Qt::CaseInsensitive))
+    {
+        args << "-qscale:v" << crf_qscale_value << "-b:v" << "0";
+    }
+    else
+    {
+        args << "-crf" << crf_qscale_value;
+    }
+    args << "-preset" << vid_encoder_preset << "-color_primaries" << "1" << "-color_trc"
+         << "1" << "-colorspace" << "1" << "-c:a" << audio_codec << "-map_metadata" << "0"
+         << output_file;
 
     //check for path to ffmpeg
     ffmpeg_path_check();
