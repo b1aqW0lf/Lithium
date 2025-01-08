@@ -94,7 +94,7 @@ private Q_SLOTS:
     void set_encoder_crf_qscale_options(int index);
     void select_encoder_crf_qscale(int index);
     void select_qscale();
-    void select_vid_codec(const int index);
+    void select_video_codec(const int index);
     void select_video_res(const int index);
     void select_container(const int index);
     void select_dar_value(const int index);

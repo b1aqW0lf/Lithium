@@ -75,9 +75,8 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoRFSlider, &QSlider::valueChanged,
             ui->videoRFSpinBox, &QSpinBox::setValue);
     //-------------------------------------------------------------------------
-    //experimental-----------------------------------------------------------------//
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
-            this, &VideoUI::select_vid_codec);
+            this, &VideoUI::select_video_codec);
     connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::select_container);
     connect(ui->videoResolutionBox, QOverload<int>::of(&QComboBox::activated),
@@ -555,7 +554,7 @@ void VideoUI::receive_vid_source_codec(const QString &codec)
     load_video_source_options(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains));
 }
 
-void VideoUI::select_vid_codec(const int index)
+void VideoUI::select_video_codec(const int index)
 {
     int timeout{0};
     this->pixel_format.clear();
