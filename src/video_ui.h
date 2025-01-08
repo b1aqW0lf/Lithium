@@ -57,8 +57,7 @@ Q_SIGNALS:
 
     //send current video options
     void send_current_video_options(const QString &codec, const QString &video_bitrate,
-                               const QString &crf_val, const QString &qs_val,
-                               const QString &resolution, const QString &dar,
+                               const QString &crf_val, const QString &resolution, const QString &dar,
                                const bool &calculate_dar_enabled, const QString &framerate,
                                const QString &encoder_preset, const QStringList &pixel_format,
                                 const bool &pixel_format_enabled, const QString &codec_profile,
@@ -93,7 +92,6 @@ private Q_SLOTS:
     void select_encoder_preset(const int &index);
     void set_encoder_crf_qscale_options(int index);
     void select_encoder_crf_qscale(int index);
-    void select_qscale();
     void select_video_codec(const int index);
     void select_video_res(const int index);
     void select_container(const int index);
@@ -114,8 +112,7 @@ private:
     //processing variables
     QString encoder_preset_val{};
     QString video_codec_level{};
-    QString crf_value{};
-    QString qscale_value{};
+    QString crf_qscale_value{};
     QString video_codec{};
     QString video_codec_profile{};
     QString video_res_value{};

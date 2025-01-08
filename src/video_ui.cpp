@@ -71,8 +71,6 @@ VideoUI::VideoUI(QWidget *parent) :
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoUI::set_encoder_crf_qscale_options);
     connect(ui->videoRFSlider, &QSlider::valueChanged,
-            this, &VideoUI::select_qscale);
-    connect(ui->videoRFSlider, &QSlider::valueChanged,
             ui->videoRFSpinBox, &QSpinBox::setValue);
     //-------------------------------------------------------------------------
     connect(ui->videoCodecBox, QOverload<int>::of(&QComboBox::activated),
@@ -136,7 +134,7 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoRFSlider->setValue(23);//default value for the slider
     ui->videoRFSlider->setSliderPosition(23);
     ui->videoRFSlider->setToolTip(tr("Constant Rate Factor Selector"));
-    crf_value.setNum(ui->videoRFSlider->value());//send default to encoder
+    crf_qscale_value.setNum(ui->videoRFSlider->value());//send default to encoder
     ui->videoHQLabel->setText(tr("| High Quality"));
     ui->videoLQLabel->setText(tr("Low Quality |"));
     ui->videoHQLabel->setAlignment(Qt::AlignTop);
@@ -518,14 +516,7 @@ void VideoUI::select_encoder_crf_qscale(int index)
 {
     //crf_value is part of input for ffmpeg args in encoding_started()
     //setting the crf value to string
-    this->crf_value.setNum(index);
-}
-
-//initalizing selected qscale value
-void VideoUI::select_qscale()
-{
-    //setting qscale value to string
-    this->qscale_value.setNum(ui->videoRFSlider->value());
+    this->crf_qscale_value.setNum(index);
 }
 
 void VideoUI::get_video_source_index(int index)
@@ -1092,10 +1083,9 @@ void VideoUI::get_selected_video_options()
     default_options_check();
 
     //emit the current selected video options
-    Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_value,
-                                qscale_value, video_res_value, video_dar_value,
-                                calculate_dar_enabled, video_fps_value,
-                                encoder_preset_val, pixel_format,
+    Q_EMIT send_current_video_options(video_codec, video_bitrate, crf_qscale_value,
+                                video_res_value, video_dar_value, calculate_dar_enabled,
+                                video_fps_value, encoder_preset_val, pixel_format,
                                 pixel_format_enabled, video_codec_profile,
                                 codec_profile_enabled, video_codec_level,
                                 codec_level_enabled);
