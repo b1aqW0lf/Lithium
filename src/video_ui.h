@@ -158,7 +158,6 @@ private:
     void set_video_codec_level_slider_settings(const QStringList &list);
     void set_video_codec_preset_dial_settings(const QStringList &list);
     void set_video_codec_crf_qscale_level_ui(const int index);
-    void get_video_source_index(int index);
     void load_video_source_options(int index);
 
     //button group

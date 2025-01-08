@@ -392,7 +392,15 @@ void VideoUI::select_encoder_preset(const int &index)
 
 void VideoUI::set_encoder_crf_qscale_options(int index)
 {
-    get_video_source_index(index);
+    //get_video_source_index(index);
+    if(ui->videoCodecBox->currentIndex() == 0)
+    {
+        if(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains))
+        {
+            const int val{ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains)};
+            index = val;
+        }
+    }
 
     if(ui->videoCodecBox->itemText(index).contains("H264", Qt::CaseInsensitive))
     {
@@ -517,18 +525,6 @@ void VideoUI::select_encoder_crf_qscale(int index)
     //crf_value is part of input for ffmpeg args in encoding_started()
     //setting the crf value to string
     this->crf_qscale_value.setNum(index);
-}
-
-void VideoUI::get_video_source_index(int index)
-{
-    if(ui->videoCodecBox->currentIndex() == 0)
-    {
-        if(ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains))
-        {
-            const int val{ui->videoCodecBox->findText(this->source_codec.toUpper(),Qt::MatchContains)};
-            index = val;
-        }
-    }
 }
 
 void VideoUI::receive_vid_source_codec(const QString &codec)
