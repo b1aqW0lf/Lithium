@@ -172,18 +172,16 @@ void Transcode::receive_current_audio_options(const QString &codec, const QStrin
 
 //receive current video options
 void Transcode::receive_current_video_options(const QString &codec, const QString &video_bitrate,
-                                              const QString &crf_value, const QString &qscale_value,
-                                              const QString &video_res_value, const QString &video_dar_value,
-                                              const bool &calculate_dar_enabled, const QString &video_fps_val,
-                                              const QString &encoder_preset_val, const QStringList &pixel_format,
-                                              const bool &pixel_format_enabled, const QString &codec_profile,
-                                              const bool &codec_profile_enabled, const QString &codec_level,
-                                              const bool &codec_level_enabled)
+                                              const QString &crf_qscale_value, const QString &video_res_value,
+                                              const QString &video_dar_value, const bool &calculate_dar_enabled,
+                                              const QString &video_fps_val, const QString &encoder_preset_val,
+                                              const QStringList &pixel_format, const bool &pixel_format_enabled,
+                                              const QString &codec_profile, const bool &codec_profile_enabled,
+                                              const QString &codec_level, const bool &codec_level_enabled)
 {
     this->video_codec = codec;
     this->vid_avg_bitrate = video_bitrate;
-    this->crf_value = crf_value;
-    this->qscale_value = qscale_value;
+    this->crf_qscale_value = crf_qscale_value;
     this->video_res = video_res_value;
     this->video_dar = video_dar_value;
     this->calculate_dar_enabled = calculate_dar_enabled;
@@ -275,7 +273,7 @@ void Transcode::normal_mode_transcode()
         args << "-vf" << video_res << "-aspect" << video_dar;
     }
 
-    args << "-crf" << crf_value << "-preset" << vid_encoder_preset
+    args << "-crf" << crf_qscale_value << "-preset" << vid_encoder_preset
          << "-color_primaries" << "1" << "-color_trc" << "1" << "-colorspace"
          << "1" << "-c:a" << audio_codec << "-map_metadata" << "0" << output_file;
 
