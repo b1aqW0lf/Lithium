@@ -2,7 +2,7 @@
 #define APP_VERSION_H
 
 /******************************************************************************
- Copyright (c) 2020-2022 b1aqW0lf
+ Copyright (c) 2020-2025 b1aqW0lf
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
