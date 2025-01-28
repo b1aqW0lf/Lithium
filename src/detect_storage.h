@@ -33,7 +33,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <QObject>
-#include <QStorageInfo>
 
 
 class DetectStorage : public QObject
@@ -49,9 +48,6 @@ public:
 
 public:
     QString get_available_storage_size();//available disk space
-
-private:
-    QStorageInfo storage{};
 };
 
 #endif // DETECT_STORAGE_H
