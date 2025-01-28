@@ -48,7 +48,10 @@ QString DetectStorage::get_available_storage_size()
     QStorageInfo().refresh();
     QStorageInfo storage{QStorageInfo::root()};
     qint64 bytes = storage.bytesAvailable();
+#ifdef Q_OS_WINDOWS
+    QString size_available = QLocale().formattedDataSize(bytes, 2, QLocale::DataSizeTraditionalFormat);
+#else
     QString size_available = QLocale().formattedDataSize(bytes, 2, QLocale::DataSizeSIFormat);
-
+#endif
     return size_available;
 }
