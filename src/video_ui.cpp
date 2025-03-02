@@ -335,7 +335,6 @@ void VideoUI::set_encoder_preset_options(int index)
                                                  << "-4" << "-3" << "-2" << "-1" << "0" << "1" << "2"
                                                  << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10"
                                                  << "11" << "12" << "13" << "14" << "15" << "16";
-        const QStringList time_to_spend_encoding = QStringList() << "-quality" << "good";
         set_video_codec_preset_dial_settings(this->videoEncPresetList);
         ui->videoEncoderDial->setSliderPosition(17);
     }
@@ -348,7 +347,6 @@ void VideoUI::set_encoder_preset_options(int index)
     }
     else if(ui->videoCodecBox->itemText(index).contains("Theora", Qt::CaseInsensitive))
     {
-        const QStringList speed = QStringList() << "-speed" << "0";//default ffmpeg setting is zero(0)
         this->videoEncPresetList = QStringList() << "good" << "best" << "realtime"; //accessed with -quality or -cpu-used
         set_video_codec_preset_dial_settings(this->videoEncPresetList);
         ui->videoEncoderDial->setSliderPosition(1);
@@ -818,7 +816,7 @@ void VideoUI::select_encoder_profile(const int index)
         this->codec_profile_enabled = true;
     }
     //for testing purposes ONLY!!
-    send_vid_data(this->video_codec_profile, 0);
+    Q_EMIT send_vid_data(this->video_codec_profile, 0);
 }
 
 void VideoUI::set_enc_level_options(int index)
@@ -924,7 +922,7 @@ void VideoUI::select_encoder_level(const int index)
         this->codec_level_enabled = true;
     }
     //testing only!!
-    send_vid_data(this->video_codec_level, 0);
+    Q_EMIT send_vid_data(this->video_codec_level, 0);
 }
 
 void VideoUI::load_video_source_options(int index)
@@ -1045,6 +1043,7 @@ void VideoUI::increase_vid_bitrate_field_value()
     else if(ui->videoAVGBitField->text().isEmpty())
     {
         line_edit_val = val;
+        ui->videoAVGBitField->setText(QString::number(line_edit_val));
     }
     else
     {
