@@ -32,7 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "detect_storage.h"
 
 #include <QLocale>
-#include <QStorageInfo>
 
 
 DetectStorage::DetectStorage(QObject *parent) : QObject(parent)
@@ -44,9 +43,10 @@ DetectStorage::~DetectStorage(){}
 
 QString DetectStorage::get_available_storage_size()
 {
+    storage.refresh();
+
     //get the size of the main harddisk drive's available storage
-    QStorageInfo().refresh();
-    QStorageInfo storage{QStorageInfo::root()};
+    this->storage = QStorageInfo::root();
     qint64 bytes = storage.bytesAvailable();
 #ifdef Q_OS_WINDOWS
     QString size_available = QLocale().formattedDataSize(bytes, 2, QLocale::DataSizeTraditionalFormat);
