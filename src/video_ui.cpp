@@ -403,8 +403,8 @@ void VideoUI::set_encoder_crf_qscale_options(int index)
     else if(ui->videoCodecBox->itemText(index).contains("x264 10-bit", Qt::CaseInsensitive))
     {
         //default libx264 10-bit crf value is 23
-        ui->videoRFSpinBox->setRange(0, 51);
-        ui->videoRFSlider->setRange(0, 51);
+        ui->videoRFSpinBox->setRange(0, 63);
+        ui->videoRFSlider->setRange(0, 63);
         ui->videoRFSlider->setValue(23);
         set_video_codec_crf_qscale_level_ui(index);
     }
