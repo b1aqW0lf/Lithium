@@ -45,7 +45,7 @@ namespace Analyze
     const char audio_data[] = "Stream #([0-9]+):([0-9]+).*: Audio:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
     //const char video_data[] = "Stream #([0-9]+).([0-9]+).*: Video:\\s*(([\\w\\d]*)\\s*[(\\w\\d)]*)\\s*[^)]*[)]*,[^)]*[)],\\s*([[0-9]*x[0-9]*)([^.]*SAR\\s*([0-9]*:[0-9]*)\\s*DAR\\s*([0-9]*:[0-9]*)[]]*)?(,\\s*([\\d]*)\\s*kb\\/s)?(,[^.]*)?,\\s*([\\d]*[.]*[\\d]*)?\\s*fps";
     //const char audio_data[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
-    const char duration_data[] = "Duration:\\s*(([\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
+    const char duration_data[] = "Duration:\\s*((-?[\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
     const char profile_data[] = "profile\\s*=\\s*([\\d\\w]*)";
     const char sar_data[] = "sample_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
     const char dar_data[] = "display_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
@@ -291,7 +291,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
         QRegularExpressionMatch match = itr.next();
         this->videostream.codec_type = match.captured(1);
     }
-    Q_EMIT show_vid_data(videostream.codec_type, timeout);
+    Q_EMIT show_vid_data(videostream.duration, timeout);
 
     QRegularExpression coded_width_regex(Analyze::coded_width_data);
     itr = coded_width_regex.globalMatch(data);
