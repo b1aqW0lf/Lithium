@@ -45,12 +45,12 @@ namespace Analyze
     const char audio_data[] = "Stream #([0-9]+):([0-9]+).*: Audio:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
     //const char video_data[] = "Stream #([0-9]+).([0-9]+).*: Video:\\s*(([\\w\\d]*)\\s*[(\\w\\d)]*)\\s*[^)]*[)]*,[^)]*[)],\\s*([[0-9]*x[0-9]*)([^.]*SAR\\s*([0-9]*:[0-9]*)\\s*DAR\\s*([0-9]*:[0-9]*)[]]*)?(,\\s*([\\d]*)\\s*kb\\/s)?(,[^.]*)?,\\s*([\\d]*[.]*[\\d]*)?\\s*fps";
     //const char audio_data[] = "Stream #(([0-9]+).([0-9]+)).*: Audio:\\s*([\\w\\d]*)[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
-    const char meta_data[] = "Duration:\\s*(([\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
+    const char duration_data[] = "Duration:\\s*(([\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
     const char profile_data[] = "profile\\s*=\\s*([\\d\\w]*)";
     const char sar_data[] = "sample_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
     const char dar_data[] = "display_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
     const char samplerate_data[] = "^sample_rate\\s*=\\s*([\\d]*)$";
-    const char duration_data[] = "codec_type\\s*=\\s*audio[^.]*[.]*[^.]*\\s*duration\\s*=\\s*([\\d]*[.]?[\\d]*)";
+    const char audio_duration[] = "codec_type\\s*=\\s*audio[^.]*[.]*[^.]*\\s*duration\\s*=\\s*([\\d]*[.]?[\\d]*)";
     const char colorspace_data[] = "^color_space=\\s*([\\w\\d]*)$";
     const char pixelformat_data[] = "^pix_fmt=\\s*([\\w\\d]*)$";
     const char codectype_audio[] = "\\s*Stream #[\\d]*:[\\d]*: Audio";
@@ -213,7 +213,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
     Q_EMIT source_vid_codec_profile(videostream.codec_profile);
     Q_EMIT show_vid_data(videostream.sample_aspect_ratio, timeout);
 
-    QRegularExpression bitrate_regx(Analyze::meta_data);
+    QRegularExpression bitrate_regx(Analyze::duration_data);
     itr = bitrate_regx.globalMatch(data);
     while (itr.hasNext())
     {
