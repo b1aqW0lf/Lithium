@@ -42,6 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QStandardItem>
 #include <QStandardItemModel>
 
+#include <QStyleFactory>
+
 #include "ui_video_ui.h"
 #include "video_ui.h"
 
@@ -264,6 +266,12 @@ VideoUI::VideoUI(QWidget *parent) :
     ui->videoEncLevelDisplay->setFixedHeight(40);
     ui->videoEncLevelDisplay->setStyleSheet("QLabel { background-color : white }");
     ui->videoEncLevelDisplay->setStyleSheet("QLabel { border : 0.5px solid black }");
+
+#ifdef Q_OS_WINDOWS
+    //set videoRFSlider style
+    ui->videoRFSlider->setStyle(QStyleFactory::create("windowsvista"));
+    ui->videoEncLevelSlider->setStyle(QStyleFactory::create("windowsvista"));
+#endif
 
     //2-pass encoding checkbox
     ui->twoPassCheckBox->setToolTip(tr("Two-pass encoding"));
