@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QStyleFactory>
 
 
 int main(int argc, char *argv[])
@@ -44,6 +45,11 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     MainWindow window;
+
+#ifdef Q_OS_WINDOWS
+    // Set the style (e.g., "Fusion", "Windows", "macintosh")
+    app.setStyle(QStyleFactory::create("Fusion"));
+#endif
 
     window.setWindowTitle("Lithium ""alpha""-"+git_hash_str);
     window.setWindowIcon(QIcon(":/images/resources/Logo1.png"));
