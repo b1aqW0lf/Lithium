@@ -592,7 +592,7 @@ void VideoUI::select_video_codec(const int index)
         this->video_codec = "libsvtav1";
         break;
     }
-    Q_EMIT send_vid_data(this->video_codec,timeout);
+    Q_EMIT send_video_data(this->video_codec,timeout);
 }
 
 void VideoUI::receive_vid_source_extension(const QString &extension)
@@ -683,7 +683,7 @@ void VideoUI::select_dar_value(const int index)
     {
         return;
     }
-    Q_EMIT send_vid_data(video_dar_value, timeout);
+    Q_EMIT send_video_data(video_dar_value, timeout);
 }
 
 void VideoUI::receive_vid_source_framerate(const QString &framerate)
@@ -704,7 +704,7 @@ void VideoUI::select_video_fps(const int index)
     {
         this->video_fps_value = ui->videoFPSBox->currentText();
     }
-    Q_EMIT send_vid_data(video_fps_value,0);
+    Q_EMIT send_video_data(video_fps_value,0);
 }
 
 void VideoUI::receive_vid_source_codec_profile(const QString &profile)
@@ -824,7 +824,7 @@ void VideoUI::select_encoder_profile(const int index)
         this->codec_profile_enabled = true;
     }
     //for testing purposes ONLY!!
-    Q_EMIT send_vid_data(this->video_codec_profile, 0);
+    Q_EMIT send_video_data(this->video_codec_profile, 0);
 }
 
 void VideoUI::set_enc_level_options(int index)
@@ -930,7 +930,7 @@ void VideoUI::select_encoder_level(const int index)
         this->codec_level_enabled = true;
     }
     //testing only!!
-    Q_EMIT send_vid_data(this->video_codec_level, 0);
+    Q_EMIT send_video_data(this->video_codec_level, 0);
 }
 
 void VideoUI::load_video_source_options(int index)

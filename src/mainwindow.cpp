@@ -177,7 +177,7 @@ void MainWindow::application_connections_setup()
 
     //temp connection-for testing only--------------------------------//
 
-    connect(ui->VideoUIWidget, &VideoUI::send_vid_data,
+    connect(ui->VideoUIWidget, &VideoUI::send_video_data,
             ui->statusbar, &QStatusBar::showMessage);
 
     connect(ui->AudioUIWidget, &AudioUI::send_audio_data,

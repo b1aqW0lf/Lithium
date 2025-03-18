@@ -65,7 +65,7 @@ Q_SIGNALS:
                                 const QString &codec_level, const bool &codec_level_enabled);
 
     //for testing only!
-    void send_vid_data(const QString &data, const int &timeout);
+    void send_video_data(const QString &data, const int &timeout);
     //-----------------------------------------------------------------//
 
 public Q_SLOTS:
