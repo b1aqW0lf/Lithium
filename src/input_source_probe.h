@@ -79,7 +79,7 @@ Q_SIGNALS:
     void source_audio_channels(const QString &channel);
 
     //used for testing
-    void show_vid_data(const QString &codec, const int &timeout);
+    void show_video_data(const QString &codec, const int &timeout);
     void show_audio_data(const QString &codec, const int &timeout);
 
 private:

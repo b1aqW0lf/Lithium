@@ -209,7 +209,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
         }
     }
     Q_EMIT source_vid_codec_profile(videostream.codec_profile);
-    Q_EMIT show_vid_data(videostream.sample_aspect_ratio, timeout);
+    Q_EMIT show_video_data(videostream.sample_aspect_ratio, timeout);
 
     QRegularExpression bitrate_regx(Analyze::duration_data);
     itr = bitrate_regx.globalMatch(data);
@@ -289,7 +289,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
         QRegularExpressionMatch match = itr.next();
         this->videostream.codec_type = match.captured(1);
     }
-    Q_EMIT show_vid_data(videostream.duration, timeout);
+    Q_EMIT show_video_data(videostream.duration, timeout);
 
     QRegularExpression coded_width_regex(Analyze::coded_width_data);
     itr = coded_width_regex.globalMatch(data);

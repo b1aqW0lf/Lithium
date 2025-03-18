@@ -158,7 +158,7 @@ void MainWindow::application_connections_setup()
             &inputProbe, &InputSourceProbe::start_probe_process);
 
     //temp connection-for testing only-----------------------------//
-    connect(&inputProbe, &InputSourceProbe::show_vid_data,
+    connect(&inputProbe, &InputSourceProbe::show_video_data,
             ui->statusbar, &QStatusBar::showMessage);
 
     connect(&inputProbe, &InputSourceProbe::show_audio_data,
