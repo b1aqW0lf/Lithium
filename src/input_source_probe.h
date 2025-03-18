@@ -133,6 +133,7 @@ private:
 
 private Q_SLOTS:
     void read_ffprobe_output();
+    void ffprobe_standard_output();
 
 private:
     QString input_vid{};
@@ -140,9 +141,11 @@ private:
 
     //input file flag
     QString input_file_flag{};
+    bool count_frames_flag{};
 
     //ffprobe process
     QProcess *ffprobe;
+    QProcess *ffprobe_cmd0;
     QString ffprobe_path{};
 
     //struct instances
@@ -152,6 +155,8 @@ private:
 
     //functions
     void ffprobe_path_check();
+    void ffprobe_process_cmd0(const QString &file);
+    void ffprobe_process_cmd1(const QString &file);
     void ffprobe_started();
     void parse_video_output(const QString &data);
     void parse_audio_output(const QString &data);
