@@ -48,8 +48,26 @@ public:
     explicit StatusBarUI(QWidget *parent = nullptr);
     ~StatusBarUI();
 
+public Q_SLOTS:
+    void parse_transcode_output(const QString &data);
+
+private:
+    struct TrancodeStatus
+    {
+        QString frame_num{};
+        QString frame_fps{};
+        QString q_num{};
+        QString size{};
+        QString frame_time{};
+        QString proc_bitrate{};
+        QString proc_speed{};
+    };
+
 private:
     Ui::StatusBarUI *ui;
+
+    //struct instances
+    TrancodeStatus status;
 };
 
 #endif // STATUSBAR_UI_H

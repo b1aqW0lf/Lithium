@@ -42,6 +42,7 @@ Transcode::Transcode(QWidget *parent)
     ffmpeg = new QProcess{this};
 
     //local connection
+    connect(this->ffmpeg, &QProcess::readyReadStandardOutput, this, &Transcode::ffmpeg_standard_output);
     connect(this->ffmpeg, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &Transcode::encoding_process_finished);
 
@@ -491,6 +492,13 @@ void Transcode::extract_mode_transcode()
     this->ffmpeg->start(this->ffmpeg_path, args);
     this->ffmpeg->waitForStarted();
     args.clear();
+}
+
+void Transcode::ffmpeg_standard_output()
+{
+    QString ffmpeg_output{};
+    ffmpeg_output.append(this->ffmpeg->readAllStandardOutput().trimmed());
+    Q_EMIT send_transcode_data(ffmpeg_output);
 }
 
 void Transcode::ffmpeg_path_check()

@@ -50,6 +50,7 @@ Q_SIGNALS:
     void source_file_status(const QString &status, const int &timeout);
     void output_file_status(const QString &status, const int &timeout);
     void send_encoder_status(const QString &status, const int &timeout);
+    void send_transcode_data(const QString &data);
     void enable_encode_button();
 
 public Q_SLOTS:
@@ -101,6 +102,7 @@ private:
     void two_pass_encode_2nd_pass();
     void merge_mode_transcode();
     void extract_mode_transcode();
+    void ffmpeg_standard_output();
     void ffmpeg_path_check();
     void start_encode_mode_check();
 

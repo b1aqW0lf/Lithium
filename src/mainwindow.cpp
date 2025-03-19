@@ -46,7 +46,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "src/process_mode_ui.h"
 #include "src/save_as_ui.h"
 #include "src/select_source_ui.h"
-#include "src/statusbar_ui.h"
 #include "src/transcode.h"
 #include "src/video_ui.h"
 
@@ -93,8 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //display progress bar and statusbar
-    StatusBarUI *statProgressBar = new StatusBarUI;
-    ui->statusbar->addPermanentWidget(statProgressBar);
+    ui->statusbar->addPermanentWidget(&statProgressBar);
 
     //display avaialble storage
     statusBarLabel1 = new QLabel(this);
@@ -174,6 +172,12 @@ void MainWindow::application_connections_setup()
     //experimental
     connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
             ui->statusbar, &QStatusBar::showMessage);
+
+    connect(&transcoder, &Transcode::send_transcode_data,
+            ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
+
+    connect(&transcoder, &Transcode::send_transcode_data,
+            &statProgressBar, &StatusBarUI::parse_transcode_output);/**/
 
     //temp connection-for testing only--------------------------------//
 

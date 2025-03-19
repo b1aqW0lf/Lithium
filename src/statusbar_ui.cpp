@@ -29,11 +29,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QStatusBar>
-#include <QLabel>
-
 #include "statusbar_ui.h"
 #include "ui_statusbar_ui.h"
+
+#include <QLabel>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QRegularExpressionMatchIterator>
+#include <QStatusBar>
+
+
+namespace Progress
+{
+    static const char progress[] = "frame\\s*=\\s*([\\d]+)\\s*fps\\s*=\\s*([\\d]+)\\s*q\\s*=\\s*(-?[\\d]+.[\\d]+)\\s+[L]?size\\s*=\\s*([\\d]+K[i]?B)\\s*time=\\s*([0-9]+:[0-9]+:[0-9]+.[0-9]+)\\s+bitrate=\\s*([0-9]+[.]?[0-9]+kbits\\/s)\\s+speed\\s*=([\\d]+[.]?[\\d]*x)";
+}
 
 StatusBarUI::StatusBarUI(QWidget *parent) :
     QWidget(parent),
@@ -53,4 +62,38 @@ StatusBarUI::StatusBarUI(QWidget *parent) :
 StatusBarUI::~StatusBarUI()
 {
     delete ui;
+}
+
+void StatusBarUI::parse_transcode_output(const QString &data)
+{
+    QString progress_val{};
+    QRegularExpression progress_regx(Progress::progress);
+    QRegularExpressionMatchIterator itr = progress_regx.globalMatch(data);
+
+    while(itr.hasNext())
+    {
+        //capture and display transcode process data
+        QRegularExpressionMatch match = itr.next();
+        this->status.frame_num = match.captured(1);
+        ui->frameNumLabel->setText("frame="+this->status.frame_num);
+        this->status.frame_fps = match.captured(2);
+        ui->frameFPSLabel->setText("fps="+this->status.frame_fps);
+        this->status.q_num     = match.captured(3);
+        ui->qNumLabel->setText("q="+this->status.q_num);
+        this->status.size      = match.captured(4);
+        ui->sizeLabel->setText("size="+this->status.size);
+        this->status.frame_time = match.captured(5);
+        ui->frameTimeLabel->setText("time="+this->status.frame_time);
+        this->status.proc_bitrate = match.captured(6);
+        ui->processBitrateLabel->setText("bitrate="+this->status.proc_bitrate);
+        this->status.proc_speed = match.captured(7);
+        ui->processSpeedLabel->setText("speed="+this->status.proc_speed);
+    }
+
+    /*if(itr.hasNext())
+    {
+        //once the iterator reches the end, set size to "Lsize"
+        //to follow ffmpeg final output convention
+        ui->sizeLabel->setText("Lsize="+this->status.size);
+    }*/
 }

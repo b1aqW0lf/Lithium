@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "detect_ffmpeg.h"
 #include "detect_storage.h"
 #include "input_source_probe.h"
+#include "statusbar_ui.h"
 #include "transcode.h"
 
 
@@ -75,6 +76,7 @@ private Q_SLOTS:
 private:
     Ui::MainWindow *ui;
     QLabel *statusBarLabel1, *statusBarLabel2;
+    StatusBarUI statProgressBar;
     InputSourceProbe inputProbe;
     DetectFFmpeg detectFFmpeg;
     DetectStorage detectStorage;
