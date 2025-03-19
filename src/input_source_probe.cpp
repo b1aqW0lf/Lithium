@@ -173,6 +173,7 @@ void InputSourceProbe::ffprobe_standard_output()
     {
         //read the frame count data
         videostream.nb_frames = this->ffprobe_cmd0->readAllStandardOutput().trimmed();
+        Q_EMIT source_vid_frame_count(videostream.nb_frames);
 
         //<---used for testing only---------------------------------->//
         Q_EMIT show_video_data("nb_frames = " + videostream.nb_frames, 0);

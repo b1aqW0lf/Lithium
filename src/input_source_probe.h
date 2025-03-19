@@ -53,6 +53,7 @@ Q_SIGNALS:
     void ffprobe_started_message(const QString &message, const int &time_out);
 
     //source video signals
+    void source_vid_frame_count(const QString &nb_frames);
     void source_vid_codec_name(const QString &codec);
     void source_vid_resolution(const QString &display);
     void source_vid_frame_rate(const QString &framerate);

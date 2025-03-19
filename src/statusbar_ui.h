@@ -49,6 +49,7 @@ public:
     ~StatusBarUI();
 
 public Q_SLOTS:
+    void receive_video_frame_count(const QString &nb_frames);
     void parse_transcode_output(const QString &data);
 
 private:
@@ -65,6 +66,12 @@ private:
 
 private:
     Ui::StatusBarUI *ui;
+
+    //variable
+    QString nb_frames{};
+
+    //progressbar
+    void start_progressbar_process(const QString &frames);
 
     //struct instances
     TrancodeStatus status;

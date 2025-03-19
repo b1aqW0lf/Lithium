@@ -173,6 +173,9 @@ void MainWindow::application_connections_setup()
     connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
             ui->statusbar, &QStatusBar::showMessage);
 
+    connect(&inputProbe, &InputSourceProbe::source_vid_frame_count,
+            &statProgressBar, &StatusBarUI::receive_video_frame_count);
+
     connect(&transcoder, &Transcode::send_transcode_data,
             ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 

@@ -54,9 +54,13 @@ StatusBarUI::StatusBarUI(QWidget *parent) :
     //ui->progressBarLabel->hide();
     ui->statProgressBar->setFixedHeight(22);
     ui->statProgressBar->setFixedWidth(150);
-    ui->statProgressBar->setMinimum(0);
-    ui->statProgressBar->setMaximum(100);
     ui->statProgressBar->setValue(0);
+    if(ui->statProgressBar->value() == 0)
+    {
+        ui->statProgressBar->setVisible(false);
+        ui->durationTimeLabel->setVisible(false);
+        ui->line->setVisible(false);
+    }
 }
 
 StatusBarUI::~StatusBarUI()
@@ -64,8 +68,18 @@ StatusBarUI::~StatusBarUI()
     delete ui;
 }
 
+void StatusBarUI::receive_video_frame_count(const QString &nb_frames)
+{
+    this->nb_frames = nb_frames;
+}
+
 void StatusBarUI::parse_transcode_output(const QString &data)
 {
+    //make progressbar visible before processing ffmpeg data
+    ui->statProgressBar->setVisible(true);
+    ui->durationTimeLabel->setVisible(true);
+    ui->line->setVisible(true);
+
     QString progress_val{};
     QRegularExpression progress_regx(Progress::progress);
     QRegularExpressionMatchIterator itr = progress_regx.globalMatch(data);
@@ -89,4 +103,14 @@ void StatusBarUI::parse_transcode_output(const QString &data)
         this->status.proc_speed = match.captured(7);
         ui->processSpeedLabel->setText("speed="+this->status.proc_speed);
     }
+    start_progressbar_process(this->status.frame_num);
+}
+
+void StatusBarUI::start_progressbar_process(const QString &frames)
+{
+    static const int minimum{0};
+    //set the lower and upper bounds of the progressbar
+    //progressbar's progress is based on the frames being processed
+    ui->statProgressBar->setRange(minimum, this->nb_frames.toInt());
+    ui->statProgressBar->setValue(frames.toInt());
 }
