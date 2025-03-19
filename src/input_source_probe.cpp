@@ -176,7 +176,7 @@ void InputSourceProbe::ffprobe_standard_output()
         Q_EMIT source_vid_frame_count(videostream.nb_frames);
 
         //<---used for testing only---------------------------------->//
-        Q_EMIT show_video_data("nb_frames = " + videostream.nb_frames, 0);
+        //Q_EMIT show_video_data("nb_frames = " + videostream.nb_frames, 0);
     }
 }
 
@@ -330,7 +330,7 @@ void InputSourceProbe::parse_video_output(const QString &data)
         QRegularExpressionMatch match = itr.next();
         this->videostream.codec_type = match.captured(1);
     }
-    //Q_EMIT show_video_data(videostream.duration, timeout);
+    Q_EMIT show_video_data(videostream.codec_type, timeout);
 
     QRegularExpression coded_width_regex(Analyze::coded_width_data);
     itr = coded_width_regex.globalMatch(data);
