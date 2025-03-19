@@ -67,6 +67,9 @@ private:
 private:
     Ui::StatusBarUI *ui;
 
+    //functions
+    void enable_progressbar_interface();
+
     //variable
     QString nb_frames{};
 

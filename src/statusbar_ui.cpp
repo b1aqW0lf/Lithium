@@ -76,9 +76,7 @@ void StatusBarUI::receive_video_frame_count(const QString &nb_frames)
 void StatusBarUI::parse_transcode_output(const QString &data)
 {
     //make progressbar visible before processing ffmpeg data
-    ui->statProgressBar->setVisible(true);
-    ui->durationTimeLabel->setVisible(true);
-    ui->line->setVisible(true);
+    enable_progressbar_interface();
 
     QString progress_val{};
     QRegularExpression progress_regx(Progress::progress);
@@ -113,4 +111,12 @@ void StatusBarUI::start_progressbar_process(const QString &frames)
     //progressbar's progress is based on the frames being processed
     ui->statProgressBar->setRange(minimum, this->nb_frames.toInt());
     ui->statProgressBar->setValue(frames.toInt());
+}
+
+void StatusBarUI::enable_progressbar_interface()
+{
+    //make progressbar visible before processing ffmpeg data
+    ui->statProgressBar->setVisible(true);
+    ui->durationTimeLabel->setVisible(true);
+    ui->line->setVisible(true);
 }
