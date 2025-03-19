@@ -89,11 +89,4 @@ void StatusBarUI::parse_transcode_output(const QString &data)
         this->status.proc_speed = match.captured(7);
         ui->processSpeedLabel->setText("speed="+this->status.proc_speed);
     }
-
-    /*if(itr.hasNext())
-    {
-        //once the iterator reches the end, set size to "Lsize"
-        //to follow ffmpeg final output convention
-        ui->sizeLabel->setText("Lsize="+this->status.size);
-    }*/
 }
