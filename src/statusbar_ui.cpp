@@ -78,7 +78,6 @@ void StatusBarUI::parse_transcode_output(const QString &data)
     //make progressbar visible before processing ffmpeg data
     enable_progressbar_interface();
 
-    QString progress_val{};
     QRegularExpression progress_regx(Progress::progress);
     QRegularExpressionMatchIterator itr = progress_regx.globalMatch(data);
 
