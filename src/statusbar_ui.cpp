@@ -87,6 +87,7 @@ void StatusBarUI::parse_transcode_output(const QString &data)
         QRegularExpressionMatch match = itr.next();
         this->status.frame_num = match.captured(1);
         ui->frameNumLabel->setText("frame="+this->status.frame_num);
+        start_progressbar_process(this->status.frame_num); //start progressbar
         this->status.frame_fps = match.captured(2);
         ui->frameFPSLabel->setText("fps="+this->status.frame_fps);
         this->status.q_num     = match.captured(3);
@@ -99,8 +100,8 @@ void StatusBarUI::parse_transcode_output(const QString &data)
         ui->processBitrateLabel->setText("bitrate="+this->status.proc_bitrate);
         this->status.proc_speed = match.captured(7);
         ui->processSpeedLabel->setText("speed="+this->status.proc_speed);
+
     }
-    start_progressbar_process(this->status.frame_num);
 }
 
 void StatusBarUI::start_progressbar_process(const QString &frames)
