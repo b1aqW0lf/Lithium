@@ -53,7 +53,7 @@ public Q_SLOTS:
     void parse_transcode_output(const QString &data);
 
 private:
-    struct TrancodeStatus
+    struct TranscodeStatus
     {
         QString frame_num{};
         QString frame_fps{};
@@ -77,7 +77,7 @@ private:
     void start_progressbar_process(const QString &frames);
 
     //struct instances
-    TrancodeStatus status;
+    TranscodeStatus status;
 };
 
 #endif // STATUSBAR_UI_H
