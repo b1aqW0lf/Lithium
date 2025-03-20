@@ -176,6 +176,9 @@
                 <property name="singleStep">
                  <number>1</number>
                 </property>
+                <property name="pageStep">
+                 <number>1</number>
+                </property>
                 <property name="orientation">
                  <enum>Qt::Orientation::Horizontal</enum>
                 </property>
@@ -313,6 +316,9 @@
             </item>
             <item row="0" column="0" colspan="3">
              <widget class="QSlider" name="videoRFSlider">
+              <property name="pageStep">
+               <number>1</number>
+              </property>
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>
               </property>
