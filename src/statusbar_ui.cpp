@@ -100,7 +100,6 @@ void StatusBarUI::parse_transcode_output(const QString &data)
         ui->processBitrateLabel->setText("bitrate="+this->status.proc_bitrate);
         this->status.proc_speed = match.captured(7);
         ui->processSpeedLabel->setText("speed="+this->status.proc_speed);
-
     }
 }
 
