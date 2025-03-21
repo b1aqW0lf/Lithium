@@ -94,15 +94,6 @@ MainWindow::MainWindow(QWidget *parent)
     //display progress bar and statusbar
     ui->statusbar->addPermanentWidget(&statProgressBar);
 
-    //display avaialble storage
-    statusBarLabel1 = new QLabel(this);
-    statusBarLabel2 = new QLabel(this);
-    statusBarLabel1->setPixmap(tr(":/images/resources/hd_16px.png"));
-    statusBarLabel1->setToolTip(tr("Available storage on main disk").toUtf8());
-    statusBarLabel2->setText(detectStorage.get_available_storage_size());
-    ui->statusbar->addPermanentWidget(statusBarLabel1);
-    ui->statusbar->addPermanentWidget(statusBarLabel2);
-
     //set tab1 as default avTabWidget tab
     ui->avTabWidget->setCurrentIndex(0);
     ui->avTabWidget->setTabText(0, "AV Options");
@@ -180,7 +171,7 @@ void MainWindow::application_connections_setup()
             ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
 
     connect(&transcoder, &Transcode::send_transcode_data,
-            &statProgressBar, &StatusBarUI::parse_transcode_output);/**/
+            &statProgressBar, &StatusBarUI::parse_transcode_output);
 
     //temp connection-for testing only--------------------------------//
 
@@ -248,9 +239,6 @@ void MainWindow::application_connections_setup()
 
     connect(&transcoder, &Transcode::send_encoder_status,
             ui->statusbar, &QStatusBar::showMessage);
-
-    connect(&transcoder, &Transcode::send_encoder_status,
-            this, &MainWindow::check_storage_size);
 
     connect(ui->SaveASWidget, &SaveAsUI::send_output_file_path,
             &transcoder, &Transcode::receive_output_file_path);
@@ -343,12 +331,4 @@ void MainWindow::cancel_action_encode()
 void MainWindow::enable_encode_button()
 {
     ui->actionEncode->setChecked(false);
-}
-
-void MainWindow::check_storage_size(const QString &status)
-{
-    if(status.contains("Successful"))
-    {
-        statusBarLabel2->setText(detectStorage.get_available_storage_size());
-    }
 }

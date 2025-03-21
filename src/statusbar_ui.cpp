@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "detect_storage.h"
 #include "statusbar_ui.h"
 #include "ui_statusbar_ui.h"
 
@@ -61,6 +62,11 @@ StatusBarUI::StatusBarUI(QWidget *parent) :
         ui->durationTimeLabel->setVisible(false);
         ui->line->setVisible(false);
     }
+
+    DetectStorage detectStorage;
+    ui->statStorageLabel1->setPixmap(tr(":/images/resources/hd_16px.png"));
+    ui->statStorageLabel1->setToolTip(tr("Available storage on main disk").toUtf8());
+    ui->statStorageLabel2->setText(detectStorage.get_available_storage_size());
 }
 
 StatusBarUI::~StatusBarUI()
@@ -77,6 +83,7 @@ void StatusBarUI::parse_transcode_output(const QString &data)
 {
     //make progressbar visible before processing ffmpeg data
     enable_progressbar_interface();
+    DetectStorage storage;
 
     QRegularExpression progress_regx(Progress::progress);
     QRegularExpressionMatchIterator itr = progress_regx.globalMatch(data);
@@ -101,6 +108,8 @@ void StatusBarUI::parse_transcode_output(const QString &data)
         this->status.proc_speed = match.captured(7);
         ui->processSpeedLabel->setText("speed="+this->status.proc_speed);
     }
+
+    ui->statStorageLabel2->setText(storage.get_available_storage_size());
 }
 
 void StatusBarUI::start_progressbar_process(const QString &frames)

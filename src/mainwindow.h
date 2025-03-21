@@ -39,7 +39,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QWidget>
 
 #include "detect_ffmpeg.h"
-#include "detect_storage.h"
 #include "input_source_probe.h"
 #include "statusbar_ui.h"
 #include "transcode.h"
@@ -67,7 +66,6 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void enable_encode_button();
-    void check_storage_size(const QString &status);
 
 private Q_SLOTS:
     void start_action_encode();
@@ -79,7 +77,6 @@ private:
     StatusBarUI statProgressBar;
     InputSourceProbe inputProbe;
     DetectFFmpeg detectFFmpeg;
-    DetectStorage detectStorage;
     Transcode transcoder;
 
     //variables
