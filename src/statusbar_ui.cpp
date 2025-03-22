@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace Progress
 {
     static const char progress[] = "frame\\s*=\\s*([\\d]+)\\s*fps\\s*=\\s*([\\d]+)\\s*q\\s*=\\s*(-?[\\d]+.[\\d]+)\\s+[L]?size\\s*=\\s*([\\d]+K[i]?B)\\s*time=\\s*([0-9]+:[0-9]+:[0-9]+.[0-9]+)\\s+bitrate=\\s*([0-9]+[.]?[0-9]+kbits\\/s)\\s+speed\\s*=([\\d]+[.]?[\\d]*x)";
-
     //experimental
     //updated the regular expression to additionally capture the N/A values from ffmpeg
     static const char progress1[] = "frame\\s*=\\s*([\\d]+)\\s*fps\\s*=\\s*([\\d]+)\\s*q\\s*=\\s*(-?[\\d]+.[\\d]+)\\s+[L]?size\\s*=\\s*([N/A]*[\\d]*[KiB]*)\\s+time=\\s*([N/A]*[\\d:\\d:\\d.\\d]*)\\s+bitrate=\\s*([N/A]*[\\d.\\d]*[kbits/s]*)\\s+speed\\s*=\\s*([N/A]*[\\d.\\dx]*)";
