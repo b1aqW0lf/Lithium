@@ -78,8 +78,8 @@ void AbstractTimer::process_duration_timer()
         //-->00 is the 24th hour
         this->Duration.hour = reset;
     }
-    this->start_time.setHMS(this->Duration.hour, this->Duration.minute, this->Duration.second);
-    Q_EMIT this->show_duration_timer("| " + this->start_time.toString(), timeout);
+    this->duration_time.setHMS(this->Duration.hour, this->Duration.minute, this->Duration.second);
+    Q_EMIT this->show_duration_timer("| " + this->duration_time.toString(), timeout);
 }
 
 void AbstractTimer::start_timer()
@@ -96,7 +96,7 @@ void AbstractTimer::stop_timer()
 
 void AbstractTimer::reset_duration_time()
 {
-    //resetting the start_timers hours, minutes, and seconds back to 00:00:00
+    //resetting the duration_timer hours, minutes, and seconds back to 00:00:00
     static const int reset{00};
     this->Duration.second = reset;
     this->Duration.minute = reset;
