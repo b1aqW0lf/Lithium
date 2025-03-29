@@ -577,7 +577,7 @@ void Transcode::encoding_process_started()
     timer.start_timer();
     if(this->ffmpeg->QProcess::state() == QProcess::Running)
     {
-        this->encoding_duration_timer("", timeout);//leave message blank so geenral message is shown
+        this->encoding_duration_timer("", timeout);//leave message blank so general message is shown
     }
 }
 
