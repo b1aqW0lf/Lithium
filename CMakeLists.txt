@@ -67,6 +67,8 @@ set(PROJECT_SOURCES
         src/input_source_probe.cpp
         src/transcode.h
         src/transcode.cpp
+        src/abstract_timer.cpp
+        src/abstract_timer.h
         misc/
         LICENSE
 )

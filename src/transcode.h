@@ -37,6 +37,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QProcess>
 #include <QWidget>
 
+#include "abstract_timer.h"
+
 
 class Transcode : public QWidget
 {
@@ -83,6 +85,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void encoding_process_started();
+    void encoding_duration_timer(const QString &timer_message, const int &timeout);
     void encoding_process_finished(const int &index);
 
 private:
@@ -145,6 +148,8 @@ private:
     bool normal_mode{};
     bool merge_mode{};
     bool extract_mode{};
+
+    AbstractTimer timer;
 
 };
 
