@@ -62,7 +62,7 @@ private Q_SLOTS:
 private:
     //time
     QTime current_time{};//used to check the current time
-    QTime duration_time = QTime(00,00,00);
+    QTime duration_time{00,00,00};
     QChronoTimer *timer;
 
     struct DurationTime
