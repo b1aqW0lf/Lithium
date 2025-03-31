@@ -535,9 +535,10 @@ void Transcode::cancel_encode_process()
 {
     int timeout{0};
 
+    timer.stop_timer();
+    timer.reset_duration_time();
     if(this->ffmpeg->QProcess::state() == QProcess::NotRunning)
     {
-        timer.stop_timer();
         //check for existence of the input file
         if(this->source_video_file.isEmpty())
         {
@@ -569,7 +570,6 @@ void Transcode::cancel_encode_process()
         this->ffmpeg->close();
         this->ffmpeg->closeWriteChannel();
         Q_EMIT send_encoder_status("Encoding Cancelled ", timeout);
-        timer.stop_timer();
     }
 }
 
