@@ -56,7 +56,7 @@ StatusBarUI::StatusBarUI(QWidget *parent) :
 
     ui->durationTimeLabel->setText("Progress:");
     //ui->progressBarLabel->hide();
-    ui->statProgressBar->setFixedHeight(18);
+    ui->statProgressBar->setFixedHeight(17);
     ui->statProgressBar->setFixedWidth(150);
     ui->statProgressBar->setValue(0);
     if(ui->statProgressBar->value() == 0)
