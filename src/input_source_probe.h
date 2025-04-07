@@ -87,7 +87,6 @@ private:
     struct VideoStream
     {
         QString video_str{};
-        QString input_file_type{};
         QString codec_name{};
         QString codec_long_name{};
         QString codec_type{};

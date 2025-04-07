@@ -40,7 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace Analyze
 {
-    const char input_index[] = "Input\\s*#\\s*[\\d]*[,]?\\s*([\\w\\d]*\\s*[,]?\\s*[\\w\\d]*)";
     const char video_data[] = "Stream #([0-9]+):([0-9]+)[^.]*: Video:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^.]*\\s+([[0-9]*x[0-9]*)\\s?([^.]*SAR\\s*([0-9]*:[0-9]*)\\s*DAR\\s*([0-9]*:[0-9]*)[]]*)?(,\\s*([\\d]*)\\s*kb\\/s)?(,[^.]*)?,\\s*([\\d]*[.]*[\\d]*)?\\s*fps";
     const char audio_data[] = "Stream #([0-9]+):([0-9]+).*: Audio:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
     const char duration_data[] = "Duration:\\s*((-?[\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
