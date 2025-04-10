@@ -39,7 +39,7 @@ DetectFFmpeg::DetectFFmpeg(QProcess *parent)
     : QProcess{parent}
 {
     //create the processto be used
-    this->ffmpeg = new QProcess{this};
+    ffmpeg = new QProcess(this);
 
     //connect signals and slots
     connect(this->ffmpeg, &QProcess::readyReadStandardOutput,

@@ -61,7 +61,7 @@ namespace Analyze
 
 InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
 {
-    this->ffprobe = new QProcess;
+    ffprobe = new QProcess(this);
 
     connect(this->ffprobe, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &InputSourceProbe::read_ffprobe_output);

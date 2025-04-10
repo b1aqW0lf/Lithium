@@ -39,8 +39,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Transcode::Transcode(QWidget *parent)
     : QWidget{parent}
 {
-    ffmpeg = new QProcess{this};
-    ffprobe = new QProcess{this};
+    ffmpeg = new QProcess(this);
+    ffprobe = new QProcess(this);
 
     //local connection
     connect(this->ffmpeg, &QProcess::readyReadStandardOutput, this, &Transcode::ffmpeg_standard_output);
