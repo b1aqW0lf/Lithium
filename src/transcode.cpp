@@ -40,9 +40,11 @@ Transcode::Transcode(QWidget *parent)
     : QWidget{parent}
 {
     ffmpeg = new QProcess{this};
+    ffprobe = new QProcess{this};
 
     //local connection
     connect(this->ffmpeg, &QProcess::readyReadStandardOutput, this, &Transcode::ffmpeg_standard_output);
+    connect(this->ffprobe, &QProcess::readyReadStandardOutput, this, &Transcode::ffprobe_standard_output);
     connect(this->ffmpeg, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &Transcode::encoding_process_finished);
     connect(this->ffmpeg, &QProcess::started, this, &Transcode::encoding_process_started);
@@ -54,6 +56,7 @@ Transcode::~Transcode()
 {
     //stop ffmpeg if application closes before it exits normally
     delete ffmpeg;
+    delete ffprobe;
 }
 
 void Transcode::receive_source_video_file(const QString &source_video, const QString &input_flag)
@@ -200,15 +203,60 @@ void Transcode::receive_current_video_options(const QString &codec, const QStrin
 void Transcode::start_encode_process()
 {
     //start encode process
+    start_encode_probe_process();
     start_encode_mode_check();/**/
 }
 
+void Transcode::start_encode_probe_process()
+{
+    this->set_encoder_path("ffprobe");
+    if(ffprobe->QProcess::state() == QProcess::NotRunning)
+    {
+        //get the total number of frames for the source video
+        this->ffprobe->setProcessChannelMode(QProcess::MergedChannels);
+        this->ffprobe->start(ffprobe_path, QStringList() << "-v" << "error"
+                                                         << "-select_streams" << "v:0"
+                                                         << "-count_packets" << "-show_entries"
+                                                         << "stream=nb_read_packets" << "-of" << "csv=p=0"
+                                                         << this->source_video_file);
+    }
+}
+
+void Transcode::ffprobe_standard_output()
+{
+    //read the frame count data
+    QString nb_frames{};
+    nb_frames = this->ffprobe->readAllStandardOutput().trimmed();
+    Q_EMIT this->send_ffprobe_output(nb_frames);
+}
 
 void Transcode::start_encode_mode_check()
 {
+    //input and output file check
+    source_video_file_check();
+    output_file_path_check();
+
     if(this->normal_mode == true)
     {
-        normal_mode_transcode_check();
+        //normal mode check
+        if(this->average_bitrate_enabled == false)
+        {
+            normal_mode_transcode();
+        }
+        //average bitrate mode check
+        if(this->average_bitrate_enabled == true)
+        {
+            if(this->two_pass_enabled == false)
+            {
+                average_bitrate_encode();
+            }
+            //two pass encode mode check
+            if(this->two_pass_enabled == true)
+            {
+                two_pass_encode_1st_pass();
+                two_pass_encode_2nd_pass();
+            }
+        }
     }
     else if(this->merge_mode == true)
     {
@@ -218,31 +266,55 @@ void Transcode::start_encode_mode_check()
     {
         extract_mode_transcode();
     }
+    else
+    {
+        //exit -- do nothing
+        return;
+    }
 }
 
-void Transcode::normal_mode_transcode_check()
+void Transcode::set_encoder_path(const QString &encoder)
 {
-    //input and output file check
-    source_video_file_check();
-    output_file_path_check();
+#ifdef Q_OS_WIN
+    QString encoder_path{};
+    QString application_path{QCoreApplication::applicationDirPath()};
+    QString application_dir{QDir(application_path).absolutePath()};
 
-    //normal mode check
-    if(this->average_bitrate_enabled == false)
+    if(QFile::exists(application_dir + "/" + encoder + ".exe") &&
+        !QFile::exists(application_dir + "/ffmpeg/" + encoder + ".exe"))
     {
-        normal_mode_transcode();
+        //root directory + ffmpeg executable
+        encoder_path = application_dir + "/" + encoder + ".exe";
+        this->ffmpeg->setWorkingDirectory(application_dir);
     }
-    if(this->average_bitrate_enabled == true)
+    if(QFile::exists(application_dir + "/ffmpeg/" + encoder + ".exe") &&
+        !QFile::exists(application_dir + "/" + encoder + ".exe"))
     {
-        if(this->two_pass_enabled == false)
-        {
-            average_bitrate_encode();
-        }
-        if(this->two_pass_enabled == true)
-        {
-            two_pass_encode_1st_pass();
-            two_pass_encode_2nd_pass();
-        }
+        //root directory + "ffmpeg" sub directory + ffmpeg executable
+        encoder_path = application_dir + "/ffmpeg/" + encoder + ".exe";
+        this->ffmpeg->setWorkingDirectory(application_dir + "/ffmpeg");
     }
+    if(QFile::exists(application_dir + "/" + encoder + ".exe") &&
+        QFile::exists(application_dir + "/ffmpeg/" + encoder + ".exe"))
+    {
+        //If ffmpeg is found in both root directory and subdirectory
+        //use ffmpeg found in user-created "ffmpeg" subdirectory
+        encoder_path = application_dir + "/ffmpeg/" + encoder + ".exe";
+        this->ffmpeg->setWorkingDirectory(application_dir + "/ffmpeg");
+    }
+
+    if(encoder == "ffmpeg"){ this->ffmpeg_path = encoder_path; }
+    if(encoder == "ffprobe"){ this->ffprobe_path = encoder_path; }
+#elif defined Q_OS_LINUX
+    if(encoder == "ffmpeg")
+    {
+        this->ffmpeg_path = encoder;
+    }
+    if(encoder == "ffprobe")
+    {
+        this->ffprobe_path = encoder;
+    }
+#endif
 }
 
 void Transcode::normal_mode_transcode()
@@ -292,7 +364,7 @@ void Transcode::normal_mode_transcode()
          << output_file;
 
     //check for path to ffmpeg
-    ffmpeg_path_check();
+    set_encoder_path("ffmpeg");
 
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
@@ -335,7 +407,7 @@ void Transcode::average_bitrate_encode()
          << "1" << "-c:a" << audio_codec << "-map_metadata" << "0" << output_file;
 
     //check for path to ffmpeg
-    ffmpeg_path_check();
+    set_encoder_path("ffmpeg");
 
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
@@ -388,7 +460,7 @@ void Transcode::two_pass_encode_1st_pass()
 #endif
 
     //check for path to ffmpeg
-    ffmpeg_path_check();
+    set_encoder_path("ffmpeg");
 
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
@@ -439,7 +511,7 @@ void Transcode::two_pass_encode_2nd_pass()
          << "-pass" << "2" << "-c:a" << audio_codec << output_file;
 
     //check for path to ffmpeg
-    ffmpeg_path_check();
+    set_encoder_path("ffmpeg");
 
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
@@ -467,7 +539,7 @@ void Transcode::merge_mode_transcode()
          << "0" << output_file;    
 
     //check for path to ffmpeg
-    ffmpeg_path_check();
+    set_encoder_path("ffmpeg");
 
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
@@ -487,7 +559,7 @@ void Transcode::extract_mode_transcode()
          << "-map_metadata" << "0" << output_file;    
 
     //check for path to ffmpeg
-    ffmpeg_path_check();
+    set_encoder_path("ffmpeg");
 
     this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
     this->ffmpeg->start(this->ffmpeg_path, args);
@@ -500,35 +572,6 @@ void Transcode::ffmpeg_standard_output()
     QString ffmpeg_output{};
     ffmpeg_output.append(this->ffmpeg->readAllStandardOutput().trimmed());
     Q_EMIT send_transcode_data(ffmpeg_output);
-}
-
-void Transcode::ffmpeg_path_check()
-{
-#ifdef Q_OS_WIN
-    QString application_path{QCoreApplication::applicationDirPath()};
-    QString application_dir{QDir(application_path).absolutePath()};
-
-    if(QFile::exists(application_dir+"/ffmpeg.exe") &&
-       QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        //If ffmpeg is found in both root directory and subdirectory
-        //use ffmpeg found in user-created "ffmpeg" subdirectory
-        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
-    if(QFile::exists(application_dir+"/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir);
-    }
-    if(QFile::exists(application_dir+"/ffmpeg/ffmpeg.exe"))
-    {
-        this->ffmpeg_path = application_dir+"/ffmpeg/ffmpeg.exe";
-        this->ffmpeg->setWorkingDirectory(application_dir+"/ffmpeg");
-    }
-#elif defined Q_OS_LINUX
-    this->ffmpeg_path = "ffmpeg";
-#endif
 }
 
 void Transcode::cancel_encode_process()

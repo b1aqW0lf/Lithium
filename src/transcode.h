@@ -53,6 +53,7 @@ Q_SIGNALS:
     void output_file_status(const QString &status, const int &timeout);
     void send_encoder_status(const QString &status, const int &timeout);
     void send_transcode_data(const QString &data);
+    void send_ffprobe_output(const QString &output);
     void enable_encode_button();
 
 public Q_SLOTS:
@@ -84,6 +85,8 @@ public Q_SLOTS:
     void cancel_encode_process();
 
 private Q_SLOTS:
+    void ffmpeg_standard_output();
+    void ffprobe_standard_output();
     void encoding_process_started();
     void encoding_duration_timer(const QString &timer_message, const int &timeout);
     void encoding_process_finished(const int &index);
@@ -91,23 +94,24 @@ private Q_SLOTS:
 private:
     //ffmpeg process
     QProcess *ffmpeg;
+    QProcess *ffprobe;
     QString ffmpeg_path{};
+    QString ffprobe_path{};
     QStringList args{};
 
     //functions
     void source_video_file_check();
     void source_audio_file_check();
     void output_file_path_check();
-    void normal_mode_transcode_check();
+    void start_encode_probe_process();
+    void start_encode_mode_check();
+    void set_encoder_path(const QString &encoder);
     void normal_mode_transcode();
     void average_bitrate_encode();
     void two_pass_encode_1st_pass();
     void two_pass_encode_2nd_pass();
     void merge_mode_transcode();
     void extract_mode_transcode();
-    void ffmpeg_standard_output();
-    void ffmpeg_path_check();
-    void start_encode_mode_check();
 
     //processing variables
     QString source_video_file{};

@@ -109,11 +109,11 @@ void InputSourceProbe::start_probe_process(const QString &file, const QString &i
 {
     this->count_frames_flag = false;
     this->input_file_flag = input_flag;
-    if(input_file_flag == "input1")
+    /*if(input_file_flag == "input1")
     {
         this->count_frames_flag = true;
         this->ffprobe_process_cmd0(file);
-    }
+    }*/
 
     this->ffprobe_process_cmd1(file);
     this->input_file_title_check(file);
