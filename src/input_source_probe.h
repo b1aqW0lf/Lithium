@@ -53,7 +53,6 @@ Q_SIGNALS:
     void ffprobe_started_message(const QString &message, const int &time_out);
 
     //source video signals
-    void source_vid_frame_count(const QString &nb_frames);
     void source_vid_codec_name(const QString &codec);
     void source_vid_resolution(const QString &display);
     void source_vid_frame_rate(const QString &framerate);
@@ -133,7 +132,6 @@ private:
 
 private Q_SLOTS:
     void read_ffprobe_output();
-    void ffprobe_standard_output();
 
 private:
     QString input_vid{};
@@ -141,11 +139,9 @@ private:
 
     //input file flag
     QString input_file_flag{};
-    bool count_frames_flag{};
 
     //ffprobe process
     QProcess *ffprobe;
-    QProcess *ffprobe_cmd0;
     QString ffprobe_path{};
 
     //struct instances
@@ -155,8 +151,7 @@ private:
 
     //functions
     void ffprobe_path_check();
-    void ffprobe_process_cmd0(const QString &file);
-    void ffprobe_process_cmd1(const QString &file);
+    void ffprobe_process(const QString &file);
     void ffprobe_started();
     void parse_video_output(const QString &data);
     void parse_audio_output(const QString &data);

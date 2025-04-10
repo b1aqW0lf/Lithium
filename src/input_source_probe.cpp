@@ -62,9 +62,7 @@ namespace Analyze
 InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
 {
     this->ffprobe = new QProcess;
-    this->ffprobe_cmd0 = new QProcess;
 
-    connect(this->ffprobe_cmd0, &QProcess::readyReadStandardOutput, this, &InputSourceProbe::ffprobe_standard_output);
     connect(this->ffprobe, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &InputSourceProbe::read_ffprobe_output);
 
@@ -73,7 +71,10 @@ InputSourceProbe::InputSourceProbe(QObject *parent) : QObject(parent)
 }
 
 //destructor
-InputSourceProbe::~InputSourceProbe(){}
+InputSourceProbe::~InputSourceProbe()
+{
+    delete ffprobe;
+}
 
 void InputSourceProbe::ffprobe_path_check()
 {
@@ -107,40 +108,12 @@ void InputSourceProbe::ffprobe_path_check()
 //experimental
 void InputSourceProbe::start_probe_process(const QString &file, const QString &input_flag)
 {
-    this->count_frames_flag = false;
     this->input_file_flag = input_flag;
-    /*if(input_file_flag == "input1")
-    {
-        this->count_frames_flag = true;
-        this->ffprobe_process_cmd0(file);
-    }*/
-
-    this->ffprobe_process_cmd1(file);
+    this->ffprobe_process(file);
     this->input_file_title_check(file);
 }
 
-void InputSourceProbe::ffprobe_process_cmd0(const QString &file)
-{
-    int timeout{0};
-    ffprobe_path_check();
-    if(ffprobe->QProcess::state() == QProcess::NotRunning)
-    {
-        if(count_frames_flag == true)
-        {
-            this->ffprobe_cmd0->setProcessChannelMode(QProcess::MergedChannels);
-            this->ffprobe_cmd0->start(ffprobe_path, QStringList() <<  "-v" << "error"
-                                                             << "-select_streams" << "v:0" << "-count_packets"
-                                                             << "-show_entries" << "stream=nb_read_packets" << "-of"
-                                                             << "csv=p=0" << file);
-        }
-    }
-    else
-    {
-        Q_EMIT ffprobe_started_message("Process ffprobe_cmd0 still running and has not stopped", timeout);
-    }
-}
-
-void InputSourceProbe::ffprobe_process_cmd1(const QString &file)
+void InputSourceProbe::ffprobe_process(const QString &file)
 {
     int timeout{0};
     ffprobe_path_check();
@@ -164,18 +137,6 @@ void InputSourceProbe::ffprobe_started()
     {
         Q_EMIT ffprobe_started_message("ffprobe has started", timeout);
         //return;
-    }
-}
-void InputSourceProbe::ffprobe_standard_output()
-{
-    if(this->count_frames_flag == true)
-    {
-        //read the frame count data
-        videostream.nb_frames = this->ffprobe_cmd0->readAllStandardOutput().trimmed();
-        Q_EMIT source_vid_frame_count(videostream.nb_frames);
-
-        //<---used for testing only---------------------------------->//
-        //Q_EMIT show_video_data("nb_frames = " + videostream.nb_frames, 0);
     }
 }
 
@@ -214,7 +175,6 @@ void InputSourceProbe::read_ffprobe_output()
 void InputSourceProbe::parse_video_output(const QString &data)
 {
     int timeout{0};
-    //QRegExp regx_vid(Analyze::video_data);
     QRegularExpression regx_vid(Analyze::video_data);
     QRegularExpressionMatchIterator itr = regx_vid.globalMatch(data);
 
