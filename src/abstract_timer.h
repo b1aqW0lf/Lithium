@@ -54,7 +54,7 @@ public:
     void start_timer();
     void stop_timer();
     void reset_duration_time();
-    QString capture_current_time();
+    QString current_capture_time();
 
 private Q_SLOTS:
     void process_duration_timer();
