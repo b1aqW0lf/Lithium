@@ -32,6 +32,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "abstract_timer.h"
 
 
+namespace TimerValues
+{
+    static const int val{01};
+    static const int max{59};
+    static const int hour_max{23};
+    static const int reset{00};
+}
+
 AbstractTimer::AbstractTimer(QChronoTimer *parent)
     : QChronoTimer{parent}
 {
@@ -50,33 +58,28 @@ AbstractTimer::~AbstractTimer()
 void AbstractTimer::process_duration_timer()
 {
     const int timeout{0};
-    //--------------------------//
-    static const int val{01};
-    static const int max{59};
-    static const int hour_max{23};
-    static const int reset{00};
 
     //duration
-    this->Duration.second = this->Duration.second + val;
-    if(this->Duration.second > max)
+    this->Duration.second = this->Duration.second + TimerValues::val;
+    if(this->Duration.second > TimerValues::max)
     {
         //increment seconds back to 00 once seconds pass 59
         //-->00 is the 60th second
-        this->Duration.second = reset;
-        this->Duration.minute = this->Duration.minute + val;
+        this->Duration.second = TimerValues::reset;
+        this->Duration.minute = this->Duration.minute + TimerValues::val;
     }
-    if(this->Duration.minute > max)
+    if(this->Duration.minute > TimerValues::max)
     {
         //increment minutes back to 00 once minutes pass 59
         //-->00 is the 60th minute
-        this->Duration.minute = reset;
-        this->Duration.hour = this->Duration.hour + val;
+        this->Duration.minute = TimerValues::reset;
+        this->Duration.hour = this->Duration.hour + TimerValues::val;
     }
-    if(this->Duration.hour > hour_max)
+    if(this->Duration.hour > TimerValues::hour_max)
     {
         //increment hours back to 00 once hours pass 23
         //-->00 is the 24th hour
-        this->Duration.hour = reset;
+        this->Duration.hour = TimerValues::reset;
     }
     this->duration_time.setHMS(this->Duration.hour, this->Duration.minute, this->Duration.second);
     Q_EMIT this->show_duration_timer("| " + this->duration_time.toString(), timeout);
