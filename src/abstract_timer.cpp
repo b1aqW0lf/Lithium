@@ -100,10 +100,9 @@ void AbstractTimer::stop_timer()
 void AbstractTimer::reset_duration_time()
 {
     //resetting the duration_timer hours, minutes, and seconds back to 00:00:00
-    static const int reset{00};
-    this->Duration.second = reset;
-    this->Duration.minute = reset;
-    this->Duration.hour = reset;
+    this->Duration.second = TimerValues::reset;
+    this->Duration.minute = TimerValues::reset;
+    this->Duration.hour = TimerValues::reset;
 }
 
 QString AbstractTimer::current_capture_time()
