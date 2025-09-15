@@ -34,21 +34,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QWidget>
 
-#include "ui_audio_ui.h"
+#include "ui_audio_interface.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class AudioUI;
+class AudioInterface;
 }
 QT_END_NAMESPACE
 
-class AudioUI : public QWidget
+class AudioInterface : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit AudioUI(QWidget *parent = nullptr);
-    ~AudioUI();
+    explicit AudioInterface(QWidget *parent = nullptr);
+    ~AudioInterface();
 
 Q_SIGNALS:
     void send_output_audio_extension(const QString &text);
@@ -73,7 +73,7 @@ public Q_SLOTS:
     void get_selected_audio_options();
 
 private:
-    Ui::AudioUI *ui;
+    Ui::AudioInterface *ui;
 
 private Q_SLOTS:
     void select_audio_codec(const int index);

@@ -42,9 +42,9 @@ set(PROJECT_SOURCES
         src/app_version.h
         src/resources.qrc
         src/ffmpeg_commands_list.h
-        src/audio_ui.cpp
-        src/audio_ui.h
-        src/audio_ui.ui
+        src/audio_interface.cpp
+        src/audio_interface.h
+        src/audio_interface.ui
         src/video_ui.cpp
         src/video_ui.h
         src/video_ui.ui

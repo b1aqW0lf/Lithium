@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QStandardItem>
 #include <QStandardItemModel>
 
-#include "audio_ui.h"
+#include "audio_interface.h"
 
 
 namespace AudioStandardItem
@@ -47,24 +47,24 @@ namespace AudioStandardItem
     QStandardItem *audioContainerBoxItem{};
 }
 
-AudioUI::AudioUI(QWidget *parent) :
+AudioInterface::AudioInterface(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AudioUI)
+    ui(new Ui::AudioInterface)
 {
     ui->setupUi(this);
 
     //connect signals and slots
     //experimental------------------------------------------------------------------//
     connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::activated),
-            this, &AudioUI::select_audio_codec);
+            this, &AudioInterface::select_audio_codec);
     connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::activated),
-            this, &AudioUI::select_audio_bitrate);
+            this, &AudioInterface::select_audio_bitrate);
     connect(ui->audioSampleBox, &QComboBox::textActivated,
-            this, &AudioUI::select_samplerate);
+            this, &AudioInterface::select_samplerate);
     connect(ui->audioChannelBox, &QComboBox::textActivated,
-            this, &AudioUI::select_channels);
+            this, &AudioInterface::select_channels);
     connect(ui->audioContainerBox, &QComboBox::textActivated,
-            this, &AudioUI::select_audio_container);
+            this, &AudioInterface::select_audio_container);
     //------------------------------------------------------------------------------//
     /*connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AudioUI::select_aud_codec);*/
@@ -146,18 +146,18 @@ AudioUI::AudioUI(QWidget *parent) :
 
 }
 
-AudioUI::~AudioUI()
+AudioInterface::~AudioInterface()
 {
     delete ui;
 }
 
-void AudioUI::receive_audio_source_codec(const QString &codec)
+void AudioInterface::receive_audio_source_codec(const QString &codec)
 {
     this->source_codec = codec;
     AudioStandardItem::audioCodecBoxItem->setData(this->source_codec, Qt::UserRole);
 }
 
-void AudioUI::select_audio_codec(const int index)
+void AudioInterface::select_audio_codec(const int index)
 {
     switch(index) {
     case 0:
@@ -216,13 +216,13 @@ void AudioUI::select_audio_codec(const int index)
     //Q_EMIT send_audio_codec_name(audio_codec);
 }
 
-void AudioUI::receive_audio_source_bitrate(const QString &bitrate)
+void AudioInterface::receive_audio_source_bitrate(const QString &bitrate)
 {
     this->source_bitrate = bitrate;
     AudioStandardItem::audioBitrateBoxItem->setData(this->source_bitrate, Qt::UserRole);
 }
 
-void AudioUI::select_audio_bitrate(const int index)
+void AudioInterface::select_audio_bitrate(const int index)
 {
     int timeout{0};
     switch(index) {
@@ -250,12 +250,12 @@ void AudioUI::select_audio_bitrate(const int index)
     Q_EMIT send_audio_data(audio_bitrate, timeout);
 }
 
-void AudioUI::receive_audio_source_samplerate(const QString &samplerate)
+void AudioInterface::receive_audio_source_samplerate(const QString &samplerate)
 {
     this->source_samplerate = samplerate;
 }
 
-void AudioUI::select_samplerate()
+void AudioInterface::select_samplerate()
 {
     this-> audio_samplerate = this->source_samplerate;
 
@@ -270,7 +270,7 @@ void AudioUI::select_samplerate()
     }
     //Q_EMIT send_audio_samplerate_val(audio_samplerate);
 }
-void AudioUI::receive_audio_source_channels(const QString &channels)
+void AudioInterface::receive_audio_source_channels(const QString &channels)
 {
     //check for "mono" or "stereo"
     if(channels.contains("Mono", Qt::CaseInsensitive))
@@ -294,7 +294,7 @@ void AudioUI::receive_audio_source_channels(const QString &channels)
     AudioStandardItem::audioChannelBoxItem->setData(this->source_channels, Qt::UserRole);
 }
 
-void AudioUI::select_channels()
+void AudioInterface::select_channels()
 {
     this->audio_channels = this->source_channels;
 
@@ -321,12 +321,12 @@ void AudioUI::select_channels()
 }
 
 //receive audio extension
-void AudioUI::receive_audio_source_extension(const QString &extension)
+void AudioInterface::receive_audio_source_extension(const QString &extension)
 {
     this->audio_source_ext = extension;
 }
 
-void AudioUI::select_audio_container()
+void AudioInterface::select_audio_container()
 {
     //source file extension from receive_audio_source_data(const QString &text)
     QString audio_ext{this->audio_source_ext};
@@ -388,7 +388,7 @@ void AudioUI::select_audio_container()
 }
 
 //experimental
-void AudioUI::get_selected_audio_options()
+void AudioInterface::get_selected_audio_options()
 {
     default_options_check();
 
@@ -397,7 +397,7 @@ void AudioUI::get_selected_audio_options()
                                       audio_samplerate, audio_bitrate);
 }
 
-void AudioUI::default_options_check()
+void AudioInterface::default_options_check()
 {
     //setting default value
     //we need a better solution!
@@ -411,7 +411,7 @@ void AudioUI::default_options_check()
     }
 }
 
-void AudioUI::receive_process_mode_state(const bool &normal, const bool &merge,
+void AudioInterface::receive_process_mode_state(const bool &normal, const bool &merge,
                                              const bool &extract)
 {
     //process mode state
@@ -422,7 +422,7 @@ void AudioUI::receive_process_mode_state(const bool &normal, const bool &merge,
     enable_extract_audio_settings(extract_mode);
 }
 
-void AudioUI::enable_extract_audio_settings(const bool &extract)
+void AudioInterface::enable_extract_audio_settings(const bool &extract)
 {
     //extract audio settings
     if(extract == true)

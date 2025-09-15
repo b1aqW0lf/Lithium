@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "src/audio_ui.h"
+#include "src/audio_interface.h"
 #include "src/output_display_ui.h"
 #include "src/process_mode_ui.h"
 #include "src/save_as_ui.h"
@@ -135,9 +135,9 @@ void MainWindow::application_connections_setup()
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
 
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_extension,
-            ui->AudioUIWidget, &AudioUI::receive_audio_source_extension);
+            ui->AudioUIWidget, &AudioInterface::receive_audio_source_extension);
 
-    connect(ui->AudioUIWidget, &AudioUI::send_output_audio_extension,
+    connect(ui->AudioUIWidget, &AudioInterface::send_output_audio_extension,
             ui->SaveASWidget, &SaveAsUI::receive_output_extension);
 
     connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_file,
@@ -178,7 +178,7 @@ void MainWindow::application_connections_setup()
     connect(ui->VideoUIWidget, &VideoUI::send_video_data,
             ui->statusbar, &QStatusBar::showMessage);
 
-    connect(ui->AudioUIWidget, &AudioUI::send_audio_data,
+    connect(ui->AudioUIWidget, &AudioInterface::send_audio_data,
             ui->statusbar, &QStatusBar::showMessage);
 
     //------------------------------------------------------------------//
@@ -207,16 +207,16 @@ void MainWindow::application_connections_setup()
     //----------------------------------------------------------------------//
 
     connect(&inputProbe, &InputSourceProbe::source_audio_codec_name,
-            ui->AudioUIWidget, &AudioUI::receive_audio_source_codec);
+            ui->AudioUIWidget, &AudioInterface::receive_audio_source_codec);
 
     connect(&inputProbe, &InputSourceProbe::source_audio_bitrate,
-            ui->AudioUIWidget, &AudioUI::receive_audio_source_bitrate);
+            ui->AudioUIWidget, &AudioInterface::receive_audio_source_bitrate);
 
     connect(&inputProbe, &InputSourceProbe::source_audio_samplerate,
-            ui->AudioUIWidget, &AudioUI::receive_audio_source_samplerate);
+            ui->AudioUIWidget, &AudioInterface::receive_audio_source_samplerate);
 
     connect(&inputProbe, &InputSourceProbe::source_audio_channels,
-            ui->AudioUIWidget, &AudioUI::receive_audio_source_channels);
+            ui->AudioUIWidget, &AudioInterface::receive_audio_source_channels);
 
     //----------------------------------------------------------------------//
 
@@ -246,7 +246,7 @@ void MainWindow::application_connections_setup()
     //------------------------------------------------------------------------//
 
     connect(this, &MainWindow::start_encode_process,
-            ui->AudioUIWidget, &AudioUI::get_selected_audio_options);/**/
+            ui->AudioUIWidget, &AudioInterface::get_selected_audio_options);/**/
 
     connect(this, &MainWindow::start_encode_process,
             ui->VideoUIWidget, &VideoUI::get_selected_video_options);
@@ -289,7 +289,7 @@ void MainWindow::application_connections_setup()
             ui->VideoUIWidget, &VideoUI::receive_process_mode_state);
 
     connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_state,
-            ui->AudioUIWidget, &AudioUI::receive_process_mode_state);
+            ui->AudioUIWidget, &AudioInterface::receive_process_mode_state);
 
     //-----------------------------------------------------------------------------//
 }
@@ -299,7 +299,7 @@ void MainWindow::transcoder_connections_setup()
     //transcoding connections----------------------------------------------------//
     //audio transcoding
     //send audio option values to Transcode
-    connect(ui->AudioUIWidget, &AudioUI::send_current_audio_options,
+    connect(ui->AudioUIWidget, &AudioInterface::send_current_audio_options,
             &transcoder, &Transcode::receive_current_audio_options);/**/
 
     //video transcoding
