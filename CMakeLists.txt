@@ -65,14 +65,16 @@ set(PROJECT_SOURCES
         src/statusbar_ui.h
         src/statusbar_ui.cpp
         src/statusbar_ui.ui
-        src/input_source_probe.h
-        src/input_source_probe.cpp
+        src/input_probe.h
+        src/input_probe.cpp
         src/transcode.h
         src/transcode.cpp
         src/abstract_timer.cpp
         src/abstract_timer.h
         src/encoder_process.h
         src/encoder_process.cpp
+        src/file_extension_check.h
+        src/file_extension_check.cpp
         misc/
         LICENSE
 )
