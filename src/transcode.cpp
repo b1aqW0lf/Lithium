@@ -604,7 +604,7 @@ void Transcode::cancel_encode_process()
         if(!this->source_video_file.isEmpty())
         {
             this->ffmpeg->closeWriteChannel();
-            Q_EMIT send_encoder_status(tr("Encoding Cancelled "), timeout);
+            Q_EMIT send_encoder_status(tr("Encoding Cancelled"), timeout);
         }
     }
     else
@@ -612,7 +612,7 @@ void Transcode::cancel_encode_process()
         this->ffmpeg->kill();
         this->ffmpeg->close();
         this->ffmpeg->closeWriteChannel();
-        Q_EMIT send_encoder_status("Encoding Cancelled ", timeout);
+        Q_EMIT send_encoder_status("Encoding Cancelled", timeout);
     }
 }
 
@@ -632,23 +632,23 @@ void Transcode::encoding_duration_timer(const QString &timer_message, const int 
     if(normal_mode == true && average_bitrate_enabled == false)
     {
         //this logic works!
-        Q_EMIT send_encoder_status("Encoding Started " + timer_message, timeout);
+        Q_EMIT send_encoder_status("Encoding Started" + timer_message, timeout);
     }
     else if(average_bitrate_enabled == true && two_pass_enabled == false)
     {
-        Q_EMIT send_encoder_status("Average Bitrate Encoding Started " + timer_message, timeout);
+        Q_EMIT send_encoder_status("Average Bitrate Encoding Started" + timer_message, timeout);
     }
     else if(average_bitrate_enabled == true && two_pass_enabled == true)
     {
-        Q_EMIT send_encoder_status("Two Pass Encoding Started " + timer_message, timeout);
+        Q_EMIT send_encoder_status("Two Pass Encoding Started" + timer_message, timeout);
     }
     else if(merge_mode == true)
     {
-        Q_EMIT send_encoder_status("Encoding Started -- Merging " + timer_message, timeout);
+        Q_EMIT send_encoder_status("Encoding Started -- Merging" + timer_message, timeout);
     }
     else if(extract_mode == true)
     {
-        Q_EMIT send_encoder_status("Encoding Started -- Extracting " + timer_message, timeout);
+        Q_EMIT send_encoder_status("Encoding Started -- Extracting" + timer_message, timeout);
     }
     else
     {
@@ -668,7 +668,7 @@ void Transcode::encoding_process_finished(const int &index)
         timer.stop_timer();
         if(QFile::exists(output_file))
         {
-            Q_EMIT send_encoder_status(tr("Encoding Status: Successful "), timeout);
+            Q_EMIT send_encoder_status(tr("Encoding Status: Successful"), timeout);
             //playOutput->setEnabled(true);//<===pay attention to this!!, no ui
             Q_EMIT enable_encode_button();
             this->ffmpeg->closeWriteChannel();//close write channel after encoding finishes
@@ -677,7 +677,7 @@ void Transcode::encoding_process_finished(const int &index)
     else if(index == 1)//QProcess::CrashExit
     {
         timer.stop_timer();
-        Q_EMIT send_encoder_status(tr("Encoding Status: Stopped Abnormally "), timeout);
+        Q_EMIT send_encoder_status(tr("Encoding Status: Stopped Abnormally"), timeout);
     }
     else
     {
