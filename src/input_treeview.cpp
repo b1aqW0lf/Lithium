@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "input_treeview.h"
-#include "ui_input_treeview.h"
+#include "src/ui_input_treeview.h"
 
 #include <QFileInfo>
 

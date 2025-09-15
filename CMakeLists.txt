@@ -74,7 +74,13 @@ set(PROJECT_SOURCES
         src/encoder_process.h
         src/encoder_process.cpp
         src/file_extension_check.h
-        src/file_extension_check.cpp
+        src/file_extension_check.cpp        
+        src/input_tree_model.h
+        src/input_tree_model.cpp
+        src/input_treeview.h
+        src/input_treeview.cpp
+        src/input_treeview.ui
+        src/process_mode_flags.h
         misc/
         LICENSE
 )
