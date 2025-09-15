@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QScrollBar>
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "src/ui_mainwindow.h"
 
 #include "src/audio_interface.h"
 #include "src/output_display_ui.h"

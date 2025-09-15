@@ -6,73 +6,88 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>275</width>
-    <height>241</height>
+    <width>195</width>
+    <height>228</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="audioGroupBox">
-     <property name="title">
-      <string>Audio</string>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QCheckBox" name="copyAudioCheckBox">
+     <property name="text">
+      <string>Copy Source Audio</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="audioOptionsGroupBox">
+     <property name="title">
+      <string>Audio Options</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="audioCodecLabel">
-          <property name="text">
-           <string>Codec</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="audioCodecBox"/>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="audioChannelLabel">
-          <property name="text">
-           <string>Channels</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="audioSampleLabel">
-          <property name="text">
-           <string>Sample Rate</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QComboBox" name="audioSampleBox"/>
-        </item>
-        <item row="3" column="1">
-         <widget class="QComboBox" name="audioChannelBox"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="audioBitrateBox"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="audioBitRateLabel">
-          <property name="text">
-           <string>Bitrate (Kbps)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QComboBox" name="audioContainerBox"/>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="audioContainerLabel">
-          <property name="text">
-           <string>Audio Container</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="audioCodecLabel">
+        <property name="text">
+         <string>Codec:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="audioCodecBox"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="audioBitrateLabel">
+        <property name="text">
+         <string>Bitrate (Kbps):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="audioBitrateBox"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="audioSampleLabel">
+        <property name="text">
+         <string>Samplerate:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="audioSamplerateBox"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="audioChannelLabel">
+        <property name="text">
+         <string>Channels:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="audioChannelBox"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="audioContainerLabel">
+        <property name="text">
+         <string>Container:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="audioContainerBox"/>
       </item>
      </layout>
     </widget>

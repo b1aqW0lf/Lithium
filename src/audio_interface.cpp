@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "audio_interface.h"
-#include "ui_audio_interface.h"
+#include "src/ui_audio_interface.h"
 
 #include <QAbstractItemModel>
 #include <QListView>
@@ -301,3 +301,4 @@ void AudioInterface::process_audio_interface_selections()
 
     //send the audio selections
     Q_EMIT this->send_audio_interface_selections(this->selection.audio_selection_list);
+}
