@@ -1,5 +1,5 @@
-#ifndef AUDIO_UI_H
-#define AUDIO_UI_H
+#ifndef AUDIO_INTERFACE_H
+#define AUDIO_INTERFACE_H
 
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
@@ -32,15 +32,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "audio_commands.h"
+#include "audio_interface_data.h"
+
 #include <QWidget>
 
-#include "ui_audio_interface.h"
 
-QT_BEGIN_NAMESPACE
 namespace Ui {
 class AudioInterface;
 }
-QT_END_NAMESPACE
 
 class AudioInterface : public QWidget
 {
@@ -51,68 +51,48 @@ public:
     ~AudioInterface();
 
 Q_SIGNALS:
-    void send_output_audio_extension(const QString &text);
-
-    //send current audio options
-    void send_current_audio_options(const QString &codec, const QString &channels,
-                                    const QString &samplerate, const QString &bitrate);
-
-    //for testing only!
-    void send_audio_data(const QString &data, const int &timeout);
-    //-----------------------------------------------------------------//
+    void send_audio_statusbar_message(const QString &message, const int &timeout);
+    void send_selected_audio_extension(const QString &extension);
+    void send_audio_interface_selections(const QStringList &audio_selections);
 
 public Q_SLOTS:
-    void receive_audio_source_extension(const QString &extension);
-    void receive_audio_source_codec(const QString &codec);
-    void receive_audio_source_bitrate(const QString &bitrate);
-    void receive_audio_source_samplerate(const QString &samplerate);
-    void receive_audio_source_channels(const QString &channels);
-    void receive_process_mode_state(const bool &normal, const bool &merge, const bool &extract);
-
-    //experimental
-    void get_selected_audio_options();
+    void receive_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
+                                        const QString &audio_samplerate, const QString &audio_channels);
+    void get_audio_interface_selections();
 
 private:
     Ui::AudioInterface *ui;
+    AudioInterfaceData audiodata;
+    AudioCommands command;
 
 private Q_SLOTS:
-    void select_audio_codec(const int index);
-    void select_audio_bitrate(const int index);
-    void select_samplerate();
-    void select_channels();
-    void select_audio_container();
+    void enable_copy_source_audio();
+    void select_audio_codec(const int &index);
+    void select_audio_bitrate(const int &index);
+    void select_audio_samplerate(const int &index);
+    void select_audio_channels(const int &index);
+    void select_audio_container(const int &index);
 
 private:
-    //audio variables
-    QString audio_source_ext{};
-    QString audio_container{};
-    //-----------------------------------
-    QString audio_codec{};
-    QString audio_bitrate{};
-    QString audio_samplerate{};
-    QString audio_channels{};
-    //-----------------------------------
-    QString source_codec{};
-    QString source_bitrate{};
-    QString source_samplerate{};
-    QString source_channels{};
-    //------------------------------------
-    //process mode state
-    bool normal_mode{};
-    bool merge_mode{};
-    bool extract_mode{};
-    //------------------------------------
     //functions
-    void enable_extract_audio_settings(const bool &extract);
-    void default_options_check();
-    //------------------------------------
-    //Interface String Lists
-    QStringList audioCodecList{};
-    QStringList audioBitrateList{};
-    QStringList audioSampleList{};
-    QStringList audioChannelList{};
-    QStringList audioContainerList{};
+    void initialize_audio_interface_data();
+    void process_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
+                                        const QString &audio_samplerate, const QString &audio_channels);
+    void process_audio_interface_selections();
+    void setup_audio_mono_stereo_channel(const int &index, const int &message_timeout, const QString &audio_channel, Qt::ItemDataRole role);
 
+    //struct
+    struct
+    {
+        QStringList copy_audio_command{};
+        QStringList audio_codec_selection{};
+        QStringList audio_bitrate_selection{};
+        QStringList audio_samplerate_selection{};
+        QStringList audio_channel_selection{};
+        QString audio_container_selection{};
+        //-----------------------------------------//
+        QStringList audio_selection_list{};
+    }selection;
 };
 
-#endif // AUDIO_UI_H
+#endif // AUDIO_INTERFACE_H

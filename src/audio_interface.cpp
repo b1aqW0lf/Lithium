@@ -29,121 +29,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QComboBox>
-#include <QGroupBox>
-#include <QLabel>
-#include <QStandardItem>
-#include <QStandardItemModel>
-
 #include "audio_interface.h"
+#include "ui_audio_interface.h"
+
+#include <QAbstractItemModel>
+#include <QListView>
+#include <QStandardItemModel>
+#include <QStringListModel>
 
 
-namespace AudioStandardItem
-{
-    QStandardItem *audioCodecBoxItem{};
-    QStandardItem *audioBitrateBoxItem{};
-    QStandardItem *audioSampleBoxItem{};
-    QStandardItem *audioChannelBoxItem{};
-    QStandardItem *audioContainerBoxItem{};
-}
-
-AudioInterface::AudioInterface(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::AudioInterface)
+AudioInterface::AudioInterface(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::AudioInterface)
 {
     ui->setupUi(this);
 
-    //connect signals and slots
-    //experimental------------------------------------------------------------------//
+    //connections - signals and slots
+    connect(ui->copyAudioCheckBox, &QCheckBox::clicked,
+            this, &AudioInterface::enable_copy_source_audio);
     connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::activated),
             this, &AudioInterface::select_audio_codec);
     connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::activated),
             this, &AudioInterface::select_audio_bitrate);
-    connect(ui->audioSampleBox, &QComboBox::textActivated,
-            this, &AudioInterface::select_samplerate);
-    connect(ui->audioChannelBox, &QComboBox::textActivated,
-            this, &AudioInterface::select_channels);
-    connect(ui->audioContainerBox, &QComboBox::textActivated,
+    connect(ui->audioSamplerateBox, QOverload<int>::of(&QComboBox::activated),
+            this, &AudioInterface::select_audio_samplerate);
+    connect(ui->audioChannelBox, QOverload<int>::of(&QComboBox::activated),
+            this, &AudioInterface::select_audio_channels);
+    connect(ui->audioContainerBox, QOverload<int>::of(&QComboBox::activated),
             this, &AudioInterface::select_audio_container);
-    //------------------------------------------------------------------------------//
-    /*connect(ui->audioCodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AudioUI::select_aud_codec);*/
-    /*connect(ui->audioBitrateBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AudioUI::select_aud_bitrate);*/
-    /*connect(ui->audioSampleBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AudioUI::select_samplerate);*/
-    /*connect(ui->audioChannelBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AudioUI::select_channels);*/
-    /*connect(ui->audioContainerBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AudioUI::select_aud_container);*/
-    //-------------------------------------------------------------------------
 
-
-    //Initialize audio interface widgets
-    //audio codec
-    AudioStandardItem::audioCodecBoxItem = new QStandardItem();
-    AudioStandardItem::audioCodecBoxItem->setData("Source", Qt::DisplayRole);
-    QStandardItemModel *audioCodecBoxModel = new QStandardItemModel(this);
-    audioCodecBoxModel->setItem(0, AudioStandardItem::audioCodecBoxItem);
-    ui->audioCodecBox->setModel(audioCodecBoxModel);
-
-    ui->audioCodecBox->insertSeparator(1);
-    audioCodecList << "AAC" << "AC3" << "AC3_Fixed" << "EAC3" << "FLAC" <<"MP3"
-                   << "WAV" << "Vorbis" << "Opus" << "PCM_s16le" << "PCM_s24le"
-                   << "PCM_s32le" << "PCM_s16be" << "PCM_s24be" << "PCM_s32be"
-                   << "PCM_alaw" << "PCM_mulaw" << "PCM_u8";
-    ui->audioCodecBox->insertItems(2, audioCodecList);
-
-    //audio bitrate
-    AudioStandardItem::audioBitrateBoxItem = new QStandardItem();
-    AudioStandardItem::audioBitrateBoxItem->setData("Source", Qt::DisplayRole);
-    QStandardItemModel *audioBitrateBoxModel = new QStandardItemModel(this);
-    audioBitrateBoxModel->setItem(0, AudioStandardItem::audioBitrateBoxItem);
-    ui->audioBitrateBox->setModel(audioBitrateBoxModel);
-
-    ui->audioBitrateBox->insertSeparator(1);
-    audioBitrateList << "64" << "80" << "96" << "112" << "128" << "160" <<"192"
-                     << "224" << "256" << "320" << "384" << "448" << "512"
-                     << "576" << "640" << "1536";
-    ui->audioBitrateBox->insertItems(2, audioBitrateList);
-
-    //audio sample rate
-    ui->audioSampleBox->insertItem(0, "Source");
-    ui->audioSampleBox->insertSeparator(1);
-    audioSampleList << "8000" << "11025" << "12000" << "16000" << "22050"
-                    << "24000" << "32000" << "44100" << "48000";
-    ui->audioSampleBox->insertItems(2, audioSampleList);
-
-    //audio channel
-    AudioStandardItem::audioChannelBoxItem = new QStandardItem();
-    AudioStandardItem::audioChannelBoxItem->setData("Source", Qt::DisplayRole);
-    QStandardItemModel *audioChannelBoxModel = new QStandardItemModel(this);
-    audioChannelBoxModel->setItem(0, AudioStandardItem::audioChannelBoxItem);
-    ui->audioChannelBox->setModel(audioChannelBoxModel);
-
-    ui->audioChannelBox->insertSeparator(1);
-    audioChannelList << "Mono" << "Stereo" << "3" << "4" << "5" << "6" << "7"
-                     << "8";
-    ui->audioChannelBox->insertItems(2, audioChannelList);
-
-    //audio extension/container
-    ui->audioContainerBox->insertItem(0, "Source");
-    ui->audioContainerBox->insertSeparator(1);
-    audioContainerList << "M4A" << "FLAC" << "MP3" << "WAV" << "OGG" << "OGA"
-                       << "AIFF" << "PCM";
-    ui->audioContainerBox->insertItems(2, audioContainerList);
-    ui->audioContainerLabel->setText("Audio Container");
-
-    //experimental
-    //audioContainerBox should be disabled in Normal Mode
-    //audioContainerBox should only be used in Extract Audio Mode
-    ui->audioContainerBox->setDisabled(true);
-    ui->audioContainerLabel->setDisabled(true);
-
-    //group box
-    ui->audioGroupBox->setTitle(tr("Audio"));
-    ui->audioGroupBox->setAlignment(Qt::AlignLeft);
-
+    this->initialize_audio_interface_data();
 }
 
 AudioInterface::~AudioInterface()
@@ -151,288 +66,238 @@ AudioInterface::~AudioInterface()
     delete ui;
 }
 
-void AudioInterface::receive_audio_source_codec(const QString &codec)
+void AudioInterface::initialize_audio_interface_data()
 {
-    this->source_codec = codec;
-    AudioStandardItem::audioCodecBoxItem->setData(this->source_codec, Qt::UserRole);
+    ui->audioCodecBox->insertItems(0, audiodata.audioCodecList);
+    ui->audioCodecBox->insertSeparator(1);
+    ui->audioBitrateBox->insertItems(0, audiodata.audioBitrateList);
+    ui->audioBitrateBox->insertSeparator(1);
+    ui->audioSamplerateBox->insertItems(0, audiodata.audioSamplerateList);
+    ui->audioSamplerateBox->insertSeparator(1);
+    ui->audioChannelBox->insertItems(0, audiodata.audioChannelList);
+    ui->audioChannelBox->insertSeparator(1);
+    ui->audioContainerBox->insertItems(0, audiodata.audioContainerList);
 }
 
-void AudioInterface::select_audio_codec(const int index)
+void AudioInterface::enable_copy_source_audio()
 {
-    switch(index) {
-    case 0:
-        //copy from source
-        this->audio_codec = ui->audioCodecBox->itemData(0).toString();
-        break;
-    case 1:
-        //separator - cannot be selected by user
-        break;
-    case 2:
-        //AAC
+    const int timeout{0};
+    this->selection.copy_audio_command.clear();
+
+    if(ui->copyAudioCheckBox->isChecked() == true)
+    {
+        //send command to copy the source audio stream
+        this->selection.copy_audio_command << command.audio_codec_flag << command.copy_command;
+        Q_EMIT this->send_audio_statusbar_message("Copy Source Audio Enabled", timeout);
+    }
+    else
+    {
+        //send regular command to transcode audio stream
+        this->selection.copy_audio_command << command.audio_codec_flag;
+        Q_EMIT this->send_audio_statusbar_message("", timeout);//clear the message
+    }
+}
+
+void AudioInterface::receive_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
+                                                    const QString &audio_samplerate, const QString &audio_channels)
+{
+    //receive source file audio data
+    this->process_source_file_audio_data(audio_codec, audio_bitrate, audio_samplerate, audio_channels);
+}
+
+void AudioInterface::process_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
+                                                    const QString &audio_samplerate, const QString &audio_channels)
+{
+    //used for the UserRole of the "Source" DisplayRole
+    const int index{0};//first index for the comboboxes
+    this->ui->audioCodecBox->setItemData(index, audio_codec, Qt::UserRole);
+    this->ui->audioBitrateBox->setItemData(index, audio_bitrate, Qt::UserRole);
+    this->ui->audioSamplerateBox->setItemData(index, audio_samplerate, Qt::UserRole);
+    this->ui->audioChannelBox->setItemData(index, audio_channels, Qt::UserRole);
+}
+
+void AudioInterface::select_audio_codec(const int &index)
+{
+    const int message_timeout{0};
+    this->selection.audio_codec_selection.clear();
+
+    if(index == 0)//source
+    {
+        //clicking "Source" will set the source file codec as the selected codec
+        this->selection.audio_codec_selection << ui->audioCodecBox->itemData(index, Qt::UserRole).toString();
+        Q_EMIT this->send_audio_statusbar_message(ui->audioCodecBox->itemData(index, Qt::UserRole).toString().toUpper(), message_timeout);
+    }
+    else if(index > 0 && index <= audiodata.audioCodecList.size())
+    {
 #ifdef Q_OS_WIN
-        this->audio_codec = "libfdk_aac";//create test to verify user has libfdk_aac
-#else
-        this->audio_codec = "aac";
-#endif
-        break;
-    case 3:
-        //AC3
-        this->audio_codec = ui->audioCodecBox->currentText().toLower();
-        break;
-    case 4:
-        //AC3_FIXED
-        this->audio_codec = ui->audioCodecBox->currentText().toLower();
-        break;
-    case 5:
-        //EAC3
-        this->audio_codec = ui->audioCodecBox->currentText().toLower();
-        break;
-    case 6:
-        //FLAC
-        this->audio_codec = ui->audioCodecBox->currentText().toLower();
-        break;
-    case 7:
-        //MP3
-        this->audio_codec = "libmp3lame";
-        break;
-    case 8:
-        //WAV
-        this->audio_codec = "wavpack";
-        break;
-    case 9:
-        //VORBIS
-        this->audio_codec = "libvorbis";
-        break;
-    case 10:
-        //OPUS
-        this->audio_codec = "libopus";
-        break;
-    case 11: case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
-        //PCM_s16le, PCM_s24le, PCM_s32le, PCM_s16be, PCM_s24be, PCM_s32be
-        //PCM_alaw, PCM_mulaw, PCM_u8
-        this->audio_codec = ui->audioCodecBox->currentText().toLower();
-        break;
-    }Q_EMIT send_audio_data(audio_codec, 0);
-    //Q_EMIT send_audio_codec_name(audio_codec);
-}
-
-void AudioInterface::receive_audio_source_bitrate(const QString &bitrate)
-{
-    this->source_bitrate = bitrate;
-    AudioStandardItem::audioBitrateBoxItem->setData(this->source_bitrate, Qt::UserRole);
-}
-
-void AudioInterface::select_audio_bitrate(const int index)
-{
-    int timeout{0};
-    switch(index) {
-    case 0:
-        //copy from source
-        if(source_bitrate.contains("N/A", Qt::CaseInsensitive))
+        if(index == 2)//AAC
         {
-            //assign a default value
-            this->audio_bitrate = "128k";
+            //set libfdk_aac as the aac ffmpeg audio codec on Windows
+            this->selection.audio_codec_selection << ui->audioCodecBox->setItemData(index, "libfdk_aac", Qt::UserRole);
+            Q_EMIT this->send_audio_statusbar_message(ui->audioCodecBox->itemData(index, Qt::UserRole).toString().toLower();
         }
         else
         {
-            //audio_bitrate = source;
-            this->audio_bitrate = ui->audioBitrateBox->itemData(0).toString()+"k";
+            //set the selected codec as the desired audio codec
+            this->selection.audio_codec_selection << ui->audioCodecBox->itemData(index, Qt::DisplayRole).toString().toLower();
+            Q_EMIT this->send_audio_statusbar_message(ui->audioCodecBox->itemData(index, Qt::DisplayRole).toString().toLower(), message_timeout);
         }
-        break;
-    case 1:
-        //separator - cannot be selected by user
-        break;
-    case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
-    case 11: case 12: case 13: case 14: case 15: case 16: case 17:
-        this->audio_bitrate = ui->audioBitrateBox->currentText()+"k";
-        break;
-    }
-    Q_EMIT send_audio_data(audio_bitrate, timeout);
-}
-
-void AudioInterface::receive_audio_source_samplerate(const QString &samplerate)
-{
-    this->source_samplerate = samplerate;
-}
-
-void AudioInterface::select_samplerate()
-{
-    this-> audio_samplerate = this->source_samplerate;
-
-    if(ui->audioSampleBox->currentIndex() == 0)
-    {
-        //audio_samplerate = "copy";
-        audio_samplerate = this->source_samplerate;
+#else
+        //set the selected codec as the desired audio codec
+        this->selection.audio_codec_selection << ui->audioCodecBox->itemData(index, Qt::DisplayRole).toString().toLower();
+        Q_EMIT this->send_audio_statusbar_message(ui->audioCodecBox->itemData(index, Qt::DisplayRole).toString(), message_timeout);
+#endif
     }
     else
     {
-        audio_samplerate = ui->audioSampleBox->currentText();
+        Q_EMIT this->send_audio_statusbar_message("Something went wrong", message_timeout);
     }
-    //Q_EMIT send_audio_samplerate_val(audio_samplerate);
 }
-void AudioInterface::receive_audio_source_channels(const QString &channels)
+
+void AudioInterface::select_audio_bitrate(const int &index)
 {
-    //check for "mono" or "stereo"
-    if(channels.contains("Mono", Qt::CaseInsensitive))
+    const int message_timeout{0};
+    this->selection.audio_bitrate_selection.clear();
+
+    if(index == 0)//source
     {
-        //use numeric value for mono
-        this->source_channels = "1";
+        //clicking "Source" will set the source file audio bitrate as the selected bitrate
+        this->selection.audio_bitrate_selection << command.audio_bitrate_flag
+                                                << ui->audioBitrateBox->itemData(index, Qt::UserRole).toString()+"k";
+        Q_EMIT this->send_audio_statusbar_message(ui->audioBitrateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
-    else if(channels.contains("1 channels", Qt::CaseInsensitive))
+    else if(index > 0 && index <= audiodata.audioBitrateList.size())
     {
-        this->source_channels = "1";
-    }
-    else if(channels.contains("Stereo", Qt::CaseInsensitive))
-    {
-        //use numeric value for stereo
-        this->source_channels = "2";
+        //set the selected audio bitrate as the desired bitrate
+        this->selection.audio_codec_selection << command.audio_bitrate_flag
+                                              << ui->audioBitrateBox->itemData(index, Qt::DisplayRole).toString()+"k";
+        Q_EMIT this->send_audio_statusbar_message(ui->audioBitrateBox->itemData(index, Qt::DisplayRole).toString(), message_timeout);
     }
     else
     {
-        this->source_channels = channels;
+        Q_EMIT this->send_audio_statusbar_message("Something went wrong", message_timeout);
     }
-    AudioStandardItem::audioChannelBoxItem->setData(this->source_channels, Qt::UserRole);
 }
 
-void AudioInterface::select_channels()
+void AudioInterface::select_audio_samplerate(const int &index)
 {
-    this->audio_channels = this->source_channels;
+    const int message_timeout{0};
+    this->selection.audio_samplerate_selection.clear();
 
-    if(ui->audioChannelBox->currentIndex() == 0)
+    if(index == 0)//source
     {
-        //audio_ac_value = "copy";
-        audio_channels = this->source_channels;
+        //clicking "Source" will set the source file audio samplerate as the selected samplerate
+        this->selection.audio_samplerate_selection << command.audio_samplerate_flag
+                                                   << ui->audioSamplerateBox->itemData(index, Qt::UserRole).toString();
+        Q_EMIT this->send_audio_statusbar_message(ui->audioSamplerateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
-    else if(ui->audioChannelBox->currentIndex() == 2)
+    else if(index > 0 && index <= audiodata.audioSamplerateList.size())
     {
-        //value for mono
-        audio_channels = "1";
-    }
-    else if(ui->audioChannelBox->currentIndex() == 3)
-    {
-        //value for stereo
-        audio_channels = "2";
+        //set the selected audio samplerate as the desired samplerate
+        this->selection.audio_samplerate_selection << command.audio_samplerate_flag
+                                                   << ui->audioSamplerateBox->itemData(index, Qt::DisplayRole).toString();
+        Q_EMIT this->send_audio_statusbar_message(ui->audioSamplerateBox->itemData(index, Qt::DisplayRole).toString(), message_timeout);
     }
     else
     {
-        audio_channels = ui->audioChannelBox->currentText();
-    }
-    Q_EMIT send_audio_data(audio_channels,0);
-}
-
-//receive audio extension
-void AudioInterface::receive_audio_source_extension(const QString &extension)
-{
-    this->audio_source_ext = extension;
-}
-
-void AudioInterface::select_audio_container()
-{
-    //source file extension from receive_audio_source_data(const QString &text)
-    QString audio_ext{this->audio_source_ext};
-    if(ui->audioContainerBox->currentIndex() == 0)
-    {
-        //source file extension
-        //copy of the inputLine2Edit source extension
-        audio_ext = this->audio_source_ext;
-        Q_EMIT send_output_audio_extension(audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 2)
-    {
-        //M4A
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 3)
-    {
-        //FLAC
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 4)
-    {
-        //MP3
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 5)
-    {
-        //WAV
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 6)
-    {
-        //OGG
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 7)
-    {
-        //OGA
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 8)
-    {
-        //AIFF
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
-    }
-    if(ui->audioContainerBox->currentIndex() == 9)
-    {
-        //PCM
-        audio_ext = ui->audioContainerBox->currentText().toLower();
-        Q_EMIT send_output_audio_extension("."+audio_ext);
+        Q_EMIT this->send_audio_statusbar_message("Something went wrong", message_timeout);
     }
 }
 
-//experimental
-void AudioInterface::get_selected_audio_options()
+void AudioInterface::select_audio_channels(const int &index)
 {
-    default_options_check();
+    const int message_timeout{0};
+    this->selection.audio_channel_selection.clear();
 
-    //emit the current selected audio options
-    Q_EMIT send_current_audio_options(audio_codec, audio_channels,
-                                      audio_samplerate, audio_bitrate);
-}
-
-void AudioInterface::default_options_check()
-{
-    //setting default value
-    //we need a better solution!
-    if(ui->audioCodecBox->currentIndex() == 0)
+    if(index == 0)//source
     {
-        this->audio_codec = ui->audioCodecBox->itemData(0).toString();
+        //clicking "Source" will set the source file audio channel as the selected channel
+        if(ui->audioChannelBox->itemData(index, Qt::UserRole).toString().contains("Mono", Qt::CaseInsensitive))
+        {
+            //set the audio_chanel_selection value to "1" for mono
+            this->setup_audio_mono_stereo_channel(index, message_timeout, "1", Qt::UserRole);
+        }
+        else if(ui->audioChannelBox->itemData(index, Qt::UserRole).toString().contains("Stereo", Qt::CaseInsensitive))
+        {
+            //set the audio_chanel_selection value to "2" for stereo
+            this->setup_audio_mono_stereo_channel(index, message_timeout, "2", Qt::UserRole);
+        }
+        else
+        {
+            this->selection.audio_channel_selection << command.audio_channels_flag
+                                                    << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
+            Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
+            //this->setup_audio_mono_stereo_channel(index, message_timeout);
+        }
     }
-    if(ui->audioBitrateBox->currentIndex() == 0)
+    else if(index == 2)//mono
     {
-        this->audio_bitrate = ui->audioBitrateBox->itemData(0).toString()+"k";
+        //set the mono user role to "1"
+         this->setup_audio_mono_stereo_channel(index, message_timeout, "1", Qt::UserRole);
     }
-}
-
-void AudioInterface::receive_process_mode_state(const bool &normal, const bool &merge,
-                                             const bool &extract)
-{
-    //process mode state
-    this->normal_mode = normal;
-    this->merge_mode = merge;
-    this->extract_mode = extract;
-
-    enable_extract_audio_settings(extract_mode);
-}
-
-void AudioInterface::enable_extract_audio_settings(const bool &extract)
-{
-    //extract audio settings
-    if(extract == true)
+    else if(index == 3)//stereo
     {
-        ui->audioContainerLabel->setEnabled(true);
-        ui->audioContainerBox->setEnabled(true);
+        //set the stereo user role to "2"
+        this->setup_audio_mono_stereo_channel(index, message_timeout, "2", Qt::UserRole);
+    }
+    else if(index > 3 && index <= audiodata.audioChannelList.size())
+    {
+        //set the selected audio channel as the desired channel
+        this->selection.audio_channel_selection << command.audio_channels_flag
+                                                << ui->audioChannelBox->currentText().toLower();
+        Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->currentText(), message_timeout);
     }
     else
     {
-        ui->audioContainerLabel->setEnabled(false);
-        ui->audioContainerBox->setEnabled(false);
+        Q_EMIT this->send_audio_statusbar_message("Something went wrong", message_timeout);
     }
 }
+void AudioInterface::setup_audio_mono_stereo_channel(const int &index, const int &message_timeout,
+                                                     const QString &audio_channel, Qt::ItemDataRole role)
+{
+    //note: role should be either Qt::DisplayRole or Qt::UserRole
+    ui->audioChannelBox->setItemData(index, audio_channel, role);
+    this->selection.audio_channel_selection << command.audio_channels_flag
+                                            << ui->audioChannelBox->itemData(index, role).toString();
+    Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->itemData(index, role).toString(), message_timeout);
+}
+
+void AudioInterface::select_audio_container(const int &index)
+{
+    const int message_timeout{0};
+    this->selection.audio_container_selection.clear();
+
+    //set the selected audio extension as the desired extension
+    this->selection.audio_container_selection = "."+ui->audioContainerBox->itemData(index, Qt::DisplayRole).toString().toLower();
+    Q_EMIT this->send_audio_statusbar_message(ui->audioContainerBox->itemData(index, Qt::DisplayRole).toString(), message_timeout);
+    Q_EMIT this->send_selected_audio_extension(this->selection.audio_container_selection);
+}
+
+void AudioInterface::get_audio_interface_selections()
+{
+    this->process_audio_interface_selections();
+}
+
+void AudioInterface::process_audio_interface_selections()
+{
+    this->selection.audio_selection_list.clear();
+
+    if(ui->copyAudioCheckBox->isChecked() == true)
+    {
+        //send the copy audio stream command
+        this->selection.audio_selection_list << this->selection.copy_audio_command;//-codec:a copy
+    }
+    if(ui->copyAudioCheckBox->isChecked() == false)
+    {
+        const int index0{0};
+        //send the transcode audio stream command along with the audio options
+        //adding the selections to the audio selection list
+        this->selection.audio_selection_list << this->selection.copy_audio_command//-codec:a
+                                             << this->selection.audio_codec_selection
+                                             << this->selection.audio_bitrate_selection
+                                             << this->selection.audio_samplerate_selection
+                                             << this->selection.audio_channel_selection;
+    }
+
+    //send the audio selections
+    Q_EMIT this->send_audio_interface_selections(this->selection.audio_selection_list);
