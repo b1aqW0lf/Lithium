@@ -71,6 +71,8 @@ set(PROJECT_SOURCES
         src/transcode.cpp
         src/abstract_timer.cpp
         src/abstract_timer.h
+        src/encoder_process.h
+        src/encoder_process.cpp
         misc/
         LICENSE
 )
