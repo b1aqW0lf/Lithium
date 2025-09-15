@@ -29,26 +29,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QApplication>
-#include <QCoreApplication>
-#include <QDir>
-#include <QFile>
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QMessageBox>
-#include <QScrollBar>
-
 #include "mainwindow.h"
 #include "src/ui_mainwindow.h"
 
-#include "src/audio_interface.h"
-#include "src/output_display_ui.h"
-#include "src/process_mode_ui.h"
-#include "src/save_as_ui.h"
-#include "src/select_source_ui.h"
-#include "src/transcode.h"
-#include "src/video_ui.h"
+#include "audio_interface.h"
+#include "input_treeview.h"
 
+#include <QFileInfo>
+#include <QStyleFactory>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -56,57 +44,51 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //enable application connections
-    local_connections_setup();
-    application_connections_setup();
-    transcoder_connections_setup();
+#ifdef Q_OS_WINDOWS
+    //set slider style
+    ui->horizontalSlider->setStyle(QStyleFactory::create("windowsvista"));
+    ui->horizontalSlider_2->setStyle(QStyleFactory::create("windowsvista"));
+#endif
 
-    //toolbar settings
-    ui->toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    ui->toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
-    ui->toolbar->setIconSize(QSize(28,28));
-    ui->toolbar->setMovable(false);
-    ui->toolbar->setFloatable(false);
+    this->setup_toolbar_settings();
+    this->setup_action_buttons();
+    this->setup_radio_buttons();
+    this->setup_checkboxes();
 
-    //enable action bar
-    ui->toolbar->addAction(ui->actionEncode);
-    ui->toolbar->addAction(ui->actionCancel);
-    ui->toolbar->addSeparator();
-    ui->toolbar->addAction(ui->actionAbout);
-    ui->actionEncode->setCheckable(true);
-    ui->actionEncode->setText(tr("Encode"));
-    ui->actionCancel->setText(tr("Cancel"));
-    ui->actionAbout->setText(tr("About"));
-    ui->actionEncode->setIconText(tr("Encode"));
-    ui->actionCancel->setIconText(tr("Cancel"));
-    ui->actionAbout->setIconText(tr("About"));
-    ui->actionEncode->setShortcut(Qt::CTRL|Qt::Key_E);
-    ui->actionCancel->setShortcut(Qt::CTRL|Qt::Key_X);
-    ui->actionCancel->setShortcut(Qt::CTRL|Qt::Key_I);
-    ui->actionEncode->setToolTip(tr("Start Encoding"));
-    ui->actionCancel->setToolTip(tr("Cancel Encoding"));
-    ui->actionAbout->setToolTip(tr("About Qt"));
-    ui->actionEncode->setIcon(QIcon(":/images/resources/ffmpeg-96x96.svg"));
-    ui->actionCancel->setIcon(QIcon(":/images/resources/actionCancel.svg"));
-    ui->actionAbout->setIcon(QIcon(":/images/resources/info_black_48dp.png"));
+    connect(ui->actionOpenFile, &QAction::triggered, &openfile, &OpenFile::open_source_file);
+    connect(ui->actionEncode, &QAction::triggered, &transcode, &TranscodeProcess::start_transcoding_process);
+    connect(ui->actionCancel, &QAction::triggered, &transcode, &TranscodeProcess::cancel_transcoding_process);
+    connect(ui->actionCancel, &QAction::triggered, &progressbar, &SimpleProgressbar::cancel_progressbar_process);
+    connect(ui->actionCancel, &QAction::triggered, &datawidget, &ParsedDataWidget::clear_parsed_data_info);
+    connect(&openfile, &OpenFile::send_source_video_file, this, &MainWindow::receive_source_file);
+    connect(&openfile, &OpenFile::send_source_video_file, &transcode, &TranscodeProcess::receive_source_file);
+    connect(&openfile, &OpenFile::send_source_video_file, &inputprobe, &InputProbe::receive_source_file);
+    connect(&openfile, &OpenFile::send_source_video_file, ui->inputTreeWidget, &InputTreeView::receive_source_file);
+    connect(&openfile, &OpenFile::send_source_video_file, &extension, &FileExtensionCheck::receive_source_video_file);
+    connect(&openfile, &OpenFile::get_current_process_mode, &processModeWidget, &ProcessModeWidget::send_current_process_mode);//new
+    connect(&extension, &FileExtensionCheck::send_source_video_file_extension,
+            ui->videoInterfaceWidget, &VideoInterface::receive_source_video_file_extension);//new
+    connect(&transcode, &TranscodeProcess::send_ffprobe_output, &progressbar, &SimpleProgressbar::receive_ffprobe_frames_value);
+    connect(&transcode, &TranscodeProcess::send_ffmpeg_output, &parsedata, &ParseData::parse_file_data);
+    connect(&parsedata, &ParseData::send_frame_num_update, &progressbar, &SimpleProgressbar::receive_frame_num_value);
+    connect(&parsedata, &ParseData::send_parsed_data, &datawidget, &ParsedDataWidget::receive_parsed_data);
+    connect(&transcode, &TranscodeProcess::send_transcode_process_message, ui->statusbar, &QStatusBar::showMessage);
+    connect(&processModeWidget, &ProcessModeWidget::current_process_mode_status, ui->statusbar, &QStatusBar::showMessage);
+    connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &treeview, &InputTreeView::current_process_mode);//new
+    connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &openfile, &OpenFile::current_process_mode);//new
+    connect(&inputprobe, &InputProbe::send_input_probe_data, this, &MainWindow::receive_input_probe_data);
+    connect(&inputprobe, &InputProbe::send_input_probe_data, ui->inputTreeWidget, &InputTreeView::receive_input_probe_data);
+    connect(&inputprobe, &InputProbe::send_source_file_audio_data, ui->audioInterfaceWidget, &AudioInterface::receive_source_file_audio_data);//new
+    connect(&inputprobe, &InputProbe::send_source_file_video_data, ui->videoInterfaceWidget, &VideoInterface::receive_source_file_video_data);//new
+    connect(ui->audioInterfaceWidget, &AudioInterface::send_audio_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
+    connect(ui->videoInterfaceWidget, &VideoInterface::send_video_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
 
+    //statusbar widgets
+    this->setup_statusbar_widgets();
 
-    //display progress bar and statusbar
-    ui->statusbar->addPermanentWidget(&statProgressBar);
-
-    //set tab1 as default avTabWidget tab
-    ui->avTabWidget->setCurrentIndex(0);
-    ui->avTabWidget->setTabText(0, "AV Options");
-    ui->avTabWidget->setTabText(1, "Output");
-
-    //Input groupbox
-    ui->inputGroupBox->setTitle(tr("Select Sources "));
-    ui->inputGroupBox->setAlignment(Qt::AlignLeft);
-
-    //saveAS groupbox
-    ui->outputGroupBox->setTitle(tr("Select Destination "));
-    ui->outputGroupBox->setAlignment(Qt::AlignLeft);
-
+    ui->videoRFSpinBox->setStyleSheet("QSpinBox { background-color: transparent; } QSpinBox QLineEdit { background-color: transparent; }");
+    //ui->videoRFSpinBox->setStyleSheet("QSpinBox { color: white; }");
+    ///ui->videoRFSpinBox->setStyleSheet("QSpinBox::lineEdit { color: white; }");
 }
 
 MainWindow::~MainWindow()
@@ -114,221 +96,67 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::local_connections_setup()
+void MainWindow::setup_toolbar_settings()
 {
-    connect(ui->actionEncode, &QAction::triggered,
-            this, &MainWindow::start_action_encode);
-
-    connect(ui->actionCancel, &QAction::triggered,
-            this, &MainWindow::cancel_action_encode);
-
-    connect(ui->actionAbout, &QAction::triggered,
-            qApp, &QApplication::aboutQt);
+    //toolbar settings
+    ui->toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    ui->toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
+    ui->toolbar->setIconSize(QSize(28,28));
+    ui->toolbar->setMovable(false);
+    ui->toolbar->setFloatable(false);
+    //--------------------------------------------//
+    //enable action bar
+    ui->toolbar->addAction(ui->actionOpenFile);
+    ui->toolbar->addSeparator();
+    ui->toolbar->addAction(ui->actionEncode);
+    ui->toolbar->addAction(ui->actionCancel);
 }
 
-void MainWindow::application_connections_setup()
+void MainWindow::setup_action_buttons()
 {
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_extension,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_extension);
-
-    connect(ui->VideoUIWidget, &VideoUI::send_output_vid_extension,
-            ui->SaveASWidget, &SaveAsUI::receive_output_extension);
-
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_extension,
-            ui->AudioUIWidget, &AudioInterface::receive_audio_source_extension);
-
-    connect(ui->AudioUIWidget, &AudioInterface::send_output_audio_extension,
-            ui->SaveASWidget, &SaveAsUI::receive_output_extension);
-
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_file,
-            &inputProbe, &InputSourceProbe::start_probe_process);
-
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
-            &inputProbe, &InputSourceProbe::start_probe_process);
-
-    //temp connection-for testing only-----------------------------//
-    connect(&inputProbe, &InputSourceProbe::show_video_data,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(&inputProbe, &InputSourceProbe::show_audio_data,
-            ui->statusbar, &QStatusBar::showMessage);/**/
-    //-------------------------------------------------------------//
-
-    connect(&detectFFmpeg, &DetectFFmpeg::ffmpeg_status_message,
-            ui->statusbar, &QStatusBar::showMessage);/**/
-
-    connect(&detectFFmpeg, &DetectFFmpeg::ffmpeg_read_output,
-            ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
-
-    //experimental
-    connect(&inputProbe, &InputSourceProbe::ffprobe_started_message,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(&transcoder, &Transcode::send_ffprobe_output,
-            &statProgressBar, &StatusBarUI::receive_video_frame_count);
-
-    connect(&transcoder, &Transcode::send_transcode_data,
-            ui->OutputDisplayWidget, &OutputDisplayUI::textEdit_display_output);
-
-    connect(&transcoder, &Transcode::send_transcode_data,
-            &statProgressBar, &StatusBarUI::parse_transcode_output);
-
-    //temp connection-for testing only--------------------------------//
-
-    connect(ui->VideoUIWidget, &VideoUI::send_video_data,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(ui->AudioUIWidget, &AudioInterface::send_audio_data,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    //------------------------------------------------------------------//
-
-    connect(&inputProbe, &InputSourceProbe::source_vid_resolution,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_resolution);
-
-    connect(&inputProbe, &InputSourceProbe::source_vid_codec_name,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_codec);
-
-    connect(&inputProbe, &InputSourceProbe::source_vid_frame_rate,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_framerate);
-
-    connect(&inputProbe, &InputSourceProbe::source_vid_bit_rate,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_bitrate);
-
-    connect(&inputProbe, &InputSourceProbe::source_vid_display_aspect_ratio,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_display_aspect_ratio);
-
-    connect(&inputProbe, &InputSourceProbe::source_vid_coded_resolution,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_coded_size);
-
-    connect(&inputProbe, &InputSourceProbe::source_vid_codec_profile,
-            ui->VideoUIWidget, &VideoUI::receive_vid_source_codec_profile);
-
-    //----------------------------------------------------------------------//
-
-    connect(&inputProbe, &InputSourceProbe::source_audio_codec_name,
-            ui->AudioUIWidget, &AudioInterface::receive_audio_source_codec);
-
-    connect(&inputProbe, &InputSourceProbe::source_audio_bitrate,
-            ui->AudioUIWidget, &AudioInterface::receive_audio_source_bitrate);
-
-    connect(&inputProbe, &InputSourceProbe::source_audio_samplerate,
-            ui->AudioUIWidget, &AudioInterface::receive_audio_source_samplerate);
-
-    connect(&inputProbe, &InputSourceProbe::source_audio_channels,
-            ui->AudioUIWidget, &AudioInterface::receive_audio_source_channels);
-
-    //----------------------------------------------------------------------//
-
-    connect(ui->SelectSourceWidget, &SelectSourceUI::clear_input1_data,
-            ui->VideoUIWidget, &VideoUI::receive_clear_request);
-
-    //----------------------------------------------------------------------//
-
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_video_source_file,
-            &transcoder, &Transcode::receive_source_video_file);
-
-    connect(ui->SelectSourceWidget, &SelectSourceUI::current_audio_source_file,
-            &transcoder, &Transcode::receive_source_audio_file);
-
-    connect(&transcoder, &Transcode::source_file_status,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(&transcoder, &Transcode::output_file_status,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(&transcoder, &Transcode::send_encoder_status,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(ui->SaveASWidget, &SaveAsUI::send_output_file_path,
-            &transcoder, &Transcode::receive_output_file_path);
-
-    //------------------------------------------------------------------------//
-
-    connect(this, &MainWindow::start_encode_process,
-            ui->AudioUIWidget, &AudioInterface::get_selected_audio_options);/**/
-
-    connect(this, &MainWindow::start_encode_process,
-            ui->VideoUIWidget, &VideoUI::get_selected_video_options);
-
-    connect(this, &MainWindow::start_encode_process,
-            ui->SaveASWidget, &SaveAsUI::send_output_file);
-
-    connect(this, &MainWindow::cancel_encode_process,
-            &transcoder, &Transcode::cancel_encode_process);
-
-    //--------------------------------------------------------------------------//
-    connect(this, &MainWindow::encode_mode_check,
-            ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode);
-
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_status,
-            ui->statusbar, &QStatusBar::showMessage);
-
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_state,
-            &transcoder, &Transcode::transcode_processing_mode);
-    //---------------------------------------------------------------------------//
-
-    connect(ui->VideoUIWidget, &VideoUI::two_pass_encode_enabled,
-            &transcoder, &Transcode::two_pass_encode_enabled);
-
-    connect(ui->VideoUIWidget, &VideoUI::average_bitrate_encode_enabled,
-            &transcoder, &Transcode::average_bitrate_encode_enabled);
-
-    //--------------------------------------------------------------------------//
-
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_merge_sources_settings,
-            ui->SelectSourceWidget, &SelectSourceUI::merge_sources_settings_enabled);
-
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_normal_mode_settings,
-            ui->SelectSourceWidget, &SelectSourceUI::normal_mode_settings_enabled);
-
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::enable_extract_audio_settings,
-            ui->SelectSourceWidget, &SelectSourceUI::extract_audio_settings_enabled);
-
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_state,
-            ui->VideoUIWidget, &VideoUI::receive_process_mode_state);
-
-    connect(ui->ProcessModeUIWidget, &ProcessModeUI::current_process_mode_state,
-            ui->AudioUIWidget, &AudioInterface::receive_process_mode_state);
-
-    //-----------------------------------------------------------------------------//
+    ui->actionOpenFile->setIcon(QIcon(":/resources/actionOpenFile.svg"));
+    ui->actionEncode->setIcon(QIcon(":/resources/actionEncode.svg"));
+    ui->actionCancel->setIcon(QIcon(":/resources/actionCancel.svg"));
+    ui->actionEncode->setToolTip(tr("Start Encoding"));
+    ui->actionCancel->setToolTip(tr("Cancel Encoding"));
 }
 
-void MainWindow::transcoder_connections_setup()
+void MainWindow::setup_radio_buttons()
 {
-    //transcoding connections----------------------------------------------------//
-    //audio transcoding
-    //send audio option values to Transcode
-    connect(ui->AudioUIWidget, &AudioInterface::send_current_audio_options,
-            &transcoder, &Transcode::receive_current_audio_options);/**/
-
-    //video transcoding
-    //send video option values to Transcode
-    connect(ui->VideoUIWidget, &VideoUI::send_current_video_options,
-            &transcoder, &Transcode::receive_current_video_options);
-
-    //start transcode
-    connect(this, &MainWindow::start_encode_process,
-            &transcoder, &Transcode::start_encode_process);
-
-    //trancoding
-    connect(&transcoder, &Transcode::enable_encode_button,
-            this, &MainWindow::enable_encode_button);
+    ui->toolbar->addSeparator();
+    ui->toolbar->addWidget(&processModeWidget);
 }
 
-void MainWindow::start_action_encode()
+void MainWindow::setup_checkboxes()
 {
-    Q_EMIT encode_mode_check();
-    Q_EMIT start_encode_process();
+    ui->toolbar->addSeparator();
+    ui->toolbar->addWidget(&metadataCheckBox);
+    ui->toolbar->addWidget(&subtitlesCheckBox);
 }
 
-void MainWindow::cancel_action_encode()
+void MainWindow::setup_statusbar_widgets()
 {
-    ui->actionEncode->setChecked(false);
-    Q_EMIT cancel_encode_process();
+    ui->statusbar->addPermanentWidget(&datawidget);
+    ui->statusbar->addPermanentWidget(&progressbar);
+    ui->statusbar->addPermanentWidget(&storage);
 }
 
-void MainWindow::enable_encode_button()
+void MainWindow::receive_source_file(const QString &filename)
 {
-    ui->actionEncode->setChecked(false);
+    this->filename = filename;
+}
+
+void MainWindow::receive_input_probe_data(const QString &video_codec, const QString &video_res,
+                                          const QString &video_fps, const QString &video_dar,
+                                          const QString &pixel_format, const QString &video_codec_type,
+                                          const QString &audio_codec, const QString &audio_channels,
+                                          const QString &audio_codec_type)
+{
+
+    QFileInfo file(filename);
+    //display received data
+    ui->sourceInfoLabel->setText("Source: " + file.completeBaseName() + ", "
+                                 + video_codec.toUpper() + ", " + video_res + ", " + video_fps + " fps, "
+                                 + video_dar + ", " + pixel_format + ", " + audio_codec.toUpper() + ", "
+                                 + audio_channels + " channels");
 }

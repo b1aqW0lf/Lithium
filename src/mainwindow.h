@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
 All rights reserved.
@@ -32,59 +33,69 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-//#include "ffmpeg_commands_list.h"
-
-#include <QLabel>
-#include <QMainWindow>
-#include <QWidget>
-
-#include "detect_ffmpeg.h"
+#include "file_extension_check.h"
 #include "input_probe.h"
-#include "statusbar_ui.h"
-#include "transcode.h"
+#include "input_treeview.h"
+#include "metadata_checkbox.h"
+#include "open_file.h"
+#include "parse_data.h"
+#include "parsed_data_widget.h"
+#include "process_mode_widget.h"
+#include "simple_progressbar.h"
+#include "storage_data.h"
+#include "subtitles_checkbox.h"
+#include "transcode_process.h"
+
+#include <QMainWindow>
 
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
-
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-Q_SIGNALS:
-    void start_encode_process();
-    //test
-    void encode_mode_check();
-    void cancel_encode_process();
-
 public Q_SLOTS:
-    void enable_encode_button();
-
-private Q_SLOTS:
-    void start_action_encode();
-    void cancel_action_encode();
+    void receive_source_file(const QString &filename);
+    void receive_input_probe_data(const QString &video_codec, const QString &video_res,
+                                  const QString &video_fps, const QString &video_dar,
+                                  const QString &pixel_format, const QString &video_codec_type,
+                                  const QString &audio_codec, const QString &audio_channels,
+                                  const QString &audio_codec_type);
 
 private:
     Ui::MainWindow *ui;
-    QLabel *statusBarLabel1, *statusBarLabel2;
-    StatusBarUI statProgressBar;
-    InputSourceProbe inputProbe;
-    DetectFFmpeg detectFFmpeg;
-    Transcode transcoder;
+    FileExtensionCheck extension;
+    InputProbe inputprobe;
+    InputTreeView treeview;
+    TranscodeProcess transcode;
+    OpenFile openfile;
+    ParseData parsedata;
+
+    //widgets
+    ParsedDataWidget datawidget;
+    SimpleProgressbar progressbar;
+    StorageData storage;
+    ProcessModeWidget processModeWidget;
+    MetadataCheckBox metadataCheckBox;
+    SubtitlesCheckBox subtitlesCheckBox;
+
+    //functions
+    void setup_toolbar_settings();
+    void setup_action_buttons();
+    void setup_radio_buttons();
+    void setup_checkboxes();
+    void setup_statusbar_widgets();
 
     //variables
-    bool normal_mode_val{};
-
-    //function
-    void local_connections_setup();
-    void application_connections_setup();
-    void transcoder_connections_setup();
+    QString filename{};
 };
 #endif // MAINWINDOW_H

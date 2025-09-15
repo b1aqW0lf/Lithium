@@ -81,6 +81,8 @@ set(PROJECT_SOURCES
         src/input_treeview.cpp
         src/input_treeview.ui
         src/process_mode_flags.h
+        src/lithium_theme.h
+        src/lithium_theme.cpp
         misc/
         LICENSE
 )

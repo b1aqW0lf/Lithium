@@ -29,10 +29,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "app_version.h"
 #include "mainwindow.h"
 
+#include "app_version.h"
+#include "lithium_theme.h"
+
 #include <QApplication>
+#include <QPalette>
 #include <QStyleFactory>
 
 
@@ -50,6 +53,9 @@ int main(int argc, char *argv[])
     // Set the style (e.g., "Fusion", "Windows", "macintosh")
     app.setStyle(QStyleFactory::create("Fusion"));
 #endif
+
+    LithiumTheme theme;
+    /*theme.set_dark_mode_theme();*/
 
     window.setWindowTitle("Lithium ""alpha""-"+git_hash_str);
     window.setWindowIcon(QIcon(":/images/resources/Logo1.png"));
