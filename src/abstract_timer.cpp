@@ -82,7 +82,7 @@ void AbstractTimer::process_duration_timer()
         this->Duration.hour = TimerValues::reset;
     }
     this->duration_time.setHMS(this->Duration.hour, this->Duration.minute, this->Duration.second);
-    Q_EMIT this->show_duration_timer("| " + this->duration_time.toString(), timeout);
+    Q_EMIT this->show_duration_timer(" | " + this->duration_time.toString(), timeout);
 }
 
 void AbstractTimer::start_timer()
@@ -99,7 +99,7 @@ void AbstractTimer::stop_timer()
 
 void AbstractTimer::reset_duration_time()
 {
-    //resetting the duration_timer hours, minutes, and seconds back to 00:00:00
+    //resetting the duration_timers' hours, minutes, and seconds back to 00:00:00
     this->Duration.second = TimerValues::reset;
     this->Duration.minute = TimerValues::reset;
     this->Duration.hour = TimerValues::reset;
@@ -108,5 +108,5 @@ void AbstractTimer::reset_duration_time()
 QString AbstractTimer::current_capture_time()
 {
     this->current_time = QTime::currentTime();//take the current time
-    return current_time.toString();
+    return this->current_time.toString();
 }
