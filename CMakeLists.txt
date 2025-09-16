@@ -56,9 +56,9 @@ set(PROJECT_SOURCES
         src/save_as_ui.cpp
         src/save_as_ui.h
         src/save_as_ui.ui
-        src/process_mode_ui.cpp
-        src/process_mode_ui.h
-        src/process_mode_ui.ui
+        src/process_mode_widget.cpp
+        src/process_mode_widget.h
+        src/process_mode_widget.ui
         src/output_display_ui.h
         src/output_display_ui.cpp
         src/output_display_ui.ui

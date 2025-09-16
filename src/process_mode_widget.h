@@ -1,5 +1,5 @@
-#ifndef PROCESS_MODE_UI_H
-#define PROCESS_MODE_UI_H
+#ifndef PROCESS_MODE_WIDGET_H
+#define PROCESS_MODE_WIDGET_H
 
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
@@ -32,44 +32,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QButtonGroup>
+#include "process_mode_flags.h"
+
 #include <QWidget>
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class ProcessModeUI;
-}
-QT_END_NAMESPACE
 
-class ProcessModeUI : public QWidget
+namespace Ui {
+class ProcessModeWidget;
+}
+
+class ProcessModeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ProcessModeUI(QWidget *parent = nullptr);
-    ~ProcessModeUI();
+    explicit ProcessModeWidget(QWidget *parent = nullptr);
+    ~ProcessModeWidget();
 
 Q_SIGNALS:
-    void current_process_mode_state(const bool &normal, const bool &merge, const bool &extract);
+    void current_process_mode(ProcessMode mode);
     void current_process_mode_status(const QString &status, const int &timeout);
-    void enable_merge_sources_settings();
-    void enable_normal_mode_settings();
-    void enable_extract_audio_settings();
 
 public Q_SLOTS:
-    void current_process_mode();
-
-private:
-    Ui::ProcessModeUI *ui;
+    void send_current_process_mode();
 
 private Q_SLOTS:
-    void merge_sources_mode();
-    void extract_audio_mode();
-    void normal_processing_mode();
+    void select_process_mode();
 
 private:
-    //processing button group
-    QButtonGroup *processButtons;
+    Ui::ProcessModeWidget *ui;
+
+    //functions
+    void setup_process_mode_buttons();//new
+    void get_current_process_mode();//new
+
+    //variables
+    ProcessMode process_mode;
 };
 
-#endif // PROCESS_MODE_UI_H
+#endif // PROCESS_MODE_WIDGET_H
