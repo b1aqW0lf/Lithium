@@ -88,6 +88,11 @@ set(PROJECT_SOURCES
         src/metadata_checkbox.ui
         src/open_file.h
         src/open_file.cpp
+        src/parse_data.h
+        src/parse_data.cpp
+        src/simple_progressbar.h
+        src/simple_progressbar.cpp
+        src/simple_progressbar.ui
         misc/
         LICENSE
 )
@@ -95,7 +100,6 @@ set(PROJECT_SOURCES
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Lithium
         ${PROJECT_SOURCES}
-        src/parse_data.h src/parse_data.cpp
     )
 else()
     if(ANDROID)
