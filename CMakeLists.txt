@@ -38,6 +38,7 @@ set(PROJECT_SOURCES
         src/encoder_process.cpp
         src/storage_data.cpp
         src/storage_data.h
+        src/storage_data.ui
         src/qt5_connection_archive.h
         src/app_version.h
         src/resources.qrc
@@ -98,7 +99,6 @@ set(PROJECT_SOURCES
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Lithium
         ${PROJECT_SOURCES}
-        src/storage_data.ui
     )
 else()
     if(ANDROID)
