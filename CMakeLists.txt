@@ -64,8 +64,8 @@ set(PROJECT_SOURCES
         src/parsed_data_widget.ui
         src/input_probe.h
         src/input_probe.cpp
-        src/transcode.h
-        src/transcode.cpp
+        src/transcode_process.h
+        src/transcode_process.cpp
         src/abstract_timer.cpp
         src/abstract_timer.h
         src/file_extension_check.h
