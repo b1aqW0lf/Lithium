@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MetadataCheckbox</class>
- <widget class="QWidget" name="MetadataCheckbox">
+ <class>MetadataCheckBox</class>
+ <widget class="QWidget" name="MetadataCheckBox">
   <property name="geometry">
    <rect>
     <x>0</x>

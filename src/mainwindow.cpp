@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "audio_interface.h"
 #include "input_treeview.h"
+#include "video_interface.h"
 
 #include <QFileInfo>
 #include <QStyleFactory>
