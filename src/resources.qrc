@@ -19,5 +19,9 @@
         <file>resources/logo3.png</file>
         <file>resources/logo4.png</file>
         <file>resources/logo5.png</file>
+        <file>resources/actionEncode.svg</file>
+        <file>resources/actionOpenFile.svg</file>
+        <file>resources/audio.svg</file>
+        <file>resources/video.svg</file>
     </qresource>
 </RCC>

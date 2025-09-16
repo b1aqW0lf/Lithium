@@ -115,9 +115,9 @@ void MainWindow::setup_toolbar_settings()
 
 void MainWindow::setup_action_buttons()
 {
-    ui->actionOpenFile->setIcon(QIcon(":/resources/actionOpenFile.svg"));
-    ui->actionEncode->setIcon(QIcon(":/resources/actionEncode.svg"));
-    ui->actionCancel->setIcon(QIcon(":/resources/actionCancel.svg"));
+    ui->actionOpenFile->setIcon(QIcon(":/images/resources/actionOpenFile.svg"));
+    ui->actionEncode->setIcon(QIcon(":/images/resources/actionEncode.svg"));
+    ui->actionCancel->setIcon(QIcon(":/images/resources/actionCancel.svg"));
     ui->actionEncode->setToolTip(tr("Start Encoding"));
     ui->actionCancel->setToolTip(tr("Cancel Encoding"));
 }
