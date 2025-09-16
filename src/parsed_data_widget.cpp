@@ -1,6 +1,3 @@
-#ifndef STATUSBAR_UI_H
-#define STATUSBAR_UI_H
-
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
 All rights reserved.
@@ -32,52 +29,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QWidget>
+#include "parsed_data_widget.h"
+#include "src/ui_parsed_data_widget.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class StatusBarUI;
-}
-QT_END_NAMESPACE
 
-class StatusBarUI : public QWidget
+ParsedDataWidget::ParsedDataWidget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::ParsedDataWidget)
 {
-    Q_OBJECT
+    ui->setupUi(this);
+}
 
-public:
-    explicit StatusBarUI(QWidget *parent = nullptr);
-    ~StatusBarUI();
+ParsedDataWidget::~ParsedDataWidget()
+{
+    delete ui;
+}
 
-public Q_SLOTS:
-    void receive_video_frame_count(const QString &nb_frames);
-    void parse_transcode_output(const QString &data);
+void ParsedDataWidget::receive_parsed_data(const QString &data)
+{
+    //receive and show the parsed data
+    ui->parsedDataLabel->setText(data);
+}
 
-private:
-    struct TranscodeStatus
-    {
-        QString frame_num{};
-        QString frame_fps{};
-        QString q_num{};
-        QString size{};
-        QString frame_time{};
-        QString proc_bitrate{};
-        QString proc_speed{};
-    };
-
-private:
-    Ui::StatusBarUI *ui;
-
-    //functions
-    void enable_progressbar_interface();
-
-    //variable
-    QString nb_frames{};
-
-    //progressbar
-    void start_progressbar_process(const QString &frames);
-
-    //struct instances
-    TranscodeStatus status;
-};
-
-#endif // STATUSBAR_UI_H
+void ParsedDataWidget::clear_parsed_data_info()
+{
+    ui->parsedDataLabel->clear();
+}

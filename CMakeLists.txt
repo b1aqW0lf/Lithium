@@ -60,9 +60,9 @@ set(PROJECT_SOURCES
         src/process_mode_widget.cpp
         src/process_mode_widget.h
         src/process_mode_widget.ui
-        src/statusbar_ui.h
-        src/statusbar_ui.cpp
-        src/statusbar_ui.ui
+        src/parsed_data_widget.h
+        src/parsed_data_widget.cpp
+        src/parsed_data_widget.ui
         src/input_probe.h
         src/input_probe.cpp
         src/transcode.h
