@@ -31,7 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "transcode_process.h"
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QMessageBox>
 
