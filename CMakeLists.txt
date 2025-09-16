@@ -34,8 +34,8 @@ set(PROJECT_SOURCES
         src/mainwindow.ui
         src/app_location.cpp
         src/app_location.h
-        src/detect_ffmpeg.h
-        src/detect_ffmpeg.cpp
+        src/encoder_process.h
+        src/encoder_process.cpp
         src/detect_storage.cpp
         src/detect_storage.h
         src/qt5_connection_archive.h

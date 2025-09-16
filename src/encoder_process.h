@@ -1,5 +1,5 @@
-#ifndef DETECTFFMPEG_H
-#define DETECTFFMPEG_H
+#ifndef ENCODER_PROCESS_H
+#define ENCODER_PROCESS_H
 
 
 /******************************************************************************
@@ -33,52 +33,55 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************************/
 
 
+#include "abstract_timer.h"
+
+#include <QObject>
 #include <QProcess>
-#include <QWidget>
 
 
-class DetectFFmpeg : public QProcess
+class EncoderProcess : public QObject
 {
     Q_OBJECT
 
-    friend class InputSourceProbe;
-
 public:
-    explicit DetectFFmpeg(QProcess *parent = nullptr);
-    ~DetectFFmpeg();
+    explicit EncoderProcess(QObject *parent = nullptr);
+    ~EncoderProcess();
 
 Q_SIGNALS:
-    void ffmpeg_read_output(const QString &output);
-    void ffmpeg_status_message(const QString &status, const int &timeout);
+    void send_ffprobe_output(QString &output);
+    void send_ffmpeg_output(QString &output);
+    void send_encoder_process_message(const QString &message, const int &timeout);
+    void send_encoder_process_exit_code(int &exit_code);
+
+public:
+    //functions
+    void start_ffprobe(const QStringList &arguments);
+    void start_ffmpeg(const QStringList &arguments);
+    void stop_ffmpeg();
+    void stop_encoder_timer();
 
 private Q_SLOTS:
-    void ffmpegReadStandardOutput();//ffmpeg QProcess function
-    void ffmpeg_process_started();
+    void ffprobe_standard_output();
+    void ffmpeg_standard_output();
+    void probing_process_finished(int exit_code);//new
+    void encoder_process_started();
+    void encoder_process_finished(int exit_code);
+    void encoder_process_message(const QString &message, const int &timeout);
 
 private:
-    //ffmpeg executable as a process
+    AbstractTimer timer;
+
+    //ffmpeg
     QProcess *ffmpeg;
+    QProcess *ffprobe;
 
-    //ffmpeg status functions
-    void ffmpeg_location_setup();
-    void ffprobe_location_setup();
-    void ffplay_location_setup();
+    //functions
+    void set_encoder_path(const QString &encoder);
 
-    //function
-    void ffmpeg_location_check(const QString &app);
-    void set_ffmpeg_ready_and_path(const QString &app, const QString &app_path);
-    void send_ffmpeg_status();
-    void generate_ffmpeg_version_prompt();
-
-    //ffmpeg file path -> path to ffmpeg
+    //variables
     QString ffmpeg_path{};
     QString ffprobe_path{};
-    QString ffplay_path{};
 
-    //ffmpeg status variables
-    bool ffmpeg_ready{};
-    bool ffprobe_ready{};
-    bool ffplay_ready{};
 };
 
 #endif // DETECTFFMPEG_H
