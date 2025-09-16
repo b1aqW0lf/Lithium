@@ -93,6 +93,9 @@ set(PROJECT_SOURCES
         src/simple_progressbar.h
         src/simple_progressbar.cpp
         src/simple_progressbar.ui
+        src/parsed_data_widget.h
+        src/parsed_data_widget.cpp
+        src/parsed_data_widget.ui
         misc/
         LICENSE
 )
