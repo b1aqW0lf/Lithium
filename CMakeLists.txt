@@ -68,8 +68,6 @@ set(PROJECT_SOURCES
         src/transcode.cpp
         src/abstract_timer.cpp
         src/abstract_timer.h
-        src/encoder_process.h
-        src/encoder_process.cpp
         src/file_extension_check.h
         src/file_extension_check.cpp        
         src/input_tree_model.h
