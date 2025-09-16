@@ -82,8 +82,6 @@ set(PROJECT_SOURCES
         src/metadata_checkbox.h
         src/metadata_checkbox.cpp
         src/metadata_checkbox.ui
-        src/open_file.h
-        src/open_file.cpp
         src/parse_data.h
         src/parse_data.cpp
         src/simple_progressbar.h
