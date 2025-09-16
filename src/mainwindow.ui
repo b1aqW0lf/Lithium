@@ -26,14 +26,14 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <widget class="QLabel" name="sourceInfoLabel_2">
+         <widget class="QLabel" name="sourceInfoLabel">
           <property name="text">
            <string>Source:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="InputTreeView" name="inputTreeWidget_2" native="true"/>
+         <widget class="InputTreeView" name="inputTreeWidget" native="true"/>
         </item>
         <item>
          <widget class="QGroupBox" name="groupBox_3">
@@ -48,7 +48,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_9">
               <item>
-               <widget class="AudioInterface" name="audioInterfaceWidget_2" native="true"/>
+               <widget class="AudioInterface" name="audioInterfaceWidget" native="true"/>
               </item>
              </layout>
             </widget>
@@ -60,7 +60,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">
               <item>
-               <widget class="VideoInterface" name="videoInterfaceWidget_2" native="true"/>
+               <widget class="VideoInterface" name="videoInterfaceWidget" native="true"/>
               </item>
              </layout>
             </widget>
