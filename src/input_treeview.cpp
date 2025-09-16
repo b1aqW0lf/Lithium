@@ -105,13 +105,8 @@ void InputTreeView::display_input_probe_data(const QString &video_codec, const Q
 
 void InputTreeView::set_model_items_icons()
 {
-#ifdef Q_OS_WINDOWS
-    tree_model.model_item_list[0]->setIcon(QIcon("C:/users/Kraken/Documents/Source_Code/Projects/Yttrium/resources/video.svg"));
-    tree_model.child_item_list[0]->setIcon(QIcon("C:/users/Kraken/Documents/Source_Code/Projects/Yttrium/resources/audio.svg"));
-#else
-    tree_model.model_item_list[0]->setIcon(QIcon("/home/Ultron/Documents/Source_Code/Projects/Yttrium/resources/video.svg"));
-    tree_model.child_item_list[0]->setIcon(QIcon("/home/Ultron/Documents/Source_Code/Projects/Yttrium/resources/audio.svg"));
-#endif
+    tree_model.model_item_list[0]->setIcon(QIcon(":/images/resources/video.svg"));
+    tree_model.child_item_list[0]->setIcon(QIcon(":/images/resources/audio.svg"));
 }
 
 void InputTreeView::codec_type_uppercase_check()
