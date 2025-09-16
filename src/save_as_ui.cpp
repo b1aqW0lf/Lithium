@@ -88,6 +88,7 @@ void SaveAsUI::receive_output_extension(const QString &ext)
     saveAs_line_data = saveAs_line_data.left(saveAs_line_data.lastIndexOf("."));//still does the same thing
     if(!ui->saveASEdit->text().isEmpty())
     {
+        //setting the file path with file extension
         ui->saveASEdit->setText(saveAs_line_data+ext);
     }
     send_output_file();
