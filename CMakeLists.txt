@@ -51,9 +51,8 @@ set(PROJECT_SOURCES
         src/video_ui.cpp
         src/video_ui.h
         src/video_ui.ui
-        src/select_source_ui.cpp
-        src/select_source_ui.h
-        src/select_source_ui.ui
+        src/open_file.h
+        src/open_file.cpp
         src/save_as_ui.cpp
         src/save_as_ui.h
         src/save_as_ui.ui

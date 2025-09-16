@@ -1,5 +1,5 @@
-#ifndef SELECT_SOURCE_UI_H
-#define SELECT_SOURCE_UI_H
+#ifndef OPEN_FILE_H
+#define OPEN_FILE_H
 
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
@@ -32,44 +32,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "process_mode_flags.h"
+
 #include <QWidget>
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class SelectSourceUI;
-}
-QT_END_NAMESPACE
 
-class SelectSourceUI : public QWidget
+class OpenFile : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SelectSourceUI(QWidget *parent = nullptr);
-    ~SelectSourceUI();
+    explicit OpenFile(QWidget *parent = nullptr);
+    ~OpenFile();
 
 Q_SIGNALS:
-    void current_video_source_extension(const QString &text);
-    void current_audio_source_extension(const QString &text);
-    void current_video_source_file(const QString &text, const QString &input_flag);
-    void current_audio_source_file(const QString &text, const QString &input_flag);
-    void clear_input1_data();
+    void get_current_process_mode();
+    void send_source_video_file(const QString &video_filename);
+    void send_source_audio_file(const QString &audio_filename);
 
 public Q_SLOTS:
-    void merge_sources_settings_enabled();
-    void normal_mode_settings_enabled();
-    void extract_audio_settings_enabled();
+    void open_source_file();
+    void current_process_mode(ProcessMode process_mode);
 
 private:
-    Ui::SelectSourceUI *ui;
+    //instances
+    ProcessMode process_mode;
 
-private Q_SLOTS:
-    void send_video_source_data();
-    void send_audio_source_data();
-    void select_input1();
-    void select_input2();
-
-    void clear_input1_data_request();
+    //functions
+    void get_source_file();
 };
 
-#endif // SELECT_SOURCE_UI_H
+#endif // OPEN_FILE_H
