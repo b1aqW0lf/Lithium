@@ -95,6 +95,7 @@ set(PROJECT_SOURCES
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Lithium
         ${PROJECT_SOURCES}
+        src/parse_data.h src/parse_data.cpp
     )
 else()
     if(ANDROID)
