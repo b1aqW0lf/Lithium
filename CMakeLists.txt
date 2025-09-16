@@ -94,6 +94,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Lithium
         ${PROJECT_SOURCES}
         src/subtitles_checkbox.h src/subtitles_checkbox.cpp src/subtitles_checkbox.ui
+        src/video_commands.h
+        src/video_interface_data.h
     )
 else()
     if(ANDROID)
