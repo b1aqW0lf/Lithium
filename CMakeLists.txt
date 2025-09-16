@@ -51,6 +51,11 @@ set(PROJECT_SOURCES
         src/video_interface.cpp
         src/video_interface.h
         src/video_interface.ui
+        src/video_interface_data.h
+        src/video_commands.h
+        src/subtitles_checkbox.h
+        src/subtitles_checkbox.cpp
+        src/subtitles_checkbox.ui
         src/open_file.h
         src/open_file.cpp
         src/save_as_ui.cpp
@@ -93,9 +98,6 @@ set(PROJECT_SOURCES
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Lithium
         ${PROJECT_SOURCES}
-        src/subtitles_checkbox.h src/subtitles_checkbox.cpp src/subtitles_checkbox.ui
-        src/video_commands.h
-        src/video_interface_data.h
     )
 else()
     if(ANDROID)
