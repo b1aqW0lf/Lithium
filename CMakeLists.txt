@@ -59,9 +59,6 @@ set(PROJECT_SOURCES
         src/process_mode_widget.cpp
         src/process_mode_widget.h
         src/process_mode_widget.ui
-        src/output_display_ui.h
-        src/output_display_ui.cpp
-        src/output_display_ui.ui
         src/statusbar_ui.h
         src/statusbar_ui.cpp
         src/statusbar_ui.ui
