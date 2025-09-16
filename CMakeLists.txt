@@ -32,8 +32,6 @@ set(PROJECT_SOURCES
         src/mainwindow.cpp
         src/mainwindow.h
         src/mainwindow.ui
-        src/app_location.cpp
-        src/app_location.h
         src/encoder_process.h
         src/encoder_process.cpp
         src/storage_data.cpp
