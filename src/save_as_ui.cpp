@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
@@ -82,9 +83,9 @@ void SaveAsUI::select_output()
 
 void SaveAsUI::receive_output_extension(const QString &ext)
 {
-    QString saveAs_line_data{ui->saveASEdit->text()};
     //based on code from qtffmpeg
-    saveAs_line_data = saveAs_line_data.left(saveAs_line_data.lastIndexOf("."));
+    QString saveAs_line_data{ui->saveASEdit->text()};
+    saveAs_line_data = saveAs_line_data.left(saveAs_line_data.lastIndexOf("."));//still does the same thing
     if(!ui->saveASEdit->text().isEmpty())
     {
         ui->saveASEdit->setText(saveAs_line_data+ext);
