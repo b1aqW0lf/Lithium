@@ -29,29 +29,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "detect_storage.h"
+#include "storage_data.h"
+#include "src/ui_storage_data.h"
 
-#include <QLocale>
+#include <QStorageInfo>
 
 
-DetectStorage::DetectStorage(QObject *parent) : QObject(parent)
+StorageData::StorageData(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::StorageData)
 {
-    //empty constructor
-}
+    ui->setupUi(this);
 
-DetectStorage::~DetectStorage(){}
-
-QString DetectStorage::get_available_storage_size()
-{
-    storage.refresh();
-
-    //get the size of the main harddisk drive's available storage
-    this->storage = QStorageInfo::root();
+    QStorageInfo storage = QStorageInfo::root();
     qint64 bytes = storage.bytesAvailable();
 #ifdef Q_OS_WINDOWS
     QString size_available = QLocale().formattedDataSize(bytes, 2, QLocale::DataSizeTraditionalFormat);
+    ui->harddriveLabel1->setPixmap(tr("C:/users/Kraken/Documents/Source_Code/Projects/Yttrium/resources/hd_16px.png"));
 #else
     QString size_available = QLocale().formattedDataSize(bytes, 2, QLocale::DataSizeSIFormat);
+    ui->harddriveLabel1->setPixmap(tr("/home/Ultron/Documents/Source_Code/Projects/Yttrium/resources/hd_16px.png"));
 #endif
-    return size_available;
+    ui->harddriveLabel1->setToolTip("Available storage on main disk");
+    ui->harddriveLabel2->setText(size_available);
+}
+
+StorageData::~StorageData()
+{
+    delete ui;
 }

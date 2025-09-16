@@ -29,7 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "detect_storage.h"
+#include "storage_data.h"
 #include "statusbar_ui.h"
 #include "ui_statusbar_ui.h"
 

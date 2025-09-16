@@ -1,5 +1,5 @@
-#ifndef DETECT_STORAGE_H
-#define DETECT_STORAGE_H
+#ifndef STORAGE_DATA_H
+#define STORAGE_DATA_H
 
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
@@ -32,26 +32,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QObject>
-#include <QStorageInfo>
+#include <QWidget>
 
 
-class DetectStorage : public QObject
+namespace Ui {
+class StorageData;
+}
+
+class StorageData : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DetectStorage(QObject *parent = nullptr);
-    ~DetectStorage();
-
-    //creating the variables that hold values for available disk space
-    //total disc space, and their comparison
-
-public:
-    QString get_available_storage_size();//available disk space
+    explicit StorageData(QWidget *parent = nullptr);
+    ~StorageData();
 
 private:
-    QStorageInfo storage{};
+    Ui::StorageData *ui;
 };
-
-#endif // DETECT_STORAGE_H
+#endif // STORAGE_DATA_H
