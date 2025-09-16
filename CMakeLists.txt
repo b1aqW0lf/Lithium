@@ -83,6 +83,11 @@ set(PROJECT_SOURCES
         src/process_mode_flags.h
         src/lithium_theme.h
         src/lithium_theme.cpp
+        src/metadata_checkbox.h
+        src/metadata_checkbox.cpp
+        src/metadata_checkbox.ui
+        src/open_file.h
+        src/open_file.cpp
         misc/
         LICENSE
 )
