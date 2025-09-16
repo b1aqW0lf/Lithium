@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VideoInterface</class>
+ <widget class="QWidget" name="VideoInterface">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>188</width>
+    <height>228</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QCheckBox" name="copyVideoCheckBox">
+     <property name="text">
+      <string>Copy Source Video</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>Video Options</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="1">
+       <widget class="QComboBox" name="videoCodecBox"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="videoResolutionLabel">
+        <property name="text">
+         <string>Resolution:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QComboBox" name="videoContainerBox"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="videoAspectRatioBox"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="videoCodecLabel">
+        <property name="text">
+         <string>Codec:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="videoResolutionBox"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="videoAspectRatioLabel">
+        <property name="text">
+         <string>Aspect Ratio:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="videoContainerLabel">
+        <property name="text">
+         <string>Container:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="videoFramerateLabel">
+        <property name="text">
+         <string>Framerate:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="videoFramerateBox"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

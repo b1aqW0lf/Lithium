@@ -48,9 +48,9 @@ set(PROJECT_SOURCES
         src/audio_interface.ui
         src/audio_interface_data.h
         src/audio_commands.h
-        src/video_ui.cpp
-        src/video_ui.h
-        src/video_ui.ui
+        src/video_interface.cpp
+        src/video_interface.h
+        src/video_interface.ui
         src/open_file.h
         src/open_file.cpp
         src/save_as_ui.cpp
