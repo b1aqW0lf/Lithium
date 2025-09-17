@@ -112,7 +112,7 @@
                   </layout>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider">
+                  <widget class="QSlider" name="videoRateFactorSlider">
                    <property name="maximum">
                     <number>68</number>
                    </property>

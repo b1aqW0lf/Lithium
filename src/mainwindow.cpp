@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 #ifdef Q_OS_WINDOWS
     //set slider style
-    ui->horizontalSlider->setStyle(QStyleFactory::create("windowsvista"));
+    ui->videoRateFactorSlider->setStyle(QStyleFactory::create("windowsvista"));
     ui->horizontalSlider_2->setStyle(QStyleFactory::create("windowsvista"));
 #endif
 
