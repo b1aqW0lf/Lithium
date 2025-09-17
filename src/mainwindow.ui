@@ -112,7 +112,7 @@
                   </layout>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider_3">
+                  <widget class="QSlider" name="horizontalSlider">
                    <property name="maximum">
                     <number>68</number>
                    </property>
@@ -209,7 +209,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_14">
                      <item>
-                      <widget class="QSlider" name="horizontalSlider_4">
+                      <widget class="QSlider" name="horizontalSlider_2">
                        <property name="maximum">
                         <number>10</number>
                        </property>
@@ -334,7 +334,7 @@
      <x>0</x>
      <y>0</y>
      <width>1212</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
