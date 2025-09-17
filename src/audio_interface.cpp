@@ -133,8 +133,9 @@ void AudioInterface::select_audio_codec(const int &index)
         if(index == 2)//AAC
         {
             //set libfdk_aac as the aac ffmpeg audio codec on Windows
-            this->selection.audio_codec_selection << ui->audioCodecBox->setItemData(index, "libfdk_aac", Qt::UserRole);
-            Q_EMIT this->send_audio_statusbar_message(ui->audioCodecBox->itemData(index, Qt::UserRole).toString().toLower();
+            ui->audioCodecBox->setItemData(index, "libfdk_aac", Qt::UserRole);
+            this->selection.audio_codec_selection << ui->audioCodecBox->itemData(index, Qt::UserRole).toString();
+            Q_EMIT this->send_audio_statusbar_message(ui->audioCodecBox->itemData(index, Qt::UserRole).toString().toLower(), message_timeout);
         }
         else
         {
