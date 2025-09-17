@@ -32,9 +32,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mainwindow.h"
 #include "src/ui_mainwindow.h"
 
-#include "audio_interface.h"
-#include "input_treeview.h"
-#include "video_interface.h"
+#include "src/audio_interface.h"
+#include "src/input_treeview.h"
+#include "src/video_interface.h"
 
 #include <QFileInfo>
 #include <QStyleFactory>
