@@ -93,6 +93,9 @@ set(PROJECT_SOURCES
         src/video_crf_interface.h
         src/video_crf_interface.cpp
         src/video_crf_interface.ui
+        src/video_avg_bitrate_field.h
+        src/video_avg_bitrate_field.cpp
+        src/video_avg_bitrate_field.ui
         misc/
         LICENSE
 )
