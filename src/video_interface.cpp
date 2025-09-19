@@ -107,6 +107,7 @@ void VideoInterface::process_source_file_video_data(const QString &video_codec, 
     //used for the UserRole of the "Source" DisplayRole
     const int index{0};//first index for the comboboxes
     this->ui->videoCodecBox->setItemData(index, video_codec, Qt::UserRole);
+    Q_EMIT this->send_selected_video_codec_name(video_codec);//send the codec name to set the initial ui settings
     this->ui->videoResolutionBox->setItemData(index, video_resolution, Qt::UserRole);
     this->ui->videoFramerateBox->setItemData(index, video_framerate, Qt::UserRole);
     this->ui->videoAspectRatioBox->setItemData(index, video_aspect_ratio, Qt::UserRole);
