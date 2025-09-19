@@ -66,9 +66,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_8">
+            <widget class="QGroupBox" name="videoOptionsGroupBox">
              <property name="title">
-              <string>GroupBox</string>
+              <string>Video Options Extended</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
               <item>
