@@ -188,6 +188,17 @@ void VideoInterface::select_video_codec(const int &index)
     }
 
     Q_EMIT this->send_video_statusbar_message(ui->videoCodecBox->itemData(index, Qt::UserRole).toString(), message_timeout);
+
+    //send the name of the selected codec
+    if(index == 0)
+    {
+        //send codec assigned to "Source" via the Qt::UserRole
+        Q_EMIT this->send_selected_video_codec_name(ui->videoCodecBox->itemData(index, Qt::UserRole).toString());
+    }
+    if(index > 0)
+    {
+        Q_EMIT this->send_selected_video_codec_name(ui->videoCodecBox->currentText());
+    }
 }
 
 void VideoInterface::select_video_resolution(const int &index)

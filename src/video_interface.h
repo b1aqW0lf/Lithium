@@ -53,6 +53,7 @@ Q_SIGNALS:
     void send_video_statusbar_message(const QString &message, const int &timeout);
     void send_selected_video_extension(const QString &extension);
     void send_video_interface_selections(const QStringList &video_selections);
+    void send_selected_video_codec_name(const QString &video_codec);
 
 public Q_SLOTS:
     void receive_source_file_video_data(const QString &video_codec, const QString &video_resolution,
