@@ -45,13 +45,13 @@ VideoCRFInterface::VideoCRFInterface(QWidget *parent)
     //set slider style
     ui->videoRateFactorSlider->setStyle(QStyleFactory::create("windowsvista"));
 #endif
+    ui->videoRFSpinBox->setStyleSheet("QSpinBox { background-color: transparent; } QLineEdit { background-color: transparent; }");
 
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
             this, &VideoCRFInterface::select_encoder_rate_factor);
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
             ui->videoRFSpinBox, &QSpinBox::setValue);
-
-    ui->videoRFSpinBox->setStyleSheet("QSpinBox { background-color: transparent; } QLineEdit { background-color: transparent; }");}
+}
 
 VideoCRFInterface::~VideoCRFInterface()
 {
