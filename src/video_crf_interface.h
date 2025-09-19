@@ -1,5 +1,5 @@
-#ifndef VIDEO_CRF_COMMANDS_H
-#define VIDEO_CRF_COMMANDS_H
+#ifndef VIDEO_CRF_INTERFACE_H
+#define VIDEO_CRF_INTERFACE_H
 
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
@@ -32,19 +32,49 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include <QStringList>
+#include "video_crf_commands.h"
 
+#include <QWidget>
 
-class VideoCRFCommands
+namespace Ui {
+class VideoCRFInterface;
+}
+
+class VideoCRFInterface : public QWidget
 {
-    friend class VideoCRFInterface;
-    private:
-        const QString val{"0"};
-        const QStringList video_bitrate_flag = QStringList() << "-bitrate:v" << val;
-        const QStringList video_crf_flag = QStringList() << "-crf";
-        const QStringList video_qscale_flag = QStringList() << "-qscale";
-        QStringList video_crf_qscale{};
+    Q_OBJECT
+
+public:
+    explicit VideoCRFInterface(QWidget *parent = nullptr);
+    ~VideoCRFInterface();
+
+Q_SIGNALS:
+    void send_video_crf_qscale_selection(const QStringList &crf_qscale_selection);
+    void send_statusbar_message(const QString &message, const int &timeout);
+
+public Q_SLOTS:
+    void receive_selected_video_codec_name(const QString &video_codec);
+    void get_video_crf_qscale_selection();
+
+private Q_SLOTS:
+    void select_encoder_rate_factor(const int &index);
+
+private:
+    Ui::VideoCRFInterface *ui;
+    VideoCRFCommands command;
+
+    //functions
+    void set_crf_slider_options(const QString &video_codec);
+    void set_crf_slider_interface(const QString &video_codec);
+    void process_video_crf_qscale_selection();
+
+    //struct
+    struct
+    {
+        QStringList video_crf_selection{};
+        //--------------------------------------
+        QStringList video_crf_selection_list{};
+    }selection;
 };
 
-
-#endif // VIDEO_CRF_COMMANDS_H
+#endif // VIDEO_CRF_INTERFACE_H

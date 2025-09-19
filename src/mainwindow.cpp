@@ -86,10 +86,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     //statusbar widgets
     this->setup_statusbar_widgets();
-
-    ui->videoRFSpinBox->setStyleSheet("QSpinBox { background-color: transparent; } QSpinBox QLineEdit { background-color: transparent; }");
-    //ui->videoRFSpinBox->setStyleSheet("QSpinBox { color: white; }");
-    ///ui->videoRFSpinBox->setStyleSheet("QSpinBox::lineEdit { color: white; }");
 }
 
 MainWindow::~MainWindow()

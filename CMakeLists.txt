@@ -90,6 +90,9 @@ set(PROJECT_SOURCES
         src/simple_progressbar.cpp
         src/simple_progressbar.ui
         src/video_crf_commands.h
+        src/video_crf_interface.h
+        src/video_crf_interface.cpp
+        src/video_crf_interface.ui
         misc/
         LICENSE
 )
