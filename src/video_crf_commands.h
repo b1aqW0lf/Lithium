@@ -40,7 +40,7 @@ class VideoCRFCommands
     friend class VideoCRFInterface;
     private:
         const QString val{"0"};
-        const QStringList video_bitrate_flag = QStringList() << "-bitrate:v" << val;
+        const QStringList video_bitrate_flag = QStringList() << "-b:v" << val;
         const QStringList video_crf_flag = QStringList() << "-crf";
         const QStringList video_qscale_flag = QStringList() << "-qscale";
         QStringList video_crf_qscale{};
