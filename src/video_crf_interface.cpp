@@ -32,11 +32,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include <QStyleFactory>
+
+
 VideoCRFInterface::VideoCRFInterface(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::VideoCRFInterface)
 {
     ui->setupUi(this);
+
+#ifdef Q_OS_WINDOWS
+    //set slider style
+    ui->videoRateFactorSlider->setStyle(QStyleFactory::create("windowsvista"));
+#endif
 
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
             this, &VideoCRFInterface::select_encoder_rate_factor);
