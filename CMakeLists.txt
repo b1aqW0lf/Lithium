@@ -89,6 +89,7 @@ set(PROJECT_SOURCES
         src/simple_progressbar.h
         src/simple_progressbar.cpp
         src/simple_progressbar.ui
+        src/video_crf_commands.h
         misc/
         LICENSE
 )
