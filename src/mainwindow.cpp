@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->videoInterfaceWidget, &VideoInterface::send_video_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
     connect(ui->videoInterfaceWidget, &VideoInterface::send_selected_video_codec_name,
             ui->videoCRFWidget, &VideoCRFInterface::receive_selected_video_codec_name);//new
+    connect(ui->videoCRFWidget, &VideoCRFInterface::send_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
 
     //statusbar widgets
     this->setup_statusbar_widgets();
