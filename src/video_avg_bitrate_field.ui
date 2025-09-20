@@ -29,11 +29,11 @@
    <item>
     <widget class="QGroupBox" name="videoAVGBitrateGroupBox">
      <property name="title">
-      <string>GroupBox</string>
+      <string>Average Bitrate</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_13">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QRadioButton" name="videoAVGBitrateRadio">
           <property name="text">
@@ -47,7 +47,7 @@
         <item>
          <widget class="QLabel" name="videoAVGBitrateLabel">
           <property name="text">
-           <string>TextLabel</string>
+           <string>Kbps</string>
           </property>
          </widget>
         </item>

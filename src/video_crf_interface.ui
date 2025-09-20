@@ -27,7 +27,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox_12">
+    <widget class="QGroupBox" name="videoRateFactorGroupBox">
      <property name="title">
       <string>Constant Rate Factor</string>
      </property>
