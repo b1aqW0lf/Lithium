@@ -189,3 +189,13 @@ void VideoAVGBitrateField::set_avg_bitrate_button_mode()
 {
     this->enable_average_bitrate_field();
 }
+
+void VideoAVGBitrateField::get_video_bitrate_selections()
+{
+    this->process_video_bitrate_selections();
+}
+
+void VideoAVGBitrateField::process_video_bitrate_selections()
+{
+    Q_EMIT this->send_video_bitrate_selections(selection.avg_bitrate_selection);
+}

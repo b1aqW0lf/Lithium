@@ -59,9 +59,11 @@ Q_SIGNALS:
     void average_bitrate_encode_enabled(const bool &status);
     void send_average_bitrate_value(const QString &bitrate);
     void send_avg_bitrate_statusbar_message(const QString &message, const int &timeout);//for testing
+    void send_video_bitrate_selections(const QStringList &bitrate_selections);
 
 public Q_SLOTS:
     void receive_source_video_bitrate(const QString &bitrate);
+    void get_video_bitrate_selections();
 
 private Q_SLOTS:
     void enable_average_bitrate_field();
@@ -78,10 +80,19 @@ private:
     void setup_avg_bitrate_field_settings();
     void setup_avg_bitrate_field_validator();
     void process_source_video_bitrate(const QString &bitrate);
+    void process_video_bitrate_selections();
 
     //misc
     QAction *minusAction;
     QAction *plusAction;
+
+    //structs
+    struct
+    {
+        QString video_bitrate_val{};
+        QString two_pass_encode{};
+        QStringList avg_bitrate_selection{};
+    }selection;
 };
 
 #endif // VIDEO_AVG_BITRATE_FIELD_H
