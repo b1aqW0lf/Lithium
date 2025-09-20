@@ -63,6 +63,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+Q_SIGNALS:
+    void button_group_signal();
+
 public Q_SLOTS:
     void receive_source_file(const QString &filename);
     void receive_input_probe_data(const QString &video_codec, const QString &video_res,
@@ -70,6 +73,9 @@ public Q_SLOTS:
                                   const QString &pixel_format, const QString &video_codec_type,
                                   const QString &audio_codec, const QString &audio_channels,
                                   const QString &audio_codec_type);
+
+private Q_SLOTS:
+    void group_button_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -94,6 +100,7 @@ private:
     void setup_radio_buttons();
     void setup_checkboxes();
     void setup_statusbar_widgets();
+    void setup_button_group();
 
     //variables
     QString filename{};

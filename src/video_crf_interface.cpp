@@ -51,6 +51,8 @@ VideoCRFInterface::VideoCRFInterface(QWidget *parent)
             this, &VideoCRFInterface::select_encoder_rate_factor);
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
             ui->videoRFSpinBox, &QSpinBox::setValue);
+    connect(ui->videoCRFRadio, &QRadioButton::clicked,
+            this, &VideoCRFInterface::enable_crf_interface);
 }
 
 VideoCRFInterface::~VideoCRFInterface()
@@ -66,6 +68,24 @@ void VideoCRFInterface::select_encoder_rate_factor(const int &index)
     //select the desired codec's constant rate factor (crf) or qscale value
     this->selection.video_crf_selection << QString::number(index); //receive selected crf/qscale value
     Q_EMIT this->send_statusbar_message(QString::number(index), timeout);
+}
+
+void VideoCRFInterface::enable_crf_interface()
+{
+    if(ui->videoCRFRadio->isChecked() == true)
+    {
+        ui->videoRateFactorSlider->setEnabled(true);
+        ui->videoRFSpinBox->setEnabled(true);
+        ui->videoHQLabel->setEnabled(true);
+        ui->videoLQLabel->setEnabled(true);
+    }
+    if(ui->videoCRFRadio->isChecked() == false)
+    {
+        ui->videoRateFactorSlider->setEnabled(false);
+        ui->videoRFSpinBox->setEnabled(false);
+        ui->videoHQLabel->setEnabled(false);
+        ui->videoLQLabel->setEnabled(false);
+    }
 }
 
 void VideoCRFInterface::receive_selected_video_codec_name(const QString &video_codec)
@@ -211,4 +231,15 @@ void VideoCRFInterface::process_video_crf_qscale_selection()
                                              << this->selection.video_crf_selection;
 
     Q_EMIT this->send_video_crf_qscale_selection(this->selection.video_crf_selection_list);
+}
+
+QAbstractButton *VideoCRFInterface::video_crf_button_widget()
+{
+    //get the button widget
+    return this->ui->videoCRFRadio;
+}
+
+void VideoCRFInterface::set_crf_button_mode()
+{
+    this->enable_crf_interface();
 }

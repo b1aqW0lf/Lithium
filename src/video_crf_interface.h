@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "video_crf_commands.h"
 
+#include <QAbstractButton>
 #include <QWidget>
 
 namespace Ui {
@@ -48,6 +49,11 @@ public:
     explicit VideoCRFInterface(QWidget *parent = nullptr);
     ~VideoCRFInterface();
 
+public:
+    //function
+    QAbstractButton *video_crf_button_widget();
+    void set_crf_button_mode();
+
 Q_SIGNALS:
     void send_video_crf_qscale_selection(const QStringList &crf_qscale_selection);
     void send_statusbar_message(const QString &message, const int &timeout);
@@ -58,6 +64,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void select_encoder_rate_factor(const int &index);
+    void enable_crf_interface();
 
 private:
     Ui::VideoCRFInterface *ui;

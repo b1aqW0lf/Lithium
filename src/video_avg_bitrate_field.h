@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include <QAbstractButton>
 #include <QAction>
 #include <QWidget>
 
@@ -47,6 +48,11 @@ class VideoAVGBitrateField : public QWidget
 public:
     explicit VideoAVGBitrateField(QWidget *parent = nullptr);
     ~VideoAVGBitrateField();
+
+public:
+    //functions
+    QAbstractButton *video_avg_bitrate_bttn_widget();
+    void set_avg_bitrate_button_mode();
 
 Q_SIGNALS:
     void two_pass_encode_enabled(const bool &status);

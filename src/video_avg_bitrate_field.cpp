@@ -98,6 +98,7 @@ void VideoAVGBitrateField::process_source_video_bitrate(const QString &bitrate)
 
 void VideoAVGBitrateField::enable_average_bitrate_field()
 {
+    const int timeout{0};
     if(ui->videoAVGBitrateRadio->isChecked() == true)
     {
         ui->videoAVGBitrateField->setEnabled(true);
@@ -109,6 +110,7 @@ void VideoAVGBitrateField::enable_average_bitrate_field()
         ui->videoAVGBitrateField->setEnabled(false);
         ui->videoAVGBitrateLabel->setEnabled(false);
         ui->twoPassCheckBox->setEnabled(false);
+        this->send_avg_bitrate_statusbar_message("", timeout);
     }
 }
 void VideoAVGBitrateField::get_vid_bitrate_field_data()
@@ -175,4 +177,15 @@ void VideoAVGBitrateField::decrease_vid_bitrate_field_value()
 void VideoAVGBitrateField::increase_vid_bitrate_field_value()
 {
 
+}
+
+QAbstractButton *VideoAVGBitrateField::video_avg_bitrate_bttn_widget()
+{
+    //get the button widget
+    return this->ui->videoAVGBitrateRadio;
+}
+
+void VideoAVGBitrateField::set_avg_bitrate_button_mode()
+{
+    this->enable_average_bitrate_field();
 }

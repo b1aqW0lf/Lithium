@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "src/input_treeview.h"
 #include "src/video_interface.h"
 
+#include <QButtonGroup>
 #include <QFileInfo>
 #include <QStyleFactory>
 
@@ -87,9 +88,12 @@ MainWindow::MainWindow(QWidget *parent)
             ui->videoCRFWidget, &VideoCRFInterface::receive_selected_video_codec_name);//new
     connect(ui->videoCRFWidget, &VideoCRFInterface::send_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->videoAVGBitrateWidget, &VideoAVGBitrateField::send_avg_bitrate_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
+    connect(this, &MainWindow::button_group_signal, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::set_avg_bitrate_button_mode);//new
+    connect(this, &MainWindow::button_group_signal, ui->videoCRFWidget, &VideoCRFInterface::set_crf_button_mode);//new
 
     //statusbar widgets
     this->setup_statusbar_widgets();
+    this->setup_button_group();
 }
 
 MainWindow::~MainWindow()
@@ -140,6 +144,22 @@ void MainWindow::setup_statusbar_widgets()
     ui->statusbar->addPermanentWidget(&datawidget);
     ui->statusbar->addPermanentWidget(&progressbar);
     ui->statusbar->addPermanentWidget(&storage);
+}
+
+void MainWindow::setup_button_group()
+{
+    QButtonGroup *buttonGroup = new QButtonGroup(this);
+    buttonGroup->setExclusive(true);
+    buttonGroup->addButton(ui->videoCRFWidget->video_crf_button_widget());
+    buttonGroup->addButton(ui->videoAVGBitrateWidget->video_avg_bitrate_bttn_widget());
+
+    ui->videoCRFWidget->video_crf_button_widget()->setChecked(true);
+    connect(buttonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::group_button_clicked);
+}
+
+void MainWindow::group_button_clicked()
+{
+    Q_EMIT this->button_group_signal();
 }
 
 void MainWindow::receive_source_file(const QString &filename)
