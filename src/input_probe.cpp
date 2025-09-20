@@ -189,6 +189,7 @@ void InputProbe::parse_video_output(QString &output)
         this->videostream.display_aspect_ratio = match.captured(8);//VideoStream::display_aspect_ratio
         this->videostream.framerate = match.captured(12);//VideoStream::framerate*/
     }
+    Q_EMIT this->send_source_video_bitrate(this->videostream.bitrate);
 
     //verifying the display aspect ratio value
     if(videostream.display_aspect_ratio.isEmpty() == true)

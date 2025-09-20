@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include <QAction>
 #include <QWidget>
 
 
@@ -47,8 +48,34 @@ public:
     explicit VideoAVGBitrateField(QWidget *parent = nullptr);
     ~VideoAVGBitrateField();
 
+Q_SIGNALS:
+    void two_pass_encode_enabled(const bool &status);
+    void average_bitrate_encode_enabled(const bool &status);
+    void send_average_bitrate_value(const QString &bitrate);
+    void send_avg_bitrate_statusbar_message(const QString &message, const int &timeout);//for testing
+
+public Q_SLOTS:
+    void receive_source_video_bitrate(const QString &bitrate);
+
+private Q_SLOTS:
+    void enable_average_bitrate_field();
+    void get_vid_bitrate_field_data();
+    void enable_two_pass_encode();
+    void decrease_vid_bitrate_field_value();
+    void increase_vid_bitrate_field_value();
+
 private:
     Ui::VideoAVGBitrateField *ui;
+
+private:
+    //functions
+    void setup_avg_bitrate_field_settings();
+    void setup_avg_bitrate_field_validator();
+    void process_source_video_bitrate(const QString &bitrate);
+
+    //misc
+    QAction *minusAction;
+    QAction *plusAction;
 };
 
 #endif // VIDEO_AVG_BITRATE_FIELD_H

@@ -57,6 +57,8 @@ Q_SIGNALS:
                                      const QString &video_file_extension, const QString &video_dar,
                                      const QString &video_fps);//experimental*/
 
+    void send_source_video_bitrate(const QString &bitrate);
+
     void send_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
                                      const QString &audio_samplerate, const QString &audio_channels);//experimental
 
