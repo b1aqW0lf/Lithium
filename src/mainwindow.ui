@@ -239,7 +239,10 @@
   </action>
   <action name="actionCancel">
    <property name="text">
-    <string>Stop</string>
+    <string>Cancel</string>
+   </property>
+   <property name="toolTip">
+    <string>Cancel Encode</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
