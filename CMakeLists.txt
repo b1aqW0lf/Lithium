@@ -96,6 +96,7 @@ set(PROJECT_SOURCES
         src/video_avg_bitrate_field.h
         src/video_avg_bitrate_field.cpp
         src/video_avg_bitrate_field.ui
+        src/video_avg_bitrate_commands.h
         misc/
         LICENSE
 )

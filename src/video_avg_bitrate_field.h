@@ -32,6 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "video_avg_bitrate_commands.h"
+
 #include <QAbstractButton>
 #include <QAction>
 #include <QWidget>
@@ -55,11 +57,10 @@ public:
     void set_avg_bitrate_button_mode();
 
 Q_SIGNALS:
-    void two_pass_encode_enabled(const bool &status);
-    void average_bitrate_encode_enabled(const bool &status);
-    void send_average_bitrate_value(const QString &bitrate);
+    void two_pass_encode_enabled(const bool &status, const QStringList &pass1,
+                                 const QStringList &pass2);
+    void average_bitrate_encode_enabled(const bool &status, const QStringList avg_video_bitrate);
     void send_avg_bitrate_statusbar_message(const QString &message, const int &timeout);//for testing
-    void send_video_bitrate_selections(const QStringList &bitrate_selections);
 
 public Q_SLOTS:
     void receive_source_video_bitrate(const QString &bitrate);
@@ -74,6 +75,7 @@ private Q_SLOTS:
 
 private:
     Ui::VideoAVGBitrateField *ui;
+    VideoAVGBitrateCommands command;
 
 private:
     //functions
@@ -89,9 +91,11 @@ private:
     //structs
     struct
     {
-        QString video_bitrate_val{};
-        QString two_pass_encode{};
-        QStringList avg_bitrate_selection{};
+        QStringList avg_bitrate_field_entry{};
+        bool avg_bitrate_enabled{};
+        bool two_pass_enabled{};
+        QStringList two_pass_encode_1st_pass{};
+        QStringList two_pass_encode_2nd_pass{};
     }selection;
 };
 

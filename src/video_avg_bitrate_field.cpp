@@ -116,11 +116,11 @@ void VideoAVGBitrateField::enable_average_bitrate_field()
 void VideoAVGBitrateField::get_vid_bitrate_field_data()
 {
     const int timeout{0};
+    this->selection.avg_bitrate_field_entry.clear();
+
     if(ui->videoAVGBitrateRadio->isChecked() == true)
     {
-        //report that the average bitrate field is enabled
-        Q_EMIT average_bitrate_encode_enabled(true);
-
+        this->selection.avg_bitrate_enabled = true;
         if(!ui->videoAVGBitrateField->text().isEmpty())
         {
             //videoAVGBitField data ends with a "k", "m", "K", or "M"
@@ -135,37 +135,56 @@ void VideoAVGBitrateField::get_vid_bitrate_field_data()
                 ui->videoAVGBitrateField->setText(ui->videoAVGBitrateField->text().remove(" "));
                 //Q_EMIT send_average_bitrate_value(video_bitrate);
             }
+            this->selection.avg_bitrate_field_entry << command.video_bitrate_flag
+                                                    << ui->videoAVGBitrateField->text();
         }
         if(ui->videoAVGBitrateField->text().isEmpty())
         {
             //default to 6000k
             ui->videoAVGBitrateField->setText("6000");
+            this->selection.avg_bitrate_field_entry << command.video_bitrate_flag
+                                                    << ui->videoAVGBitrateField->text();
             //send the 6000 value
         }
+        //report that the average bitrate field is enabled
+        Q_EMIT average_bitrate_encode_enabled(this->selection.avg_bitrate_enabled, this->selection.avg_bitrate_field_entry);
     }
     else
     {
+        this->selection.avg_bitrate_enabled = false;
         //report that the average bitrate field is disabled
-        Q_EMIT average_bitrate_encode_enabled(false);
+        this->selection.avg_bitrate_field_entry << "";
+        Q_EMIT average_bitrate_encode_enabled(this->selection.avg_bitrate_enabled, this->selection.avg_bitrate_field_entry);
     }
+    this->send_avg_bitrate_statusbar_message(ui->videoAVGBitrateField->text(), timeout);
 }
 
 void VideoAVGBitrateField::enable_two_pass_encode()
 {
     const int &timeout{0};
+    this->selection.two_pass_encode_1st_pass.clear();
+    this->selection.two_pass_encode_2nd_pass.clear();
 
     if(ui->videoAVGBitrateRadio->isChecked() == true)
     {
         if(ui->twoPassCheckBox->isChecked() == true)
         {
             //send signal that two pass encoding option is enabled
-            Q_EMIT two_pass_encode_enabled(true);
+            this->selection.two_pass_enabled = true;
+            this->selection.two_pass_encode_1st_pass << command.two_pass_flag << command.first_pass;
+            this->selection.two_pass_encode_2nd_pass << command.two_pass_flag << command.second_pass;
+            Q_EMIT two_pass_encode_enabled(this->selection.two_pass_enabled, selection.two_pass_encode_1st_pass,
+                                           selection.two_pass_encode_2nd_pass);
             this->send_avg_bitrate_statusbar_message("Two-Pass Encode Enabled", timeout);
         }
         else
         {
             //send signal that two pass encoding option is disabled
-            Q_EMIT two_pass_encode_enabled(false);
+            this->selection.two_pass_enabled = false;
+            this->selection.two_pass_encode_1st_pass << "";
+            this->selection.two_pass_encode_2nd_pass << "";
+            Q_EMIT two_pass_encode_enabled(this->selection.two_pass_enabled, selection.two_pass_encode_1st_pass,
+                                           selection.two_pass_encode_2nd_pass);
             this->send_avg_bitrate_statusbar_message("", timeout);
         }
     }
@@ -197,5 +216,7 @@ void VideoAVGBitrateField::get_video_bitrate_selections()
 
 void VideoAVGBitrateField::process_video_bitrate_selections()
 {
-    Q_EMIT this->send_video_bitrate_selections(selection.avg_bitrate_selection);
+    //send the entered output video stream bitrate value
+    Q_EMIT average_bitrate_encode_enabled(this->selection.avg_bitrate_enabled,
+                                          this->selection.avg_bitrate_field_entry);
 }
