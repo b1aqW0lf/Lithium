@@ -35,7 +35,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_14">
         <item>
-         <widget class="QSlider" name="horizontalSlider_2">
+         <widget class="QSlider" name="videoEncPresetSlider">
           <property name="maximum">
            <number>10</number>
           </property>
@@ -51,7 +51,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_22">
+         <widget class="QLabel" name="videoEncPresetLabel">
           <property name="text">
            <string>TextLabel</string>
           </property>
@@ -62,14 +62,14 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_15">
         <item>
-         <widget class="QCheckBox" name="checkBox_7">
+         <widget class="QCheckBox" name="fastDecodeCheckBox">
           <property name="text">
            <string>Fast Decode</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_8">
+         <widget class="QCheckBox" name="zeroLatencyCheckBox">
           <property name="text">
            <string>Zero Latency</string>
           </property>
