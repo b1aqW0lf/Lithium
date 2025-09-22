@@ -34,7 +34,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "src/audio_interface.h"
 #include "src/input_treeview.h"
+#include "src/video_avg_bitrate_field.h"
 #include "src/video_interface.h"
+#include "src/video_crf_interface.h"
 #include "src/video_encoder_preset.h"
 
 #include <QButtonGroup>
