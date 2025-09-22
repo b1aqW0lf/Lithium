@@ -67,12 +67,14 @@ private:
 
     //functions
     void set_preset_slider_options(const QString &video_codec);
+    //void set_preset_slider_default_range(const QStringList &preset_list);
+    //void set_preset_slider_label_text(const QStringList &preset_list);
 
     //struct
     struct
     {
         QString video_preset_command{"-preset:v"};
-        QString video_preset_value{};
+        QStringList video_encoder_presets{};
         QStringList video_preset_selection{};
     }selection;
 };

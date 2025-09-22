@@ -37,7 +37,7 @@
         <item>
          <widget class="QSlider" name="videoEncPresetSlider">
           <property name="maximum">
-           <number>10</number>
+           <number>15</number>
           </property>
           <property name="pageStep">
            <number>1</number>
