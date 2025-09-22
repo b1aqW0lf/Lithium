@@ -32,6 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "video_encoder_preset_data.h"
+
 #include <QWidget>
 
 
@@ -61,6 +63,7 @@ private Q_SLOTS:
 
 private:
     Ui::VideoEncoderPreset *ui;
+    VideoEncoderPresetData preset_data;
 
     //functions
     void set_preset_slider_options(const QString &video_codec);
