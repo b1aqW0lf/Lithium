@@ -64,6 +64,14 @@ private:
 
     //functions
     void set_preset_slider_options(const QString &video_codec);
+
+    //struct
+    struct
+    {
+        QString video_preset_command{"-preset:v"};
+        QString video_preset_value{};
+        QStringList video_preset_selection{};
+    }selection;
 };
 
 #endif // VIDEO_ENCODER_PRESET_H

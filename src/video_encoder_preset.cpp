@@ -39,6 +39,11 @@ VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
 {
     ui->setupUi(this);
 
+#ifdef Q_OS_WINDOWS
+    //set video encoder slider style
+    ui->videoEncPresetSlider->setStyle(QStyleFactory::create("windowsvista"));
+#endif
+
     connect(ui->videoEncPresetSlider, &QSlider::valueChanged, this, &VideoEncoderPreset::select_encoder_preset);
     connect(ui->fastDecodeCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_fast_decode);
     connect(ui->zeroLatencyCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_zero_latency);
@@ -61,7 +66,12 @@ void VideoEncoderPreset::set_preset_slider_options(const QString &video_codec)
 
 void VideoEncoderPreset::select_encoder_preset(const int &index)
 {
+    const int timeout{0};
+    this->selection.video_preset_selection.clear();
 
+    //select the desired codec's video encoder preset
+    this->selection.video_preset_value = QString::number(index);
+    Q_EMIT this->send_statusbar_message(this->selection.video_preset_value, timeout);
 }
 
 void VideoEncoderPreset::enable_fast_decode()
