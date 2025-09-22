@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "src/audio_interface.h"
 #include "src/input_treeview.h"
 #include "src/video_interface.h"
+#include "src/video_encoder_preset.h"
 
 #include <QButtonGroup>
 #include <QFileInfo>
@@ -87,6 +88,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->videoInterfaceWidget, &VideoInterface::send_selected_video_codec_name,
             ui->videoCRFWidget, &VideoCRFInterface::receive_selected_video_codec_name);//new
     connect(ui->videoCRFWidget, &VideoCRFInterface::send_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
+    connect(ui->videoPresetWidget, &VideoEncoderPreset::send_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->videoAVGBitrateWidget, &VideoAVGBitrateField::send_avg_bitrate_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
     connect(this, &MainWindow::button_group_signal, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::set_avg_bitrate_button_mode);//new
     connect(this, &MainWindow::button_group_signal, ui->videoCRFWidget, &VideoCRFInterface::set_crf_button_mode);//new

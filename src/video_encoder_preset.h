@@ -47,8 +47,23 @@ public:
     explicit VideoEncoderPreset(QWidget *parent = nullptr);
     ~VideoEncoderPreset();
 
+Q_SIGNALS:
+    void send_statusbar_message(const QString &message, const int &timeout);
+
+public Q_SLOTS:
+    void receive_selected_video_codec_name(const QString &video_codec);
+
+private Q_SLOTS:
+    void select_encoder_preset(const int &index);
+    void enable_fast_decode();
+    void enable_zero_latency();
+    //void set_encoder_preset_options(int index);
+
 private:
     Ui::VideoEncoderPreset *ui;
+
+    //functions
+    void set_preset_slider_options(const QString &video_codec);
 };
 
 #endif // VIDEO_ENCODER_PRESET_H

@@ -38,9 +38,54 @@ VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
     , ui(new Ui::VideoEncoderPreset)
 {
     ui->setupUi(this);
+
+    connect(ui->videoEncPresetSlider, &QSlider::valueChanged, this, &VideoEncoderPreset::select_encoder_preset);
+    connect(ui->fastDecodeCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_fast_decode);
+    connect(ui->zeroLatencyCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_zero_latency);
 }
 
 VideoEncoderPreset::~VideoEncoderPreset()
 {
     delete ui;
+}
+
+void VideoEncoderPreset::receive_selected_video_codec_name(const QString &video_codec)
+{
+    this->set_preset_slider_options(video_codec);
+}
+
+void VideoEncoderPreset::set_preset_slider_options(const QString &video_codec)
+{
+
+}
+
+void VideoEncoderPreset::select_encoder_preset(const int &index)
+{
+
+}
+
+void VideoEncoderPreset::enable_fast_decode()
+{
+    const int timeout{0};
+    if(ui->fastDecodeCheckBox->isChecked() == true)
+    {
+        this->send_statusbar_message("Fast Decode Enabled", timeout);
+    }
+    else
+    {
+        this->send_statusbar_message("", timeout);
+    }
+}
+
+void VideoEncoderPreset::enable_zero_latency()
+{
+    const int timeout{0};
+    if(ui->zeroLatencyCheckBox->isChecked() == true)
+    {
+        this->send_statusbar_message("Zero Latency Enabled", timeout);
+    }
+    else
+    {
+        this->send_statusbar_message("", timeout);
+    }
 }
