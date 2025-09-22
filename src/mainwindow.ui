@@ -80,58 +80,7 @@
                  <widget class="VideoAVGBitrateField" name="videoAVGBitrateWidget" native="true"/>
                 </item>
                 <item>
-                 <widget class="QGroupBox" name="groupBox_14">
-                  <property name="title">
-                   <string>Encoder Preset</string>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_14">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_14">
-                     <item>
-                      <widget class="QSlider" name="horizontalSlider_2">
-                       <property name="maximum">
-                        <number>10</number>
-                       </property>
-                       <property name="pageStep">
-                        <number>1</number>
-                       </property>
-                       <property name="orientation">
-                        <enum>Qt::Orientation::Horizontal</enum>
-                       </property>
-                       <property name="tickPosition">
-                        <enum>QSlider::TickPosition::TicksBelow</enum>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="label_22">
-                       <property name="text">
-                        <string>TextLabel</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_15">
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_7">
-                       <property name="text">
-                        <string>Fast Decode</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_8">
-                       <property name="text">
-                        <string>Zero Latency</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                  </layout>
-                 </widget>
+                 <widget class="VideoEncoderPreset" name="videoPresetWidget" native="true"/>
                 </item>
                 <item>
                  <widget class="QGroupBox" name="groupBox_15">
@@ -300,6 +249,12 @@
    <class>VideoAVGBitrateField</class>
    <extends>QWidget</extends>
    <header>video_avg_bitrate_field.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VideoEncoderPreset</class>
+   <extends>QWidget</extends>
+   <header>video_encoder_preset.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
