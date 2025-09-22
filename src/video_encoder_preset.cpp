@@ -32,6 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "video_encoder_preset.h"
 #include "ui_video_encoder_preset.h"
 
+#include <QStyleFactory>
+
 
 VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
     : QWidget(parent)

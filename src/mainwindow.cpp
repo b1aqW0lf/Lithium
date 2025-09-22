@@ -49,11 +49,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-#ifdef Q_OS_WINDOWS
-    //set slider style
-    ui->horizontalSlider_2->setStyle(QStyleFactory::create("windowsvista"));
-#endif
-
     this->setup_toolbar_settings();
     this->setup_action_buttons();
     this->setup_radio_buttons();
