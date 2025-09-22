@@ -117,11 +117,11 @@ void VideoEncoderPreset::enable_fast_decode()
     const int timeout{0};
     if(ui->fastDecodeCheckBox->isChecked() == true)
     {
-        this->send_statusbar_message("Fast Decode Enabled", timeout);
+        Q_EMIT this->send_statusbar_message("Fast Decode Enabled", timeout);
     }
     else
     {
-        this->send_statusbar_message("", timeout);
+        Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
 
@@ -130,10 +130,10 @@ void VideoEncoderPreset::enable_zero_latency()
     const int timeout{0};
     if(ui->zeroLatencyCheckBox->isChecked() == true)
     {
-        this->send_statusbar_message("Zero Latency Enabled", timeout);
+        Q_EMIT this->send_statusbar_message("Zero Latency Enabled", timeout);
     }
     else
     {
-        this->send_statusbar_message("", timeout);
+        Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
