@@ -75,13 +75,13 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.h264_presets);
         this->set_preset_label_text(preset_list.h264_presets[index]);
-        this->send_statusbar_message(preset_list.h264_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.h264_presets[index], timeout);
     }
     else if(video_codec.contains("x264 10-bit", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.x26410bit_presets);
         this->set_preset_label_text(preset_list.x26410bit_presets[index]);
-        this->send_statusbar_message(preset_list.x26410bit_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.x26410bit_presets[index], timeout);
     }
     else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
              video_codec.contains("H265", Qt::CaseInsensitive) ||
@@ -89,49 +89,49 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.hevc_presets);
         this->set_preset_label_text(preset_list.hevc_presets[index]);
-        this->send_statusbar_message(preset_list.hevc_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.hevc_presets[index], timeout);
     }
     else if(video_codec.contains("x265 10-bit", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.x26510bit_presets);
         this->set_preset_label_text(preset_list.x26510bit_presets[index]);
-        this->send_statusbar_message(preset_list.x26510bit_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.x26510bit_presets[index], timeout);
     }
     else if(video_codec.contains("x265 12-bit", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.x26512bit_presets);
         this->set_preset_label_text(preset_list.x26512bit_presets[index]);
-        this->send_statusbar_message(preset_list.x26512bit_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.x26512bit_presets[index], timeout);
     }
     else if(video_codec.contains("VP9", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.vp9_presets);
         this->set_preset_label_text(preset_list.vp9_presets[index]);
-        this->send_statusbar_message(preset_list.vp9_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.vp9_presets[index], timeout);
     }
     else if(video_codec.contains("Xvid", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.xvid_presets);
         this->set_preset_label_text(preset_list.xvid_presets[index]);
-        this->send_statusbar_message(preset_list.xvid_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.xvid_presets[index], timeout);
     }
     else if(video_codec.contains("Theora", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.theora_presets);
         this->set_preset_label_text(preset_list.theora_presets[index]);
-        this->send_statusbar_message(preset_list.theora_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.theora_presets[index], timeout);
     }
     else if(video_codec.contains("MPEG-2", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.mpeg2_presets);
         this->set_preset_label_text(preset_list.mpeg2_presets[index]);
-        this->send_statusbar_message(preset_list.mpeg2_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.mpeg2_presets[index], timeout);
     }
     else if(video_codec.contains("AV1", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.av1_presets);
         this->set_preset_label_text(preset_list.av1_presets[index]);
-        this->send_statusbar_message(preset_list.av1_presets[index], timeout);
+        Q_EMIT this->send_statusbar_message(preset_list.av1_presets[index], timeout);
     }
     else
     {
