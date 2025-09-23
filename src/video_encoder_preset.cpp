@@ -46,11 +46,12 @@ VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
     ui->videoEncPresetSlider->setStyle(QStyleFactory::create("windowsvista"));
 #endif
 
-    //this->setup_preset_slider_default_range();
+    this->set_preset_slider_default_settings();
 
     connect(ui->videoEncPresetSlider, &QSlider::valueChanged, this, &VideoEncoderPreset::select_encoder_preset);
     connect(ui->fastDecodeCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_fast_decode);
     connect(ui->zeroLatencyCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_zero_latency);
+
 }
 
 VideoEncoderPreset::~VideoEncoderPreset()
@@ -60,56 +61,99 @@ VideoEncoderPreset::~VideoEncoderPreset()
 
 void VideoEncoderPreset::receive_selected_video_codec_name(const QString &video_codec)
 {
-    this->set_preset_slider_options(video_codec);
+    //receive the selected video codec
+    this->video_codec = video_codec;
 }
-
-void VideoEncoderPreset::set_preset_slider_options(const QString &video_codec)
-{
-    if(video_codec.contains("H264", Qt::CaseInsensitive) ||
-        video_codec.contains("H.264", Qt::CaseInsensitive) ||
-        video_codec.contains("x264", Qt::CaseInsensitive))
-    {
-        //this->set_preset_slider_default_range(preset_data.h264_presets);
-        this->selection.video_encoder_presets = preset_data.h264_presets;//new
-        //ui->videoEncPresetSlider->setSliderPosition(4);//default position
-    }
-    else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
-               video_codec.contains("H.265", Qt::CaseInsensitive) ||
-               video_codec.contains("H265", Qt::CaseInsensitive) ||
-               video_codec.contains("x265", Qt::CaseInsensitive))
-    {
-        //this->set_preset_slider_default_range(preset_data.hevc_presets);
-        this->selection.video_encoder_presets = preset_data.h264_presets;//new
-        //ui->videoEncPresetSlider->setSliderPosition(4);//default position
-    }
-}
-
-/*void VideoEncoderPreset::set_preset_slider_default_range(const QStringList &preset_list)
-{
-    const int min{0};
-    ui->videoEncPresetSlider->setRange(min, preset_list.size()-1);
-    this->set_preset_slider_label_text(preset_list);
-}
-
-void VideoEncoderPreset::set_preset_slider_label_text(const QStringList &preset_list)
-{
-    //show the selected preset text
-    //ui->videoEncPresetLabel->setText(preset_list[ui->videoEncPresetSlider->value()]);
-    ui->videoEncPresetLabel->setText(preset_list[ui->videoEncPresetSlider->value()]);
-}*/
 
 void VideoEncoderPreset::select_encoder_preset(const int &index)
 {
     const int timeout{0};
     this->selection.video_preset_selection.clear();
 
-    //select the desired codec's video encoder preset
-    //ui->videoEncPresetLabel->setText(this->selection.video_preset_value[index]);
-    //Q_EMIT this->send_statusbar_message(this->selection.video_encoder_presets[index], timeout);
+    if(video_codec.contains("H264", Qt::CaseInsensitive) ||
+        video_codec.contains("H.264", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.h264_presets);
+        this->set_preset_label_text(preset_list.h264_presets[index]);
+        this->send_statusbar_message(preset_list.h264_presets[index], timeout);
+    }
+    else if(video_codec.contains("x264 10-bit", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.x26410bit_presets);
+        this->set_preset_label_text(preset_list.x26410bit_presets[index]);
+        this->send_statusbar_message(preset_list.x26410bit_presets[index], timeout);
+    }
+    else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
+             video_codec.contains("H265", Qt::CaseInsensitive) ||
+             video_codec.contains("H.265", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.hevc_presets);
+        this->set_preset_label_text(preset_list.hevc_presets[index]);
+        this->send_statusbar_message(preset_list.hevc_presets[index], timeout);
+    }
+    else if(video_codec.contains("x265 10-bit", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.x26510bit_presets);
+        this->set_preset_label_text(preset_list.x26510bit_presets[index]);
+        this->send_statusbar_message(preset_list.x26510bit_presets[index], timeout);
+    }
+    else if(video_codec.contains("x265 12-bit", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.x26512bit_presets);
+        this->set_preset_label_text(preset_list.x26512bit_presets[index]);
+        this->send_statusbar_message(preset_list.x26512bit_presets[index], timeout);
+    }
+    else if(video_codec.contains("VP9", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.vp9_presets);
+        this->set_preset_label_text(preset_list.vp9_presets[index]);
+        this->send_statusbar_message(preset_list.vp9_presets[index], timeout);
+    }
+    else if(video_codec.contains("Xvid", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.xvid_presets);
+        this->set_preset_label_text(preset_list.xvid_presets[index]);
+        this->send_statusbar_message(preset_list.xvid_presets[index], timeout);
+    }
+    else if(video_codec.contains("Theora", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.theora_presets);
+        this->set_preset_label_text(preset_list.theora_presets[index]);
+        this->send_statusbar_message(preset_list.theora_presets[index], timeout);
+    }
+    else if(video_codec.contains("MPEG-2", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.mpeg2_presets);
+        this->set_preset_label_text(preset_list.mpeg2_presets[index]);
+        this->send_statusbar_message(preset_list.mpeg2_presets[index], timeout);
+    }
+    else if(video_codec.contains("AV1", Qt::CaseInsensitive))
+    {
+        this->set_preset_slider_range(preset_list.av1_presets);
+        this->set_preset_label_text(preset_list.av1_presets[index]);
+        this->send_statusbar_message(preset_list.av1_presets[index], timeout);
+    }
+    else
+    {
+        return;
+    }
+}
 
-    Q_EMIT this->send_statusbar_message(QString::number(index), timeout);//works
-    ui->videoEncPresetLabel->setText(preset_data.h264_presets[index]);//does not work
+void VideoEncoderPreset::set_preset_slider_default_settings()
+{
+    const int width{150};
+    ui->videoEncPresetSlider->setFixedWidth(width);
+}
 
+void VideoEncoderPreset::set_preset_slider_range(const QStringList &list)
+{
+    const int minimum{0};
+    ui->videoEncPresetSlider->setRange(minimum, list.size()-1);
+}
+
+void VideoEncoderPreset::set_preset_label_text(const QString &text)
+{
+    ui->videoEncPresetLabel->setText(text);
 }
 
 void VideoEncoderPreset::enable_fast_decode()

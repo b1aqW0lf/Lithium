@@ -59,16 +59,18 @@ private Q_SLOTS:
     void select_encoder_preset(const int &index);
     void enable_fast_decode();
     void enable_zero_latency();
-    //void set_encoder_preset_options(int index);
 
 private:
     Ui::VideoEncoderPreset *ui;
-    VideoEncoderPresetData preset_data;
+    VideoEncoderPresetData preset_list;
 
     //functions
-    void set_preset_slider_options(const QString &video_codec);
-    //void set_preset_slider_default_range(const QStringList &preset_list);
-    //void set_preset_slider_label_text(const QStringList &preset_list);
+    void set_preset_slider_default_settings();
+    void set_preset_slider_range(const QStringList &list);
+    void set_preset_label_text(const QString &text);
+
+    //variables
+    QString video_codec{};
 
     //struct
     struct

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>301</width>
+    <width>315</width>
     <height>98</height>
    </rect>
   </property>
@@ -36,6 +36,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_14">
         <item>
          <widget class="QSlider" name="videoEncPresetSlider">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="maximum">
            <number>15</number>
           </property>
@@ -52,8 +58,14 @@
         </item>
         <item>
          <widget class="QLabel" name="videoEncPresetLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>preset value</string>
           </property>
          </widget>
         </item>
