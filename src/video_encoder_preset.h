@@ -77,7 +77,6 @@ private:
     struct
     {
         QString video_preset_command{"-preset:v"};
-        QStringList video_encoder_presets{};
         QStringList video_preset_selection{};
     }selection;
 };
