@@ -63,10 +63,10 @@ void VideoEncoderPreset::receive_selected_video_codec_name(const QString &video_
 {
     //receive the selected video codec
     this->video_codec = video_codec;
-    this->set_preset_slider_position(video_codec);
+    this->set_preset_slider_default_position(video_codec);
 }
 
-void VideoEncoderPreset::set_preset_slider_position(const QString &video_codec)
+void VideoEncoderPreset::set_preset_slider_default_position(const QString &video_codec)
 {
     if(video_codec.contains("H264", Qt::CaseInsensitive) ||
         video_codec.contains("H.264", Qt::CaseInsensitive))

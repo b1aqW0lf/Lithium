@@ -66,7 +66,7 @@ private:
 
     //functions
     void set_preset_slider_default_size();
-    void set_preset_slider_position(const QString &video_codec);
+    void set_preset_slider_default_position(const QString &video_codec);
     void set_preset_slider_range(const QStringList &list);
     void set_preset_label_text(const QString &text);
 
