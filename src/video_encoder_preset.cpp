@@ -137,7 +137,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.h264_presets);
         this->set_preset_label_text(preset_list.h264_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.h264_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.h264_presets[index], timeout);
     }
@@ -145,7 +145,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.x26410bit_presets);
         this->set_preset_label_text(preset_list.x26410bit_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.x26410bit_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.x26410bit_presets[index], timeout);
     }
@@ -155,7 +155,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.hevc_presets);
         this->set_preset_label_text(preset_list.hevc_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.hevc_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.hevc_presets[index], timeout);
     }
@@ -163,7 +163,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.x26510bit_presets);
         this->set_preset_label_text(preset_list.x26510bit_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.x26510bit_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.x26510bit_presets[index], timeout);
     }
@@ -171,7 +171,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.x26512bit_presets);
         this->set_preset_label_text(preset_list.x26512bit_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.x26512bit_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.x26512bit_presets[index], timeout);
     }
@@ -179,7 +179,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.vp9_presets);
         this->set_preset_label_text(preset_list.vp9_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.vp9_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.vp9_presets[index], timeout);
     }
@@ -187,7 +187,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.xvid_presets);
         this->set_preset_label_text(preset_list.xvid_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.xvid_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.xvid_presets[index], timeout);
     }
@@ -195,7 +195,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.theora_presets);
         this->set_preset_label_text(preset_list.theora_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.theora_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.theora_presets[index], timeout);
     }
@@ -203,7 +203,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.mpeg2_presets);
         this->set_preset_label_text(preset_list.mpeg2_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.mpeg2_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.mpeg2_presets[index], timeout);
     }
@@ -211,7 +211,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     {
         this->set_preset_slider_range(preset_list.av1_presets);
         this->set_preset_label_text(preset_list.av1_presets[index]);
-        this->selection.video_preset_selection << selection.video_preset_command
+        this->selection.video_preset_selection << command.video_preset_command
                                                << preset_list.av1_presets[index];
         Q_EMIT this->send_statusbar_message(preset_list.av1_presets[index], timeout);
     }
@@ -241,12 +241,16 @@ void VideoEncoderPreset::set_preset_label_text(const QString &text)
 void VideoEncoderPreset::enable_fast_decode()
 {
     const int timeout{0};
+    this->selection.fast_decode_selection.clear();
     if(ui->fastDecodeCheckBox->isChecked() == true)
     {
+        this->selection.fast_decode_selection << command.codec_tune_flag
+                                              << command.fast_decode_command;
         Q_EMIT this->send_statusbar_message("Fast Decode Enabled", timeout);
     }
     else
     {
+        this->selection.fast_decode_selection << "";
         Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
@@ -254,12 +258,16 @@ void VideoEncoderPreset::enable_fast_decode()
 void VideoEncoderPreset::enable_zero_latency()
 {
     const int timeout{0};
+    this->selection.zero_latency_selection.clear();
     if(ui->zeroLatencyCheckBox->isChecked() == true)
     {
+        this->selection.zero_latency_selection << command.codec_tune_flag
+                                               << command.zero_latency_command;
         Q_EMIT this->send_statusbar_message("Zero Latency Enabled", timeout);
     }
     else
     {
+        this->selection.zero_latency_selection << "";
         Q_EMIT this->send_statusbar_message("", timeout);
     }
 }

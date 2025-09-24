@@ -1,5 +1,5 @@
-#ifndef VIDEO_ENCODER_PRESET_H
-#define VIDEO_ENCODER_PRESET_H
+#ifndef VIDEO_PRESET_COMMANDS_H
+#define VIDEO_PRESET_COMMANDS_H
 
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
@@ -32,56 +32,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "video_encoder_preset_data.h"
-#include "video_preset_commands.h"
-
-#include <QWidget>
+#include <QString>
 
 
-namespace Ui {
-class VideoEncoderPreset;
-}
-
-class VideoEncoderPreset : public QWidget
+class VideoPresetCommands
 {
-    Q_OBJECT
+    friend class VideoEncoderPreset;
+    private:
+        QString video_preset_command{"-preset:v"};
+        QString codec_tune_flag{"-tune"};
+        QString fast_decode_command{"fastdecode"};
+        QString zero_latency_command{"zerolatency"};
 
-public:
-    explicit VideoEncoderPreset(QWidget *parent = nullptr);
-    ~VideoEncoderPreset();
-
-Q_SIGNALS:
-    void send_statusbar_message(const QString &message, const int &timeout);
-
-public Q_SLOTS:
-    void receive_selected_video_codec_name(const QString &video_codec);
-
-private Q_SLOTS:
-    void select_encoder_preset(const int &index);
-    void enable_fast_decode();
-    void enable_zero_latency();
-
-private:
-    Ui::VideoEncoderPreset *ui;
-    VideoEncoderPresetData preset_list;
-    VideoPresetCommands command;
-
-    //functions
-    void set_preset_slider_default_size();
-    void set_preset_slider_default_position(const QString &video_codec);
-    void set_preset_slider_range(const QStringList &list);
-    void set_preset_label_text(const QString &text);
-
-    //variables
-    QString video_codec{};
-
-    //struct
-    struct
-    {
-        QStringList fast_decode_selection{};
-        QStringList zero_latency_selection{};
-        QStringList video_preset_selection{};
-    }selection;
 };
 
-#endif // VIDEO_ENCODER_PRESET_H
+
+#endif // VIDEO_PRESET_COMMANDS_H
