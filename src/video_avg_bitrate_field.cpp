@@ -110,7 +110,7 @@ void VideoAVGBitrateField::enable_average_bitrate_field()
         ui->videoAVGBitrateField->setEnabled(false);
         ui->videoAVGBitrateLabel->setEnabled(false);
         ui->twoPassCheckBox->setEnabled(false);
-        this->send_avg_bitrate_statusbar_message("", timeout);
+        Q_EMIT this->send_avg_bitrate_statusbar_message("", timeout);
     }
 }
 void VideoAVGBitrateField::get_vid_bitrate_field_data()
@@ -156,7 +156,7 @@ void VideoAVGBitrateField::get_vid_bitrate_field_data()
         this->selection.avg_bitrate_field_entry << "";
         Q_EMIT average_bitrate_encode_enabled(this->selection.avg_bitrate_enabled, this->selection.avg_bitrate_field_entry);
     }
-    this->send_avg_bitrate_statusbar_message(ui->videoAVGBitrateField->text(), timeout);
+    Q_EMIT this->send_avg_bitrate_statusbar_message(ui->videoAVGBitrateField->text(), timeout);
 }
 
 void VideoAVGBitrateField::enable_two_pass_encode()
@@ -175,7 +175,7 @@ void VideoAVGBitrateField::enable_two_pass_encode()
             this->selection.two_pass_encode_2nd_pass << command.two_pass_flag << command.second_pass;
             Q_EMIT two_pass_encode_enabled(this->selection.two_pass_enabled, selection.two_pass_encode_1st_pass,
                                            selection.two_pass_encode_2nd_pass);
-            this->send_avg_bitrate_statusbar_message("Two-Pass Encode Enabled", timeout);
+            Q_EMIT this->send_avg_bitrate_statusbar_message("Two-Pass Encode Enabled", timeout);
         }
         else
         {
@@ -185,7 +185,7 @@ void VideoAVGBitrateField::enable_two_pass_encode()
             this->selection.two_pass_encode_2nd_pass << "";
             Q_EMIT two_pass_encode_enabled(this->selection.two_pass_enabled, selection.two_pass_encode_1st_pass,
                                            selection.two_pass_encode_2nd_pass);
-            this->send_avg_bitrate_statusbar_message("", timeout);
+            Q_EMIT this->send_avg_bitrate_statusbar_message("", timeout);
         }
     }
 }
