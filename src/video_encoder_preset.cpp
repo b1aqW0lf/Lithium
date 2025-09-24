@@ -46,7 +46,7 @@ VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
     ui->videoEncPresetSlider->setStyle(QStyleFactory::create("windowsvista"));
 #endif
 
-    this->set_preset_slider_default_settings();
+    this->set_preset_slider_default_size();
 
     connect(ui->videoEncPresetSlider, &QSlider::valueChanged, this, &VideoEncoderPreset::select_encoder_preset);
     connect(ui->fastDecodeCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_fast_decode);
@@ -221,7 +221,7 @@ void VideoEncoderPreset::select_encoder_preset(const int &index)
     }
 }
 
-void VideoEncoderPreset::set_preset_slider_default_settings()
+void VideoEncoderPreset::set_preset_slider_default_size()
 {
     const int width{150};
     ui->videoEncPresetSlider->setFixedWidth(width);
