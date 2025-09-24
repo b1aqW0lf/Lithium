@@ -47,6 +47,8 @@ VideoCRFInterface::VideoCRFInterface(QWidget *parent)
 #endif
     ui->videoRFSpinBox->setStyleSheet("QSpinBox { background-color: transparent; } QLineEdit { background-color: transparent; }");
 
+    this->setup_crf_interface_default_settings();
+
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
             this, &VideoCRFInterface::select_encoder_rate_factor);
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
@@ -58,6 +60,11 @@ VideoCRFInterface::VideoCRFInterface(QWidget *parent)
 VideoCRFInterface::~VideoCRFInterface()
 {
     delete ui;
+}
+
+void VideoCRFInterface::setup_crf_interface_default_settings()
+{
+    ui->videoRFSpinBox->setReadOnly(true);
 }
 
 void VideoCRFInterface::select_encoder_rate_factor(const int &index)

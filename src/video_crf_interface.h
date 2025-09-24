@@ -71,6 +71,7 @@ private:
     VideoCRFCommands command;
 
     //functions
+    void setup_crf_interface_default_settings();
     void set_crf_slider_options(const QString &video_codec);
     void set_crf_slider_interface(const QString &video_codec);
     void process_video_crf_qscale_selection();
