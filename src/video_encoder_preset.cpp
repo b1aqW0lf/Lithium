@@ -252,7 +252,6 @@ void VideoEncoderPreset::enable_fast_decode()
     else
     {
         this->selection.fast_decode_selection << "";
-        Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
 
@@ -269,7 +268,6 @@ void VideoEncoderPreset::enable_zero_latency()
     else
     {
         this->selection.zero_latency_selection << "";
-        Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
 
