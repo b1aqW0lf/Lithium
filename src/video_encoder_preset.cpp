@@ -72,29 +72,29 @@ void VideoEncoderPreset::set_preset_slider_default_position(const QString &video
         video_codec.contains("H.264", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.h264_presets);
-        ui->videoEncPresetSlider->setValue(4);
+        ui->videoEncPresetSlider->setValue(5);
     }
     else if(video_codec.contains("x264 10-bit", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.x26410bit_presets);
-        ui->videoEncPresetSlider->setValue(4);
+        ui->videoEncPresetSlider->setValue(5);
     }
     else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
              video_codec.contains("H265", Qt::CaseInsensitive) ||
              video_codec.contains("H.265", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.hevc_presets);
-        ui->videoEncPresetSlider->setValue(4);
+        ui->videoEncPresetSlider->setValue(5);
     }
     else if(video_codec.contains("x265 10-bit", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.x26510bit_presets);
-        ui->videoEncPresetSlider->setValue(4);
+        ui->videoEncPresetSlider->setValue(5);
     }
     else if(video_codec.contains("x265 12-bit", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.x26512bit_presets);
-        ui->videoEncPresetSlider->setValue(4);
+        ui->videoEncPresetSlider->setValue(5);
     }
     else if(video_codec.contains("VP9", Qt::CaseInsensitive))
     {
@@ -104,7 +104,7 @@ void VideoEncoderPreset::set_preset_slider_default_position(const QString &video
     else if(video_codec.contains("Xvid", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.xvid_presets);
-        ui->videoEncPresetSlider->setValue(4);
+        ui->videoEncPresetSlider->setValue(5);
     }
     else if(video_codec.contains("Theora", Qt::CaseInsensitive))
     {
@@ -114,7 +114,7 @@ void VideoEncoderPreset::set_preset_slider_default_position(const QString &video
     else if(video_codec.contains("MPEG-2", Qt::CaseInsensitive))
     {
         this->set_preset_slider_range(preset_list.mpeg2_presets);
-        ui->videoEncPresetSlider->setValue(4);
+        ui->videoEncPresetSlider->setValue(5);
     }
     else if(video_codec.contains("AV1", Qt::CaseInsensitive))
     {
