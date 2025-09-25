@@ -52,6 +52,7 @@ public:
 
 Q_SIGNALS:
     void send_statusbar_message(const QString &message, const int &timeout);
+    void button_group_signal();
 
 public Q_SLOTS:
     void receive_selected_video_codec_name(const QString &video_codec);
@@ -60,6 +61,7 @@ private Q_SLOTS:
     void select_encoder_preset(const int &index);
     void enable_fast_decode();
     void enable_zero_latency();
+    void group_button_clicked();
 
 private:
     Ui::VideoEncoderPreset *ui;
@@ -71,6 +73,7 @@ private:
     void set_preset_slider_default_position(const QString &video_codec);
     void set_preset_slider_range(const QStringList &list);
     void set_preset_label_text(const QString &text);
+    void setup_button_group();
 
     //variables
     QString video_codec{};
