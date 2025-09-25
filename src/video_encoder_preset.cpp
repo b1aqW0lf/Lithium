@@ -51,7 +51,6 @@ VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
     connect(ui->videoEncPresetSlider, &QSlider::valueChanged, this, &VideoEncoderPreset::select_encoder_preset);
     connect(ui->fastDecodeCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_fast_decode);
     connect(ui->zeroLatencyCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_zero_latency);
-
 }
 
 VideoEncoderPreset::~VideoEncoderPreset()
