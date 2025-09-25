@@ -39,20 +39,20 @@ class VideoEncoderPresetData
 {
     friend class VideoEncoderPreset;
     private:
-        const QStringList h264_presets = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                       << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        const QStringList h264_presets = QStringList() << "ultrafast" << "superfast" << "veryfast" << "faster" << "fast"
+                                                       << "medium" << "slow" << "slower" << "veryslow" << "placebo";
 
-        const QStringList x26410bit_presets = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                            << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        const QStringList x26410bit_presets = QStringList() << "ultrafast" << "superfast" << "veryfast" << "faster" << "fast"
+                                                            << "medium" << "slow" << "slower" << "veryslow" << "placebo";
 
-        const QStringList hevc_presets = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                       << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        const QStringList hevc_presets = QStringList() << "ultrafast" << "superfast" << "veryfast" << "faster" << "fast"
+                                                       << "medium" << "slow" << "slower" << "veryslow" << "placebo";
 
-        const QStringList x26510bit_presets = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                            << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        const QStringList x26510bit_presets = QStringList() << "ultrafast" << "superfast" << "veryfast" << "faster" << "fast"
+                                                            << "medium" << "slow" << "slower" << "veryslow" << "placebo";
 
-        const QStringList x26512bit_presets = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                            << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        const QStringList x26512bit_presets = QStringList() << "ultrafast" << "superfast" << "veryfast" << "faster" << "fast"
+                                                            << "medium" << "slow" << "slower" << "veryslow" << "placebo";
 
         const QStringList vp9_presets = QStringList() << "-16" << "-15" << "-14" << "-13" << "-12" << "-11"
                                                 << "-10" << "-9" << "-8" << "-7" << "-6" << "-5"
@@ -60,8 +60,8 @@ class VideoEncoderPresetData
                                                 << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10"
                                                 << "11" << "12" << "13" << "14" << "15" << "16";
 
-        const QStringList xvid_presets = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                       << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        const QStringList xvid_presets = QStringList() << "ultrafast" << "superfast" << "veryfast" << "faster" << "fast"
+                                                       << "medium" << "slow" << "slower" << "veryslow" << "placebo";
 
         const QStringList theora_presets = QStringList() << "good" << "best" << "realtime";
 
@@ -69,8 +69,8 @@ class VideoEncoderPresetData
 
         const QString theora_cpu_used_flag = "-cpu-used";
 
-        const QStringList mpeg2_presets = QStringList() << "placebo" << "veryslow" << "slower" << "slow" << "medium"
-                                                        << "fast" << "faster"<< "veryfast" << "superfast" << "ultrafast";
+        const QStringList mpeg2_presets = QStringList() << "ultrafast" << "superfast" << "veryfast" << "faster" << "fast"
+                                                        << "medium" << "slow" << "slower" << "veryslow" << "placebo";
 
         const QStringList av1_presets = QStringList() << "0" << "1" << "2" << "3" << "4" << "5" << "6"  << "7" << "8"
                                                       << "9" << "10" << "11" << "12" << "13";
