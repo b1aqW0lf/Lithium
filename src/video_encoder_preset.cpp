@@ -48,7 +48,6 @@ VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
 #endif
 
     this->set_preset_slider_default_size();
-    //this->setup_button_group();
 
     connect(ui->videoEncPresetSlider, &QSlider::valueChanged, this, &VideoEncoderPreset::select_encoder_preset);
     connect(ui->fastDecodeCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_fast_decode);
@@ -279,21 +278,4 @@ void VideoEncoderPreset::enable_zero_latency()
         this->selection.zero_latency_selection << "";
         Q_EMIT this->send_statusbar_message("", timeout);
     }
-}
-
-void VideoEncoderPreset::setup_button_group()
-{
-    QButtonGroup *buttonGroup = new QButtonGroup(this);
-    buttonGroup->setExclusive(true);
-    buttonGroup->addButton(ui->fastDecodeCheckBox);
-    buttonGroup->addButton(ui->zeroLatencyCheckBox);
-
-    connect(buttonGroup, &QButtonGroup::buttonClicked, this, &VideoEncoderPreset::group_button_clicked);
-}
-
-void VideoEncoderPreset::group_button_clicked()
-{
-    Q_EMIT this->button_group_signal();
-    connect(this, &VideoEncoderPreset::button_group_signal, this, &VideoEncoderPreset::enable_fast_decode);
-    connect(this, &VideoEncoderPreset::button_group_signal, this, &VideoEncoderPreset::enable_zero_latency);
 }
