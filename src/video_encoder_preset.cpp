@@ -48,7 +48,7 @@ VideoEncoderPreset::VideoEncoderPreset(QWidget *parent)
 #endif
 
     this->set_preset_slider_default_size();
-    this->setup_button_group();
+    //this->setup_button_group();
 
     connect(ui->videoEncPresetSlider, &QSlider::valueChanged, this, &VideoEncoderPreset::select_encoder_preset);
     connect(ui->fastDecodeCheckBox, &QCheckBox::clicked, this, &VideoEncoderPreset::enable_fast_decode);
@@ -245,6 +245,10 @@ void VideoEncoderPreset::enable_fast_decode()
     this->selection.fast_decode_selection.clear();
     if(ui->fastDecodeCheckBox->isChecked() == true)
     {
+        if(ui->zeroLatencyCheckBox->isChecked() == true)
+        {
+            ui->zeroLatencyCheckBox->setChecked(false);
+        }
         this->selection.fast_decode_selection << command.codec_tune_flag
                                               << command.fast_decode_command;
         Q_EMIT this->send_statusbar_message("Fast Decode Enabled", timeout);
@@ -252,6 +256,7 @@ void VideoEncoderPreset::enable_fast_decode()
     else
     {
         this->selection.fast_decode_selection << "";
+        Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
 
@@ -261,6 +266,10 @@ void VideoEncoderPreset::enable_zero_latency()
     this->selection.zero_latency_selection.clear();
     if(ui->zeroLatencyCheckBox->isChecked() == true)
     {
+        if(ui->fastDecodeCheckBox->isChecked() == true)
+        {
+            ui->fastDecodeCheckBox->setChecked(false);
+        }
         this->selection.zero_latency_selection << command.codec_tune_flag
                                                << command.zero_latency_command;
         Q_EMIT this->send_statusbar_message("Zero Latency Enabled", timeout);
@@ -268,6 +277,7 @@ void VideoEncoderPreset::enable_zero_latency()
     else
     {
         this->selection.zero_latency_selection << "";
+        Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
 
