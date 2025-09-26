@@ -33,24 +33,24 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_23">
+       <widget class="QLabel" name="videoEncoderProfileLabel">
         <property name="text">
          <string>TextLabel</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox_13"/>
+       <widget class="QComboBox" name="videoEncoderProfileBox"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_24">
+       <widget class="QLabel" name="videoEncoderLevelLabel">
         <property name="text">
          <string>TextLabel</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="comboBox_14"/>
+       <widget class="QComboBox" name="videoEncoderLevelBox"/>
       </item>
      </layout>
     </widget>
