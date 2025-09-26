@@ -52,9 +52,11 @@ public:
 
 Q_SIGNALS:
     void send_statusbar_message(const QString &message, const int &timeout);
+    void send_video_preset_selection(const QStringList &preset_selection);
 
 public Q_SLOTS:
     void receive_selected_video_codec_name(const QString &video_codec);
+    void get_video_encoder_preset_selection();
 
 private Q_SLOTS:
     void select_encoder_preset(const int &index);
@@ -71,6 +73,7 @@ private:
     void set_preset_slider_default_position(const QString &video_codec);
     void set_preset_slider_range(const QStringList &list);
     void set_preset_label_text(const QString &text);
+    void process_video_preset_selection();
 
     //variables
     QString video_codec{};
@@ -81,6 +84,7 @@ private:
         QStringList fast_decode_selection{};
         QStringList zero_latency_selection{};
         QStringList video_preset_selection{};
+        QStringList video_preset_selection_list{};
     }selection;
 };
 

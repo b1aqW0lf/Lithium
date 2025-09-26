@@ -279,3 +279,17 @@ void VideoEncoderPreset::enable_zero_latency()
         Q_EMIT this->send_statusbar_message("", timeout);
     }
 }
+
+void VideoEncoderPreset::get_video_encoder_preset_selection()
+{
+    this->process_video_preset_selection();
+}
+
+void VideoEncoderPreset::process_video_preset_selection()
+{
+    this->selection.video_preset_selection_list << this->selection.video_preset_selection
+                                                << this->selection.fast_decode_selection
+                                                << this->selection.zero_latency_selection;
+
+    Q_EMIT send_video_preset_selection(this->selection.video_preset_selection_list);
+}
