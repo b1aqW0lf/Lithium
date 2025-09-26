@@ -6,9 +6,24 @@ VideoEncoderOptions::VideoEncoderOptions(QWidget *parent)
     , ui(new Ui::VideoEncoderOptions)
 {
     ui->setupUi(this);
+
+    connect(ui->videoEncoderProfileBox, QOverload<int>::of(&QComboBox::activated),
+            this, &VideoEncoderOptions::select_encoder_profile);
+    connect(ui->videoEncoderLevelBox, QOverload<int>::of(&QComboBox::activated),
+            this, &VideoEncoderOptions::select_encoder_level);
 }
 
 VideoEncoderOptions::~VideoEncoderOptions()
 {
     delete ui;
+}
+
+void VideoEncoderOptions::select_encoder_profile(const int &index)
+{
+
+}
+
+void VideoEncoderOptions::select_encoder_level(const int &index)
+{
+
 }
