@@ -83,33 +83,7 @@
                  <widget class="VideoEncoderPreset" name="videoPresetWidget" native="true"/>
                 </item>
                 <item>
-                 <widget class="QGroupBox" name="groupBox_15">
-                  <property name="title">
-                   <string>GroupBox</string>
-                  </property>
-                  <layout class="QGridLayout" name="gridLayout_4">
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_23">
-                     <property name="text">
-                      <string>TextLabel</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QComboBox" name="comboBox_13"/>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_24">
-                     <property name="text">
-                      <string>TextLabel</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QComboBox" name="comboBox_14"/>
-                   </item>
-                  </layout>
-                 </widget>
+                 <widget class="VideoEncoderOptions" name="videoOptionsWidget" native="true"/>
                 </item>
                </layout>
               </item>
@@ -255,6 +229,12 @@
    <class>VideoEncoderPreset</class>
    <extends>QWidget</extends>
    <header>video_encoder_preset.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VideoEncoderOptions</class>
+   <extends>QWidget</extends>
+   <header>video_encoder_options.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

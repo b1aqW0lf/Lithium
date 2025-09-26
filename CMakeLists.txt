@@ -102,6 +102,9 @@ set(PROJECT_SOURCES
         src/video_encoder_preset.ui
         src/video_encoder_preset_data.h
         src/video_preset_commands.h
+        src/video_encoder_options.h
+        src/video_encoder_options.cpp
+        src/video_encoder_options.ui
         misc/
         LICENSE
 )
