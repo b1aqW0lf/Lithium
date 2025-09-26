@@ -18,6 +18,11 @@ VideoEncoderOptions::~VideoEncoderOptions()
     delete ui;
 }
 
+void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video_codec)
+{
+    this->video_codec = video_codec;
+}
+
 void VideoEncoderOptions::select_encoder_profile(const int &index)
 {
 
@@ -26,9 +31,4 @@ void VideoEncoderOptions::select_encoder_profile(const int &index)
 void VideoEncoderOptions::select_encoder_level(const int &index)
 {
 
-}
-
-void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video_codec)
-{
-    this->video_codec = video_codec;
 }
