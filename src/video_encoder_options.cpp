@@ -27,3 +27,8 @@ void VideoEncoderOptions::select_encoder_level(const int &index)
 {
 
 }
+
+void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video_codec)
+{
+    this->video_codec = video_codec;
+}
