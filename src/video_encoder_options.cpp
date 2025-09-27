@@ -7,6 +7,8 @@ VideoEncoderOptions::VideoEncoderOptions(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setup_encoder_options_defaults();
+
     connect(ui->videoEncoderProfileBox, &QComboBox::textActivated,
             this, &VideoEncoderOptions::select_encoder_profile);
     connect(ui->videoEncoderLevelBox, &QComboBox::textActivated,
@@ -16,6 +18,14 @@ VideoEncoderOptions::VideoEncoderOptions(QWidget *parent)
 VideoEncoderOptions::~VideoEncoderOptions()
 {
     delete ui;
+}
+
+void VideoEncoderOptions::setup_encoder_options_defaults()
+{
+    //set h264/libx264 as the default settings
+    const int index0{0};
+    ui->videoEncoderProfileBox->insertItems(index0, profile_data.h264_profiles);
+    ui->videoEncoderLevelBox->insertItems(index0, level_data.h264_levels);
 }
 
 void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video_codec)

@@ -37,6 +37,7 @@ private:
     VideoEncoderProfileData profile_data;
 
     //functions
+    void setup_encoder_options_defaults();
     void initialize_video_encoder_options(const QString &video_codec);
     void initialize_encoder_profiles(const QString &video_codec);
     void initialize_encoder_levels(const QString &video_codec);
