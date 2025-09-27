@@ -106,6 +106,7 @@ set(PROJECT_SOURCES
         src/video_encoder_options.cpp
         src/video_encoder_options.ui
         src/encoder_profile_data.h
+        src/encoder_level_data.h
         misc/
         LICENSE
 )
