@@ -26,7 +26,7 @@ public Q_SLOTS:
     void receive_source_video_codec_profile(const QString &codec_profile);
 
 private Q_SLOTS:
-    void select_encoder_profile(const int &index);
+    void select_encoder_profile(const QString &codec_profile);
     void select_encoder_level(const int &index);
 
 private:
@@ -41,6 +41,12 @@ private:
     //variables
     QString video_codec{};
     QString codec_profile{};
+
+    struct
+    {
+        QString encoder_profile_command{"-profile:v"};
+        QStringList encoder_profile_selection{};
+    }selection;
 };
 
 #endif // VIDEO_ENCODER_OPTIONS_H

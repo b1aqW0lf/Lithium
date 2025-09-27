@@ -7,7 +7,7 @@ VideoEncoderOptions::VideoEncoderOptions(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->videoEncoderProfileBox, QOverload<int>::of(&QComboBox::activated),
+    connect(ui->videoEncoderProfileBox, &QComboBox::textActivated,
             this, &VideoEncoderOptions::select_encoder_profile);
     connect(ui->videoEncoderLevelBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoEncoderOptions::select_encoder_level);
@@ -24,6 +24,11 @@ void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video
     this->initialize_video_encoder_options(video_codec);
 }
 
+void VideoEncoderOptions::receive_source_video_codec_profile(const QString &codec_profile)
+{
+    this->codec_profile = codec_profile;
+}
+
 void VideoEncoderOptions::initialize_video_encoder_options(const QString &video_codec)
 {
     this->initialize_encoder_profiles(video_codec);
@@ -31,6 +36,7 @@ void VideoEncoderOptions::initialize_video_encoder_options(const QString &video_
 
 void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec)
 {
+    //initialize videoEncoderProfileBox with the profiles of the selected codec
     ui->videoEncoderProfileBox->clear();
     const int index0{0};
 
@@ -47,14 +53,25 @@ void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec
     }
 }
 
-void VideoEncoderOptions::receive_source_video_codec_profile(const QString &codec_profile)
+void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
 {
-    this->codec_profile = codec_profile;
-}
+    const int timeout{0};
+    const int index0{0};
 
-void VideoEncoderOptions::select_encoder_profile(const int &index)
-{
-
+    if(codec_profile.contains("Source"))
+    {
+        //Set the User Role item data to the value of source file's profile
+        ui->videoEncoderProfileBox->setItemData(index0, this->codec_profile, Qt::UserRole);
+        this->selection.encoder_profile_selection << selection.encoder_profile_command
+                                                  << ui->videoEncoderProfileBox->itemData(0, Qt::UserRole).toString().toLower();
+        this->send_statusbar_message(ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString(), timeout);
+    }
+    else
+    {
+        this->selection.encoder_profile_selection << selection.encoder_profile_command
+                                                  << codec_profile;
+        this->send_statusbar_message(codec_profile, timeout);
+    }
 }
 
 void VideoEncoderOptions::select_encoder_level(const int &index)
