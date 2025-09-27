@@ -187,6 +187,9 @@ void VideoEncoderOptions::select_encoder_level(const QString &codec_level)
     this->selection.encoder_level_selection << selection.encoder_level_command
                                               << codec_level;
     Q_EMIT this->send_statusbar_message(codec_level, timeout);
+
+    //set tooltip
+    ui->videoEncoderLevelBox->setToolTip(ui->videoEncoderLevelBox->currentText());
 }
 
 void VideoEncoderOptions::get_video_encoder_options_selections()
