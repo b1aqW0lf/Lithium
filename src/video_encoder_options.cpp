@@ -20,7 +20,6 @@ VideoEncoderOptions::~VideoEncoderOptions()
 
 void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video_codec)
 {
-    this->video_codec = video_codec;
     this->initialize_video_encoder_options(video_codec);
 }
 

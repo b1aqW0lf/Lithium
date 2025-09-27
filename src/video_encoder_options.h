@@ -40,7 +40,6 @@ private:
     void initialize_encoder_levels(const QString &video_codec);
 
     //variables
-    QString video_codec{};
     QString codec_profile{};
 
     struct
