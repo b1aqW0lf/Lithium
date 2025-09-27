@@ -72,6 +72,9 @@ void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
                                                   << codec_profile;
         this->send_statusbar_message(codec_profile, timeout);
     }
+
+    //set tooltip
+    ui->videoEncoderProfileBox->setToolTip(ui->videoEncoderProfileBox->currentText());
 }
 
 void VideoEncoderOptions::select_encoder_level(const int &index)
