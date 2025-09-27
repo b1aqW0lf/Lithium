@@ -27,7 +27,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void select_encoder_profile(const QString &codec_profile);
-    void select_encoder_level(const int &index);
+    void select_encoder_level(const QString &codec_level);
 
 private:
     Ui::VideoEncoderOptions *ui;
@@ -46,7 +46,9 @@ private:
     struct
     {
         QString encoder_profile_command{"-profile:v"};
+        QString encoder_level_command{"-level:v"};
         QStringList encoder_profile_selection{};
+        QStringList encoder_level_selection{};
     }selection;
 };
 

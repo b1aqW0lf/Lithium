@@ -9,7 +9,7 @@ VideoEncoderOptions::VideoEncoderOptions(QWidget *parent)
 
     connect(ui->videoEncoderProfileBox, &QComboBox::textActivated,
             this, &VideoEncoderOptions::select_encoder_profile);
-    connect(ui->videoEncoderLevelBox, QOverload<int>::of(&QComboBox::activated),
+    connect(ui->videoEncoderLevelBox, &QComboBox::textActivated,
             this, &VideoEncoderOptions::select_encoder_level);
 }
 
@@ -190,7 +190,11 @@ void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
     ui->videoEncoderProfileBox->setToolTip(ui->videoEncoderProfileBox->currentText());
 }
 
-void VideoEncoderOptions::select_encoder_level(const int &index)
+void VideoEncoderOptions::select_encoder_level(const QString &codec_level)
 {
+    const int timeout{0};
 
+    this->selection.encoder_level_selection << selection.encoder_level_command
+                                              << codec_level;
+    Q_EMIT this->send_statusbar_message(codec_level, timeout);
 }
