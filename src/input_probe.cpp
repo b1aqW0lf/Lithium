@@ -263,6 +263,8 @@ void InputProbe::parse_video_output(QString &output)
 
     Q_EMIT this->send_source_file_video_data(this->videostream.codec_name, this->videostream.resolution,
                                              this->videostream.framerate, this->videostream.display_aspect_ratio);
+
+    Q_EMIT this->send_source_video_codec_profile(videostream.codec_profile);
 }
 
 void InputProbe::parse_audio_output(QString &output)

@@ -65,6 +65,8 @@ Q_SIGNALS:
     void send_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                      const QString &video_framerate, const QString &video_aspect_ratio);//experimental
 
+    void send_source_video_codec_profile(const QString &codec_profile);
+
 public Q_SLOTS:
     void receive_source_file(const QString &source_file);
     void read_ffprobe_output(QString &ffprobe_output); //new
