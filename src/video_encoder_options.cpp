@@ -79,7 +79,7 @@ void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.xvid_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
     }
-    else if(video_codec.contains("Theora"))
+    else if(video_codec.contains("Theora", Qt::CaseInsensitive))
     {
         //theora does not have have video codec profiles
         return;
