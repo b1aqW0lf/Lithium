@@ -103,7 +103,7 @@ void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec
 
 void VideoEncoderOptions::initialize_encoder_levels(const QString &video_codec)
 {
-    //initialize videoEncoderProfileBox with the profiles of the selected codec
+    //initialize videoEncoderLevelBox with the levels of the selected codec
     ui->videoEncoderLevelBox->clear();
     const int index0{0};
     const int separator{1};
