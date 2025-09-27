@@ -63,14 +63,14 @@ void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
         //Set the User Role item data to the value of source file's profile
         ui->videoEncoderProfileBox->setItemData(index0, this->codec_profile, Qt::UserRole);
         this->selection.encoder_profile_selection << selection.encoder_profile_command
-                                                  << ui->videoEncoderProfileBox->itemData(0, Qt::UserRole).toString().toLower();
-        this->send_statusbar_message(ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString(), timeout);
+                                                  << ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString().toLower();
+        Q_EMIT this->send_statusbar_message(ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString(), timeout);
     }
     else
     {
         this->selection.encoder_profile_selection << selection.encoder_profile_command
                                                   << codec_profile;
-        this->send_statusbar_message(codec_profile, timeout);
+        Q_EMIT this->send_statusbar_message(codec_profile, timeout);
     }
 
     //set tooltip
