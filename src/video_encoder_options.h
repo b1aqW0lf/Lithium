@@ -20,10 +20,12 @@ public:
 
 Q_SIGNALS:
     void send_statusbar_message(const QString &message, const int &timeout);
+    void send_video_options_selections(const QStringList &options_selections);
 
 public Q_SLOTS:
     void receive_selected_video_codec_name(const QString &video_codec);
     void receive_source_video_codec_profile(const QString &codec_profile);
+    void get_video_encoder_options_selections();
 
 private Q_SLOTS:
     void select_encoder_profile(const QString &codec_profile);
@@ -38,6 +40,7 @@ private:
     void initialize_video_encoder_options(const QString &video_codec);
     void initialize_encoder_profiles(const QString &video_codec);
     void initialize_encoder_levels(const QString &video_codec);
+    void process_video_options_selections();
 
     //variables
     QString codec_profile{};
@@ -48,6 +51,7 @@ private:
         QString encoder_level_command{"-level:v"};
         QStringList encoder_profile_selection{};
         QStringList encoder_level_selection{};
+        QStringList video_options_selections{};
     }selection;
 };
 

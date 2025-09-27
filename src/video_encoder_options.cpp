@@ -188,3 +188,16 @@ void VideoEncoderOptions::select_encoder_level(const QString &codec_level)
                                               << codec_level;
     Q_EMIT this->send_statusbar_message(codec_level, timeout);
 }
+
+void VideoEncoderOptions::get_video_encoder_options_selections()
+{
+    this->process_video_options_selections();
+}
+
+void VideoEncoderOptions::process_video_options_selections()
+{
+    this->selection.video_options_selections << this->selection.encoder_profile_selection
+                                             << this->selection.encoder_level_selection;
+
+    Q_EMIT this->send_video_options_selections(this->selection.video_options_selections);
+}
