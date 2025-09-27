@@ -93,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
             ui->videoOptionsWidget, &VideoEncoderOptions::receive_selected_video_codec_name);
     connect(ui->videoPresetWidget, &VideoEncoderPreset::send_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->videoAVGBitrateWidget, &VideoAVGBitrateField::send_avg_bitrate_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
+    connect(ui->videoOptionsWidget, &VideoEncoderOptions::send_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
     connect(this, &MainWindow::button_group_signal, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::set_avg_bitrate_button_mode);//new
     connect(this, &MainWindow::button_group_signal, ui->videoCRFWidget, &VideoCRFInterface::set_crf_button_mode);//new
 

@@ -1,6 +1,7 @@
 #ifndef VIDEO_ENCODER_OPTIONS_H
 #define VIDEO_ENCODER_OPTIONS_H
 
+#include "encoder_level_data.h"
 #include "encoder_profile_data.h"
 
 #include <QWidget>
@@ -17,6 +18,9 @@ public:
     explicit VideoEncoderOptions(QWidget *parent = nullptr);
     ~VideoEncoderOptions();
 
+Q_SIGNALS:
+    void send_statusbar_message(const QString &message, const int &timeout);
+
 public Q_SLOTS:
     void receive_selected_video_codec_name(const QString &video_codec);
     void receive_source_video_codec_profile(const QString &codec_profile);
@@ -27,6 +31,7 @@ private Q_SLOTS:
 
 private:
     Ui::VideoEncoderOptions *ui;
+    VideoEncoderLevelData level_data;
     VideoEncoderProfileData profile_data;
 
     //variables
