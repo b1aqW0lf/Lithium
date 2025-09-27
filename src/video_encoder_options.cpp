@@ -39,17 +39,20 @@ void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec
     //initialize videoEncoderProfileBox with the profiles of the selected codec
     ui->videoEncoderProfileBox->clear();
     const int index0{0};
+    const int index1{1};
 
     if(video_codec.contains("H264", Qt::CaseInsensitive) ||
         video_codec.contains("H.264", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.h264_profiles);
+        ui->videoEncoderProfileBox->insertSeparator(index1);
     }
     else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
                video_codec.contains("H265", Qt::CaseInsensitive) ||
                video_codec.contains("H.265", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.hevc_profiles);
+        ui->videoEncoderProfileBox->insertSeparator(index1);
     }
 }
 
