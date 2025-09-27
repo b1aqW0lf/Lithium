@@ -227,7 +227,7 @@ void VideoEncoderOptions::select_encoder_level(const QString &codec_level)
     const int timeout{0};
 
     this->selection.encoder_level_selection << selection.encoder_level_command
-                                              << codec_level;
+                                            << codec_level;
     Q_EMIT this->send_statusbar_message(codec_level, timeout);
 
     //set tooltip
