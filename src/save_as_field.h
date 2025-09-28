@@ -1,5 +1,5 @@
-#ifndef SAVE_AS_UI_H
-#define SAVE_AS_UI_H
+#ifndef SAVE_AS_FIELD_H
+#define SAVE_AS_FIELD_H
 
 /******************************************************************************
  Copyright (c) 2020-2025 b1aqW0lf
@@ -34,35 +34,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QWidget>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class SaveAsUI;
+class SaveAsField;
 }
 QT_END_NAMESPACE
 
-class SaveAsUI : public QWidget
+class SaveAsField : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SaveAsUI(QWidget *parent = nullptr);
-    ~SaveAsUI();
+    explicit SaveAsField(QWidget *parent = nullptr);
+    ~SaveAsField();
 
 Q_SIGNALS:
     void send_output_file_path(const QString &output_path);
 
 public Q_SLOTS:
     void receive_output_extension(const QString &text);
-    void send_output_file();
+    void send_selected_output_path();
 
 private Q_SLOTS:
-    void select_output();
+    void select_save_destination();
 
 private:
-    Ui::SaveAsUI *ui;
+    Ui::SaveAsField *ui;
 
-/*public:
-    QString output_file{};*/
+    //functions
+    void setup_clear_button();
 };
 
-#endif // SAVE_AS_UI_H
+#endif // SAVE_AS_FIELD_H

@@ -29,42 +29,45 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "save_as_field.h"
+#include "ui_save_as_field.h"
+
+#include <QAction>
 #include <QFileDialog>
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QAction>
 
-#include "save_as_ui.h"
-#include "ui_save_as_ui.h"
 
-SaveAsUI::SaveAsUI(QWidget *parent) :
+SaveAsField::SaveAsField(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::SaveAsUI)
+    ui(new Ui::SaveAsField)
 {
     ui->setupUi(this);
 
+    this->setup_clear_button();
+
     //connect signals and slots
-    connect(ui->saveASButton, &QPushButton::clicked, this, &SaveAsUI::select_output);
-
-    //saveAS label
-    ui->saveASLabel->setText(tr("Save As: "));
-
-    //enable clear button
-    ui->saveASEdit->setClearButtonEnabled(true);
-    QAction *clearButton = ui->saveASEdit->findChild<QAction *>();
-    clearButton->setIcon(QIcon(":/images/resources/clear_icon.png"));
-    clearButton->setToolTip("clear");
+    connect(ui->saveAsBrowseButton, &QPushButton::clicked, this, &SaveAsField::select_save_destination);
 }
 
-SaveAsUI::~SaveAsUI()
+SaveAsField::~SaveAsField()
 {
     delete ui;
 }
 
+void SaveAsField::setup_clear_button()
+{
+    //enable clear button
+    ui->saveAsLineEdit->setClearButtonEnabled(true);
+    QAction *clearButton = ui->saveAsLineEdit->findChild<QAction *>();
+    clearButton->setIcon(QIcon(":/images/resources/clear_icon.png"));
+    clearButton->setToolTip("clear");
+}
+
 //select the output file to convert to
-void SaveAsUI::select_output()
+void SaveAsField::select_save_destination()
 {
     QString output_file{};
     output_file =
@@ -75,24 +78,25 @@ void SaveAsUI::select_output()
                 tr(""));
     if(!output_file.isEmpty())
     {
-        ui->saveASEdit->setText(output_file);
+        ui->saveAsLineEdit->setText(output_file);
     }
-    Q_EMIT send_output_file_path(ui->saveASEdit->text());
+    Q_EMIT send_output_file_path(ui->saveAsLineEdit->text());
 }
 
-void SaveAsUI::receive_output_extension(const QString &ext)
+void SaveAsField::receive_output_extension(const QString &ext)
 {
-    QString saveAs_line_data{ui->saveASEdit->text()};
+    QString saveAs_line_data{ui->saveAsLineEdit->text()};
+
     //based on code from qtffmpeg
     saveAs_line_data = saveAs_line_data.left(saveAs_line_data.lastIndexOf("."));
-    if(!ui->saveASEdit->text().isEmpty())
+    if(!ui->saveAsLineEdit->text().isEmpty())
     {
-        ui->saveASEdit->setText(saveAs_line_data+ext);
+        ui->saveAsLineEdit->setText(saveAs_line_data+ext);
     }
-    send_output_file();
+    this->send_selected_output_path();
 }
 
-void SaveAsUI::send_output_file()
+void SaveAsField::send_selected_output_path()
 {
-    Q_EMIT send_output_file_path(ui->saveASEdit->text());
+    Q_EMIT send_output_file_path(ui->saveAsLineEdit->text());
 }

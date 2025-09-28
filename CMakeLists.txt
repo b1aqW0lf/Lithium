@@ -56,9 +56,9 @@ set(PROJECT_SOURCES
         src/subtitles_checkbox.ui
         src/open_file.h
         src/open_file.cpp
-        src/save_as_ui.cpp
-        src/save_as_ui.h
-        src/save_as_ui.ui
+        src/save_as_field.cpp
+        src/save_as_field.h
+        src/save_as_field.ui
         src/process_mode_widget.cpp
         src/process_mode_widget.h
         src/process_mode_widget.ui
