@@ -85,13 +85,13 @@ void SaveAsField::select_save_destination()
 
 void SaveAsField::receive_output_extension(const QString &ext)
 {
-    QString saveAs_line_data{ui->saveAsLineEdit->text()};
+    QString save_as_line_data{ui->saveAsLineEdit->text()};
 
     //based on code from qtffmpeg
-    saveAs_line_data = saveAs_line_data.left(saveAs_line_data.lastIndexOf("."));
+    save_as_line_data = save_as_line_data.left(save_as_line_data.lastIndexOf("."));
     if(!ui->saveAsLineEdit->text().isEmpty())
     {
-        ui->saveAsLineEdit->setText(saveAs_line_data+ext);
+        ui->saveAsLineEdit->setText(save_as_line_data+ext);
     }
     this->send_selected_output_path();
 }
