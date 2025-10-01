@@ -74,7 +74,7 @@ void SaveAsField::setup_default_extensions()
 {
     const int index0{0};
     const int separator{1};
-    ui->saveAsContainerBox->insertItems(index0, video_data.videoContainerList);
+    ui->saveAsContainerBox->insertItems(index0, extensions.videoContainerList);
     ui->saveAsContainerBox->insertSeparator(separator);
     ui->saveAsContainerBox->setCurrentIndex(3);
 }
@@ -119,14 +119,14 @@ void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
     {
         const int separator{1};
         //load the video container list
-        ui->saveAsContainerBox->insertItems(index0, video_data.videoContainerList);
+        ui->saveAsContainerBox->insertItems(index0, extensions.videoContainerList);
         ui->saveAsContainerBox->insertSeparator(separator);
         ui->saveAsContainerBox->setCurrentIndex(3);
     }
     if(process_mode == ProcessMode::ExtractMode)
     {
         //load the audio container list
-        ui->saveAsContainerBox->insertItems(index0, audio_data.audioContainerList);
+        ui->saveAsContainerBox->insertItems(index0, extensions.audioContainerList);
     }
 }
 
@@ -181,7 +181,7 @@ void SaveAsField::select_output_file_container(const int &index)
         //option one (1) cannot be selected by the user - it is the separator
         return;
     }
-    else if(index >= 2 && index <= video_data.videoContainerList.size())
+    else if(index >= 2 && index <= extensions.videoContainerList.size())
     {
         this->output_ext = "."+ui->saveAsContainerBox->currentText().toLower();
         Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), message_timeout);

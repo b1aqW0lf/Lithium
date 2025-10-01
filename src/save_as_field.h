@@ -32,9 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "audio_interface_data.h"
 #include "process_mode_flags.h"
-#include "video_interface_data.h"
+#include "save_as_extension_list.h"
 
 #include <QWidget>
 
@@ -68,8 +67,7 @@ private Q_SLOTS:
 
 private:
     Ui::SaveAsField *ui;
-    AudioInterfaceData audio_data;
-    VideoInterfaceData video_data;
+    SaveAsContainerList extensions;
 
     //functions
     void setup_clear_button();
