@@ -50,6 +50,7 @@ SaveAsField::SaveAsField(QWidget *parent) :
 
     this->setup_clear_button();
     this->setup_default_extensions();
+    this->setup_ui_tooltips();
 
     //connect signals and slots
     connect(ui->saveAsBrowseButton, &QPushButton::clicked, this, &SaveAsField::select_save_destination);
@@ -78,6 +79,12 @@ void SaveAsField::setup_default_extensions()
     ui->saveAsContainerBox->insertItems(index0, video_data.videoContainerList);
     ui->saveAsContainerBox->insertSeparator(separator);
     ui->saveAsContainerBox->setCurrentIndex(3);
+}
+
+void SaveAsField::setup_ui_tooltips()
+{
+    ui->saveAsContainerBox->setToolTip(tr("Select the destination file's extension."));
+    ui->saveAsBrowseButton->setToolTip(tr("Click to choose the location to save the output."));
 }
 
 void SaveAsField::receive_input_file_name(const QString &file_name)
