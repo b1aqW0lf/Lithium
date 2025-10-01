@@ -105,6 +105,26 @@ void SaveAsField::current_process_mode(ProcessMode process_mode)
     this->initalize_output_extensions(process_mode);
 }
 
+void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
+{
+    const int index0{0};
+    ui->saveAsContainerBox->clear();
+
+    if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
+    {
+        const int separator{1};
+        //load the video container list
+        ui->saveAsContainerBox->insertItems(index0, video_data.videoContainerList);
+        ui->saveAsContainerBox->insertSeparator(separator);
+        ui->saveAsContainerBox->setCurrentIndex(3);
+    }
+    if(process_mode == ProcessMode::ExtractMode)
+    {
+        //load the audio container list
+        ui->saveAsContainerBox->insertItems(index0, audio_data.audioContainerList);
+    }
+}
+
 //select the output file path to convert to
 void SaveAsField::select_save_destination()
 {
@@ -136,27 +156,7 @@ void SaveAsField::select_save_destination()
         }
     }
 
-    Q_EMIT send_output_file_path(ui->saveAsLineEdit->text());
-}
-
-void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
-{
-    const int index0{0};
-    ui->saveAsContainerBox->clear();
-
-    if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
-    {
-        const int separator{1};
-        //load the video container list
-        ui->saveAsContainerBox->insertItems(index0, video_data.videoContainerList);
-        ui->saveAsContainerBox->insertSeparator(separator);
-        ui->saveAsContainerBox->setCurrentIndex(3);
-    }
-    if(process_mode == ProcessMode::ExtractMode)
-    {
-        //load the audio container list
-        ui->saveAsContainerBox->insertItems(index0, audio_data.audioContainerList);
-    }
+    this->send_selected_output_path();
 }
 
 void SaveAsField::select_output_file_container(const int &index)
