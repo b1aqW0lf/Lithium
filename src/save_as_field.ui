@@ -49,6 +49,9 @@
        <widget class="QLineEdit" name="saveAsLineEdit"/>
       </item>
       <item>
+       <widget class="QComboBox" name="saveAsContainerBox"/>
+      </item>
+      <item>
        <widget class="QPushButton" name="saveAsBrowseButton">
         <property name="text">
          <string>...</string>

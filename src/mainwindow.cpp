@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&openfile, &OpenFile::send_source_video_file, &inputprobe, &InputProbe::receive_source_file);
     connect(&openfile, &OpenFile::send_source_video_file, ui->inputTreeWidget, &InputTreeView::receive_source_file);
     connect(&openfile, &OpenFile::send_source_video_file, &extension, &FileExtensionCheck::receive_source_video_file);
+    connect(&openfile, &OpenFile::send_source_video_file, ui->saveAsWidget, &SaveAsField::receive_input_file_name);
     connect(&openfile, &OpenFile::get_current_process_mode, &processModeWidget, &ProcessModeWidget::send_current_process_mode);//new
     connect(&extension, &FileExtensionCheck::send_source_video_file_extension,
             ui->videoInterfaceWidget, &VideoInterface::receive_source_video_file_extension);//new
@@ -75,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode_status, ui->statusbar, &QStatusBar::showMessage);
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &treeview, &InputTreeView::current_process_mode);//new
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &openfile, &OpenFile::current_process_mode);//new
+    connect(&processModeWidget, &ProcessModeWidget::current_process_mode, ui->saveAsWidget, &SaveAsField::current_process_mode);//new
     connect(&inputprobe, &InputProbe::send_input_probe_data, this, &MainWindow::receive_input_probe_data);
     connect(&inputprobe, &InputProbe::send_input_probe_data, ui->inputTreeWidget, &InputTreeView::receive_input_probe_data);
     connect(&inputprobe, &InputProbe::send_source_file_audio_data, ui->audioInterfaceWidget, &AudioInterface::receive_source_file_audio_data);//new
@@ -96,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->videoOptionsWidget, &VideoEncoderOptions::send_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
     connect(this, &MainWindow::button_group_signal, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::set_avg_bitrate_button_mode);//new
     connect(this, &MainWindow::button_group_signal, ui->videoCRFWidget, &VideoCRFInterface::set_crf_button_mode);//new
+    connect(ui->saveAsWidget, &SaveAsField::send_save_field_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
 
     //statusbar widgets
     this->setup_statusbar_widgets();

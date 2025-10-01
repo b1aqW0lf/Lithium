@@ -44,6 +44,7 @@ class AudioInterfaceData
         /*!
         * \brief audioContainerList is to be used with audioContainerBox
         */
+    public:
         //list of available audio containers/extensions
         const QStringList audioContainerList = QStringList() << "M4A" << "FLAC" << "MP3" << "WAV" << "OGG" << "OGA" << "AIFF" << "PCM";
 };

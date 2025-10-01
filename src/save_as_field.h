@@ -32,6 +32,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "audio_interface_data.h"
+#include "process_mode_flags.h"
+#include "video_interface_data.h"
+
 #include <QWidget>
 
 
@@ -51,19 +55,33 @@ public:
 
 Q_SIGNALS:
     void send_output_file_path(const QString &output_path);
+    void send_save_field_statusbar_message(const QString &message, const int &timeout);
 
 public Q_SLOTS:
-    void receive_output_extension(const QString &text);
+    void receive_input_file_name(const QString &file_name);
+    void current_process_mode(ProcessMode process_mode);
     void send_selected_output_path();
 
 private Q_SLOTS:
     void select_save_destination();
+    void select_output_file_container(const int &index);
 
 private:
     Ui::SaveAsField *ui;
+    ProcessMode process_mode;
+    AudioInterfaceData audio_data;
+    VideoInterfaceData video_data;
 
     //functions
     void setup_clear_button();
+    void setup_default_extensions();
+    void initalize_output_extensions(ProcessMode process_mode);
+    void process_input_file_name(const QString &file_name);
+    void get_input_file_extension(const QString &file_name);
+    void set_output_file_extension(const QString &output_ext);
+
+    //variables
+    QString output_ext{};
 };
 
 #endif // SAVE_AS_FIELD_H

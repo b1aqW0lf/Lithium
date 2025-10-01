@@ -47,6 +47,8 @@ ProcessModeWidget::ProcessModeWidget(QWidget *parent)
     connect(ui->normalModeRadio, &QRadioButton::clicked, this, &ProcessModeWidget::select_process_mode);
     connect(ui->extractAudioRadio, &QRadioButton::clicked, this, &ProcessModeWidget::select_process_mode);
     connect(ui->mergeSourcesRadio, &QRadioButton::clicked, this, &ProcessModeWidget::select_process_mode);
+
+    this->get_current_process_mode();
 }
 
 ProcessModeWidget::~ProcessModeWidget()

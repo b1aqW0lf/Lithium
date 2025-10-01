@@ -70,6 +70,7 @@ class VideoInterfaceData
         /*!
          * \brief videoContainerList is to be used with videoContainerBox
          */
+    public:
         //list of available video containers/extensions
         const QStringList videoContainerList = QStringList() << "Source" << "MP4" << "MKV" << "WebM" << "TS" << "OGV";
 };
