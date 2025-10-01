@@ -73,6 +73,7 @@ void VideoInterface::initialize_video_interface_data()
     ui->videoAspectRatioBox->insertSeparator(1);
     ui->videoColorspaceBox->insertItems(0, videodata.videoColorspaceList);
     ui->videoColorspaceBox->insertSeparator(1);
+    ui->videoColorspaceBox->insertSeparator(3);
 }
 
 void VideoInterface::enable_copy_source_video()
