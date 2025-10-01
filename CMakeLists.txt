@@ -56,6 +56,7 @@ set(PROJECT_SOURCES
         src/subtitles_checkbox.ui
         src/open_file.h
         src/open_file.cpp
+        src/save_as_extension_list.h
         src/save_as_field.cpp
         src/save_as_field.h
         src/save_as_field.ui
