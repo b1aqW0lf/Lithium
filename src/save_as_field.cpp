@@ -102,7 +102,6 @@ void SaveAsField::get_input_file_extension(const QString &file_name)
 
 void SaveAsField::current_process_mode(ProcessMode process_mode)
 {
-    //this->process_mode = process_mode;
     this->initalize_output_extensions(process_mode);
 }
 

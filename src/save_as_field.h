@@ -68,7 +68,6 @@ private Q_SLOTS:
 
 private:
     Ui::SaveAsField *ui;
-    ProcessMode process_mode;
     AudioInterfaceData audio_data;
     VideoInterfaceData video_data;
 
