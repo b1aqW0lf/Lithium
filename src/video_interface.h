@@ -72,7 +72,7 @@ private Q_SLOTS:
     void select_video_resolution(const int &index);
     void select_video_framerate(const int &index);
     void select_video_display_aspect_ratio(const int &index);
-    void select_video_container(const int &index);
+    void select_video_colorspace(const int &index);
 
 private:
     //functions

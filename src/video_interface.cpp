@@ -50,8 +50,8 @@ VideoInterface::VideoInterface(QWidget *parent)
             this, &VideoInterface::select_video_framerate);
     connect(ui->videoAspectRatioBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoInterface::select_video_display_aspect_ratio);
-    connect(ui->videoContainerBox, QOverload<int>::of(&QComboBox::activated),
-            this, &VideoInterface::select_video_container);
+    connect(ui->videoColorspaceBox, QOverload<int>::of(&QComboBox::activated),
+            this, &VideoInterface::select_video_colorspace);
 
     this->initialize_video_interface_data();
 }
@@ -71,8 +71,8 @@ void VideoInterface::initialize_video_interface_data()
     ui->videoFramerateBox->insertSeparator(1);
     ui->videoAspectRatioBox->insertItems(0, videodata.videoAspectRatioList);
     ui->videoAspectRatioBox->insertSeparator(1);
-    ui->videoContainerBox->insertItems(0, videodata.videoContainerList);
-    ui->videoContainerBox->insertSeparator(1);
+    ui->videoColorspaceBox->insertItems(0, videodata.videoContainerList);
+    ui->videoColorspaceBox->insertSeparator(1);
 }
 
 void VideoInterface::enable_copy_source_video()
@@ -297,7 +297,7 @@ void VideoInterface::select_video_display_aspect_ratio(const int &index)
     }
 }
 
-void VideoInterface::select_video_container(const int &index)
+void VideoInterface::select_video_colorspace(const int &index)//<---must resolve!!
 {
     const int message_timeout{0};
     this->selection.video_container_selection.clear();
@@ -305,8 +305,8 @@ void VideoInterface::select_video_container(const int &index)
     if(index == 0)
     {
         //clicking "Source" will set the source container as the selected container
-        this->selection.video_container_selection = "."+ui->videoContainerBox->itemData(index, Qt::UserRole).toString();
-        Q_EMIT this->send_video_statusbar_message(ui->videoContainerBox->itemData(index, Qt::UserRole).toString().toUpper(), message_timeout);
+        this->selection.video_container_selection = "."+ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString();
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString().toUpper(), message_timeout);
     }
     else if(index == 1)//separator
     {
@@ -315,8 +315,8 @@ void VideoInterface::select_video_container(const int &index)
     }
     else if(index >= 2 && index <= videodata.videoContainerList.size())
     {
-        this->selection.video_container_selection = "."+ui->videoContainerBox->currentText().toLower();
-        Q_EMIT this->send_video_statusbar_message(ui->videoContainerBox->currentText(), message_timeout);
+        this->selection.video_container_selection = "."+ui->videoColorspaceBox->currentText().toLower();
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else
     {
@@ -332,11 +332,11 @@ void VideoInterface::receive_source_video_file_extension(const QString &extensio
     this->process_source_video_file_extension(extension);
 }
 
-void VideoInterface::process_source_video_file_extension(const QString &extension)
+void VideoInterface::process_source_video_file_extension(const QString &extension)//<----must resolve!!
 {
     const int index{0};
     //set the "Source" option to the source video file's extension
-    this->ui->videoContainerBox->setItemData(index, extension, Qt::UserRole);
+    this->ui->videoColorspaceBox->setItemData(index, extension, Qt::UserRole);
 }
 
 void VideoInterface::get_video_interface_selections()
