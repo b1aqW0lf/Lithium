@@ -51,14 +51,12 @@ public:
 
 Q_SIGNALS:
     void send_video_statusbar_message(const QString &message, const int &timeout);
-    void send_selected_video_extension(const QString &extension);
     void send_video_interface_selections(const QStringList &video_selections);
     void send_selected_video_codec_name(const QString &video_codec);
 
 public Q_SLOTS:
     void receive_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                         const QString &video_framerate, const QString &video_aspect_ratio);
-    void receive_source_video_file_extension(const QString &extension);
     void get_video_interface_selections();
 
 private:
@@ -79,7 +77,6 @@ private:
     void initialize_video_interface_data();
     void process_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                         const QString &video_framerate, const QString &video_aspect_ratio);
-    void process_source_video_file_extension(const QString &extension);
     void process_video_interface_selections();
 
     //struct
@@ -90,7 +87,7 @@ private:
         QStringList video_resolution_selection{};
         QStringList video_framerate_selection{};
         QStringList video_display_aspect_ratio_selection{};
-        QString video_container_selection{};
+        QString video_colorspace_selection{};
         //--------------------------------------
         QStringList video_selection_list{};
     }selection;

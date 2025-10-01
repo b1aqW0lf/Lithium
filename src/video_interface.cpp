@@ -301,12 +301,12 @@ void VideoInterface::select_video_display_aspect_ratio(const int &index)
 void VideoInterface::select_video_colorspace(const int &index)//<---must resolve!!
 {
     const int message_timeout{0};
-    this->selection.video_container_selection.clear();
+    this->selection.video_colorspace_selection.clear();
 
     if(index == 0)
     {
         //clicking "Source" will set the source container as the selected container
-        this->selection.video_container_selection = "."+ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString();
+        this->selection.video_colorspace_selection = "."+ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString();
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString().toUpper(), message_timeout);
     }
     else if(index == 1)//separator
@@ -316,28 +316,13 @@ void VideoInterface::select_video_colorspace(const int &index)//<---must resolve
     }
     else if(index >= 2 && index <= videodata.videoColorspaceList.size())
     {
-        this->selection.video_container_selection = "."+ui->videoColorspaceBox->currentText().toLower();
+        this->selection.video_colorspace_selection = "."+ui->videoColorspaceBox->currentText().toLower();
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else
     {
         return;
     }
-
-    Q_EMIT this->send_selected_video_extension(this->selection.video_container_selection);
-}
-
-void VideoInterface::receive_source_video_file_extension(const QString &extension)
-{
-    //receive the source video file's extension
-    this->process_source_video_file_extension(extension);
-}
-
-void VideoInterface::process_source_video_file_extension(const QString &extension)//<----must resolve!!
-{
-    const int index{0};
-    //set the "Source" option to the source video file's extension
-    this->ui->videoColorspaceBox->setItemData(index, extension, Qt::UserRole);
 }
 
 void VideoInterface::get_video_interface_selections()

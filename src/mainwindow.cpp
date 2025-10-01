@@ -66,8 +66,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&openfile, &OpenFile::send_source_video_file, &extension, &FileExtensionCheck::receive_source_video_file);
     connect(&openfile, &OpenFile::send_source_video_file, ui->saveAsWidget, &SaveAsField::receive_input_file_name);
     connect(&openfile, &OpenFile::get_current_process_mode, &processModeWidget, &ProcessModeWidget::send_current_process_mode);//new
-    connect(&extension, &FileExtensionCheck::send_source_video_file_extension,
-            ui->videoInterfaceWidget, &VideoInterface::receive_source_video_file_extension);//new
     connect(&transcode, &TranscodeProcess::send_ffprobe_output, &progressbar, &SimpleProgressbar::receive_ffprobe_frames_value);
     connect(&transcode, &TranscodeProcess::send_ffmpeg_output, &parsedata, &ParseData::parse_file_data);
     connect(&parsedata, &ParseData::send_frame_num_update, &progressbar, &SimpleProgressbar::receive_frame_num_value);
