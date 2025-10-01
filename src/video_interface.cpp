@@ -71,7 +71,7 @@ void VideoInterface::initialize_video_interface_data()
     ui->videoFramerateBox->insertSeparator(1);
     ui->videoAspectRatioBox->insertItems(0, videodata.videoAspectRatioList);
     ui->videoAspectRatioBox->insertSeparator(1);
-    ui->videoColorspaceBox->insertItems(0, videodata.videoContainerList);
+    ui->videoColorspaceBox->insertItems(0, videodata.videoColorspaceList);
     ui->videoColorspaceBox->insertSeparator(1);
 }
 
@@ -313,7 +313,7 @@ void VideoInterface::select_video_colorspace(const int &index)//<---must resolve
         //option one (1) cannot be selected by the user - it is the separator
         return;
     }
-    else if(index >= 2 && index <= videodata.videoContainerList.size())
+    else if(index >= 2 && index <= videodata.videoColorspaceList.size())
     {
         this->selection.video_container_selection = "."+ui->videoColorspaceBox->currentText().toLower();
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);

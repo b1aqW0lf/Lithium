@@ -68,11 +68,11 @@ class VideoInterfaceData
         const QStringList videoAspectRatioList = QStringList() << "Source" << "4:3" << "16:9" << "16:10" << "21:9" << "21:10";
 
         /*!
-         * \brief videoContainerList is to be used with videoContainerBox
+         * \brief videoColorspaceList is to be used with videoColorspaceBox
          */
-    public:
-        //list of available video containers/extensions
-        const QStringList videoContainerList = QStringList() << "Source" << "MP4" << "MKV" << "WebM" << "TS" << "OGV";
+        //list of available video colorspaces
+        const QStringList videoColorspaceList = QStringList() << "Source" << "Default" << "sRBG" << "Rec.601" << "Rec.709"
+                                                              << "Rec.2020" << "Rec.2100 (PQ)" << "Rec.2100 (HLG)";
 };
 
 #endif // VIDEO_INTERFACE_DATA_H
