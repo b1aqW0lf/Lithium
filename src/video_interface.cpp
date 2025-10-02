@@ -114,6 +114,12 @@ void VideoInterface::process_source_file_video_data(const QString &video_codec, 
     this->ui->videoAspectRatioBox->setItemData(index, video_aspect_ratio, Qt::UserRole);
 }
 
+void VideoInterface::receive_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
+                                                          const QString &color_transfer, const QString &color_primaties)
+{
+
+}
+
 void VideoInterface::select_video_codec(const int &index)
 {
     const int message_timeout{0};

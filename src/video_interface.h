@@ -57,6 +57,8 @@ Q_SIGNALS:
 public Q_SLOTS:
     void receive_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                         const QString &video_framerate, const QString &video_aspect_ratio);
+    void receive_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
+                                              const QString &color_transfer, const QString &color_primaties);
     void get_video_interface_selections();
 
 private:
