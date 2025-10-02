@@ -254,6 +254,25 @@ void InputProbe::parse_video_output(QString &output)
         }
     }
 
+    QRegularExpression stream_colorspace_regx(Analyze::stream_colorspace_data);
+    itr = stream_colorspace_regx.globalMatch(output);
+    while(itr.hasNext())
+    {
+        QRegularExpressionMatch match = itr.next();
+        this->videostream.stream_colorspace = match.captured(1);
+    }
+    QRegularExpression colorspace_regx(Analyze::colorspace_data);
+    itr = colorspace_regx.globalMatch(output);
+    while(itr.hasNext())
+    {
+        QRegularExpressionMatch match = itr.next();
+        this->videostream.color_space = match.captured(1);
+        this->videostream.color_transfer = match.captured(2);
+        this->videostream.color_primaries = match.captured(3);
+    }
+    Q_EMIT send_source_video_colorspace_data(this->videostream.stream_colorspace, this->videostream.color_space,
+                                             this->videostream.color_transfer, this->videostream.color_primaries);
+
     QRegularExpression codectype_regx(Analyze::video_codec_type);
     itr = codectype_regx.globalMatch(output);
     while(itr.hasNext())
