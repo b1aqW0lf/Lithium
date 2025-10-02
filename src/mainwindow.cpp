@@ -79,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&inputprobe, &InputProbe::send_input_probe_data, ui->inputTreeWidget, &InputTreeView::receive_input_probe_data);
     connect(&inputprobe, &InputProbe::send_source_file_audio_data, ui->audioInterfaceWidget, &AudioInterface::receive_source_file_audio_data);//new
     connect(&inputprobe, &InputProbe::send_source_file_video_data, ui->videoInterfaceWidget, &VideoInterface::receive_source_file_video_data);//new
+    connect(&inputprobe, &InputProbe::send_source_video_colorspace_data,
+            ui->videoInterfaceWidget, &VideoInterface::receive_source_video_colorspace_data);
     connect(&inputprobe, &InputProbe::send_source_video_bitrate, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::receive_source_video_bitrate);//new
     connect(&inputprobe, &InputProbe::send_source_video_codec_profile,
             ui->videoOptionsWidget, &VideoEncoderOptions::receive_source_video_codec_profile);//new
