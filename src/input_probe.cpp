@@ -49,6 +49,7 @@ const char sar_data[] = "sample_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9
 const char dar_data[] = "display_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
 const char samplerate_data[] = "^sample_rate\\s*=\\s*([\\d]*)$";
 const char audio_duration[] = "codec_type\\s*=\\s*audio[^.]*[.]*[^.]*\\s*duration\\s*=\\s*([\\d]*[.]?[\\d]*)";
+const char stream_colorspace_data[] = "Stream #[0-9]+:[0-9]+[^.]*: Video:\\s*[\\w\\d]*\\s?[(]?[\\w\\s\\d:]*?[(]?[\\w\\s\\d:]*[)]?[,]?\\s+[^,]*[,]?\\s*([\\w\\d]*)[),]?";
 const char colorspace_data[] = "^color_space=\\s*([\\w\\d]*)\\s*color_transfer=\\s*([\\w\\d]*)\\s*color_primaries=\\s*([\\w\\d]*)$";
 const char pixelformat_data[] = "^pix_fmt=\\s*([\\w\\d]*)$";
 const char codectype_audio[] = "\\s*Stream #[\\d]*:[\\d]*: Audio";
