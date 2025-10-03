@@ -58,7 +58,7 @@ public Q_SLOTS:
     void receive_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                         const QString &video_framerate, const QString &video_aspect_ratio);
     void receive_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
-                                              const QString &color_transfer, const QString &color_primaties);
+                                              const QString &color_transfer, const QString &color_primaries);
     void get_video_interface_selections();
 
 private:
@@ -79,6 +79,8 @@ private:
     void initialize_video_interface_data();
     void process_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                         const QString &video_framerate, const QString &video_aspect_ratio);
+    void process_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
+                                               const QString &color_transfer, const QString &color_primaries);
     void process_video_interface_selections();
 
     //struct
@@ -89,7 +91,10 @@ private:
         QStringList video_resolution_selection{};
         QStringList video_framerate_selection{};
         QStringList video_display_aspect_ratio_selection{};
-        QString video_colorspace_selection{};
+        QStringList video_colorspace_selection{};
+        QString video_color_space{};
+        QString video_color_transfer{};
+        QString video_color_primaries{};
         //--------------------------------------
         QStringList video_selection_list{};
     }selection;

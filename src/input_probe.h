@@ -60,7 +60,7 @@ Q_SIGNALS:
     void send_source_video_bitrate(const QString &bitrate);
 
     void send_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
-                                           const QString &color_transfer, const QString &color_primaties);
+                                           const QString &color_transfer, const QString &color_primaries);
 
     void send_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
                                      const QString &audio_samplerate, const QString &audio_channels);//experimental

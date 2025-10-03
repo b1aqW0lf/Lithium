@@ -52,6 +52,18 @@ private:
     const QString video_scale       = "scale=";
     const QString video_fps_flag = "-r";
     const QString video_dar_flag = "-aspect";//display aspect ratio flag
+    const QString colorspace_flag = "-colorspace";
+    const QString color_transfer_flag = "-color_trc";//color transfer characteristics
+    const QString color_primaries_flag = "-color_primaries";
+    const QString iec61966_2_1_val = "iec61966_2_1";//srgb's academic name
+    const QString bt601_val = "bt601";
+    const QString bt709_val = "bt709";
+    const QString bt2020_val = "bt2020";
+    const QString bt2020_10bit = "bt2020_10bit";
+    const QString bt2020_ncl_val = "bt2020_ncl";
+    const QString smpte170m_val = "smpte170m";
+    const QString smpte2084_val = "smpte2084";
+    const QString arib_std_b67_val = "arib-std-b67";
 };
 
 #endif // VIDEO_COMMANDS_H

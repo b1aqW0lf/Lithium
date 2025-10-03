@@ -115,9 +115,29 @@ void VideoInterface::process_source_file_video_data(const QString &video_codec, 
 }
 
 void VideoInterface::receive_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
-                                                          const QString &color_transfer, const QString &color_primaties)
+                                                          const QString &color_transfer, const QString &color_primaries)
 {
+    this->process_source_video_colorspace_data(stream_colorspace, color_space, color_transfer, color_primaries);
+}
 
+void VideoInterface::process_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
+                                                          const QString &color_transfer, const QString &color_primaries)
+{
+    const int index0{0};
+    if(stream_colorspace.isEmpty() || stream_colorspace.contains("Progressive", Qt::CaseInsensitive))
+    {
+        //set itemdata to Unknown to signify the stream colorspace is unknown
+        //unknown is an actual value in ffmpeg colorspace -->https://trac.ffmpeg.org/wiki/colorspace
+        ui->videoColorspaceBox->setItemData(index0, "Unknown", Qt::UserRole);
+    }
+    else
+    {
+        ui->videoColorspaceBox->setItemData(index0, stream_colorspace, Qt::UserRole);
+    }
+
+    this->selection.video_color_space = color_space;
+    this->selection.video_color_primaries = color_primaries;
+    this->selection.video_color_transfer = color_transfer;
 }
 
 void VideoInterface::select_video_codec(const int &index)
@@ -304,25 +324,84 @@ void VideoInterface::select_video_display_aspect_ratio(const int &index)
     }
 }
 
-void VideoInterface::select_video_colorspace(const int &index)//<---must resolve!!
+void VideoInterface::select_video_colorspace(const int &index)
 {
     const int message_timeout{0};
     this->selection.video_colorspace_selection.clear();
 
     if(index == 0)
     {
-        //clicking "Source" will set the source container as the selected container
-        this->selection.video_colorspace_selection = "."+ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString();
-        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString().toUpper(), message_timeout);
+        //clicking "Source" will set the source cocolorspace values as the selected values
+        this->selection.video_colorspace_selection << command.colorspace_flag << this->selection.video_color_space
+                                                   << command.color_primaries_flag << this->selection.video_color_primaries
+                                                   << command.color_transfer_flag << this->selection.video_color_transfer;
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 1)//separator
     {
         //option one (1) cannot be selected by the user - it is the separator
         return;
     }
-    else if(index >= 2 && index <= videodata.videoColorspaceList.size())
+    else if(index == 2)//"Default"
     {
-        this->selection.video_colorspace_selection = "."+ui->videoColorspaceBox->currentText().toLower();
+        //to force ffmpeg to decide on the colorspace values, set the colorspace value to an empty string
+        this->selection.video_colorspace_selection << "";
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
+    }
+    else if(index == 3)//separator
+    {
+        //option three (3) cannot be selected by the user - it is the separator
+        return;
+    }
+    else if(index == 4)//sRGB
+    {
+        //-colorspace bt709 -color_trc srgb
+        //If srgb does not work, try the more academic name iec61966-2-1 -->https://trac.ffmpeg.org/wiki/colorspace
+        //defaulting to iec61966-2-1
+        this->selection.video_colorspace_selection << command.colorspace_flag << command.bt709_val
+                                                   << command.color_transfer_flag << command.iec61966_2_1_val;
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
+    }
+    else if(index == 5)//BT601
+    {
+        //-colorspace smpte170m -color_primaries smpte170m -color_trc smpte170m
+        this->selection.video_colorspace_selection << command.colorspace_flag << command.smpte170m_val
+                                                   << command.color_primaries_flag << command.smpte170m_val
+                                                   << command.color_transfer_flag << command.smpte170m_val;
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
+    }
+    else if(index == 6)//BT709
+    {
+        //-color_primaries bt709 -color_trc bt709 -colorspace bt709 is the same as -color_primaries 1 -color_trc 1 -colorspace 1
+        this->selection.video_colorspace_selection << command.colorspace_flag << command.bt709_val
+                                                   << command.color_primaries_flag << command.bt709_val
+                                                   << command.color_transfer_flag << command.bt709_val;
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
+    }
+    else if(index == 7)//BT2020
+    {
+        //-color_primaries bt2020 -color_trc bt2020-10/-color_trc smpte2084 for HDR10/-color_trc arib-std-b67 for HLG
+        //-colorspace bt2020nc/-colorspace bt2020ncl -->ncl = non-constant luminance
+        this->selection.video_colorspace_selection << command.colorspace_flag << command.bt2020_ncl_val
+                                                   << command.color_primaries_flag << command.bt2020_val
+                                                   << command.color_transfer_flag << command.bt2020_10bit;
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
+    }
+    else if(index == 8)//BT2100 (PQ)
+    {
+        //-color_primaries bt2020, -color_trc smpte2084, -colorspace bt2020nc
+        this->selection.video_colorspace_selection << command.colorspace_flag << command.bt2020_ncl_val
+                                                   << command.color_primaries_flag << command.bt2020_val
+                                                   << command.color_transfer_flag << command.smpte2084_val;
+        Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
+
+    }
+    else if(index == 9)//BT2100 (HLG)
+    {
+        //-color_primaries bt2020 -color_trc arib-std-b67 -colorspace bt2020nc
+        this->selection.video_colorspace_selection << command.colorspace_flag << command.bt2020_ncl_val
+                                                   << command.color_primaries_flag << command.bt2020_val
+                                                   << command.color_transfer_flag << command.arib_std_b67_val;
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else

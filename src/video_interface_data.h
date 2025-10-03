@@ -71,8 +71,8 @@ class VideoInterfaceData
          * \brief videoColorspaceList is to be used with videoColorspaceBox
          */
         //list of available video colorspaces
-        const QStringList videoColorspaceList = QStringList() << "Source" << "Default" << "sRGB" << "Rec.601" << "Rec.709"
-                                                              << "Rec.2020" << "Rec.2100 (PQ)" << "Rec.2100 (HLG)";
+        const QStringList videoColorspaceList = QStringList() << "Source" << "Default" << "sRGB" << "BT.601" << "BT.709"
+                                                              << "BT.2020" << "BT.2100 (PQ)" << "BT.2100 (HLG)";
 };
 
 #endif // VIDEO_INTERFACE_DATA_H
