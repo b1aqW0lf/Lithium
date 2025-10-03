@@ -434,6 +434,7 @@ void VideoInterface::process_video_interface_selections()
             //adding the selections to the video selection list
             this->selection.video_selection_list << this->selection.copy_video_command
                                                  << this->selection.video_codec_selection
+                                                 << this->selection.video_colorspace_selection
                                                  << this->selection.video_resolution_selection[1]+","+
                                                         this->selection.video_display_aspect_ratio_selection[0]//add setdar= to -filter:v
                                                  << this->selection.video_framerate_selection;
@@ -444,6 +445,7 @@ void VideoInterface::process_video_interface_selections()
             //adding the selections to the video selection list
             this->selection.video_selection_list << this->selection.copy_video_command
                                                  << this->selection.video_codec_selection
+                                                 << this->selection.video_colorspace_selection
                                                  << this->selection.video_resolution_selection
                                                  << this->selection.video_display_aspect_ratio_selection
                                                  << this->selection.video_framerate_selection;
