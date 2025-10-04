@@ -124,7 +124,7 @@ void VideoInterface::process_source_video_colorspace_data(const QString &stream_
                                                           const QString &color_transfer, const QString &color_primaries)
 {
     const int index0{0};
-    if(stream_colorspace.isEmpty() || stream_colorspace.contains("Progressive", Qt::CaseInsensitive))
+    if(stream_colorspace.isEmpty() || stream_colorspace.length() == 0)
     {
         //set itemdata to Unknown to signify the stream colorspace is unknown
         //unknown is an actual value in ffmpeg colorspace -->https://trac.ffmpeg.org/wiki/colorspace
