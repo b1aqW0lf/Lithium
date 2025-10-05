@@ -108,6 +108,7 @@ void SaveAsField::get_input_file_extension(const QString &file_name)
 void SaveAsField::current_process_mode(ProcessMode process_mode)
 {
     this->initalize_output_extensions(process_mode);
+    this->process_mode = process_mode;
 }
 
 void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
@@ -169,26 +170,36 @@ void SaveAsField::select_output_file_container(const int &index)
     const int message_timeout{0};
     this->output_ext.clear();
 
-    if(index == 0)
+    if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
     {
-        //clicking "Source" will set the source container as the selected container
-        this->output_ext = ui->saveAsContainerBox->itemData(index, Qt::UserRole).toString().toLower();
-        Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->itemData(index,
+        //utilizing the videoContainerList
+        if(index == 0)
+        {
+            //clicking "Source" will set the source container as the selected container
+            this->output_ext = ui->saveAsContainerBox->itemData(index, Qt::UserRole).toString().toLower();
+            Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->itemData(index,
                                             Qt::UserRole).toString().remove(".").toUpper(), message_timeout);
+        }
+        else if(index == 1)//separator
+        {
+            //option one (1) cannot be selected by the user - it is the separator
+            return;
+        }
+        else if(index >= 2 && index <= extensions.videoContainerList.size())
+        {
+            this->output_ext = "."+ui->saveAsContainerBox->currentText().toLower();
+            Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), message_timeout);
+        }
+        else
+        {
+            return;
+        }
     }
-    else if(index == 1)//separator
+    if(process_mode == ProcessMode::ExtractMode)
     {
-        //option one (1) cannot be selected by the user - it is the separator
-        return;
-    }
-    else if(index >= 2 && index <= extensions.videoContainerList.size())
-    {
-        this->output_ext = "."+ui->saveAsContainerBox->currentText().toLower();
+        //utilizing the audioContainerList
+        this->output_ext = "."+ui->saveAsContainerBox->itemData(index, Qt::DisplayRole).toString().toLower();
         Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), message_timeout);
-    }
-    else
-    {
-        return;
     }
 
     this->set_output_file_extension(this->output_ext);

@@ -79,6 +79,7 @@ private:
     void set_output_file_extension(const QString &output_ext);
 
     //variables
+    ProcessMode process_mode;
     QString output_ext{};
 };
 
