@@ -77,7 +77,6 @@ void AudioInterface::initialize_audio_interface_data()
     ui->audioSamplerateBox->insertSeparator(1);
     ui->audioChannelBox->insertItems(0, audiodata.audioChannelList);
     ui->audioChannelBox->insertSeparator(1);
-    //ui->audioContainerBox->insertItems(0, audiodata.audioContainerList);
 }
 
 void AudioInterface::setup_audio_sync_default_settings()

@@ -38,15 +38,7 @@ class AudioInterfaceData
         * \brief audioChannelList is to be used with audioChannelBox
         */
         //list of audio channels
-        const QStringList audioChannelList = QStringList() << "Source" << "Mono" << "Stereo" << "3" << "4" << "5" << "6" << "7"
-                                                     << "8";
-
-        /*!
-        * \brief audioContainerList is to be used with audioContainerBox
-        */
-    public:
-        //list of available audio containers/extensions
-        const QStringList audioContainerList = QStringList() << "M4A" << "FLAC" << "MP3" << "WAV" << "OGG" << "OGA" << "AIFF" << "PCM";
+        const QStringList audioChannelList = QStringList() << "Source" << "Mono" << "Stereo" << "3" << "4" << "5" << "6" << "7" << "8";
 };
 
 #endif // AUDIO_INTERFACE_DATA_H
