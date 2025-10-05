@@ -209,7 +209,7 @@ void SaveAsField::set_output_file_extension(const QString &output_ext)
 {
     QString lineedit_text = ui->saveAsLineEdit->text();
     lineedit_text = lineedit_text.left(lineedit_text.lastIndexOf("."));
-    if(!this->output_ext.isEmpty() && !lineedit_text.isEmpty())
+    if(!output_ext.isEmpty() && !lineedit_text.isEmpty())
     {
         if(QFile::exists(lineedit_text+output_ext))
         {
@@ -222,7 +222,7 @@ void SaveAsField::set_output_file_extension(const QString &output_ext)
             ui->saveAsLineEdit->setText(lineedit_text+output_ext);
         }
     }
-    else if(this->output_ext.isEmpty())
+    else if(output_ext.isEmpty())
     {
         QMessageBox::information(this, tr("Lithium"),
                                  tr("Output file extension not specified"));
