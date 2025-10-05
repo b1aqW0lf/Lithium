@@ -94,6 +94,7 @@ void SaveAsField::process_input_file_name(const QString &file_name)
 {
     ui->saveAsLineEdit->setText(file_name);
     this->get_input_file_extension(file_name);
+    this->input_file_name = file_name;
     this->send_selected_output_path();
 }
 
@@ -129,6 +130,9 @@ void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
         //load the audio container list
         ui->saveAsContainerBox->insertItems(index0, extensions.audioContainerList);
     }
+
+    //get input file extension again after process mode changes
+    this->get_input_file_extension(this->input_file_name);
 }
 
 //select the output file path to convert to

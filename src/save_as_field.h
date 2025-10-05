@@ -80,6 +80,7 @@ private:
 
     //variables
     ProcessMode process_mode;
+    QString input_file_name{};
     QString output_ext{};
 };
 
