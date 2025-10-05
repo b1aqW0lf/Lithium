@@ -229,7 +229,7 @@ void SaveAsField::set_output_file_extension(const QString &output_ext)
     else if(output_ext.isEmpty())
     {
         QMessageBox::information(this, tr("Lithium"),
-                                 tr("Output file extension not specified"));
+                                 tr("Please select an input file first"));
     }
     else if(lineedit_text.isEmpty() || lineedit_text == "")
     {
