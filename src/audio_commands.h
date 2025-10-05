@@ -46,6 +46,8 @@ class AudioCommands
         const QString audio_bitrate_flag = "-b:a";
         const QString audio_samplerate_flag = "-ar";
         const QString audio_channels_flag = "-ac";
+        const QString audio_sync_flag = "-async";
+        const QString audio_sync_value = "1";
 
 };
 

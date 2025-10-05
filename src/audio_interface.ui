@@ -79,15 +79,12 @@
       <item row="3" column="1">
        <widget class="QComboBox" name="audioChannelBox"/>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="audioContainerLabel">
+      <item row="4" column="0" colspan="2">
+       <widget class="QCheckBox" name="audioSyncCheckBox">
         <property name="text">
-         <string>Container:</string>
+         <string> Sync Audio</string>
         </property>
        </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QComboBox" name="audioContainerBox"/>
       </item>
      </layout>
     </widget>

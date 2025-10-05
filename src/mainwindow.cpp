@@ -74,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode_status, ui->statusbar, &QStatusBar::showMessage);
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &treeview, &InputTreeView::current_process_mode);//new
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &openfile, &OpenFile::current_process_mode);//new
+    connect(&processModeWidget, &ProcessModeWidget::current_process_mode, ui->audioInterfaceWidget, &AudioInterface::current_process_mode);
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, ui->saveAsWidget, &SaveAsField::current_process_mode);//new
     connect(&inputprobe, &InputProbe::send_input_probe_data, this, &MainWindow::receive_input_probe_data);
     connect(&inputprobe, &InputProbe::send_input_probe_data, ui->inputTreeWidget, &InputTreeView::receive_input_probe_data);

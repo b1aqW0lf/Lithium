@@ -55,10 +55,11 @@ AudioInterface::AudioInterface(QWidget *parent)
             this, &AudioInterface::select_audio_samplerate);
     connect(ui->audioChannelBox, QOverload<int>::of(&QComboBox::activated),
             this, &AudioInterface::select_audio_channels);
-    connect(ui->audioContainerBox, QOverload<int>::of(&QComboBox::activated),
-            this, &AudioInterface::select_audio_container);
+    connect(ui->audioSyncCheckBox, &QCheckBox::clicked,
+            this, &AudioInterface::enable_audio_sync);
 
     this->initialize_audio_interface_data();
+    this->setup_audio_sync_default_settings();
 }
 
 AudioInterface::~AudioInterface()
@@ -76,7 +77,13 @@ void AudioInterface::initialize_audio_interface_data()
     ui->audioSamplerateBox->insertSeparator(1);
     ui->audioChannelBox->insertItems(0, audiodata.audioChannelList);
     ui->audioChannelBox->insertSeparator(1);
-    ui->audioContainerBox->insertItems(0, audiodata.audioContainerList);
+    //ui->audioContainerBox->insertItems(0, audiodata.audioContainerList);
+}
+
+void AudioInterface::setup_audio_sync_default_settings()
+{
+    //disable audio sync by default
+    ui->audioSyncCheckBox->setDisabled(true);
 }
 
 void AudioInterface::enable_copy_source_audio()
@@ -114,6 +121,24 @@ void AudioInterface::process_source_file_audio_data(const QString &audio_codec, 
     this->ui->audioBitrateBox->setItemData(index, audio_bitrate, Qt::UserRole);
     this->ui->audioSamplerateBox->setItemData(index, audio_samplerate, Qt::UserRole);
     this->ui->audioChannelBox->setItemData(index, audio_channels, Qt::UserRole);
+}
+
+void AudioInterface::current_process_mode(ProcessMode process_mode)
+{
+    this->enable_audio_sync_mode(process_mode);
+}
+
+void AudioInterface::enable_audio_sync_mode(ProcessMode process_mode)
+{
+    if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::ExtractMode)
+    {
+        ui->audioSyncCheckBox->setDisabled(true);
+    }
+    if(process_mode == ProcessMode::MergeMode)
+    {
+        //audio sync should only be enabled when process mode is set to merge mode
+        ui->audioSyncCheckBox->setDisabled(false);
+    }
 }
 
 void AudioInterface::select_audio_codec(const int &index)
@@ -263,15 +288,27 @@ void AudioInterface::setup_audio_mono_stereo_channel(const int &index, const int
     Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->itemData(index, role).toString(), message_timeout);
 }
 
-void AudioInterface::select_audio_container(const int &index)
+void AudioInterface::enable_audio_sync()
 {
     const int message_timeout{0};
-    this->selection.audio_container_selection.clear();
+    this->selection.audio_sync_selection.clear();
+    /*note:
+     * -map 0:v:0: Maps the video stream from the first input (index 0) to the output.
+     * -map 1:a:0: Maps the audio stream from the second input (index 1) to the output.*/
 
-    //set the selected audio extension as the desired extension
-    this->selection.audio_container_selection = "."+ui->audioContainerBox->itemData(index, Qt::DisplayRole).toString().toLower();
-    Q_EMIT this->send_audio_statusbar_message(ui->audioContainerBox->itemData(index, Qt::DisplayRole).toString(), message_timeout);
-    Q_EMIT this->send_selected_audio_extension(this->selection.audio_container_selection);
+    if(ui->audioSyncCheckBox->isChecked() == true)
+    {
+        //send the command to sync audio
+        //note: revisit when merging sources is being worked on.
+        this->selection.audio_sync_selection << command.audio_sync_flag << command.audio_sync_value;
+        Q_EMIT this->send_audio_statusbar_message("Audio Sync Is Enabled", message_timeout);
+    }
+    else
+    {
+        //set the audio sync value to empty string
+        this->selection.audio_sync_selection << "";
+        Q_EMIT this->send_audio_statusbar_message("", message_timeout);
+    }
 }
 
 void AudioInterface::get_audio_interface_selections()
@@ -297,7 +334,8 @@ void AudioInterface::process_audio_interface_selections()
                                              << this->selection.audio_codec_selection
                                              << this->selection.audio_bitrate_selection
                                              << this->selection.audio_samplerate_selection
-                                             << this->selection.audio_channel_selection;
+                                             << this->selection.audio_channel_selection
+                                             << this->selection.audio_sync_selection;
     }
 
     //send the audio selections

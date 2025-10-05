@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "audio_commands.h"
 #include "audio_interface_data.h"
+#include "process_mode_flags.h"
 
 #include <QWidget>
 
@@ -58,6 +59,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void receive_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
                                         const QString &audio_samplerate, const QString &audio_channels);
+    void current_process_mode(ProcessMode process_mode);
     void get_audio_interface_selections();
 
 private:
@@ -71,13 +73,15 @@ private Q_SLOTS:
     void select_audio_bitrate(const int &index);
     void select_audio_samplerate(const int &index);
     void select_audio_channels(const int &index);
-    void select_audio_container(const int &index);
+    void enable_audio_sync();
 
 private:
     //functions
     void initialize_audio_interface_data();
+    void setup_audio_sync_default_settings();
     void process_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
                                         const QString &audio_samplerate, const QString &audio_channels);
+    void enable_audio_sync_mode(ProcessMode process_mode);
     void process_audio_interface_selections();
     void setup_audio_mono_stereo_channel(const int &index, const int &message_timeout, const QString &audio_channel, Qt::ItemDataRole role);
 
@@ -89,7 +93,7 @@ private:
         QStringList audio_bitrate_selection{};
         QStringList audio_samplerate_selection{};
         QStringList audio_channel_selection{};
-        QString audio_container_selection{};
+        QStringList audio_sync_selection{};
         //-----------------------------------------//
         QStringList audio_selection_list{};
     }selection;
