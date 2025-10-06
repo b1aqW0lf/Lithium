@@ -33,7 +33,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-#include "file_extension_check.h"
 #include "input_probe.h"
 #include "input_treeview.h"
 #include "metadata_checkbox.h"
@@ -79,7 +78,6 @@ private Q_SLOTS:
 
 private:
     Ui::MainWindow *ui;
-    FileExtensionCheck extension;
     InputProbe inputprobe;
     InputTreeView treeview;
     TranscodeProcess transcode;

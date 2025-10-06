@@ -72,8 +72,6 @@ set(PROJECT_SOURCES
         src/transcode_process.cpp
         src/abstract_timer.cpp
         src/abstract_timer.h
-        src/file_extension_check.h
-        src/file_extension_check.cpp
         src/input_tree_model.h
         src/input_tree_model.cpp
         src/input_treeview.h
