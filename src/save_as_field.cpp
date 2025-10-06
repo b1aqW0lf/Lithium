@@ -54,6 +54,7 @@ SaveAsField::SaveAsField(QWidget *parent) :
     connect(ui->saveAsBrowseButton, &QPushButton::clicked, this, &SaveAsField::select_save_destination);
     connect(ui->saveAsContainerBox, QOverload<int>::of(&QComboBox::activated),
             this, &SaveAsField::select_output_file_container);
+    connect(ui->saveAsLineEdit, &QLineEdit::returnPressed, this, &SaveAsField::send_selected_output_path);
 }
 
 SaveAsField::~SaveAsField()
