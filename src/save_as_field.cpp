@@ -39,6 +39,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QMessageBox>
 #include <QPushButton>
 
+#if !defined(TIMEOUT) || !defined(INDEX0)
+#define TIMEOUT 0
+#define INDEX0 0
+#endif
+
 
 SaveAsField::SaveAsField(QWidget *parent) :
     QWidget(parent),
@@ -73,9 +78,8 @@ void SaveAsField::setup_clear_button()
 
 void SaveAsField::setup_default_extensions()
 {
-    const int index0{0};
     const int separator{1};
-    ui->saveAsContainerBox->insertItems(index0, extensions.videoContainerList);
+    ui->saveAsContainerBox->insertItems(INDEX0, extensions.videoContainerList);
     ui->saveAsContainerBox->insertSeparator(separator);
     ui->saveAsContainerBox->setCurrentIndex(3);
 }
@@ -102,9 +106,8 @@ void SaveAsField::process_input_file_name(const QString &file_name)
 void SaveAsField::get_input_file_extension(const QString &file_name)
 {
     //get the extension of the input file
-    const int index0{0};
     QString input_ext = file_name.mid(file_name.lastIndexOf("."));
-    ui->saveAsContainerBox->setItemData(index0, input_ext, Qt::UserRole);
+    ui->saveAsContainerBox->setItemData(INDEX0, input_ext, Qt::UserRole);
 }
 
 void SaveAsField::current_process_mode(ProcessMode process_mode)
@@ -115,21 +118,20 @@ void SaveAsField::current_process_mode(ProcessMode process_mode)
 
 void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
 {
-    const int index0{0};
     ui->saveAsContainerBox->clear();
 
     if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
     {
         const int separator{1};
         //load the video container list
-        ui->saveAsContainerBox->insertItems(index0, extensions.videoContainerList);
+        ui->saveAsContainerBox->insertItems(INDEX0, extensions.videoContainerList);
         ui->saveAsContainerBox->insertSeparator(separator);
         ui->saveAsContainerBox->setCurrentIndex(3);
     }
     if(process_mode == ProcessMode::ExtractMode)
     {
         //load the audio container list
-        ui->saveAsContainerBox->insertItems(index0, extensions.audioContainerList);
+        ui->saveAsContainerBox->insertItems(INDEX0, extensions.audioContainerList);
     }
 
     //get input file extension again after process mode changes
@@ -172,7 +174,6 @@ void SaveAsField::select_save_destination()
 
 void SaveAsField::select_output_file_container(const int &index)
 {
-    const int message_timeout{0};
     this->output_ext.clear();
 
     if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
@@ -183,7 +184,7 @@ void SaveAsField::select_output_file_container(const int &index)
             //clicking "Source" will set the source container as the selected container
             this->output_ext = ui->saveAsContainerBox->itemData(index, Qt::UserRole).toString().toLower();
             Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->itemData(index,
-                                            Qt::UserRole).toString().remove(".").toUpper(), message_timeout);
+                                            Qt::UserRole).toString().remove(".").toUpper(), TIMEOUT);
         }
         else if(index == 1)//separator
         {
@@ -193,7 +194,7 @@ void SaveAsField::select_output_file_container(const int &index)
         else if(index >= 2 && index <= extensions.videoContainerList.size())
         {
             this->output_ext = "."+ui->saveAsContainerBox->currentText().toLower();
-            Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), message_timeout);
+            Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
         }
         else
         {
@@ -204,7 +205,7 @@ void SaveAsField::select_output_file_container(const int &index)
     {
         //utilizing the audioContainerList
         this->output_ext = "."+ui->saveAsContainerBox->itemData(index, Qt::DisplayRole).toString().toLower();
-        Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), message_timeout);
+        Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
     }
 
     this->set_output_file_extension(this->output_ext);
