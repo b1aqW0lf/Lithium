@@ -55,8 +55,7 @@ Q_SIGNALS:
 
 public:
     //functions
-    void start_ffprobe(const QStringList &arguments);
-    void start_ffmpeg(const QStringList &arguments);
+    void start_encoder(const QString &encoder, const QStringList &arguments);
     void stop_ffmpeg();
     void stop_encoder_timer();
 

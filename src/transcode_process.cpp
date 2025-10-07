@@ -67,7 +67,7 @@ void TranscodeProcess::start_transcoding_process()
 
 void TranscodeProcess::start_ffprobe_process()
 {
-    encoder.start_ffprobe(QStringList() << "-v" << "error"
+    encoder.start_encoder("ffprobe", QStringList() << "-v" << "error"
                                         << "-select_streams" << "v:0"
                                         << "-count_packets" << "-show_entries"
                                         << "stream=nb_read_packets" << "-of" << "csv=p=0"
@@ -85,7 +85,7 @@ void TranscodeProcess::start_ffmpeg_process()
 #else
                                           << QDir::homePath()+"/Downloads/testfile1.mkv";
 #endif
-    encoder.start_ffmpeg(arguments);
+    encoder.start_encoder("ffmpeg", arguments);
 }
 
 void TranscodeProcess::ffprobe_standard_output(const QString &output)

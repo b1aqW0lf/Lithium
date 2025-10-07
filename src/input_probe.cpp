@@ -90,7 +90,7 @@ void InputProbe::start_ffprobe_process(const QString &source_file)
         this->ffprobe->setProcessChannelMode(QProcess::MergedChannels);
         this->ffprobe->start(ffprobe_path, QStringList() << "-i" << source_file << "-show_streams");
     }*/
-    encoder.start_ffprobe(QStringList() << "-i" << source_file << "-show_streams");
+    encoder.start_encoder("ffprobe", QStringList() << "-i" << source_file << "-show_streams");
 }
 
 void InputProbe::ffprobe_path_check()
