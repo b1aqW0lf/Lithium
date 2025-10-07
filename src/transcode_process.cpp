@@ -34,6 +34,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QDir>
 #include <QMessageBox>
 
+#ifndef TIMEOUT
+#define TIMEOUT 0
+#endif
+
 
 TranscodeProcess::TranscodeProcess(QWidget *parent)
     : QWidget{parent}
@@ -103,15 +107,13 @@ void TranscodeProcess::transcode_process_started(const QString &message, const i
 
 void TranscodeProcess::transcode_process_finished(int &exit_code)
 {
-    const int timeout{0};
-
     if(exit_code == QProcess::NormalExit)
     {
-        Q_EMIT send_transcode_process_message("Transcoding: Finished!", timeout);
+        Q_EMIT send_transcode_process_message("Transcoding: Finished!", TIMEOUT);
     }
     else if(exit_code == QProcess::CrashExit)
     {
-        Q_EMIT send_transcode_process_message("Transcoding: Process stopped abnormally", timeout);
+        Q_EMIT send_transcode_process_message("Transcoding: Process stopped abnormally", TIMEOUT);
     }
     else
     {
@@ -121,12 +123,11 @@ void TranscodeProcess::transcode_process_finished(int &exit_code)
 
 void TranscodeProcess::cancel_transcoding_process()
 {
-    int timeout{0};
     //check for existence of the input file
     if(this->source_file.isEmpty())
     {
         encoder.stop_encoder_timer();
-        Q_EMIT send_transcode_process_message(tr("No Input to cancel"), timeout);
+        Q_EMIT send_transcode_process_message(tr("No Input to cancel"), TIMEOUT);
         QMessageBox::information(this, tr("Lithium"),
                                  tr("Input file not specified"));
         return; //nothing is returned
@@ -135,11 +136,11 @@ void TranscodeProcess::cancel_transcoding_process()
     else if(!this->source_file.isEmpty())
     {
         encoder.stop_ffmpeg();
-        Q_EMIT send_transcode_process_message(tr("Transcoding: Cancelled! "), timeout);
+        Q_EMIT send_transcode_process_message(tr("Transcoding: Cancelled! "), TIMEOUT);
     }
     else
     {
         encoder.stop_ffmpeg();
-        Q_EMIT send_transcode_process_message(tr("Transcoding: Cancelled! "), timeout);
+        Q_EMIT send_transcode_process_message(tr("Transcoding: Cancelled! "), TIMEOUT);
     }
 }
