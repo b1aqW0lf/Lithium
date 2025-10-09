@@ -99,10 +99,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::button_group_signal, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::set_avg_bitrate_button_mode);//new
     connect(this, &MainWindow::button_group_signal, ui->videoCRFWidget, &VideoCRFInterface::set_crf_button_mode);//new
     connect(ui->saveAsWidget, &SaveAsField::send_save_field_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
+    connect(&encoderAvail, &EncoderAvailability::send_encoder_availability_message, ui->statusbar, &QStatusBar::showMessage);//new
 
     //statusbar widgets
     this->setup_statusbar_widgets();
     this->setup_button_group();
+
+    //ready status
+    this->setup_ready_status();
 }
 
 MainWindow::~MainWindow()
@@ -164,6 +168,12 @@ void MainWindow::setup_button_group()
 
     ui->videoCRFWidget->video_crf_button_widget()->setChecked(true);
     connect(buttonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::group_button_clicked);
+}
+
+void MainWindow::setup_ready_status()
+{
+    encoderAvail.set_encoder_availablity();
+    encoderAvail.send_encoder_ready_status();
 }
 
 void MainWindow::group_button_clicked()

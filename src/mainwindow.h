@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "encoder_availability.h"
 #include "input_probe.h"
 #include "input_treeview.h"
 #include "metadata_checkbox.h"
@@ -78,6 +79,7 @@ private Q_SLOTS:
 
 private:
     Ui::MainWindow *ui;
+    EncoderAvailability encoderAvail;
     InputProbe inputprobe;
     InputTreeView treeview;
     TranscodeProcess transcode;
@@ -99,6 +101,7 @@ private:
     void setup_checkboxes();
     void setup_statusbar_widgets();
     void setup_button_group();
+    void setup_ready_status();
 
     //variables
     QString filename{};
