@@ -101,7 +101,7 @@ void EncoderProcess::set_encoder_path(const QString &encoder)
 #endif
 }
 
-void EncoderProcess::start_encoder(const QString &encoder,const QStringList &arguments)
+void EncoderProcess::start_encoder(const QString &encoder, const QStringList &arguments)
 {
     if(encoder == "ffprobe")
     {
