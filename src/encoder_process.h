@@ -55,6 +55,8 @@ Q_SIGNALS:
 
 public:
     //functions
+    void set_encoder_path(const QString &encoder);
+    QString get_encoder_path(const QString &encoder);
     void start_encoder(const QString &encoder, const QStringList &arguments);
     void stop_ffmpeg();
     void stop_encoder_timer();
@@ -75,7 +77,8 @@ private:
     QProcess *ffprobe;
 
     //functions
-    void set_encoder_path(const QString &encoder);
+    void configure_encoder_path(const QString &encoder);
+    QString fetch_encoder_path(const QString &encoder);
 
     //variables
     QString ffmpeg_path{};

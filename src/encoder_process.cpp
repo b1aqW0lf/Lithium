@@ -56,8 +56,14 @@ EncoderProcess::~EncoderProcess()
     delete ffprobe;
 }
 
-//check the location of ffmpeg, ffprobe and ffplay
 void EncoderProcess::set_encoder_path(const QString &encoder)
+{
+    //calls private function to set the encoder path
+    this->configure_encoder_path(encoder);
+}
+
+//check the location of ffmpeg, ffprobe and ffplay
+void EncoderProcess::configure_encoder_path(const QString &encoder)
 {
 #ifdef Q_OS_WIN
     QString encoder_path{};
@@ -101,11 +107,36 @@ void EncoderProcess::set_encoder_path(const QString &encoder)
 #endif
 }
 
+QString EncoderProcess::get_encoder_path(const QString &encoder)
+{
+    //calls private function to get the encoder path
+    return this->fetch_encoder_path(encoder);
+}
+
+QString EncoderProcess::fetch_encoder_path(const QString &encoder)
+{
+    QString encoder_path{};
+
+    if(encoder == "ffmpeg")
+    {
+        encoder_path = this->ffmpeg_path;
+        return encoder_path;
+    }
+
+    if(encoder == "ffprobe")
+    {
+        encoder_path = this->ffprobe_path;
+        return encoder_path;
+    }
+
+    return encoder_path;
+}
+
 void EncoderProcess::start_encoder(const QString &encoder, const QStringList &arguments)
 {
     if(encoder == "ffprobe")
     {
-        this->set_encoder_path(encoder);
+        this->configure_encoder_path(encoder);
         if(ffprobe->QProcess::state() == QProcess::NotRunning)
         {
             this->ffprobe->setProcessChannelMode(QProcess::MergedChannels);
@@ -114,7 +145,7 @@ void EncoderProcess::start_encoder(const QString &encoder, const QStringList &ar
     }
     if(encoder == "ffmpeg")
     {
-        this->set_encoder_path(encoder);
+        this->configure_encoder_path(encoder);
         this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
         this->ffmpeg->start(this->ffmpeg_path, arguments);
     }
