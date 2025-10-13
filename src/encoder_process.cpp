@@ -136,19 +136,29 @@ void EncoderProcess::start_encoder(const QString &encoder, const QStringList &ar
 {
     if(encoder == "ffprobe")
     {
-        this->configure_encoder_path(encoder);
-        if(ffprobe->QProcess::state() == QProcess::NotRunning)
-        {
-            this->ffprobe->setProcessChannelMode(QProcess::MergedChannels);
-            this->ffprobe->start(ffprobe_path, arguments);
-        }
+        this->start_ffprobe(encoder, arguments);
     }
     if(encoder == "ffmpeg")
     {
-        this->configure_encoder_path(encoder);
-        this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
-        this->ffmpeg->start(this->ffmpeg_path, arguments);
+        this->start_ffmpeg(encoder, arguments);
     }
+}
+
+void EncoderProcess::start_ffprobe(const QString &encoder, const QStringList &arguments)
+{
+    this->configure_encoder_path(encoder);
+    if(ffprobe->QProcess::state() == QProcess::NotRunning)
+    {
+        this->ffprobe->setProcessChannelMode(QProcess::MergedChannels);
+        this->ffprobe->start(ffprobe_path, arguments);
+    }
+}
+
+void EncoderProcess::start_ffmpeg(const QString &encoder, const QStringList &arguments)
+{
+    this->configure_encoder_path(encoder);
+    this->ffmpeg->setProcessChannelMode(QProcess::MergedChannels);
+    this->ffmpeg->start(this->ffmpeg_path, arguments);
 }
 
 void EncoderProcess::stop_ffmpeg()
