@@ -79,19 +79,19 @@ void EncoderAvailability::send_availability_signal()
 {
     if(this->encoder.ffmpeg_found == true && this->encoder.ffprobe_found == true)
     {
-        this->send_encoder_availability_message("Ready", TIMEOUT);
+        Q_EMIT this->send_encoder_availability_message("Ready", TIMEOUT);
     }
     else if(this->encoder.ffmpeg_found == false && this->encoder.ffprobe_found == true)
     {
-        this->send_encoder_availability_message("Not Ready - ffmpeg not found", TIMEOUT);
+        Q_EMIT this->send_encoder_availability_message("Not Ready - ffmpeg not found", TIMEOUT);
     }
     else if(this->encoder.ffmpeg_found == true && this->encoder.ffprobe_found == false)
     {
-        this->send_encoder_availability_message("Not Ready - ffprobe not found", TIMEOUT);
+        Q_EMIT this->send_encoder_availability_message("Not Ready - ffprobe not found", TIMEOUT);
     }
     else if(this->encoder.ffmpeg_found == false && this->encoder.ffprobe_found == false)
     {
-        this->send_encoder_availability_message("Not Ready - ffmpeg and ffprobe not found", TIMEOUT);
+        Q_EMIT this->send_encoder_availability_message("Not Ready - ffmpeg and ffprobe not found", TIMEOUT);
     }
     else
     {
