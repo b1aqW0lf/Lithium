@@ -66,6 +66,7 @@ private:
     QChronoTimer *timer;
 
     //functions
+    void reset_duration();
     QString capture_time();
 
     struct DurationTime

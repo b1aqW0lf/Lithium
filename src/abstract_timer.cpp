@@ -99,6 +99,12 @@ void AbstractTimer::stop_timer()
 
 void AbstractTimer::reset_duration_time()
 {
+    //reset the duration time
+    this->reset_duration();
+}
+
+void AbstractTimer::reset_duration()
+{
     //resetting the duration_timers' hours, minutes, and seconds back to 00:00:00
     this->Duration.second = TimerValues::reset;
     this->Duration.minute = TimerValues::reset;
