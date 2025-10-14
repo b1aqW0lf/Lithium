@@ -107,6 +107,11 @@ void AbstractTimer::reset_duration_time()
 
 QString AbstractTimer::capture_current_time()
 {
+    return capture_time();
+}
+
+QString AbstractTimer::capture_time()
+{
     this->current_time = QTime::currentTime();//take the current time
     return this->current_time.toString();
 }

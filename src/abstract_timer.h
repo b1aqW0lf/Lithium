@@ -65,6 +65,9 @@ private:
     QTime duration_time{00,00,00};
     QChronoTimer *timer;
 
+    //functions
+    QString capture_time();
+
     struct DurationTime
     {
         int second{00};
