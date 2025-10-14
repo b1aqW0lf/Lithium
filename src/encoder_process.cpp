@@ -178,7 +178,7 @@ void EncoderProcess::stop_ffmpeg()
 
 void EncoderProcess::stop_encoder_timer()
 {
-    timer.stop_timer();
+    timer.stop_duration_timer();
     //reset the duration time to 00:00:00
     timer.reset_duration_time();
 }
@@ -200,7 +200,7 @@ void EncoderProcess::ffmpeg_standard_output()
 void EncoderProcess::encoder_process_started()
 {
     const int timeout{0};
-    timer.start_timer();
+    timer.start_duration_timer();
     //leave message blank to send general message
     this->encoder_process_message("", timeout);
 }

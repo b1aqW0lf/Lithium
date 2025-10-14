@@ -85,10 +85,20 @@ void AbstractTimer::process_duration_timer()
     Q_EMIT this->show_duration_timer(" | " + this->duration_time.toString(), timeout);
 }
 
+void AbstractTimer::start_duration_timer()
+{
+    this->start_timer();
+}
+
 void AbstractTimer::start_timer()
 {
     //start the timer
     this->timer->start();
+}
+
+void AbstractTimer::stop_duration_timer()
+{
+    this->stop_timer();
 }
 
 void AbstractTimer::stop_timer()

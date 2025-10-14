@@ -51,8 +51,8 @@ Q_SIGNALS:
 
 public:
     //functions
-    void start_timer();
-    void stop_timer();
+    void start_duration_timer();
+    void stop_duration_timer();
     void reset_duration_time();
     QString capture_current_time();
 
@@ -66,6 +66,8 @@ private:
     QChronoTimer *timer;
 
     //functions
+    void start_timer();
+    void stop_timer();
     void reset_duration();
     QString capture_time();
 
