@@ -105,7 +105,7 @@ void AbstractTimer::reset_duration_time()
     this->Duration.hour = TimerValues::reset;
 }
 
-QString AbstractTimer::current_capture_time()
+QString AbstractTimer::capture_current_time()
 {
     this->current_time = QTime::currentTime();//take the current time
     return this->current_time.toString();

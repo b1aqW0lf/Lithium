@@ -54,7 +54,7 @@ public:
     void start_timer();
     void stop_timer();
     void reset_duration_time();
-    QString current_capture_time();
+    QString capture_current_time();
 
 private Q_SLOTS:
     void process_duration_timer();
@@ -70,13 +70,6 @@ private:
         int second{00};
         int minute{00};
         int hour{00};
-
-        /*void reset_duration_time()
-        {
-            second = 00;
-            minute = 00;
-            hour = 00;
-        }*/
     }Duration;
 };
 
