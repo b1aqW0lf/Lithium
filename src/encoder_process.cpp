@@ -165,6 +165,12 @@ void EncoderProcess::stop_ffmpeg_process()
 {
     this->stop_encoder_timer();
     //cancel the transcoding process
+    this->stop_ffmpeg();
+}
+
+void EncoderProcess::stop_ffmpeg()
+{
+    //stop the ffmpeg process
     this->ffmpeg->kill();
     this->ffmpeg->close();
     this->ffmpeg->closeWriteChannel();

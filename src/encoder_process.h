@@ -81,6 +81,7 @@ private:
     QString fetch_encoder_path(const QString &encoder);
     void start_ffprobe(const QString &encoder, const QStringList &arguments);
     void start_ffmpeg(const QString &encoder, const QStringList &arguments);
+    void stop_ffmpeg();
 
     //variables
     QString ffmpeg_path{};
