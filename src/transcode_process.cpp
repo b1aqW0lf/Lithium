@@ -135,12 +135,12 @@ void TranscodeProcess::cancel_transcoding_process()
     //check if source_vid_file has data but ffmpeg is not running
     else if(!this->source_file.isEmpty())
     {
-        encoder.stop_ffmpeg();
+        encoder.stop_ffmpeg_process();
         Q_EMIT send_transcode_process_message(tr("Transcoding: Cancelled! "), TIMEOUT);
     }
     else
     {
-        encoder.stop_ffmpeg();
+        encoder.stop_ffmpeg_process();
         Q_EMIT send_transcode_process_message(tr("Transcoding: Cancelled! "), TIMEOUT);
     }
 }

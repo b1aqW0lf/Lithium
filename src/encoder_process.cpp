@@ -161,7 +161,7 @@ void EncoderProcess::start_ffmpeg(const QString &encoder, const QStringList &arg
     this->ffmpeg->start(this->ffmpeg_path, arguments);
 }
 
-void EncoderProcess::stop_ffmpeg()
+void EncoderProcess::stop_ffmpeg_process()
 {
     this->stop_encoder_timer();
     //cancel the transcoding process

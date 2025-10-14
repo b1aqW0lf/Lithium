@@ -58,7 +58,7 @@ public:
     void set_encoder_path(const QString &encoder);
     QString get_encoder_path(const QString &encoder);
     void start_encoder(const QString &encoder, const QStringList &arguments);
-    void stop_ffmpeg();
+    void stop_ffmpeg_process();
     void stop_encoder_timer();
 
 private Q_SLOTS:
