@@ -355,9 +355,9 @@ void VideoInterface::select_video_colorspace(const int &index)
     if(index == 0)
     {
         //clicking "Source" will set the source cocolorspace values as the selected values
-        this->selection.video_colorspace_selection << command.colorspace_flag /*<< command.bt709_val*/<< this->selection.video_color_space
-                                                   << command.color_primaries_flag /*<< command.bt709_val*/<< this->selection.video_color_primaries
-                                                   << command.color_transfer_flag /*<< command.bt709_val*/<< this->selection.video_color_transfer;
+        this->selection.video_colorspace_selection << command.colorspace_flag << this->selection.video_color_space
+                                                   << command.color_primaries_flag << this->selection.video_color_primaries
+                                                   << command.color_transfer_flag << this->selection.video_color_transfer;
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 1)//separator
