@@ -56,16 +56,16 @@ class VideoInterfaceData
                                                               << "2048x1152" << "2560x1440" << "3840x2160" << "4096x2160";
 
         /*!
-         * \brief videoFramerateList is to be used with videoFramerateBox
-         */
-        //list of video framerate values
-        const QStringList videoFramerateList = QStringList() << "Source" << "23.976" << "24" << "25" << "29.97" << "30" << "60" << "120" << "144";
-
-        /*!
          * \brief videoAspectRatioList is to be used with videoAspectRatioBox
          */
         //list of video display aspect ratio values
         const QStringList videoAspectRatioList = QStringList() << "Source" << "4:3" << "16:9" << "16:10" << "21:9" << "21:10";
+
+        /*!
+         * \brief videoFramerateList is to be used with videoFramerateBox
+         */
+        //list of video framerate values
+        const QStringList videoFramerateList = QStringList() << "Source" << "23.976" << "24" << "25" << "29.97" << "30" << "60" << "120" << "144";
 
         /*!
          * \brief videoColorspaceList is to be used with videoColorspaceBox

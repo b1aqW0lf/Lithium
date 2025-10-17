@@ -46,14 +46,15 @@ VideoInterface::VideoInterface(QWidget *parent)
             this, &VideoInterface::select_video_codec);
     connect(ui->videoResolutionBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoInterface::select_video_resolution);
-    connect(ui->videoFramerateBox, QOverload<int>::of(&QComboBox::activated),
-            this, &VideoInterface::select_video_framerate);
     connect(ui->videoAspectRatioBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoInterface::select_video_display_aspect_ratio);
+    connect(ui->videoFramerateBox, QOverload<int>::of(&QComboBox::activated),
+            this, &VideoInterface::select_video_framerate);
     connect(ui->videoColorspaceBox, QOverload<int>::of(&QComboBox::activated),
             this, &VideoInterface::select_video_colorspace);
 
     this->initialize_video_interface_data();
+    this->initialize_video_ui_default_settings();
 }
 
 VideoInterface::~VideoInterface()
@@ -67,30 +68,39 @@ void VideoInterface::initialize_video_interface_data()
     ui->videoCodecBox->insertSeparator(1);
     ui->videoResolutionBox->insertItems(0, videodata.videoResolutionList);
     ui->videoResolutionBox->insertSeparator(1);
-    ui->videoFramerateBox->insertItems(0, videodata.videoFramerateList);
-    ui->videoFramerateBox->insertSeparator(1);
     ui->videoAspectRatioBox->insertItems(0, videodata.videoAspectRatioList);
     ui->videoAspectRatioBox->insertSeparator(1);
+    ui->videoFramerateBox->insertItems(0, videodata.videoFramerateList);
+    ui->videoFramerateBox->insertSeparator(1);
     ui->videoColorspaceBox->insertItems(0, videodata.videoColorspaceList);
     ui->videoColorspaceBox->insertSeparator(1);
     ui->videoColorspaceBox->insertSeparator(3);
+
+}
+void VideoInterface::initialize_video_ui_default_settings()
+{
+    ui->copyVideoCheckBox->setChecked(false);
+    ui->videoCodecBox->setCurrentIndex(0);
+    ui->videoResolutionBox->setCurrentIndex(0);
+    ui->videoAspectRatioBox->setCurrentIndex(0);
+    ui->videoFramerateBox->setCurrentIndex(0);
+    ui->videoColorspaceBox->setCurrentIndex(2);
 }
 
 void VideoInterface::enable_copy_source_video()
 {
     const int timeout{0};
-    this->selection.copy_video_command.clear();
 
     if(ui->copyVideoCheckBox->isChecked() == true)
     {
         //send command to copy the source video stream
-        this->selection.copy_video_command << command.video_codec_flag << command.copy_command;
+        this->selection.copy_video_enabled = true;
         Q_EMIT this->send_video_statusbar_message("Copy Source Video Enabled", timeout);
     }
     else
     {
         //send regular command to transcode video stream
-        this->selection.copy_video_command << command.video_codec_flag;
+        this->selection.copy_video_enabled = false;
         Q_EMIT this->send_video_statusbar_message("", timeout);//clear the message
     }
 }
@@ -105,13 +115,26 @@ void VideoInterface::receive_source_file_video_data(const QString &video_codec, 
 void VideoInterface::process_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                                     const QString &video_framerate, const QString &video_aspect_ratio)
 {
-    //used for the UserRole of the "Source" DisplayRole
-    const int index{0};//first index for the comboboxes
+    //first index for the comboboxes
+    const int index{0};
+
+    //placing data in their respective variables for when the user does not select an option - defaults to "Source"
+    this->selection.video_codec_selection.clear();
+    this->selection.video_resolution_selection.clear();
+    this->selection.video_display_aspect_ratio_selection.clear();
+    this->selection.video_framerate_selection.clear();
+
+    this->selection.video_codec_selection << video_codec;
+    this->selection.video_resolution_selection = video_resolution;
+    this->selection.video_display_aspect_ratio_selection = video_aspect_ratio;
+    this->selection.video_framerate_selection << video_framerate;
+
+    //used for the UserRole of the "Source" DisplayRole -> when the user manually selects "Source"
     this->ui->videoCodecBox->setItemData(index, video_codec, Qt::UserRole);
     Q_EMIT this->send_selected_video_codec_name(video_codec);//send the codec name to set the initial ui settings
     this->ui->videoResolutionBox->setItemData(index, video_resolution, Qt::UserRole);
-    this->ui->videoFramerateBox->setItemData(index, video_framerate, Qt::UserRole);
     this->ui->videoAspectRatioBox->setItemData(index, video_aspect_ratio, Qt::UserRole);
+    this->ui->videoFramerateBox->setItemData(index, video_framerate, Qt::UserRole);
 }
 
 void VideoInterface::receive_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
@@ -124,6 +147,7 @@ void VideoInterface::process_source_video_colorspace_data(const QString &stream_
                                                           const QString &color_transfer, const QString &color_primaries)
 {
     const int index0{0};
+    this->selection.video_colorspace_selection.clear();
     if(stream_colorspace.isEmpty() || stream_colorspace.length() == 0)
     {
         //set itemdata to Unknown to signify the stream colorspace is unknown
@@ -136,8 +160,12 @@ void VideoInterface::process_source_video_colorspace_data(const QString &stream_
     }
 
     this->selection.video_color_space = color_space;
-    this->selection.video_color_primaries = color_primaries;
     this->selection.video_color_transfer = color_transfer;
+    this->selection.video_color_primaries = color_primaries;
+
+    this->selection.video_colorspace_selection << command.colorspace_flag << color_space
+                                               << command.color_transfer_flag << color_transfer
+                                               << command.color_primaries_flag << color_primaries;/**/
 }
 
 void VideoInterface::select_video_codec(const int &index)
@@ -237,8 +265,7 @@ void VideoInterface::select_video_resolution(const int &index)
     if(index == 0)//source
     {
         //clicking "Source" will set the source file resolution as the selected resolution
-        this->selection.video_resolution_selection << command.video_filter_flag
-                                                   << command.video_scale+ui->videoResolutionBox->itemData(index, Qt::UserRole).toString();
+        this->selection.video_resolution_selection = ui->videoResolutionBox->itemData(index, Qt::UserRole).toString();/**/
         Q_EMIT this->send_video_statusbar_message(ui->videoResolutionBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 1)//separator
@@ -248,37 +275,8 @@ void VideoInterface::select_video_resolution(const int &index)
     }
     else if(index >= 2 && index <= videodata.videoResolutionList.size())
     {
-        this->selection.video_resolution_selection << command.video_filter_flag
-                                                   << command.video_scale+ui->videoResolutionBox->currentText();
+        this->selection.video_resolution_selection = ui->videoResolutionBox->currentText();
         Q_EMIT this->send_video_statusbar_message(ui->videoResolutionBox->currentText(), message_timeout);
-    }
-    else
-    {
-        return;
-    }
-}
-
-void VideoInterface::select_video_framerate(const int &index)
-{
-    const int message_timeout{0};
-    this->selection.video_framerate_selection.clear();
-
-    if(index == 0)
-    {
-        //clicking "Source" will set the source framerate as the selected framerate
-        this->selection.video_framerate_selection << command.video_fps_flag
-                                                  << ui->videoFramerateBox->itemData(index, Qt::UserRole).toString();
-        Q_EMIT this->send_video_statusbar_message(ui->videoFramerateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
-    }
-    else if(index == 1)//separator
-    {
-        //option one (1) cannot be selected by the user - it is the separator
-        return;
-    }
-    else if(index >= 2 && index <= videodata.videoFramerateList.size())
-    {
-        this->selection.video_framerate_selection << command.video_fps_flag << ui->videoFramerateBox->currentText();
-        Q_EMIT this->send_video_statusbar_message(ui->videoFramerateBox->currentText(), message_timeout);
     }
     else
     {
@@ -296,14 +294,13 @@ void VideoInterface::select_video_display_aspect_ratio(const int &index)
         if(ui->videoAspectRatioBox->itemText(index).contains("setdar=", Qt::CaseInsensitive))
         {
             //keep the "setdar=" value - set it as the display aspect ratio command
-            this->selection.video_display_aspect_ratio_selection << ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString();
+            this->selection.video_display_aspect_ratio_selection = ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString();
             Q_EMIT this->send_video_statusbar_message(ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString(), message_timeout);
         }
         else
         {
             //clicking "Source" will set the source display aspect ratio as the selected display aspect ratio
-            this->selection.video_display_aspect_ratio_selection << command.video_dar_flag
-                                                                 << ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString();
+            this->selection.video_display_aspect_ratio_selection = ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString();
             Q_EMIT this->send_video_statusbar_message(ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString(), message_timeout);
         }
     }
@@ -314,9 +311,35 @@ void VideoInterface::select_video_display_aspect_ratio(const int &index)
     }
     else if(index >= 2 && index <= videodata.videoAspectRatioList.size())
     {
-        this->selection.video_display_aspect_ratio_selection << command.video_dar_flag
-                                                             << ui->videoAspectRatioBox->currentText();
+        this->selection.video_display_aspect_ratio_selection = ui->videoAspectRatioBox->currentText();
         Q_EMIT this->send_video_statusbar_message(ui->videoAspectRatioBox->currentText(), message_timeout);
+    }
+    else
+    {
+        return;
+    }
+}
+
+void VideoInterface::select_video_framerate(const int &index)
+{
+    const int message_timeout{0};
+    this->selection.video_framerate_selection.clear();
+
+    if(index == 0)
+    {
+        //clicking "Source" will set the source framerate as the selected framerate
+        this->selection.video_framerate_selection << ui->videoFramerateBox->itemData(index, Qt::UserRole).toString();
+        Q_EMIT this->send_video_statusbar_message(ui->videoFramerateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
+    }
+    else if(index == 1)//separator
+    {
+        //option one (1) cannot be selected by the user - it is the separator
+        return;
+    }
+    else if(index >= 2 && index <= videodata.videoFramerateList.size())
+    {
+        this->selection.video_framerate_selection << ui->videoFramerateBox->currentText();
+        Q_EMIT this->send_video_statusbar_message(ui->videoFramerateBox->currentText(), message_timeout);
     }
     else
     {
@@ -332,9 +355,9 @@ void VideoInterface::select_video_colorspace(const int &index)
     if(index == 0)
     {
         //clicking "Source" will set the source cocolorspace values as the selected values
-        this->selection.video_colorspace_selection << command.colorspace_flag << this->selection.video_color_space
-                                                   << command.color_primaries_flag << this->selection.video_color_primaries
-                                                   << command.color_transfer_flag << this->selection.video_color_transfer;
+        this->selection.video_colorspace_selection << command.colorspace_flag /*<< command.bt709_val*/<< this->selection.video_color_space
+                                                   << command.color_primaries_flag /*<< command.bt709_val*/<< this->selection.video_color_primaries
+                                                   << command.color_transfer_flag /*<< command.bt709_val*/<< this->selection.video_color_transfer;
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 1)//separator
@@ -359,6 +382,7 @@ void VideoInterface::select_video_colorspace(const int &index)
         //If srgb does not work, try the more academic name iec61966-2-1 -->https://trac.ffmpeg.org/wiki/colorspace
         //defaulting to iec61966-2-1
         this->selection.video_colorspace_selection << command.colorspace_flag << command.bt709_val
+                                                   << command.color_primaries_flag << command.bt709_val
                                                    << command.color_transfer_flag << command.iec61966_2_1_val;
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
@@ -419,12 +443,12 @@ void VideoInterface::process_video_interface_selections()
 {
     this->selection.video_selection_list.clear();
 
-    if(ui->copyVideoCheckBox->isChecked() == true)
+    if(selection.copy_video_enabled == true)
     {
         //send the copy video stream command
-        this->selection.video_selection_list << this->selection.copy_video_command;
+        this->selection.video_selection_list << command.video_codec_flag << command.copy_command;
     }
-    if(ui->copyVideoCheckBox->isChecked() == false)
+    if(selection.copy_video_enabled == false)
     {
         const int index0{0};
         if(ui->videoAspectRatioBox->itemText(index0).contains("setdar=", Qt::CaseInsensitive))
@@ -432,23 +456,31 @@ void VideoInterface::process_video_interface_selections()
             //check if the display aspect ratio command has the setdar= command and add it to the
             //resolution command-> -filter:v scale=(resolution),setdar=(display_aspect_ratio) if it does -
             //adding the selections to the video selection list
-            this->selection.video_selection_list << this->selection.copy_video_command
+            this->selection.video_selection_list << command.video_codec_flag
                                                  << this->selection.video_codec_selection
-                                                 << this->selection.video_colorspace_selection
-                                                 << this->selection.video_resolution_selection[1]+","+
-                                                        this->selection.video_display_aspect_ratio_selection[0]//add setdar= to -filter:v
-                                                 << this->selection.video_framerate_selection;
+                                                 << command.video_filter_flag
+                                                 << command.video_scale+this->selection.video_resolution_selection+","+
+                                                        this->selection.video_display_aspect_ratio_selection//add setdar= to -filter:v
+                                                 << command.video_fps_flag
+                                                 << this->selection.video_framerate_selection
+                                                 << this->selection.video_colorspace_selection;
         }
         else
         {
             //send the transcode video stream command along with the video options
             //adding the selections to the video selection list
-            this->selection.video_selection_list << this->selection.copy_video_command
+            this->selection.video_selection_list << command.video_codec_flag
                                                  << this->selection.video_codec_selection
-                                                 << this->selection.video_colorspace_selection
-                                                 << this->selection.video_resolution_selection
+                                                 << command.video_filter_flag
+                                                 << command.video_scale+this->selection.video_resolution_selection
+                                                 << command.video_dar_flag
                                                  << this->selection.video_display_aspect_ratio_selection
+                                                 << command.video_fps_flag
                                                  << this->selection.video_framerate_selection;
+                                                 //<< this->selection.video_colorspace_selection;
+                                                 /*<< command.colorspace_flag << this->selection.video_color_space
+                                                 << command.color_primaries_flag << this->selection.video_color_primaries
+                                                 << command.color_transfer_flag << this->selection.video_color_transfer;*/
         }
     }
 

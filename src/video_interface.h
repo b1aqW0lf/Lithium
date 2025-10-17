@@ -70,13 +70,14 @@ private Q_SLOTS:
     void enable_copy_source_video();
     void select_video_codec(const int &index);
     void select_video_resolution(const int &index);
-    void select_video_framerate(const int &index);
     void select_video_display_aspect_ratio(const int &index);
+    void select_video_framerate(const int &index);
     void select_video_colorspace(const int &index);
 
 private:
     //functions
     void initialize_video_interface_data();
+    void initialize_video_ui_default_settings();
     void process_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                         const QString &video_framerate, const QString &video_aspect_ratio);
     void process_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
@@ -86,11 +87,11 @@ private:
     //struct
     struct
     {
-        QStringList copy_video_command{};
+        bool copy_video_enabled{false};
         QStringList video_codec_selection{};
-        QStringList video_resolution_selection{};
+        QString video_resolution_selection{};
+        QString video_display_aspect_ratio_selection{};
         QStringList video_framerate_selection{};
-        QStringList video_display_aspect_ratio_selection{};
         QStringList video_colorspace_selection{};
         QString video_color_space{};
         QString video_color_transfer{};

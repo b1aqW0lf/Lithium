@@ -55,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
     this->setup_checkboxes();
 
     connect(ui->actionOpenFile, &QAction::triggered, &openfile, &OpenFile::open_source_file);
-    connect(ui->actionEncode, &QAction::triggered, &transcode, &TranscodeProcess::start_transcoding_process);
     connect(ui->actionCancel, &QAction::triggered, &transcode, &TranscodeProcess::cancel_transcoding_process);
     connect(ui->actionCancel, &QAction::triggered, &progressbar, &SimpleProgressbar::cancel_progressbar_process);
     connect(ui->actionCancel, &QAction::triggered, &datawidget, &ParsedDataWidget::clear_parsed_data_info);
@@ -100,6 +99,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::button_group_signal, ui->videoCRFWidget, &VideoCRFInterface::set_crf_button_mode);//new
     connect(ui->saveAsWidget, &SaveAsField::send_save_field_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
     connect(&encoderAvail, &EncoderAvailability::send_encoder_availability_message, ui->statusbar, &QStatusBar::showMessage);//new
+
+    connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_input_selections_request);
+    connect(&inputHandler, &InputHandler::request_input_selections, ui->videoInterfaceWidget, &VideoInterface::get_video_interface_selections);
+    connect(&inputHandler, &InputHandler::request_input_selections, ui->videoCRFWidget, &VideoCRFInterface::get_video_crf_qscale_selection);
+
+    connect(ui->videoInterfaceWidget, &VideoInterface::send_video_interface_selections,
+            &inputHandler, &InputHandler::receive_input_video_selection);
+    connect(ui->videoCRFWidget, &VideoCRFInterface::send_video_crf_qscale_selection,
+            &inputHandler, &InputHandler::receive_input_crf_qscale_selection);
+
+    connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_received_selected_inputs);
+    connect(&inputHandler, &InputHandler::send_selected_input_parameters, &transcode, &TranscodeProcess::start_transcoding_process);
 
     //statusbar widgets
     this->setup_statusbar_widgets();

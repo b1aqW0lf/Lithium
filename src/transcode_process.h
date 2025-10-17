@@ -56,7 +56,7 @@ public Q_SLOTS:
     void ffprobe_standard_output(const QString &output);//new
     void ffmpeg_standard_output(QString &output);//new
     void receive_source_file(const QString &file);
-    void start_transcoding_process();
+    void start_transcoding_process(const QStringList &input_parameters);
     void cancel_transcoding_process();
     void transcode_process_started(const QString &message, const int &timeout);//new
     void transcode_process_finished(int &exit_code);
@@ -67,7 +67,7 @@ private:
     //functions
     void set_encoder_path(const QString &encoder);
     void start_ffprobe_process();
-    void start_ffmpeg_process();
+    void start_ffmpeg_process(const QStringList &input_parameters);
 
     //variables
     QString source_file{};

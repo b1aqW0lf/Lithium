@@ -47,14 +47,14 @@ VideoCRFInterface::VideoCRFInterface(QWidget *parent)
 #endif
     ui->videoRFSpinBox->setStyleSheet("QSpinBox { background-color: transparent; } QLineEdit { background-color: transparent; }");
 
-    this->setup_crf_interface_default_settings();
-
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
             this, &VideoCRFInterface::select_encoder_rate_factor);
     connect(ui->videoRateFactorSlider, &QSlider::valueChanged,
             ui->videoRFSpinBox, &QSpinBox::setValue);
     connect(ui->videoCRFRadio, &QRadioButton::clicked,
             this, &VideoCRFInterface::enable_crf_interface);
+
+    this->setup_crf_interface_default_settings();
 }
 
 VideoCRFInterface::~VideoCRFInterface()
@@ -65,15 +65,16 @@ VideoCRFInterface::~VideoCRFInterface()
 void VideoCRFInterface::setup_crf_interface_default_settings()
 {
     ui->videoRFSpinBox->setReadOnly(true);
+    ui->videoRateFactorSlider->setValue(10);
 }
 
 void VideoCRFInterface::select_encoder_rate_factor(const int &index)
 {
     const int timeout{0};
-    this->selection.video_crf_selection_list.clear();
+    this->selection.video_crf_selection.clear();
 
     //select the desired codec's constant rate factor (crf) or qscale value
-    this->selection.video_crf_selection << QString::number(index); //receive selected crf/qscale value
+    this->selection.video_crf_selection.append(QString::number(index)); //receive selected crf/qscale value
     Q_EMIT this->send_statusbar_message(QString::number(index), timeout);
 }
 
@@ -102,7 +103,7 @@ void VideoCRFInterface::receive_selected_video_codec_name(const QString &video_c
 
 void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
 {
-    command.video_crf_qscale.clear();
+    command.video_crf_qscale_flag.clear();
 
     if(video_codec.contains("H264", Qt::CaseInsensitive) ||
         video_codec.contains("H.264", Qt::CaseInsensitive))
@@ -111,7 +112,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 51);
         ui->videoRateFactorSlider->setRange(0, 51);
         ui->videoRateFactorSlider->setValue(23);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("x264 10-bit", Qt::CaseInsensitive))
@@ -120,7 +121,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 63);
         ui->videoRateFactorSlider->setRange(0, 63);
         ui->videoRateFactorSlider->setValue(23);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
@@ -131,7 +132,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 51);
         ui->videoRateFactorSlider->setRange(0, 51);
         ui->videoRateFactorSlider->setValue(28);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("x265 10-bit", Qt::CaseInsensitive))
@@ -140,7 +141,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 51);
         ui->videoRateFactorSlider->setRange(0, 51);
         ui->videoRateFactorSlider->setValue(28);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("x265 12-bit", Qt::CaseInsensitive))
@@ -149,7 +150,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 51);
         ui->videoRateFactorSlider->setRange(0, 51);
         ui->videoRateFactorSlider->setValue(28);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("VP9", Qt::CaseInsensitive))
@@ -159,7 +160,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 63);
         ui->videoRateFactorSlider->setRange(0, 63);
         ui->videoRateFactorSlider->setValue(31);
-        command.video_crf_qscale << command.video_bitrate_flag << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_bitrate_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("Xvid", Qt::CaseInsensitive))
@@ -168,7 +169,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(1, 31);
         ui->videoRateFactorSlider->setRange(1, 31);
         ui->videoRateFactorSlider->setValue(12);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("Theora", Qt::CaseInsensitive))
@@ -179,7 +180,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 10);
         ui->videoRateFactorSlider->setRange(0, 10);
         ui->videoRateFactorSlider->setValue(7);
-        command.video_crf_qscale << command.video_bitrate_flag << command.video_qscale_flag;
+        command.video_crf_qscale_flag << command.video_bitrate_flag << command.video_qscale_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("MPEG-2", Qt::CaseInsensitive))
@@ -188,7 +189,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(1, 31);
         ui->videoRateFactorSlider->setRange(1, 31);
         ui->videoRateFactorSlider->setValue(5);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else if(video_codec.contains("AV1", Qt::CaseInsensitive))
@@ -197,7 +198,7 @@ void VideoCRFInterface::set_crf_slider_options(const QString &video_codec)
         ui->videoRFSpinBox->setRange(0, 63);
         ui->videoRateFactorSlider->setRange(0, 63);
         ui->videoRateFactorSlider->setValue(35);
-        command.video_crf_qscale << command.video_crf_flag;
+        command.video_crf_qscale_flag << command.video_crf_flag;
         this->set_crf_slider_interface(video_codec);
     }
     else
@@ -234,7 +235,7 @@ void VideoCRFInterface::get_video_crf_qscale_selection()
 void VideoCRFInterface::process_video_crf_qscale_selection()
 {
     this->selection.video_crf_selection_list.clear();
-    this->selection.video_crf_selection_list << command.video_crf_qscale
+    this->selection.video_crf_selection_list << command.video_crf_qscale_flag
                                              << this->selection.video_crf_selection;
 
     Q_EMIT this->send_video_crf_qscale_selection(this->selection.video_crf_selection_list);

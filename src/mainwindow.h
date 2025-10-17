@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "encoder_availability.h"
+#include "input_handler.h"
 #include "input_probe.h"
 #include "input_treeview.h"
 #include "metadata_checkbox.h"
@@ -80,6 +81,7 @@ private Q_SLOTS:
 private:
     Ui::MainWindow *ui;
     EncoderAvailability encoderAvail;
+    InputHandler inputHandler;
     InputProbe inputprobe;
     InputTreeView treeview;
     TranscodeProcess transcode;

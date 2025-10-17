@@ -108,6 +108,8 @@ set(PROJECT_SOURCES
         src/encoder_level_data.h
         src/encoder_availability.h
         src/encoder_availability.cpp
+        src/input_handler.h
+        src/input_handler.cpp
         misc/
         LICENSE
 )
