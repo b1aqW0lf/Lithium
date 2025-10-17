@@ -8,7 +8,7 @@ InputHandler::~InputHandler(){/*destructor*/}
 void InputHandler::send_input_selections_request()
 {
     //request the user input selections/parameters
-    this->request_input_selections();
+    Q_EMIT this->request_input_selections();
 }
 
 void InputHandler::receive_input_video_selection(const QStringList &video_selection)
