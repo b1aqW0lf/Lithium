@@ -291,9 +291,10 @@ void VideoInterface::select_video_display_aspect_ratio(const int &index)
 
     if(index == 0)
     {
-        if(ui->videoAspectRatioBox->itemText(index).contains("setdar=", Qt::CaseInsensitive))
+        if(ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString().contains("setdar=", Qt::CaseInsensitive))
         {
-            //keep the "setdar=" value - set it as the display aspect ratio command
+            //keep the "setdar=" value - set it as the display aspect ratio option - as the Source UserRole
+            //setdar=width/height is a ffmpeg command to set the display aspect based the video width and height
             this->selection.video_display_aspect_ratio_selection = ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString();
             Q_EMIT this->send_video_statusbar_message(ui->videoAspectRatioBox->itemData(index, Qt::UserRole).toString(), message_timeout);
         }
@@ -453,7 +454,7 @@ void VideoInterface::process_video_interface_selections()
     if(selection.copy_video_enabled == false)
     {
         const int index0{0};
-        if(ui->videoAspectRatioBox->itemText(index0).contains("setdar=", Qt::CaseInsensitive))
+        if(ui->videoAspectRatioBox->itemData(index0, Qt::UserRole).toString().contains("setdar=", Qt::CaseInsensitive))
         {
             //check if the display aspect ratio command has the setdar= command and add it to the
             //resolution command-> -filter:v scale=(resolution),setdar=(display_aspect_ratio) if it does -
