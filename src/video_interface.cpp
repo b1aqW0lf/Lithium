@@ -367,8 +367,10 @@ void VideoInterface::select_video_colorspace(const int &index)
     }
     else if(index == 2)//"Default"
     {
-        //to force ffmpeg to decide on the colorspace values, set the colorspace value to an empty string
-        this->selection.video_colorspace_selection << "";
+        //to force ffmpeg to decide on the colorspace values, set the colorspace value to "unknown"
+        this->selection.video_colorspace_selection << command.colorspace_flag << command.pixel_unknown
+                                                   << command.color_primaries_flag << command.pixel_unknown
+                                                   << command.color_transfer_flag << command.pixel_unknown;
         Q_EMIT this->send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else if(index == 3)//separator

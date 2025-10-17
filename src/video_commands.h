@@ -48,6 +48,7 @@ private:
     const QString pixel_yuv420p10bit = "yuv420p10le";
     const QString pixel_yuv444p10bit = "yuv444p10le";
     const QString pixel_yuv444p12bit = "yuv444p12le";
+    const QString pixel_unknown     = "unknown";
     const QString video_filter_flag = "-filter:v";
     const QString video_scale       = "scale=";
     const QString video_fps_flag = "-r";
