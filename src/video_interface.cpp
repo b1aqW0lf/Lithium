@@ -159,6 +159,10 @@ void VideoInterface::process_source_video_colorspace_data(const QString &stream_
         ui->videoColorspaceBox->setItemData(index0, stream_colorspace, Qt::UserRole);
     }
 
+    this->selection.video_color_space = color_space;
+    this->selection.video_color_transfer = color_transfer;
+    this->selection.video_color_primaries = color_primaries;
+
     this->selection.video_colorspace_selection << command.colorspace_flag << color_space
                                                << command.color_transfer_flag << color_transfer
                                                << command.color_primaries_flag << color_primaries;/**/
