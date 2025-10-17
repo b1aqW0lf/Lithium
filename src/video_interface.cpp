@@ -84,7 +84,7 @@ void VideoInterface::initialize_video_ui_default_settings()
     ui->videoResolutionBox->setCurrentIndex(0);
     ui->videoAspectRatioBox->setCurrentIndex(0);
     ui->videoFramerateBox->setCurrentIndex(0);
-    ui->videoColorspaceBox->setCurrentIndex(2);
+    ui->videoColorspaceBox->setCurrentIndex(0);
 }
 
 void VideoInterface::enable_copy_source_video()
