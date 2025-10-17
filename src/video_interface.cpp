@@ -478,9 +478,6 @@ void VideoInterface::process_video_interface_selections()
                                                  << command.video_fps_flag
                                                  << this->selection.video_framerate_selection
                                                  << this->selection.video_colorspace_selection;
-                                                 /*<< command.colorspace_flag << this->selection.video_color_space
-                                                 << command.color_primaries_flag << this->selection.video_color_primaries
-                                                 << command.color_transfer_flag << this->selection.video_color_transfer;*/
         }
     }
 
