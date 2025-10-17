@@ -51,7 +51,7 @@ const char samplerate_data[] = "^sample_rate\\s*=\\s*([\\d]*)$";
 const char audio_duration[] = "codec_type\\s*=\\s*audio[^.]*[.]*[^.]*\\s*duration\\s*=\\s*([\\d]*[.]?[\\d]*)";
 //const char stream_colorspace_data[] = "Stream #[0-9]+:[0-9]+[^.]*: Video:\\s*[\\w\\d]*\\s?[(]?[\\w\\s\\d:]*?[(]?[\\w\\s\\d:]*[)]?[,]?\\s+[^,]*[,]?\\s*([\\w\\d]*)[),]?";
 const char stream_colorspace_data[] = "(?<=\\(\\w\\w,\\s)(\\w\\w\\d\\d\\d[\\d]?[_]?[ncl]*)";
-const char colorspace_data[] = "^color_space=\\s*([\\w\\d]*)\\s*color_transfer=\\s*([\\w\\d]*)\\s*color_primaries=\\s*([\\w\\d]*)$";
+const char colorspace_data[] = "color_space=\\s*([\\w\\d]*)\\s*color_transfer=\\s*([\\w\\d]*)\\s*color_primaries=\\s*([\\w\\d]*)";
 const char pixelformat_data[] = "^pix_fmt=\\s*([\\w\\d]*)$";
 const char codectype_audio[] = "\\s*Stream #[\\d]*:[\\d]*: Audio";
 const char video_codec_type[] = "codec_type=([video]+)";
