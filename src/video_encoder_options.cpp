@@ -67,7 +67,7 @@ void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video
 
 void VideoEncoderOptions::receive_source_video_codec_profile(const QString &codec_profile)
 {
-    this->codec_profile = codec_profile;
+    this->source_codec_profile = codec_profile;
 }
 
 void VideoEncoderOptions::initialize_video_encoder_options(const QString &video_codec)
@@ -206,7 +206,7 @@ void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
     if(codec_profile.contains("Source"))
     {
         //Set the User Role item data to the value of source file's profile
-        ui->videoEncoderProfileBox->setItemData(index0, this->codec_profile, Qt::UserRole);
+        ui->videoEncoderProfileBox->setItemData(index0, this->source_codec_profile, Qt::UserRole);
         this->selection.encoder_profile_selection << selection.encoder_profile_command
                                                   << ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString().toLower();
         Q_EMIT this->send_statusbar_message(ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString(), timeout);

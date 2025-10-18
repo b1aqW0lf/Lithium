@@ -76,7 +76,7 @@ private:
     void process_video_options_selections();
 
     //variables
-    QString codec_profile{};
+    QString source_codec_profile{};
 
     struct
     {
