@@ -287,6 +287,8 @@ void VideoEncoderPreset::get_video_encoder_preset_selection()
 
 void VideoEncoderPreset::process_video_preset_selection()
 {
+    this->selection.video_preset_selection_list.clear();
+
     this->selection.video_preset_selection_list << this->selection.video_preset_selection
                                                 << this->selection.fast_decode_selection
                                                 << this->selection.zero_latency_selection;

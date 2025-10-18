@@ -103,11 +103,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_input_selections_request);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoInterfaceWidget, &VideoInterface::get_video_interface_selections);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoCRFWidget, &VideoCRFInterface::get_video_crf_qscale_selection);
+    connect(&inputHandler, &InputHandler::request_input_selections, ui->videoPresetWidget, &VideoEncoderPreset::get_video_encoder_preset_selection);
 
     connect(ui->videoInterfaceWidget, &VideoInterface::send_video_interface_selections,
             &inputHandler, &InputHandler::receive_input_video_selection);
     connect(ui->videoCRFWidget, &VideoCRFInterface::send_video_crf_qscale_selection,
             &inputHandler, &InputHandler::receive_input_crf_qscale_selection);
+    connect(ui->videoPresetWidget, &VideoEncoderPreset::send_video_preset_selection,
+            &inputHandler, &InputHandler::receive_input_video_preset_selection);
 
     connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_received_selected_inputs);
     connect(&inputHandler, &InputHandler::send_selected_input_parameters, &transcode, &TranscodeProcess::start_transcoding_process);
