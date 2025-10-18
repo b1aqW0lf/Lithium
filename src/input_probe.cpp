@@ -37,9 +37,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QRegularExpressionMatchIterator>
 #include <QRegularExpressionMatch>
 
-#define SECONDS_PER_HOUR 3600
-#define SECONDS_PER_MINUTE 60
-
 
 namespace Analyze
 {
@@ -202,15 +199,9 @@ void InputProbe::parse_video_output(QString &output)
         while(itr.hasNext())
         {
             QRegularExpressionMatch match = itr.next();
-            this->videostream.dur_hours = match.captured(2).toInt();
-            this->videostream.dur_mins = match.captured(3).toInt();
-            this->videostream.dur_secs = match.captured(4).toDouble();
             this->videostream.bitrate = match.captured(6);
         }
     }
-    this->videostream.total_duration = this->videostream.dur_hours * SECONDS_PER_HOUR +
-                                       this->videostream.dur_mins * SECONDS_PER_MINUTE +
-                                       this->videostream.dur_secs;
     Q_EMIT this->send_source_video_bitrate(this->videostream.bitrate);
 
     //verifying the display aspect ratio value
