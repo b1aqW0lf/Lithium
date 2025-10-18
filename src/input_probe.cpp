@@ -45,6 +45,7 @@ const char vid_data_alt[] = "Stream #([0-9]+):([0-9]+)[^.]*: Video:\\s*([\\w\\d]
 const char audio_data[] = "Stream #([0-9]+):([0-9]+).*: Audio:\\s*([\\w\\d]*)\\s?[(]?([\\w\\s\\d:]*)?[)]?[,]?[^,]*,\\s*([0-9]+)\\s*Hz,\\s*([^,]*),\\s*([^,]*,\\s*([0-9]+)\\s*kb\\/s)?";
 const char duration_data[] = "Duration:\\s*((-?[\\d]*):([\\d]*):([\\d]*[.]?[\\d]*)),\\s*start:\\s*([\\d]*[.]?[\\d]*),\\s*bitrate:\\s*([\\d]*)\\s*kb\\/s";
 const char profile_data[] = "profile\\s*=\\s*([\\d\\w]*)";
+const char level_data[] = "level\\s*=\\s*([\\w\\d.]*)";
 const char sar_data[] = "sample_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
 const char dar_data[] = "display_aspect_ratio\\s*=\\s*([0-9a-zA-Z]*[:]?[\\/]?[0-9a-zA-z]*)";
 const char samplerate_data[] = "^sample_rate\\s*=\\s*([\\d]*)$";
@@ -285,7 +286,15 @@ void InputProbe::parse_video_output(QString &output)
     Q_EMIT this->send_source_file_video_data(this->videostream.codec_name, this->videostream.resolution,
                                              this->videostream.framerate, this->videostream.display_aspect_ratio);
 
-    Q_EMIT this->send_source_video_codec_profile(videostream.codec_profile);
+    QRegularExpression level_regx(Analyze::level_data);
+    itr = level_regx.globalMatch(output);
+    while(itr.hasNext())
+    {
+        QRegularExpressionMatch match = itr.next();
+        this->videostream.codec_level = match.captured(1);
+    }
+
+    Q_EMIT this->send_video_codec_profile_level(videostream.codec_profile, videostream.codec_level);
 }
 
 void InputProbe::parse_audio_output(QString &output)

@@ -81,8 +81,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&inputprobe, &InputProbe::send_source_video_colorspace_data,
             ui->videoInterfaceWidget, &VideoInterface::receive_source_video_colorspace_data);
     connect(&inputprobe, &InputProbe::send_source_video_bitrate, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::receive_source_video_bitrate);//new
-    connect(&inputprobe, &InputProbe::send_source_video_codec_profile,
-            ui->videoOptionsWidget, &VideoEncoderOptions::receive_source_video_codec_profile);//new
+    connect(&inputprobe, &InputProbe::send_video_codec_profile_level,
+            ui->videoOptionsWidget, &VideoEncoderOptions::receive_video_codec_profile_level);//new
     connect(ui->audioInterfaceWidget, &AudioInterface::send_audio_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->videoInterfaceWidget, &VideoInterface::send_video_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
     connect(ui->videoInterfaceWidget, &VideoInterface::send_selected_video_codec_name,

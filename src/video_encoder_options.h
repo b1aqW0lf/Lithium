@@ -56,7 +56,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void receive_selected_video_codec_name(const QString &video_codec);
-    void receive_source_video_codec_profile(const QString &codec_profile);
+    void receive_video_codec_profile_level(const QString &codec_profile, const QString &codec_level);
     void get_video_encoder_options_selections();
 
 private Q_SLOTS:
@@ -77,6 +77,7 @@ private:
 
     //variables
     QString source_codec_profile{};
+    QString source_codec_level{};
 
     struct
     {

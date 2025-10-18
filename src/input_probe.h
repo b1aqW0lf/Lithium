@@ -68,7 +68,7 @@ Q_SIGNALS:
     void send_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                      const QString &video_framerate, const QString &video_aspect_ratio);//experimental
 
-    void send_source_video_codec_profile(const QString &codec_profile);
+    void send_video_codec_profile_level(const QString &codec_profile, const QString &codec_level);
 
 public Q_SLOTS:
     void receive_source_file(const QString &source_file);
@@ -102,6 +102,7 @@ private:
         QString codec_long_name{};
         QString codec_type{};
         QString codec_profile{};
+        QString codec_level{};
         QString width{};
         QString height{};
         QString coded_width{};
