@@ -235,11 +235,24 @@ void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
 
 void VideoEncoderOptions::select_encoder_level(const QString &codec_level)
 {
+    this->selection.encoder_level_selection.clear();
     const int timeout{0};
+    const int index0{0};
 
-    this->selection.encoder_level_selection << selection.encoder_level_command
-                                            << codec_level;
-    Q_EMIT this->send_statusbar_message(codec_level, timeout);
+    if(codec_level.contains("Source"))
+    {
+        //Set the User Role item data to the value of source file's level
+        ui->videoEncoderLevelBox->setItemData(index0, this->source_codec_level, Qt::UserRole);
+        this->selection.encoder_level_selection << selection.encoder_level_command
+                                                << ui->videoEncoderLevelBox->itemData(index0, Qt::UserRole).toString().toLower();
+        Q_EMIT this->send_statusbar_message(ui->videoEncoderLevelBox->itemData(index0, Qt::UserRole).toString(), timeout);
+    }
+    else
+    {
+        this->selection.encoder_level_selection << selection.encoder_level_command
+                                                << codec_level;
+        Q_EMIT this->send_statusbar_message(codec_level, timeout);
+    }
 
     //set tooltip
     ui->videoEncoderLevelBox->setToolTip(ui->videoEncoderLevelBox->currentText());
