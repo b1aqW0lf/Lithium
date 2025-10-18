@@ -57,7 +57,7 @@ Q_SIGNALS:
                                      const QString &video_file_extension, const QString &video_dar,
                                      const QString &video_fps);//experimental*/
 
-    void send_video_total_duration(const double &total_duration);
+    void send_total_duration_time(const double &total_duration);
 
     void send_source_video_bitrate(const QString &bitrate);
 

@@ -59,10 +59,26 @@ void SimpleProgressbar::receive_ffprobe_frames_value(const QString &nb_frames)
     //use the total frame number as the progressbar max value
     this->set_progressbar_range(nb_frames.toInt());
 }
+
+void SimpleProgressbar::receive_total_duration_time(const double &total_duration)
+{
+    //receive the media duration time in seconds
+    //use the total duration time as the progressbar max value
+    this->set_progressbar_range(total_duration);
+}
+
 void SimpleProgressbar::set_progressbar_range(const int &maximum)
 {
     const int minimum{0};
     //set the lower and upper bounds of the progressbar
+    ui->progressbar->setRange(minimum, maximum);
+}
+
+void SimpleProgressbar::set_progressbar_range(const double &maximum)
+{
+    //overloaded function
+    //set the lower and upper bounds of the progressbar
+    const int minimum{0};
     ui->progressbar->setRange(minimum, maximum);
 }
 
