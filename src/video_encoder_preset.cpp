@@ -289,9 +289,16 @@ void VideoEncoderPreset::process_video_preset_selection()
 {
     this->selection.video_preset_selection_list.clear();
 
-    this->selection.video_preset_selection_list << this->selection.video_preset_selection
-                                                << this->selection.fast_decode_selection
-                                                << this->selection.zero_latency_selection;
+    this->selection.video_preset_selection_list << this->selection.video_preset_selection;
+
+    if(ui->fastDecodeCheckBox->isChecked() == true)
+    {
+        this->selection.video_preset_selection_list << this->selection.fast_decode_selection;
+    }
+    if(ui->zeroLatencyCheckBox->isChecked() == true)
+    {
+        this->selection.video_preset_selection_list << this->selection.zero_latency_selection;
+    }
 
     Q_EMIT send_video_preset_selection(this->selection.video_preset_selection_list);
 }
