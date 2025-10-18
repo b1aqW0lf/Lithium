@@ -57,6 +57,8 @@ Q_SIGNALS:
                                      const QString &video_file_extension, const QString &video_dar,
                                      const QString &video_fps);//experimental*/
 
+    void send_video_total_duration(const double &total_duration);
+
     void send_source_video_bitrate(const QString &bitrate);
 
     void send_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
@@ -116,6 +118,7 @@ private:
         QString pixel_format{};
         QString framerate{};
         double start_time{};
+        double total_duration{};
         QString duration{};
         int dur_hours{};
         int dur_mins{};
