@@ -39,31 +39,31 @@ class VideoEncoderLevelData
 {
     friend class VideoEncoderOptions;
     private:
-        const QStringList h264_levels = QStringList() << "auto" << "1" << "1b" << "1.1" << "1.2" << "1.3" << "2"
+        const QStringList h264_levels = QStringList() << "Source" << "auto" << "1" << "1b" << "1.1" << "1.2" << "1.3" << "2"
                                                       << "2.1" << "2.2" << "3" << "3.1" << "3.2" << "4" << "4.1"
                                                       << "4.2" << "5" << "5.1" << "5.2" << "6" << "6.1" << "6.2";
 
-        const QStringList x26410bit_levels = QStringList() << "auto" << "1" << "1b" << "1.1" << "1.2" << "1.3" << "2"
+        const QStringList x26410bit_levels = QStringList() << "Source" << "auto" << "1" << "1b" << "1.1" << "1.2" << "1.3" << "2"
                                                            << "2.1" << "2.2" << "3" << "3.1" << "3.2" << "4" << "4.1"
                                                            << "4.2" << "5" << "5.1" << "5.2" << "6" << "6.1" << "6.2";
 
-        const QStringList hevc_levels = QStringList() << "auto" << "1" << "2" << "2.1" << "3" << "3.1" << "4"
+        const QStringList hevc_levels = QStringList() << "Source" << "auto" << "1" << "2" << "2.1" << "3" << "3.1" << "4"
                                                       << "4.1" << "5" << "5.1" << "5.2" << "6" << "6.1" << "6.2";
 
-        const QStringList x26510bit_levels = QStringList() << "auto" << "1" << "2" << "2.1" << "3" << "3.1" << "4"
+        const QStringList x26510bit_levels = QStringList() << "Source" << "auto" << "1" << "2" << "2.1" << "3" << "3.1" << "4"
                                                            << "4.1" << "5" << "5.1" << "5.2" << "6" << "6.1" << "6.2";
 
-        const QStringList x26512bit_levels = QStringList() << "auto" << "1" << "2" << "2.1" << "3" << "3.1" << "4"
+        const QStringList x26512bit_levels = QStringList() << "Source" << "auto" << "1" << "2" << "2.1" << "3" << "3.1" << "4"
                                                            << "4.1" << "5" << "5.1" << "5.2" << "6" << "6.1" << "6.2";
 
-        const QStringList vp9_levels = QStringList() << "auto" << "1" << "1.1" << "2" << "2.1" << "3" << "3.1"
+        const QStringList vp9_levels = QStringList() << "Source" << "auto" << "1" << "1.1" << "2" << "2.1" << "3" << "3.1"
                                                      << "4" << "4.1" << "5" << "5.1" << "5.2" << "6" << "6.1" << "6.2";
 
-        const QStringList xvid_levels = QStringList() << "auto" << "0" << "1" << "2" << "3" << "4";
+        const QStringList xvid_levels = QStringList() << "Source" << "auto" << "0" << "1" << "2" << "3" << "4";
 
-        const QStringList mpeg2_levels = QStringList() << "auto" << "low" << "main" << "high1440" << "high";
+        const QStringList mpeg2_levels = QStringList() << "Source" << "auto" << "low" << "main" << "high1440" << "high";
 
-        const QStringList av1_levels = QStringList() << "auto" << "2.0" << "2.1" << "3.0" << "3.1" << "4.0" << "4.1"
+        const QStringList av1_levels = QStringList() << "Source" << "auto" << "2.0" << "2.1" << "3.0" << "3.1" << "4.0" << "4.1"
                                                      << "5.0" << "5.1" << "5.2" << " 5.3" << "6.0" << " 6.1" << "6.2" << "6.3";
 };
 
