@@ -235,7 +235,7 @@ void VideoCRFInterface::get_video_crf_qscale_selection()
 void VideoCRFInterface::process_video_crf_qscale_selection()
 {
     this->selection.video_crf_selection_list.clear();
-    this->selection.video_crf_selection_list << /*command.video_crf_qscale_flag*/ command.video_crf_flag
+    this->selection.video_crf_selection_list << command.video_crf_qscale_flag
                                              << this->selection.video_crf_selection;
 
     Q_EMIT this->send_video_crf_qscale_selection(this->selection.video_crf_selection_list);

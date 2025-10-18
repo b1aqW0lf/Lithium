@@ -290,7 +290,6 @@ void VideoEncoderPreset::process_video_preset_selection()
     this->selection.video_preset_selection_list.clear();
 
     this->selection.video_preset_selection_list << this->selection.video_preset_selection;
-
     if(ui->fastDecodeCheckBox->isChecked() == true)
     {
         this->selection.video_preset_selection_list << this->selection.fast_decode_selection;
