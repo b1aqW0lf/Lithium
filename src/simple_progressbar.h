@@ -51,7 +51,6 @@ public:
 public Q_SLOTS:
     void receive_ffprobe_frames_value(const QString &nb_frames);
     void receive_frame_num_value(const QString &frame_num);
-    void receive_total_duration_time(const double &total_duration);
     void cancel_progressbar_process();
 
 public:
@@ -62,9 +61,8 @@ private:
     Ui::SimpleProgressbar *ui;
 
     //functions
-    void update_progressbar(const QString &frame_num);
+    void update_progressbar(const QString &progress_val);
     void set_progressbar_range(const int &maximum);
-    void set_progressbar_range(const double &maximum);
     void show_progressbar(const bool &visible);
     void set_theme();
 };

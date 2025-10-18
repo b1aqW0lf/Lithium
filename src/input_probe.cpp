@@ -211,7 +211,6 @@ void InputProbe::parse_video_output(QString &output)
     this->videostream.total_duration = this->videostream.dur_hours * SECONDS_PER_HOUR +
                                        this->videostream.dur_mins * SECONDS_PER_MINUTE +
                                        this->videostream.dur_secs;
-    Q_EMIT this->send_total_duration_time(this->videostream.total_duration);
     Q_EMIT this->send_source_video_bitrate(this->videostream.bitrate);
 
     //verifying the display aspect ratio value
