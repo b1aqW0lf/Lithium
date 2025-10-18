@@ -211,6 +211,7 @@ void VideoEncoderOptions::initialize_encoder_levels(const QString &video_codec)
 
 void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
 {
+    this->selection.encoder_profile_selection.clear();
     const int timeout{0};
     const int index0{0};
 
