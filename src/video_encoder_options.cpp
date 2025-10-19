@@ -295,25 +295,26 @@ void VideoEncoderOptions::get_video_encoder_options_selections()
 void VideoEncoderOptions::process_video_options_selections()
 {
     this->selection.video_options_selections.clear();
+    const QString auto_str{"auto"};
 
     //auto is not a valid parameter accepted by ffmpeg
     //it is used to indicate to allow/force ffmpeg to decide on the proper profile and level values
-    if(this->selection.encoder_profile_selection.contains("auto", Qt::CaseInsensitive) &&
-        !this->selection.encoder_level_selection.contains("auto", Qt::CaseInsensitive))
+    if(ui->videoEncoderProfileBox->currentText() == auto_str &&
+        ui->videoEncoderLevelBox->currentText() != auto_str)
     {
         //remove the selected "auto" value
         this->selection.video_options_selections << selection.encoder_level_command
                                                  << this->selection.encoder_level_selection;
     }
-    else if(this->selection.encoder_level_selection.contains("auto", Qt::CaseInsensitive) &&
-               !this->selection.encoder_profile_selection.contains("auto", Qt::CaseInsensitive))
+    else if(ui->videoEncoderLevelBox->currentText() == auto_str &&
+               ui->videoEncoderProfileBox->currentText() != auto_str)
     {
         //remove the selected "auto" value
         this->selection.video_options_selections << selection.encoder_profile_command
                                                  << this->selection.encoder_profile_selection;
     }
-    else if(this->selection.encoder_profile_selection.contains("auto", Qt::CaseInsensitive) &&
-               this->selection.encoder_level_selection.contains("auto", Qt::CaseInsensitive))
+    else if(ui->videoEncoderProfileBox->currentText() == auto_str &&
+               ui->videoEncoderLevelBox->currentText() == auto_str)
     {
         //if "auto" was selected for both encoder profile and encoder level
         //remove the selections from video_options_selections to allow ffmpeg to decide
