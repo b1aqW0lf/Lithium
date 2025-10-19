@@ -56,10 +56,13 @@ void VideoEncoderOptions::setup_encoder_options_defaults()
 {
     //set h264/libx264 as the default settings
     const int index0{0};
+    const int separator{1};
     ui->videoEncoderProfileBox->insertItems(index0, profile_data.h264_profiles);
     ui->videoEncoderLevelBox->insertItems(index0, level_data.h264_levels);
-    ui->videoEncoderProfileBox->setCurrentIndex(0);
-    ui->videoEncoderLevelBox->setCurrentIndex(0);
+    ui->videoEncoderProfileBox->insertSeparator(separator);
+    ui->videoEncoderLevelBox->insertSeparator(separator);
+    ui->videoEncoderProfileBox->setCurrentIndex(2);
+    ui->videoEncoderLevelBox->setCurrentIndex(2);
 }
 
 void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video_codec)
@@ -102,11 +105,13 @@ void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.h264_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("x264 10-bit", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.x26410bit_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
                video_codec.contains("H265", Qt::CaseInsensitive) ||
@@ -114,26 +119,31 @@ void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.hevc_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("x265 10-bit", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.x26510bit_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("x265 12-bit", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.x26512bit_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("VP9", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.vp9_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("Xvid", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.xvid_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("Theora", Qt::CaseInsensitive))
     {
@@ -144,11 +154,13 @@ void VideoEncoderOptions::initialize_encoder_profiles(const QString &video_codec
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.mpeg2_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("AV1", Qt::CaseInsensitive))
     {
         ui->videoEncoderProfileBox->insertItems(index0, profile_data.av1_profiles);
         ui->videoEncoderProfileBox->insertSeparator(separator);
+        ui->videoEncoderProfileBox->setCurrentIndex(2);
     }
     else
     {
@@ -168,11 +180,13 @@ void VideoEncoderOptions::initialize_encoder_levels(const QString &video_codec)
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.h264_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("x264 10-bit", Qt::CaseInsensitive))
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.x26410bit_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("HEVC", Qt::CaseInsensitive) ||
              video_codec.contains("H265", Qt::CaseInsensitive) ||
@@ -180,26 +194,31 @@ void VideoEncoderOptions::initialize_encoder_levels(const QString &video_codec)
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.hevc_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("x265 10-bit", Qt::CaseInsensitive))
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.x26510bit_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("x265 12-bit", Qt::CaseInsensitive))
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.x26512bit_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("VP9", Qt::CaseInsensitive))
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.vp9_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("Xvid", Qt::CaseInsensitive))
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.xvid_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("Theora", Qt::CaseInsensitive))
     {
@@ -210,11 +229,13 @@ void VideoEncoderOptions::initialize_encoder_levels(const QString &video_codec)
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.mpeg2_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else if(video_codec.contains("AV1", Qt::CaseInsensitive))
     {
         ui->videoEncoderLevelBox->insertItems(index0, level_data.av1_levels);
         ui->videoEncoderLevelBox->insertSeparator(separator);
+        ui->videoEncoderLevelBox->setCurrentIndex(2);
     }
     else
     {
