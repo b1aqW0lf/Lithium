@@ -69,6 +69,9 @@ void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video
 
 void VideoEncoderOptions::receive_video_codec_profile_level(const QString &codec_profile, const QString &codec_level)
 {
+    this->selection.encoder_profile_selection.clear();
+    this->selection.encoder_level_selection.clear();
+
     this->source_codec_profile = codec_profile;
     this->source_codec_level = codec_level;
 
