@@ -63,6 +63,10 @@ void VideoEncoderOptions::setup_encoder_options_defaults()
     ui->videoEncoderLevelBox->insertSeparator(separator);
     ui->videoEncoderProfileBox->setCurrentIndex(2);
     ui->videoEncoderLevelBox->setCurrentIndex(2);
+    ui->videoEncoderProfileBox->setToolTip("It's recommended to leave this setting on Auto to allow\n "
+                                           "ffmpeg to automatically select the appropriate profile.");
+    ui->videoEncoderLevelBox->setToolTip("It is recommended for you to leave this setting on Auto\n "
+                                         "unless it's required to set it for device compatibility.");
 }
 
 void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video_codec)
