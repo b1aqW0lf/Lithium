@@ -19,6 +19,7 @@ public Q_SLOTS:
     void receive_input_video_selection(const QStringList &video_selection);
     void receive_input_crf_qscale_selection(const QStringList &crf_qscale_selection);
     void receive_input_video_preset_selection(const QStringList &preset_selection);
+    void receive_video_options_selections(const QStringList &options_selections);
     void send_received_selected_inputs();
 
 private:
@@ -30,6 +31,7 @@ private:
         QStringList crf_qscale_selection{};
         QStringList video_selection{};
         QStringList preset_selection{};
+        QStringList options_selections{};
     }list;
 
     QStringList input_selections{};
