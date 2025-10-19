@@ -295,30 +295,33 @@ void VideoEncoderOptions::get_video_encoder_options_selections()
 void VideoEncoderOptions::process_video_options_selections()
 {
     this->selection.video_options_selections.clear();
-    const QString auto_str{"auto"};
 
-    //auto is not a valid parameter accepted by ffmpeg
-    //it is used to indicate to allow/force ffmpeg to decide on the proper profile and level values
-    if(ui->videoEncoderProfileBox->currentText() == auto_str &&
-        ui->videoEncoderLevelBox->currentText() != auto_str)
+    //auto is not a valid parameter accepted by ffmpeg for profile
+    //do not assign profile a value for auto to force ffmpeg to decide
+    if(ui->videoEncoderProfileBox->currentText() == "auto" &&
+        ui->videoEncoderLevelBox->currentText() != "auto")
     {
-        //remove the selected "auto" value
+        //remove the selected "auto" value and command for encoder_profile_selection
         this->selection.video_options_selections << selection.encoder_level_command
                                                  << this->selection.encoder_level_selection;
     }
-    else if(ui->videoEncoderLevelBox->currentText() == auto_str &&
-               ui->videoEncoderProfileBox->currentText() != auto_str)
+    else if(ui->videoEncoderLevelBox->currentText() == "auto" &&
+            ui->videoEncoderProfileBox->currentText() != "auto")
     {
-        //remove the selected "auto" value
-        this->selection.video_options_selections << selection.encoder_profile_command
-                                                 << this->selection.encoder_profile_selection;
+        //ffmpeg level command accepts -1 for auto
+        //set selection.encoder_level_selection to -1
+        this->selection.encoder_level_selection.clear();
+        this->selection.video_options_selections << selection.encoder_profile_command << this->selection.encoder_profile_selection
+                                                 << selection.encoder_level_command << this->selection.encoder_level_selection << "-1";
     }
-    else if(ui->videoEncoderProfileBox->currentText() == auto_str &&
-               ui->videoEncoderLevelBox->currentText() == auto_str)
+    else if(ui->videoEncoderProfileBox->currentText() == "auto" &&
+               ui->videoEncoderLevelBox->currentText() == "auto")
     {
-        //if "auto" was selected for both encoder profile and encoder level
-        //remove the selections from video_options_selections to allow ffmpeg to decide
-        this->selection.video_options_selections.clear();
+        //set selection.encoder_level_selection to -1 for auto
+        //and do not assign profile a value for auto to force ffmpeg to decide
+        this->selection.encoder_level_selection.clear();
+        this->selection.video_options_selections << selection.encoder_level_command
+                                                 << this->selection.encoder_level_selection << "-1";
     }
     else
     {
