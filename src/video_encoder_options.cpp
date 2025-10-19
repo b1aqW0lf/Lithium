@@ -275,8 +275,34 @@ void VideoEncoderOptions::process_video_options_selections()
 {
     this->selection.video_options_selections.clear();
 
-    this->selection.video_options_selections << selection.encoder_profile_command << this->selection.encoder_profile_selection
-                                             << selection.encoder_level_command << this->selection.encoder_level_selection;
+    //auto is not a valid parameter accepted by ffmpeg
+    //it is used to indicate to allow/force ffmpeg to decide on the proper profile and level values
+    if(this->selection.encoder_profile_selection.contains("auto", Qt::CaseInsensitive) &&
+        !this->selection.encoder_level_selection.contains("auto", Qt::CaseInsensitive))
+    {
+        //remove the selected "auto" value
+        this->selection.video_options_selections << selection.encoder_level_command
+                                                 << this->selection.encoder_level_selection;
+    }
+    else if(this->selection.encoder_level_selection.contains("auto", Qt::CaseInsensitive) &&
+               !this->selection.encoder_profile_selection.contains("auto", Qt::CaseInsensitive))
+    {
+        //remove the selected "auto" value
+        this->selection.video_options_selections << selection.encoder_profile_command
+                                                 << this->selection.encoder_profile_selection;
+    }
+    else if(this->selection.encoder_profile_selection.contains("auto", Qt::CaseInsensitive) &&
+               this->selection.encoder_level_selection.contains("auto", Qt::CaseInsensitive))
+    {
+        //if "auto" was selected for both encoder profile and encoder level
+        //remove the selections from video_options_selections to allow ffmpeg to decide
+        this->selection.video_options_selections.clear();
+    }
+    else
+    {
+        this->selection.video_options_selections << selection.encoder_profile_command << this->selection.encoder_profile_selection
+                                                 << selection.encoder_level_command << this->selection.encoder_level_selection;
+    }
 
     Q_EMIT this->send_video_options_selections(this->selection.video_options_selections);
 }
