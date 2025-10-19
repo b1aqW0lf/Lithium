@@ -69,14 +69,19 @@ void VideoEncoderOptions::receive_selected_video_codec_name(const QString &video
 
 void VideoEncoderOptions::receive_video_codec_profile_level(const QString &codec_profile, const QString &codec_level)
 {
+    this->process_source_video_options_data(codec_profile, codec_level);
+}
+
+void VideoEncoderOptions::process_source_video_options_data(const QString &codec_profile, const QString &codec_level)
+{
+    const int index0{0};
     this->selection.encoder_profile_selection.clear();
     this->selection.encoder_level_selection.clear();
 
-    this->source_codec_profile = codec_profile;
-    this->source_codec_level = codec_level;
-
     this->selection.encoder_profile_selection << codec_profile;
     this->selection.encoder_level_selection << codec_level;
+    ui->videoEncoderProfileBox->setItemData(index0, codec_profile, Qt::UserRole);
+    ui->videoEncoderLevelBox->setItemData(index0, codec_level, Qt::UserRole);
 }
 
 void VideoEncoderOptions::initialize_video_encoder_options(const QString &video_codec)
@@ -226,7 +231,6 @@ void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
     if(codec_profile.contains("Source"))
     {
         //Set the User Role item data to the value of source file's profile
-        ui->videoEncoderProfileBox->setItemData(index0, this->source_codec_profile, Qt::UserRole);
         this->selection.encoder_profile_selection << ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString().toLower();
         Q_EMIT this->send_statusbar_message(ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString(), timeout);
     }
@@ -249,7 +253,6 @@ void VideoEncoderOptions::select_encoder_level(const QString &codec_level)
     if(codec_level.contains("Source"))
     {
         //Set the User Role item data to the value of source file's level
-        ui->videoEncoderLevelBox->setItemData(index0, this->source_codec_level, Qt::UserRole);
         this->selection.encoder_level_selection << ui->videoEncoderLevelBox->itemData(index0, Qt::UserRole).toString().toLower();
         Q_EMIT this->send_statusbar_message(ui->videoEncoderLevelBox->itemData(index0, Qt::UserRole).toString(), timeout);
     }

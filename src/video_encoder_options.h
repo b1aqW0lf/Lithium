@@ -73,11 +73,8 @@ private:
     void initialize_video_encoder_options(const QString &video_codec);
     void initialize_encoder_profiles(const QString &video_codec);
     void initialize_encoder_levels(const QString &video_codec);
+    void process_source_video_options_data(const QString &codec_profile, const QString &codec_level);
     void process_video_options_selections();
-
-    //variables
-    QString source_codec_profile{};
-    QString source_codec_level{};
 
     struct
     {
