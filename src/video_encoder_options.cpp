@@ -69,6 +69,9 @@ void VideoEncoderOptions::receive_video_codec_profile_level(const QString &codec
 {
     this->source_codec_profile = codec_profile;
     this->source_codec_level = codec_level;
+
+    this->selection.encoder_profile_selection << codec_profile;
+    this->selection.encoder_level_selection << codec_level;
 }
 
 void VideoEncoderOptions::initialize_video_encoder_options(const QString &video_codec)
@@ -219,14 +222,12 @@ void VideoEncoderOptions::select_encoder_profile(const QString &codec_profile)
     {
         //Set the User Role item data to the value of source file's profile
         ui->videoEncoderProfileBox->setItemData(index0, this->source_codec_profile, Qt::UserRole);
-        this->selection.encoder_profile_selection << selection.encoder_profile_command
-                                                  << ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString().toLower();
+        this->selection.encoder_profile_selection << ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString().toLower();
         Q_EMIT this->send_statusbar_message(ui->videoEncoderProfileBox->itemData(index0, Qt::UserRole).toString(), timeout);
     }
     else
     {
-        this->selection.encoder_profile_selection << selection.encoder_profile_command
-                                                  << codec_profile;
+        this->selection.encoder_profile_selection << codec_profile;
         Q_EMIT this->send_statusbar_message(codec_profile, timeout);
     }
 
@@ -244,14 +245,12 @@ void VideoEncoderOptions::select_encoder_level(const QString &codec_level)
     {
         //Set the User Role item data to the value of source file's level
         ui->videoEncoderLevelBox->setItemData(index0, this->source_codec_level, Qt::UserRole);
-        this->selection.encoder_level_selection << selection.encoder_level_command
-                                                << ui->videoEncoderLevelBox->itemData(index0, Qt::UserRole).toString().toLower();
+        this->selection.encoder_level_selection << ui->videoEncoderLevelBox->itemData(index0, Qt::UserRole).toString().toLower();
         Q_EMIT this->send_statusbar_message(ui->videoEncoderLevelBox->itemData(index0, Qt::UserRole).toString(), timeout);
     }
     else
     {
-        this->selection.encoder_level_selection << selection.encoder_level_command
-                                                << codec_level;
+        this->selection.encoder_level_selection << codec_level;
         Q_EMIT this->send_statusbar_message(codec_level, timeout);
     }
 
@@ -266,8 +265,10 @@ void VideoEncoderOptions::get_video_encoder_options_selections()
 
 void VideoEncoderOptions::process_video_options_selections()
 {
-    this->selection.video_options_selections << this->selection.encoder_profile_selection
-                                             << this->selection.encoder_level_selection;
+    this->selection.video_options_selections.clear();
+
+    this->selection.video_options_selections << selection.encoder_profile_command << this->selection.encoder_profile_selection
+                                             << selection.encoder_level_command << this->selection.encoder_level_selection;
 
     Q_EMIT this->send_video_options_selections(this->selection.video_options_selections);
 }
