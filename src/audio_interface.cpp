@@ -215,7 +215,12 @@ void AudioInterface::select_audio_samplerate(const int &index)
                                                    << ui->audioSamplerateBox->itemData(index, Qt::UserRole).toString();
         Q_EMIT this->send_audio_statusbar_message(ui->audioSamplerateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
-    else if(index > 0 && index <= audiodata.audioSamplerateList.size())
+    else if(index == 1)
+    {
+        //option one (1) cannot be selected by the user - it is the separator
+        return;
+    }
+    else if(index > 1 && index <= audiodata.audioSamplerateList.size())
     {
         //set the selected audio samplerate as the desired samplerate
         this->selection.audio_samplerate_selection << command.audio_samplerate_flag
