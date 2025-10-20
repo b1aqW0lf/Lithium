@@ -254,6 +254,11 @@ void AudioInterface::select_audio_channels(const int &index)
             //this->setup_audio_mono_stereo_channel(index, message_timeout);
         }
     }
+    else if(index == 1)
+    {
+        //option one (1) cannot be selected by the user - it is the separator
+        return;
+    }
     else if(index == 2)//mono
     {
         //set the mono user role to "1"
