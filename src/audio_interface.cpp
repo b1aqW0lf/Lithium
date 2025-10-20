@@ -190,7 +190,12 @@ void AudioInterface::select_audio_bitrate(const int &index)
                                                 << ui->audioBitrateBox->itemData(index, Qt::UserRole).toString()+"k";
         Q_EMIT this->send_audio_statusbar_message(ui->audioBitrateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
-    else if(index > 0 && index <= audiodata.audioBitrateList.size())
+    else if(index == 1)
+    {
+        //option one (1) cannot be selected by the user - it is the separator
+        return;
+    }
+    else if(index > 1 && index <= audiodata.audioBitrateList.size())
     {
         //set the selected audio bitrate as the desired bitrate
         this->selection.audio_codec_selection << command.audio_bitrate_flag
