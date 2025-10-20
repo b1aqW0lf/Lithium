@@ -150,7 +150,12 @@ void AudioInterface::select_audio_codec(const int &index)
         this->selection.audio_codec_selection << ui->audioCodecBox->itemData(index, Qt::UserRole).toString();
         Q_EMIT this->send_audio_statusbar_message(ui->audioCodecBox->itemData(index, Qt::UserRole).toString().toUpper(), message_timeout);
     }
-    else if(index > 0 && index <= audiodata.audioCodecList.size())
+    else if(index == 1)
+    {
+        //option one (1) cannot be selected by the user - it is the separator
+        return;
+    }
+    else if(index > 1 && index <= audiodata.audioCodecList.size())
     {
 #ifdef Q_OS_WIN
         if(index == 2)//AAC
