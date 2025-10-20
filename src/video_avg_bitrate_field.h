@@ -61,6 +61,7 @@ Q_SIGNALS:
                                  const QStringList &pass2);
     void average_bitrate_encode_enabled(const bool &status, const QStringList avg_video_bitrate);
     void send_avg_bitrate_statusbar_message(const QString &message, const int &timeout);//for testing
+    void send_video_avg_bitrate_selections(const QStringList &bitrate_selections);
 
 public Q_SLOTS:
     void receive_source_video_bitrate(const QString &bitrate);

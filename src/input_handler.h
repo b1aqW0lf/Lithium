@@ -18,6 +18,7 @@ public Q_SLOTS:
     void send_input_selections_request();
     void receive_input_video_selection(const QStringList &video_selection);
     void receive_input_crf_qscale_selection(const QStringList &crf_qscale_selection);
+    void receive_video_avg_bitrate_selections(const QStringList &bitrate_selections);
     void receive_input_video_preset_selection(const QStringList &preset_selection);
     void receive_video_options_selections(const QStringList &options_selections);
     void send_received_selected_inputs();
@@ -28,8 +29,9 @@ private:
 
     //struct
     struct SelectionList{
-        QStringList crf_qscale_selection{};
         QStringList video_selection{};
+        QStringList crf_qscale_selection{};
+        QStringList bitrate_selections{};
         QStringList preset_selection{};
         QStringList options_selections{};
     }list;

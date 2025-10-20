@@ -21,6 +21,11 @@ void InputHandler::receive_input_crf_qscale_selection(const QStringList &crf_qsc
     this->list.crf_qscale_selection = crf_qscale_selection;
 }
 
+void InputHandler::receive_video_avg_bitrate_selections(const QStringList &bitrate_selections)
+{
+    this->list.bitrate_selections = bitrate_selections;
+}
+
 void InputHandler::receive_input_video_preset_selection(const QStringList &preset_selection)
 {
     this->list.preset_selection = preset_selection;
