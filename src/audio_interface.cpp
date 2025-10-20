@@ -88,18 +88,17 @@ void AudioInterface::setup_audio_sync_default_settings()
 void AudioInterface::enable_copy_source_audio()
 {
     const int timeout{0};
-    this->selection.copy_audio_command.clear();
 
     if(ui->copyAudioCheckBox->isChecked() == true)
     {
         //send command to copy the source audio stream
-        this->selection.copy_audio_command << command.audio_codec_flag << command.copy_command;
+        this->selection.copy_audio_enabled = true;
         Q_EMIT this->send_audio_statusbar_message("Copy Source Audio Enabled", timeout);
     }
-    else
+    if(ui->copyAudioCheckBox->isChecked() == false)
     {
         //send regular command to transcode audio stream
-        this->selection.copy_audio_command << command.audio_codec_flag;
+        this->selection.copy_audio_enabled = false;
         Q_EMIT this->send_audio_statusbar_message("", timeout);//clear the message
     }
 }
@@ -319,17 +318,17 @@ void AudioInterface::process_audio_interface_selections()
 {
     this->selection.audio_selection_list.clear();
 
-    if(ui->copyAudioCheckBox->isChecked() == true)
+    if(this->selection.copy_audio_enabled == true)
     {
         //send the copy audio stream command
-        this->selection.audio_selection_list << this->selection.copy_audio_command;//-codec:a copy
+        this->selection.audio_selection_list << command.audio_codec_flag << command.copy_command;//-codec:a copy
     }
-    if(ui->copyAudioCheckBox->isChecked() == false)
+    if(this->selection.copy_audio_enabled == false)
     {
         const int index0{0};
         //send the transcode audio stream command along with the audio options
         //adding the selections to the audio selection list
-        this->selection.audio_selection_list << this->selection.copy_audio_command//-codec:a
+        this->selection.audio_selection_list << command.audio_codec_flag//-codec:a
                                              << this->selection.audio_codec_selection
                                              << this->selection.audio_bitrate_selection
                                              << this->selection.audio_samplerate_selection

@@ -88,7 +88,7 @@ private:
     //struct
     struct
     {
-        QStringList copy_audio_command{};
+        bool copy_audio_enabled{false};
         QStringList audio_codec_selection{};
         QStringList audio_bitrate_selection{};
         QStringList audio_samplerate_selection{};
