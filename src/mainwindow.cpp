@@ -106,6 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoPresetWidget, &VideoEncoderPreset::get_video_encoder_preset_selection);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoOptionsWidget, &VideoEncoderOptions::get_video_encoder_options_selections);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::get_video_bitrate_selections);
+    connect(&inputHandler, &InputHandler::request_input_selections, ui->audioInterfaceWidget, &AudioInterface::get_audio_interface_selections);
 
     connect(ui->videoInterfaceWidget, &VideoInterface::send_video_interface_selections,
             &inputHandler, &InputHandler::receive_input_video_selection);
@@ -117,6 +118,8 @@ MainWindow::MainWindow(QWidget *parent)
             &inputHandler, &InputHandler::receive_video_options_selections);
     connect(ui->videoAVGBitrateWidget, &VideoAVGBitrateField::send_video_avg_bitrate_selections,
             &inputHandler, &InputHandler::receive_video_avg_bitrate_selections);
+    connect(ui->audioInterfaceWidget, &AudioInterface::send_audio_interface_selections,
+            &inputHandler, &InputHandler::receive_input_audio_selections);
 
     connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_received_selected_inputs);
     connect(&inputHandler, &InputHandler::send_selected_input_parameters, &transcode, &TranscodeProcess::start_transcoding_process);

@@ -21,6 +21,7 @@ public Q_SLOTS:
     void receive_video_avg_bitrate_selections(const QStringList &bitrate_selections);
     void receive_input_video_preset_selection(const QStringList &preset_selection);
     void receive_video_options_selections(const QStringList &options_selections);
+    void receive_input_audio_selections(const QStringList &audio_selections);
     void send_received_selected_inputs();
 
 private:
@@ -34,6 +35,7 @@ private:
         QStringList bitrate_selections{};
         QStringList preset_selection{};
         QStringList options_selections{};
+        QStringList audio_selections{};
     }list;
 
     QStringList input_selections{};

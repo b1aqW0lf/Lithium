@@ -78,7 +78,7 @@ void TranscodeProcess::start_ffmpeg_process(const QStringList &input_parameters)
 {
     QStringList arguments = QStringList() << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                                           << "-i" << this->source_file << "-sn" << input_parameters /*<< "-preset"
-                                          << "slow"*/ << "-codec:a" << "aac" << "-map_metadata" << "0"
+                                          << "slow" << "-codec:a" << "aac"*/ << "-map_metadata" << "0"
 #ifdef Q_OS_WIN
                                           << (QFileInfo(this->source_file).absoluteDir()).absolutePath()+"/testfile1.mkv";
 #else
