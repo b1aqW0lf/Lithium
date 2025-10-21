@@ -191,8 +191,7 @@ void AudioInterface::select_audio_bitrate(const int &index)
     if(index == 0)//source
     {
         //clicking "Source" will set the source file audio bitrate as the selected bitrate
-        this->selection.audio_bitrate_selection << command.audio_bitrate_flag
-                                                << ui->audioBitrateBox->itemData(index, Qt::UserRole).toString()+"k";
+        this->selection.audio_bitrate_selection << ui->audioBitrateBox->itemData(index, Qt::UserRole).toString()+"k";
         Q_EMIT this->send_audio_statusbar_message(ui->audioBitrateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 1)
@@ -203,8 +202,7 @@ void AudioInterface::select_audio_bitrate(const int &index)
     else if(index > 1 && index <= audiodata.audioBitrateList.size())
     {
         //set the selected audio bitrate as the desired bitrate
-        this->selection.audio_bitrate_selection << command.audio_bitrate_flag
-                                              << ui->audioBitrateBox->itemData(index, Qt::DisplayRole).toString()+"k";
+        this->selection.audio_bitrate_selection << ui->audioBitrateBox->itemData(index, Qt::DisplayRole).toString()+"k";
         Q_EMIT this->send_audio_statusbar_message(ui->audioBitrateBox->itemData(index, Qt::DisplayRole).toString(), message_timeout);
     }
     else
@@ -221,8 +219,7 @@ void AudioInterface::select_audio_samplerate(const int &index)
     if(index == 0)//source
     {
         //clicking "Source" will set the source file audio samplerate as the selected samplerate
-        this->selection.audio_samplerate_selection << command.audio_samplerate_flag
-                                                   << ui->audioSamplerateBox->itemData(index, Qt::UserRole).toString();
+        this->selection.audio_samplerate_selection << ui->audioSamplerateBox->itemData(index, Qt::UserRole).toString();
         Q_EMIT this->send_audio_statusbar_message(ui->audioSamplerateBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 1)
@@ -233,8 +230,7 @@ void AudioInterface::select_audio_samplerate(const int &index)
     else if(index > 1 && index <= audiodata.audioSamplerateList.size())
     {
         //set the selected audio samplerate as the desired samplerate
-        this->selection.audio_samplerate_selection << command.audio_samplerate_flag
-                                                   << ui->audioSamplerateBox->itemData(index, Qt::DisplayRole).toString();
+        this->selection.audio_samplerate_selection << ui->audioSamplerateBox->itemData(index, Qt::DisplayRole).toString();
         Q_EMIT this->send_audio_statusbar_message(ui->audioSamplerateBox->itemData(index, Qt::DisplayRole).toString(), message_timeout);
     }
     else
@@ -263,8 +259,7 @@ void AudioInterface::select_audio_channels(const int &index)
         }
         else
         {
-            this->selection.audio_channel_selection << command.audio_channels_flag
-                                                    << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
+            this->selection.audio_channel_selection << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
             Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
             //this->setup_audio_mono_stereo_channel(index, message_timeout);
         }
@@ -287,8 +282,7 @@ void AudioInterface::select_audio_channels(const int &index)
     else if(index > 3 && index <= audiodata.audioChannelList.size())
     {
         //set the selected audio channel as the desired channel
-        this->selection.audio_channel_selection << command.audio_channels_flag
-                                                << ui->audioChannelBox->currentText().toLower();
+        this->selection.audio_channel_selection << ui->audioChannelBox->currentText().toLower();
         Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->currentText(), message_timeout);
     }
     else
@@ -301,8 +295,7 @@ void AudioInterface::setup_audio_mono_stereo_channel(const int &index, const int
 {
     //note: role should be either Qt::DisplayRole or Qt::UserRole
     ui->audioChannelBox->setItemData(index, audio_channel, role);
-    this->selection.audio_channel_selection << command.audio_channels_flag
-                                            << ui->audioChannelBox->itemData(index, role).toString();
+    this->selection.audio_channel_selection << ui->audioChannelBox->itemData(index, role).toString();
     Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->itemData(index, role).toString(), message_timeout);
 }
 
@@ -350,10 +343,14 @@ void AudioInterface::process_audio_interface_selections()
         //adding the selections to the audio selection list
         this->selection.audio_selection_list << command.audio_codec_flag//-codec:a
                                              << this->selection.audio_codec_selection
+                                             << command.audio_bitrate_flag
                                              << this->selection.audio_bitrate_selection
+                                             << command.audio_samplerate_flag
                                              << this->selection.audio_samplerate_selection
-                                             << this->selection.audio_channel_selection
-                                             << this->selection.audio_sync_selection;
+                                             << command.audio_channels_flag
+                                             << this->selection.audio_channel_selection;
+                                             /*<< command.audio_sync_flag
+                                             << this->selection.audio_sync_selection*/
     }
 
     //send the audio selections
