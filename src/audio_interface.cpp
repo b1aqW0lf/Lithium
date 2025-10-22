@@ -117,8 +117,19 @@ void AudioInterface::receive_source_file_audio_data(const QString &audio_codec, 
 void AudioInterface::process_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
                                                     const QString &audio_samplerate, const QString &audio_channels)
 {
-    //used for the UserRole of the "Source" DisplayRole
     const int index{0};//first index for the comboboxes
+
+    this->selection.audio_codec_selection.clear();
+    this->selection.audio_bitrate_selection.clear();
+    this->selection.audio_samplerate_selection.clear();
+    this->selection.audio_channel_selection.clear();
+
+    this->selection.audio_codec_selection << audio_codec;
+    this->selection.audio_bitrate_selection << audio_bitrate;
+    this->selection.audio_samplerate_selection << audio_samplerate;
+    this->selection.audio_channel_selection << audio_samplerate;
+
+    //used for the UserRole of the "Source" DisplayRole
     this->ui->audioCodecBox->setItemData(index, audio_codec, Qt::UserRole);
     this->ui->audioBitrateBox->setItemData(index, audio_bitrate, Qt::UserRole);
     this->ui->audioSamplerateBox->setItemData(index, audio_samplerate, Qt::UserRole);
