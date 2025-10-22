@@ -78,6 +78,7 @@ private Q_SLOTS:
 private:
     //functions
     void initialize_audio_interface_data();
+    void initialize_audio_ui_default_settings();
     void setup_audio_sync_default_settings();
     void process_source_file_audio_data(const QString &audio_codec, const QString &audio_bitrate,
                                         const QString &audio_samplerate, const QString &audio_channels);

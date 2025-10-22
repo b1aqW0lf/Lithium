@@ -59,6 +59,7 @@ AudioInterface::AudioInterface(QWidget *parent)
             this, &AudioInterface::enable_audio_sync);
 
     this->initialize_audio_interface_data();
+    this->initialize_audio_ui_default_settings();
     this->setup_audio_sync_default_settings();
 }
 
@@ -77,6 +78,15 @@ void AudioInterface::initialize_audio_interface_data()
     ui->audioSamplerateBox->insertSeparator(1);
     ui->audioChannelBox->insertItems(0, audiodata.audioChannelList);
     ui->audioChannelBox->insertSeparator(1);
+}
+
+void AudioInterface::initialize_audio_ui_default_settings()
+{
+    ui->copyAudioCheckBox->setChecked(false);
+    ui->audioCodecBox->setCurrentIndex(0);
+    ui->audioBitrateBox->setCurrentIndex(0);
+    ui->audioSamplerateBox->setCurrentIndex(0);
+    ui->audioChannelBox->setCurrentIndex(0);
 }
 
 void AudioInterface::setup_audio_sync_default_settings()
