@@ -60,7 +60,6 @@ AudioInterface::AudioInterface(QWidget *parent)
 
     this->initialize_audio_interface_data();
     this->initialize_audio_ui_default_settings();
-    this->setup_audio_sync_default_settings();
 }
 
 AudioInterface::~AudioInterface()
@@ -87,11 +86,6 @@ void AudioInterface::initialize_audio_ui_default_settings()
     ui->audioBitrateBox->setCurrentIndex(0);
     ui->audioSamplerateBox->setCurrentIndex(0);
     ui->audioChannelBox->setCurrentIndex(0);
-}
-
-void AudioInterface::setup_audio_sync_default_settings()
-{
-    //disable audio sync by default
     ui->audioSyncCheckBox->setDisabled(true);
 }
 
