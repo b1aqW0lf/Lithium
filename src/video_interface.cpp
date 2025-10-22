@@ -186,57 +186,57 @@ void VideoInterface::select_video_codec(const int &index)
     else if(index == 2)//h264/libx264
     {
         ui->videoCodecBox->setItemData(index, "libx264", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
-                                              << command.pixel_format_flag << command.pixel_yuv420p;
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
+                                        << command.pixel_format_flag << command.pixel_yuv420p;
     }
     else if(index == 3)//h264 10bit /libx264 10bit
     {
         ui->videoCodecBox->setItemData(index, "libx264", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
-                                              << command.pixel_format_flag << command.pixel_yuv420p10bit;
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
+                                        << command.pixel_format_flag << command.pixel_yuv420p10bit;
     }
     else if(index == 4)//hevc/libx265
     {
         ui->videoCodecBox->setItemData(index, "libx265", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
-                                              << command.pixel_format_flag << command.pixel_yuv420p;
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
+                                        << command.pixel_format_flag << command.pixel_yuv420p;
     }
     else if(index == 5)//hevc 10bit/libx265 10bit
     {
         ui->videoCodecBox->setItemData(index, "libx265", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
-                                              << command.pixel_format_flag << command.pixel_yuv444p10bit;
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
+                                        << command.pixel_format_flag << command.pixel_yuv444p10bit;
     }
     else if(index == 6)//hevc 12bit/libx265 12bit
     {
         ui->videoCodecBox->setItemData(index, "libx265", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
-                                              << command.pixel_format_flag << command.pixel_yuv444p12bit;
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString()
+                                        << command.pixel_format_flag << command.pixel_yuv444p12bit;
     }
     else if(index == 7)//xvid/libxvid
     {
         ui->videoCodecBox->setItemData(index, "libxvid", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
     }
     else if(index == 8)//vp9/libvpx-vp9
     {
         ui->videoCodecBox->setItemData(index, "libvpx-vp9", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
     }
     else if(index == 9)//theora/libtheora
     {
         ui->videoCodecBox->setItemData(index, "libtheora", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
     }
     else if(index == 10)//mpeg2/mpeg2video
     {
         ui->videoCodecBox->setItemData(index, "mpeg2video", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
     }
     else if(index == 11)//av1/libsvt-av1
     {
         ui->videoCodecBox->setItemData(index, "libsvt-av1", Qt::UserRole);
-        selection.video_codec_selection <<  ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
+        selection.video_codec_selection << ui->videoCodecBox->itemData(index, Qt::UserRole).toString();
     }
     else
     {
@@ -357,8 +357,8 @@ void VideoInterface::select_video_colorspace(const int &index)
     {
         //clicking "Source" will set the source cocolorspace values as the selected values
         selection.video_colorspace_selection << command.colorspace_flag << selection.video_color_space
-                                                   << command.color_primaries_flag << selection.video_color_primaries
-                                                   << command.color_transfer_flag << selection.video_color_transfer;
+                                             << command.color_primaries_flag << selection.video_color_primaries
+                                             << command.color_transfer_flag << selection.video_color_transfer;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 1)//separator
@@ -370,8 +370,8 @@ void VideoInterface::select_video_colorspace(const int &index)
     {
         //to force ffmpeg to decide on the colorspace values, set the colorspace value to "unknown"
         selection.video_colorspace_selection << command.colorspace_flag << command.pixel_unknown
-                                                   << command.color_primaries_flag << command.pixel_unknown
-                                                   << command.color_transfer_flag << command.pixel_unknown;
+                                             << command.color_primaries_flag << command.pixel_unknown
+                                             << command.color_transfer_flag << command.pixel_unknown;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else if(index == 3)//separator
@@ -385,24 +385,24 @@ void VideoInterface::select_video_colorspace(const int &index)
         //If srgb does not work, try the more academic name iec61966-2-1 -->https://trac.ffmpeg.org/wiki/colorspace
         //defaulting to iec61966-2-1
         selection.video_colorspace_selection << command.colorspace_flag << command.bt709_val
-                                                   << command.color_primaries_flag << command.bt709_val
-                                                   << command.color_transfer_flag << command.iec61966_2_1_val;
+                                             << command.color_primaries_flag << command.bt709_val
+                                             << command.color_transfer_flag << command.iec61966_2_1_val;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else if(index == 5)//BT601
     {
         //-colorspace smpte170m -color_primaries smpte170m -color_trc smpte170m
         selection.video_colorspace_selection << command.colorspace_flag << command.smpte170m_val
-                                                   << command.color_primaries_flag << command.smpte170m_val
-                                                   << command.color_transfer_flag << command.smpte170m_val;
+                                             << command.color_primaries_flag << command.smpte170m_val
+                                             << command.color_transfer_flag << command.smpte170m_val;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else if(index == 6)//BT709
     {
         //-color_primaries bt709 -color_trc bt709 -colorspace bt709 is the same as -color_primaries 1 -color_trc 1 -colorspace 1
         selection.video_colorspace_selection << command.colorspace_flag << command.bt709_val
-                                                   << command.color_primaries_flag << command.bt709_val
-                                                   << command.color_transfer_flag << command.bt709_val;
+                                             << command.color_primaries_flag << command.bt709_val
+                                             << command.color_transfer_flag << command.bt709_val;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else if(index == 7)//BT2020
@@ -410,16 +410,16 @@ void VideoInterface::select_video_colorspace(const int &index)
         //-color_primaries bt2020 -color_trc bt2020-10/-color_trc smpte2084 for HDR10/-color_trc arib-std-b67 for HLG
         //-colorspace bt2020nc/-colorspace bt2020ncl -->ncl = non-constant luminance
         selection.video_colorspace_selection << command.colorspace_flag << command.bt2020_ncl_val
-                                                   << command.color_primaries_flag << command.bt2020_val
-                                                   << command.color_transfer_flag << command.bt2020_10bit;
+                                             << command.color_primaries_flag << command.bt2020_val
+                                             << command.color_transfer_flag << command.bt2020_10bit;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else if(index == 8)//BT2100 (PQ)
     {
         //-color_primaries bt2020, -color_trc smpte2084, -colorspace bt2020nc
         selection.video_colorspace_selection << command.colorspace_flag << command.bt2020_ncl_val
-                                                   << command.color_primaries_flag << command.bt2020_val
-                                                   << command.color_transfer_flag << command.smpte2084_val;
+                                             << command.color_primaries_flag << command.bt2020_val
+                                             << command.color_transfer_flag << command.smpte2084_val;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
 
     }
@@ -427,8 +427,8 @@ void VideoInterface::select_video_colorspace(const int &index)
     {
         //-color_primaries bt2020 -color_trc arib-std-b67 -colorspace bt2020nc
         selection.video_colorspace_selection << command.colorspace_flag << command.bt2020_ncl_val
-                                                   << command.color_primaries_flag << command.bt2020_val
-                                                   << command.color_transfer_flag << command.arib_std_b67_val;
+                                             << command.color_primaries_flag << command.bt2020_val
+                                             << command.color_transfer_flag << command.arib_std_b67_val;
         Q_EMIT send_video_statusbar_message(ui->videoColorspaceBox->currentText(), message_timeout);
     }
     else
