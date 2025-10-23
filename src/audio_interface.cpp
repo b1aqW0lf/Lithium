@@ -127,7 +127,7 @@ void AudioInterface::process_source_file_audio_data(const QString &audio_codec, 
     this->selection.audio_codec_selection << audio_codec;
     this->selection.audio_bitrate_selection << audio_bitrate;
     this->selection.audio_samplerate_selection << audio_samplerate;
-    this->selection.audio_channel_selection << audio_samplerate;
+    this->selection.audio_channel_selection << audio_channels;
 
     //used for the UserRole of the "Source" DisplayRole
     this->ui->audioCodecBox->setItemData(index, audio_codec, Qt::UserRole);
@@ -262,20 +262,28 @@ void AudioInterface::select_audio_channels(const int &index)
     if(index == 0)//source
     {
         //clicking "Source" will set the source file audio channel as the selected channel
-        if(ui->audioChannelBox->itemData(index, Qt::UserRole).toString().contains("Mono", Qt::CaseInsensitive))
+        if(ui->audioChannelBox->itemData(index, Qt::UserRole).toString().contains("Mono", Qt::CaseInsensitive) ||
+            ui->audioChannelBox->itemData(index, Qt::UserRole).toString() == "1")
         {
             //set the audio_chanel_selection value to "1" for mono
-            this->setup_audio_mono_stereo_channel(index, message_timeout, "1", Qt::UserRole);
+            /*this->setup_audio_mono_stereo_channel(index, message_timeout, "1", Qt::UserRole);*/
+            ui->audioChannelBox->setItemData(index, "1", Qt::UserRole);
+            selection.audio_channel_selection << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
+            Q_EMIT send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
         }
-        else if(ui->audioChannelBox->itemData(index, Qt::UserRole).toString().contains("Stereo", Qt::CaseInsensitive))
+        else if(ui->audioChannelBox->itemData(index, Qt::UserRole).toString().contains("Stereo", Qt::CaseInsensitive) ||
+                   ui->audioChannelBox->itemData(index, Qt::UserRole).toString() == "2")
         {
             //set the audio_chanel_selection value to "2" for stereo
-            this->setup_audio_mono_stereo_channel(index, message_timeout, "2", Qt::UserRole);
+            /*this->setup_audio_mono_stereo_channel(index, message_timeout, "2", Qt::UserRole);*/
+            ui->audioChannelBox->setItemData(index, "2", Qt::UserRole);
+            selection.audio_channel_selection << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
+            Q_EMIT send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
         }
         else
         {
-            this->selection.audio_channel_selection << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
-            Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
+            selection.audio_channel_selection << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
+            Q_EMIT send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
             //this->setup_audio_mono_stereo_channel(index, message_timeout);
         }
     }
@@ -287,24 +295,31 @@ void AudioInterface::select_audio_channels(const int &index)
     else if(index == 2)//mono
     {
         //set the mono user role to "1"
-         this->setup_audio_mono_stereo_channel(index, message_timeout, "1", Qt::UserRole);
+        /*this->setup_audio_mono_stereo_channel(index, message_timeout, "1", Qt::UserRole);*/
+        ui->audioChannelBox->setItemData(index, "1", Qt::UserRole);
+        selection.audio_channel_selection << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
+        Q_EMIT send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index == 3)//stereo
     {
         //set the stereo user role to "2"
-        this->setup_audio_mono_stereo_channel(index, message_timeout, "2", Qt::UserRole);
+        /*this->setup_audio_mono_stereo_channel(index, message_timeout, "2", Qt::UserRole);*/
+        ui->audioChannelBox->setItemData(index, "2", Qt::UserRole);
+        selection.audio_channel_selection << ui->audioChannelBox->itemData(index, Qt::UserRole).toString();
+        Q_EMIT send_audio_statusbar_message(ui->audioChannelBox->itemData(index, Qt::UserRole).toString(), message_timeout);
     }
     else if(index > 3 && index <= audiodata.audioChannelList.size())
     {
         //set the selected audio channel as the desired channel
-        this->selection.audio_channel_selection << ui->audioChannelBox->currentText().toLower();
-        Q_EMIT this->send_audio_statusbar_message(ui->audioChannelBox->currentText(), message_timeout);
+        selection.audio_channel_selection << ui->audioChannelBox->currentText().toLower();
+        Q_EMIT send_audio_statusbar_message(ui->audioChannelBox->currentText(), message_timeout);
     }
     else
     {
-        Q_EMIT this->send_audio_statusbar_message("Something went wrong", message_timeout);
+        Q_EMIT send_audio_statusbar_message("Something went wrong", message_timeout);
     }
 }
+
 void AudioInterface::setup_audio_mono_stereo_channel(const int &index, const int &message_timeout,
                                                      const QString &audio_channel, Qt::ItemDataRole role)
 {
@@ -357,13 +372,13 @@ void AudioInterface::process_audio_interface_selections()
         //send the transcode audio stream command along with the audio options
         //adding the selections to the audio selection list
         this->selection.audio_selection_list << command.audio_codec_flag//-codec:a
-                                             << this->selection.audio_codec_selection
+                                             << /*this->selection.audio_codec_selection*/"aac"
                                              << command.audio_bitrate_flag
-                                             << this->selection.audio_bitrate_selection
+                                             << /*this->selection.audio_bitrate_selection*/"128"
                                              << command.audio_samplerate_flag
-                                             << this->selection.audio_samplerate_selection
+                                             << this->selection.audio_samplerate_selection/*"48000"*/
                                              << command.audio_channels_flag
-                                             << this->selection.audio_channel_selection;
+                                             << this->selection.audio_channel_selection/*"2"*/;
                                              /*<< command.audio_sync_flag
                                              << this->selection.audio_sync_selection*/
     }

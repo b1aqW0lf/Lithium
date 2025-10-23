@@ -317,6 +317,18 @@ void InputProbe::parse_audio_output(QString &output)
         this->audiostream.duration = match.captured(9);//AudioStream::duration
     }
 
+    if(audiostream.channels.isEmpty() == true)
+    {
+        const char channels_data[] = "channels=([\\d.]*)";
+        QRegularExpression channels_regx(channels_data);
+        itr = channels_regx.globalMatch(output);
+        while(itr.hasNext())
+        {
+            QRegularExpressionMatch match = itr.next();
+            audiostream.channels = match.captured(1);
+        }
+    }
+
     QRegularExpression codectype_regx(Analyze::audio_codec_type);
     itr = codectype_regx.globalMatch(output);
     while(itr.hasNext())
