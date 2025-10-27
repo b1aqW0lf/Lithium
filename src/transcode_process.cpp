@@ -59,6 +59,12 @@ void TranscodeProcess::receive_source_file(const QString &file)
     this->source_file = file;
 }
 
+void TranscodeProcess::receive_output_file_path(const QString &output_path)
+{
+    //receive the output file path
+    this->output_path = output_path;
+}
+
 void TranscodeProcess::start_transcoding_process(const QStringList &input_parameters)
 {
     this->start_ffprobe_process();
@@ -77,13 +83,9 @@ void TranscodeProcess::start_ffprobe_process()
 void TranscodeProcess::start_ffmpeg_process(const QStringList &input_parameters)
 {
     QStringList arguments = QStringList() << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
-                                          << "-i" << this->source_file << "-sn" << input_parameters /*<< "-preset"
-                                          << "slow" << "-codec:a" << "aac"*/ << "-map_metadata" << "0"
-#ifdef Q_OS_WIN
-                                          << (QFileInfo(this->source_file).absoluteDir()).absolutePath()+"/testfile1.mkv";
-#else
-                                          << QDir::homePath()+"/Downloads/testfile1.mkv";
-#endif
+                                          << "-i" << this->source_file << "-sn" << input_parameters
+                                          << "-map_metadata" << "0" << this->output_path;
+
     encoder.start_encoder("ffmpeg", arguments);
 }
 
