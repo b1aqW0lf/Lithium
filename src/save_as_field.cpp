@@ -214,16 +214,8 @@ void SaveAsField::set_output_file_extension(const QString &output_ext)
     lineedit_text = lineedit_text.left(lineedit_text.lastIndexOf("."));
     if(!output_ext.isEmpty() && !lineedit_text.isEmpty())
     {
-        if(QFile::exists(lineedit_text+output_ext))
-        {
-            QString suffix{"_1"};
-            ui->saveAsLineEdit->setText(lineedit_text+suffix+output_ext);
-        }
-        else
-        {
-            //set the output file extension
-            ui->saveAsLineEdit->setText(lineedit_text+output_ext);
-        }
+        //set the output file extension
+        ui->saveAsLineEdit->setText(lineedit_text+output_ext);
     }
     else if(output_ext.isEmpty())
     {
