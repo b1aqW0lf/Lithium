@@ -83,7 +83,7 @@ private:
                                         const QString &audio_samplerate, const QString &audio_channels);
     void enable_audio_sync_mode(ProcessMode process_mode);
     void process_audio_interface_selections();
-    void setup_audio_mono_stereo_channel(const int &index, const int &message_timeout, const QString &audio_channel, Qt::ItemDataRole role);
+    QString check_source_audio_channels(const QString &audio_channels);
 
     //struct
     struct
