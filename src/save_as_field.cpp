@@ -33,8 +33,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ui_save_as_field.h"
 
 #include <QAction>
-#include <QFile>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
@@ -243,5 +243,16 @@ void SaveAsField::set_output_file_extension(const QString &output_ext)
 
 void SaveAsField::send_selected_output_path()
 {
+    if(ui->saveAsLineEdit->text() == input_file_name)
+    {
+        QFileInfo file(ui->saveAsLineEdit->text());
+        QString base_name = file.completeBaseName();
+        QString path = file.absolutePath();
+        QString ext = file.suffix();
+        QString str{"_1"};
+
+        ui->saveAsLineEdit->setText(path + "/" + base_name + str + "." + ext);
+    }
+
     Q_EMIT send_output_file_path(ui->saveAsLineEdit->text());
 }
