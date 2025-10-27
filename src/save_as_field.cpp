@@ -100,7 +100,6 @@ void SaveAsField::process_input_file_name(const QString &file_name)
     ui->saveAsLineEdit->setText(file_name);
     this->get_input_file_extension(file_name);
     this->input_file_name = file_name;
-    this->send_selected_output_path();
 }
 
 void SaveAsField::get_input_file_extension(const QString &file_name)
@@ -168,8 +167,6 @@ void SaveAsField::select_save_destination()
             ui->saveAsLineEdit->setText(output_file);
         }
     }
-
-    this->send_selected_output_path();
 }
 
 void SaveAsField::select_output_file_container(const int &index)
@@ -242,8 +239,6 @@ void SaveAsField::set_output_file_extension(const QString &output_ext)
     {
         return;
     }
-
-    this->send_selected_output_path();
 }
 
 void SaveAsField::send_selected_output_path()
