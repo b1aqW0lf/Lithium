@@ -329,6 +329,18 @@ void InputProbe::parse_audio_output(QString &output)
         }
     }
 
+    if(audiostream.bitrate.isEmpty() == true)
+    {
+        const char bitrate_data[] = "codec_type=audio\\s*[^.]*\\s*[^,]*bit_rate=([\\d\\w\\/]*)\\s*max_bit_rate";
+        QRegularExpression bitrate_regex(bitrate_data);
+        itr = bitrate_regex.globalMatch(output);
+        while(itr.hasNext())
+        {
+            QRegularExpressionMatch match = itr.next();
+            audiostream.bitrate = match.captured(1);
+        }
+    }
+
     QRegularExpression codectype_regx(Analyze::audio_codec_type);
     itr = codectype_regx.globalMatch(output);
     while(itr.hasNext())
