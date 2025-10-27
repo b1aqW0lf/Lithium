@@ -125,13 +125,13 @@ void AudioInterface::process_source_file_audio_data(const QString &audio_codec, 
     selection.audio_channel_selection.clear();
 
     selection.audio_codec_selection << audio_codec;
-    selection.audio_bitrate_selection << audio_bitrate;
+    selection.audio_bitrate_selection << check_source_audio_bitrate(audio_bitrate);
     selection.audio_samplerate_selection << audio_samplerate;
     selection.audio_channel_selection << check_source_audio_channels(audio_channels);
 
     //used for the UserRole of the "Source" DisplayRole
     ui->audioCodecBox->setItemData(index, audio_codec, Qt::UserRole);
-    ui->audioBitrateBox->setItemData(index, audio_bitrate, Qt::UserRole);
+    ui->audioBitrateBox->setItemData(index, check_source_audio_bitrate(audio_bitrate), Qt::UserRole);
     ui->audioSamplerateBox->setItemData(index, audio_samplerate, Qt::UserRole);
     ui->audioChannelBox->setItemData(index, check_source_audio_channels(audio_channels), Qt::UserRole);
 }
@@ -296,6 +296,24 @@ void AudioInterface::select_audio_channels(const int &index)
     {
         Q_EMIT send_audio_statusbar_message("Something went wrong", message_timeout);
     }
+}
+
+QString AudioInterface::check_source_audio_bitrate(const QString &audio_bitrate)
+{
+    QString source_audio_bitrate{};
+
+    if(audio_bitrate.isEmpty() || audio_bitrate.contains("N/A", Qt::CaseInsensitive))
+    {
+        //if the bitrate value is empty or is N/A, set the bitrate value to 128
+        source_audio_bitrate = "128";
+    }
+    else
+    {
+        //set the source_audio_bitrate to audio_bitrate
+        source_audio_bitrate = audio_bitrate;
+    }
+
+    return source_audio_bitrate;
 }
 
 QString AudioInterface::check_source_audio_channels(const QString &audio_channels)

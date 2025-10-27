@@ -83,6 +83,7 @@ private:
                                         const QString &audio_samplerate, const QString &audio_channels);
     void enable_audio_sync_mode(ProcessMode process_mode);
     void process_audio_interface_selections();
+    QString check_source_audio_bitrate(const QString &audio_bitrate);
     QString check_source_audio_channels(const QString &audio_channels);
 
     //struct
