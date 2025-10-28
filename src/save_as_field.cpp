@@ -97,7 +97,13 @@ void SaveAsField::receive_input_file_name(const QString &file_name)
 
 void SaveAsField::process_input_file_name(const QString &file_name)
 {
-    ui->saveAsLineEdit->setText(file_name);
+
+    QFileInfo file(file_name);
+    QString base_name = file.completeBaseName();
+    QString path = file.absolutePath();
+
+    //load the input source file with the current selected extension
+    ui->saveAsLineEdit->setText(path + "/" + base_name + "." + ui->saveAsContainerBox->currentText().toLower());
     get_input_file_extension(file_name);
     input_file_name = file_name;
 }
