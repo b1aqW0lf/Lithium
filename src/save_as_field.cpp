@@ -51,9 +51,9 @@ SaveAsField::SaveAsField(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setup_clear_button();
-    this->setup_default_extensions();
-    this->setup_ui_tooltips();
+    setup_clear_button();
+    setup_default_extensions();
+    setup_ui_tooltips();
 
     //connect signals and slots
     connect(ui->saveAsBrowseButton, &QPushButton::clicked, this, &SaveAsField::select_save_destination);
@@ -92,14 +92,14 @@ void SaveAsField::setup_ui_tooltips()
 
 void SaveAsField::receive_input_file_name(const QString &file_name)
 {
-    this->process_input_file_name(file_name);
+    process_input_file_name(file_name);
 }
 
 void SaveAsField::process_input_file_name(const QString &file_name)
 {
     ui->saveAsLineEdit->setText(file_name);
-    this->get_input_file_extension(file_name);
-    this->input_file_name = file_name;
+    get_input_file_extension(file_name);
+    input_file_name = file_name;
 }
 
 void SaveAsField::get_input_file_extension(const QString &file_name)
@@ -111,8 +111,8 @@ void SaveAsField::get_input_file_extension(const QString &file_name)
 
 void SaveAsField::current_process_mode(ProcessMode process_mode)
 {
-    this->initalize_output_extensions(process_mode);
-    this->process_mode = process_mode;
+    initalize_output_extensions(process_mode);
+    process_mode = process_mode;
 }
 
 void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
@@ -134,7 +134,7 @@ void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
     }
 
     //get input file extension again after process mode changes
-    this->get_input_file_extension(this->input_file_name);
+    get_input_file_extension(input_file_name);
 }
 
 //select the output file path to convert to
@@ -171,7 +171,7 @@ void SaveAsField::select_save_destination()
 
 void SaveAsField::select_output_file_container(const int &index)
 {
-    this->output_ext.clear();
+    output_ext.clear();
 
     if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
     {
@@ -179,8 +179,8 @@ void SaveAsField::select_output_file_container(const int &index)
         if(index == 0)
         {
             //clicking "Source" will set the source container as the selected container
-            this->output_ext = ui->saveAsContainerBox->itemData(index, Qt::UserRole).toString().toLower();
-            Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->itemData(index,
+            output_ext = ui->saveAsContainerBox->itemData(index, Qt::UserRole).toString().toLower();
+            Q_EMIT send_save_field_statusbar_message(ui->saveAsContainerBox->itemData(index,
                                             Qt::UserRole).toString().remove(".").toUpper(), TIMEOUT);
         }
         else if(index == 1)//separator
@@ -190,8 +190,8 @@ void SaveAsField::select_output_file_container(const int &index)
         }
         else if(index >= 2 && index <= extensions.videoContainerList.size())
         {
-            this->output_ext = "."+ui->saveAsContainerBox->currentText().toLower();
-            Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
+            output_ext = "."+ui->saveAsContainerBox->currentText().toLower();
+            Q_EMIT send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
         }
         else
         {
@@ -201,11 +201,11 @@ void SaveAsField::select_output_file_container(const int &index)
     if(process_mode == ProcessMode::ExtractMode)
     {
         //utilizing the audioContainerList
-        this->output_ext = "."+ui->saveAsContainerBox->itemData(index, Qt::DisplayRole).toString().toLower();
-        Q_EMIT this->send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
+        output_ext = "."+ui->saveAsContainerBox->itemData(index, Qt::DisplayRole).toString().toLower();
+        Q_EMIT send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
     }
 
-    this->set_output_file_extension(this->output_ext);
+    set_output_file_extension(output_ext);
 }
 
 void SaveAsField::set_output_file_extension(const QString &output_ext)
