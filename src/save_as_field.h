@@ -83,7 +83,6 @@ private:
     ProcessMode process_mode;
     QString input_file_name{};
     QString input_file_ext{};
-    QString output_ext{};
 };
 
 #endif // SAVE_AS_FIELD_H
