@@ -211,29 +211,22 @@ void SaveAsField::select_output_file_container(const int &index)
     }
 
     //set the selected extension
-    QString lineedit_text{ui->saveAsLineEdit->text()};
-    lineedit_text = lineedit_text.left(lineedit_text.lastIndexOf("."));
-    ui->saveAsLineEdit->setText(lineedit_text+"."+input_file_ext.toLower());
+    check_save_line_edit_field(input_file_ext);
 }
 
-void SaveAsField::set_output_file_extension(const QString &output_ext)
+void SaveAsField::check_save_line_edit_field(const QString &file_ext)
 {
     QString lineedit_text = ui->saveAsLineEdit->text();
     lineedit_text = lineedit_text.left(lineedit_text.lastIndexOf("."));
-    if(!output_ext.isEmpty() && !lineedit_text.isEmpty())
+    if(!file_ext.isEmpty() && !lineedit_text.isEmpty())
     {
         //set the output file extension
-        ui->saveAsLineEdit->setText(lineedit_text+output_ext);
+        ui->saveAsLineEdit->setText(lineedit_text+"."+file_ext.toLower());
     }
-    else if(output_ext.isEmpty())
+    else if(file_ext.isEmpty() || lineedit_text.isEmpty())
     {
         QMessageBox::information(this, tr("Lithium"),
                                  tr("Please select an input file first"));
-    }
-    else if(lineedit_text.isEmpty() || lineedit_text == "")
-    {
-        QMessageBox::information(this, tr("Lithium"),
-                                 tr("Output file path not specified"));
     }
     else
     {
