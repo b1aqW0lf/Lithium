@@ -119,8 +119,8 @@ void SaveAsField::process_input_file_name(const QString &file_name)
 void SaveAsField::get_input_file_extension(const QString &file_name)
 {
     //get the extension of the input file
-    QString input_ext = file_name.mid(file_name.lastIndexOf("."));
-    ui->saveAsContainerBox->setItemData(INDEX0, input_ext, Qt::UserRole);
+    input_file_ext = file_name.mid(file_name.lastIndexOf(".")).remove(".");
+    ui->saveAsContainerBox->setItemData(INDEX0, input_file_ext, Qt::UserRole);
 }
 
 void SaveAsField::current_process_mode(ProcessMode process_mode)
