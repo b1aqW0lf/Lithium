@@ -78,10 +78,16 @@ void SaveAsField::setup_clear_button()
 
 void SaveAsField::setup_default_extensions()
 {
-    const int separator{1};
-    ui->saveAsContainerBox->insertItems(INDEX0, extensions.videoContainerList);
-    ui->saveAsContainerBox->insertSeparator(separator);
-    ui->saveAsContainerBox->setCurrentIndex(3);
+    int index{0};
+
+    if(process_mode == ProcessMode::NormalMode ||
+        process_mode == ProcessMode::MergeMode)
+    {
+        ui->saveAsContainerBox->insertItems(index, extensions.videoContainerList);
+        //insert separator
+        index = 1;
+        ui->saveAsContainerBox->insertSeparator(index);
+    }
 }
 
 void SaveAsField::setup_ui_tooltips()
