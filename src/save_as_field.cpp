@@ -53,7 +53,7 @@ SaveAsField::SaveAsField(QWidget *parent) :
 
     setup_clear_button();
     set_default_process_mode();
-    setup_default_extensions();
+    set_default_extensions();
     setup_ui_tooltips();
 
     //connect signals and slots
@@ -83,7 +83,7 @@ void SaveAsField::set_default_process_mode()
     process_mode = ProcessMode::NormalMode;
 }
 
-void SaveAsField::setup_default_extensions()
+void SaveAsField::set_default_extensions()
 {
     int index{0};
 
