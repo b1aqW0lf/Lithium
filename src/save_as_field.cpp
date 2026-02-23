@@ -183,41 +183,37 @@ void SaveAsField::select_save_destination()
 
 void SaveAsField::select_output_file_container(const int &index)
 {
-    output_ext.clear();
+    const int timeout{0};
 
-    if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
+    if(process_mode == ProcessMode::NormalMode ||
+        process_mode == ProcessMode::MergeMode)
     {
-        //utilizing the videoContainerList
         if(index == 0)
         {
-            //clicking "Source" will set the source container as the selected container
-            output_ext = ui->saveAsContainerBox->itemData(index, Qt::UserRole).toString().toLower();
-            Q_EMIT send_save_field_statusbar_message(ui->saveAsContainerBox->itemData(index,
-                                            Qt::UserRole).toString().remove(".").toUpper(), TIMEOUT);
+            input_file_ext = ui->saveAsContainerBox->itemData(index, Qt::UserRole).toString().toUpper();
+            Q_EMIT send_save_field_statusbar_message(input_file_ext, timeout);
         }
-        else if(index == 1)//separator
+        if(index == 1)
         {
-            //option one (1) cannot be selected by the user - it is the separator
+            //cannot select 1 because it is the separator
             return;
         }
-        else if(index >= 2 && index <= extensions.videoContainerList.size())
+        if(index >= 2)
         {
-            output_ext = "."+ui->saveAsContainerBox->currentText().toLower();
-            Q_EMIT send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
-        }
-        else
-        {
-            return;
+            input_file_ext = ui->saveAsContainerBox->currentText();
+            Q_EMIT send_save_field_statusbar_message(input_file_ext, timeout);
         }
     }
     if(process_mode == ProcessMode::ExtractMode)
     {
-        //utilizing the audioContainerList
-        output_ext = "."+ui->saveAsContainerBox->itemData(index, Qt::DisplayRole).toString().toLower();
-        Q_EMIT send_save_field_statusbar_message(ui->saveAsContainerBox->currentText().toUpper(), TIMEOUT);
+        input_file_ext = ui->saveAsContainerBox->itemData(index, Qt::DisplayRole).toString().toUpper();
+        Q_EMIT send_save_field_statusbar_message(input_file_ext, timeout);
     }
 
-    set_output_file_extension(output_ext);
+    //set the selected extension
+    QString lineedit_text{ui->saveAsLineEdit->text()};
+    lineedit_text = lineedit_text.left(lineedit_text.lastIndexOf("."));
+    ui->saveAsLineEdit->setText(lineedit_text+"."+input_file_ext.toLower());
 }
 
 void SaveAsField::set_output_file_extension(const QString &output_ext)
