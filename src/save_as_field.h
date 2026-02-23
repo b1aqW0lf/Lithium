@@ -74,7 +74,7 @@ private:
     void set_default_process_mode();
     void set_default_extensions();
     void setup_ui_tooltips();
-    void initalize_output_extensions(ProcessMode process_mode);
+    void enable_save_file_extension_list();
     void process_input_file_name(const QString &file_name);
     void get_input_file_extension(const QString &file_name);
     void set_output_file_extension(const QString &output_ext);

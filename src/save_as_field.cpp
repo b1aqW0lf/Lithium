@@ -125,30 +125,28 @@ void SaveAsField::get_input_file_extension(const QString &file_name)
 
 void SaveAsField::current_process_mode(ProcessMode process_mode)
 {
-    initalize_output_extensions(process_mode);
-    process_mode = process_mode;
+    this->process_mode = process_mode;
+    enable_save_file_extension_list();
 }
 
-void SaveAsField::initalize_output_extensions(ProcessMode process_mode)
+void SaveAsField::enable_save_file_extension_list()
 {
+    int index{0};
     ui->saveAsContainerBox->clear();
 
-    if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
+    if(process_mode == ProcessMode::NormalMode ||
+        process_mode == ProcessMode::MergeMode)
     {
-        const int separator{1};
-        //load the video container list
-        ui->saveAsContainerBox->insertItems(INDEX0, extensions.videoContainerList);
-        ui->saveAsContainerBox->insertSeparator(separator);
-        ui->saveAsContainerBox->setCurrentIndex(3);
+        ui->saveAsContainerBox->insertItems(index, extensions.videoContainerList);
+        //insert separator
+        index = 1;
+        ui->saveAsContainerBox->insertSeparator(index);
+        get_input_file_extension(input_file_name);
     }
     if(process_mode == ProcessMode::ExtractMode)
     {
-        //load the audio container list
-        ui->saveAsContainerBox->insertItems(INDEX0, extensions.audioContainerList);
+        ui->saveAsContainerBox->insertItems(index, extensions.audioContainerList);
     }
-
-    //get input file extension again after process mode changes
-    get_input_file_extension(input_file_name);
 }
 
 //select the output file path to convert to
