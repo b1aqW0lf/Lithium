@@ -71,6 +71,7 @@ private:
 
     //functions
     void setup_clear_button();
+    void set_default_process_mode();
     void setup_default_extensions();
     void setup_ui_tooltips();
     void initalize_output_extensions(ProcessMode process_mode);

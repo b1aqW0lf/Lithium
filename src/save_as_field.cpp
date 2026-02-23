@@ -52,6 +52,7 @@ SaveAsField::SaveAsField(QWidget *parent) :
     ui->setupUi(this);
 
     setup_clear_button();
+    set_default_process_mode();
     setup_default_extensions();
     setup_ui_tooltips();
 
@@ -74,6 +75,12 @@ void SaveAsField::setup_clear_button()
     QAction *clearButton = ui->saveAsLineEdit->findChild<QAction *>();
     clearButton->setIcon(QIcon(":/images/resources/clear_icon.png"));
     clearButton->setToolTip("clear");
+}
+
+void SaveAsField::set_default_process_mode()
+{
+    //set NormalMode as the default process mode
+    process_mode = ProcessMode::NormalMode;
 }
 
 void SaveAsField::setup_default_extensions()
