@@ -51,6 +51,9 @@ public:
 Q_SIGNALS:
     void send_copy_metadata_command(const QStringList &metadata_command);
 
+public Q_SLOTS:
+    void get_copy_metadata_selection();
+
 private Q_SLOTS:
     void enable_copy_metadata();
 

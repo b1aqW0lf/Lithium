@@ -41,6 +41,11 @@ void InputHandler::receive_input_audio_selections(const QStringList &audio_selec
     list.audio_selections = audio_selections;
 }
 
+void InputHandler::receive_copy_metadata_command(const QStringList &metadata_command)
+{
+    list.metadata_command = metadata_command;
+}
+
 void InputHandler::send_received_selected_inputs()
 {
     process_selected_inputs();
@@ -54,7 +59,8 @@ void InputHandler::process_selected_inputs()
                      << list.crf_qscale_selection
                      << list.preset_selection
                      << list.options_selections
-                     << list.audio_selections;
+                     << list.audio_selections
+                     << list.metadata_command;
 
     Q_EMIT send_selected_input_parameters(input_selections);
 }

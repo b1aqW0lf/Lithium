@@ -22,6 +22,7 @@ public Q_SLOTS:
     void receive_input_video_preset_selection(const QStringList &preset_selection);
     void receive_video_options_selections(const QStringList &options_selections);
     void receive_input_audio_selections(const QStringList &audio_selections);
+    void receive_copy_metadata_command(const QStringList &metadata_command);
     void send_received_selected_inputs();
 
 private:
@@ -36,6 +37,7 @@ private:
         QStringList preset_selection{};
         QStringList options_selections{};
         QStringList audio_selections{};
+        QStringList metadata_command{};
     }list;
 
     QStringList input_selections{};

@@ -84,7 +84,7 @@ void TranscodeProcess::start_ffmpeg_process(const QStringList &input_parameters)
 {
     QStringList arguments = QStringList() << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                                           << "-i" << this->source_file << "-sn" << input_parameters
-                                          << "-map_metadata" << "0" << this->output_path;
+                                          << /*"-map_metadata" << "0" <<*/ this->output_path;
 
     encoder.start_encoder("ffmpeg", arguments);
 }

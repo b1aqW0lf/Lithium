@@ -52,14 +52,23 @@ MetadataCheckBox::~MetadataCheckBox()
 
 void MetadataCheckBox::enable_copy_metadata()
 {
+    QStringList metadata_commands_list{};
+
     if(ui->metadataCheckBox->isChecked())
     {
         //send ffmpeg command to copy the metadata
-        Q_EMIT this->send_copy_metadata_command(QStringList() << "-map_metadata" << "0");
+        metadata_commands_list << "-map_metadata" << "0";
+        Q_EMIT this->send_copy_metadata_command(metadata_commands_list);
     }
     else
     {
-        //do not send anything
-        Q_EMIT this->send_copy_metadata_command(QStringList(""));
+        //do not send anything - metadata_commands_list is blank/empty
+        Q_EMIT this->send_copy_metadata_command(metadata_commands_list);
     }
+}
+
+void MetadataCheckBox::get_copy_metadata_selection()
+{
+    //send metadata command
+    enable_copy_metadata();
 }
