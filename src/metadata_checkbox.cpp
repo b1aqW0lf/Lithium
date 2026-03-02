@@ -40,6 +40,7 @@ MetadataCheckBox::MetadataCheckBox(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->metadataCheckBox, &QCheckBox::clicked, this, &MetadataCheckBox::enable_copy_metadata);
+    connect(ui->metadataCheckBox, &QCheckBox::clicked, this, &MetadataCheckBox::send_metadata_checkbox_message);
 
     //enable by default
     ui->metadataCheckBox->setChecked(true);
@@ -64,6 +65,22 @@ void MetadataCheckBox::enable_copy_metadata()
     {
         //do not send anything - metadata_commands_list is blank/empty
         Q_EMIT this->send_copy_metadata_command(metadata_commands_list);
+    }
+}
+
+void MetadataCheckBox::send_metadata_checkbox_message()
+{
+    const int timeout{0};
+
+    if(ui->metadataCheckBox->isChecked())
+    {
+        //send ffmpeg command to copy the metadata
+        Q_EMIT send_metadata_checkbox_statusbar_message("Copy Metadata Enabled", timeout);
+    }
+    else
+    {
+        //do not send anything - metadata_commands_list is blank/empty
+        Q_EMIT send_metadata_checkbox_statusbar_message("", timeout);
     }
 }
 

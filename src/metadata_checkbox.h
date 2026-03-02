@@ -50,12 +50,14 @@ public:
 
 Q_SIGNALS:
     void send_copy_metadata_command(const QStringList &metadata_command);
+    void send_metadata_checkbox_statusbar_message(const QString message, const int timeout);
 
 public Q_SLOTS:
     void get_copy_metadata_selection();
 
 private Q_SLOTS:
     void enable_copy_metadata();
+    void send_metadata_checkbox_message();
 
 private:
     Ui::MetadataCheckBox *ui;

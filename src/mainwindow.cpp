@@ -99,6 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::button_group_signal, ui->videoCRFWidget, &VideoCRFInterface::set_crf_button_mode);//new
     connect(ui->saveAsWidget, &SaveAsField::send_save_field_statusbar_message, ui->statusbar, &QStatusBar::showMessage);//new
     connect(&encoderAvail, &EncoderAvailability::send_encoder_availability_message, ui->statusbar, &QStatusBar::showMessage);//new
+    connect(&metadataCheckBox, &MetadataCheckBox::send_metadata_checkbox_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
 
     connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_input_selections_request);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoInterfaceWidget, &VideoInterface::get_video_interface_selections);
