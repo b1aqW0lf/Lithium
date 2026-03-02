@@ -74,12 +74,12 @@ void MetadataCheckBox::send_metadata_checkbox_message()
 
     if(ui->metadataCheckBox->isChecked())
     {
-        //send ffmpeg command to copy the metadata
+        //send metadata checkbox statusbar message
         Q_EMIT send_metadata_checkbox_statusbar_message("Copy Metadata Enabled", timeout);
     }
     else
     {
-        //do not send anything - metadata_commands_list is blank/empty
+        //send blank metadata checkbox statusbar message
         Q_EMIT send_metadata_checkbox_statusbar_message("", timeout);
     }
 }
