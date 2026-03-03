@@ -81,3 +81,9 @@ void SubtitlesCheckBox::send_subtitles_checkbox_message()
         Q_EMIT send_subtitles_checkbox_statusbar_message("", timeout);
     }
 }
+
+void SubtitlesCheckBox::get_copy_subtitles_selection()
+{
+    //send copy subtitles command
+    enable_copy_subtitles();
+}

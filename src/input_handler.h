@@ -16,6 +16,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void send_input_selections_request();
+    void receive_copy_subtitles_command(const QStringList &subtitles_command);
     void receive_input_video_selection(const QStringList &video_selection);
     void receive_input_crf_qscale_selection(const QStringList &crf_qscale_selection);
     void receive_video_avg_bitrate_selections(const QStringList &bitrate_selections);
@@ -31,6 +32,7 @@ private:
 
     //struct
     struct SelectionList{
+        QStringList subtitles_command{};
         QStringList video_selection{};
         QStringList crf_qscale_selection{};
         QStringList bitrate_selections{};

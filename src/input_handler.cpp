@@ -16,6 +16,11 @@ void InputHandler::receive_input_video_selection(const QStringList &video_select
     list.video_selection = video_selection;
 }
 
+void InputHandler::receive_copy_subtitles_command(const QStringList &subtitles_command)
+{
+    list.subtitles_command = subtitles_command;
+}
+
 void InputHandler::receive_input_crf_qscale_selection(const QStringList &crf_qscale_selection)
 {
     list.crf_qscale_selection = crf_qscale_selection;
@@ -55,7 +60,8 @@ void InputHandler::process_selected_inputs()
 {
     input_selections.clear();
 
-    input_selections << list.video_selection
+    input_selections << list.subtitles_command
+                     << list.video_selection
                      << list.crf_qscale_selection
                      << list.preset_selection
                      << list.options_selections

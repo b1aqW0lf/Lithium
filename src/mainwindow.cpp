@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&subtitlesCheckBox, &SubtitlesCheckBox::send_subtitles_checkbox_statusbar_message, ui->statusbar, &QStatusBar::showMessage);
 
     connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_input_selections_request);
+    connect(&inputHandler, &InputHandler::request_input_selections, &subtitlesCheckBox, &SubtitlesCheckBox::get_copy_subtitles_selection);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoInterfaceWidget, &VideoInterface::get_video_interface_selections);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoCRFWidget, &VideoCRFInterface::get_video_crf_qscale_selection);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoPresetWidget, &VideoEncoderPreset::get_video_encoder_preset_selection);
@@ -112,6 +113,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&inputHandler, &InputHandler::request_input_selections, &metadataCheckBox, &MetadataCheckBox::get_copy_metadata_selection);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->saveAsWidget, &SaveAsField::send_selected_output_path);
 
+    connect(&subtitlesCheckBox, &SubtitlesCheckBox::send_copy_subtitles_command,
+            &inputHandler, &InputHandler::receive_copy_subtitles_command);
     connect(ui->videoInterfaceWidget, &VideoInterface::send_video_interface_selections,
             &inputHandler, &InputHandler::receive_input_video_selection);
     connect(ui->videoCRFWidget, &VideoCRFInterface::send_video_crf_qscale_selection,

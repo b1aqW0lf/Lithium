@@ -51,6 +51,9 @@ Q_SIGNALS:
     void send_copy_subtitles_command(const QStringList &subtitles_command);
     void send_subtitles_checkbox_statusbar_message(const QString message, const int timeout);
 
+public Q_SLOTS:
+    void get_copy_subtitles_selection();
+
 private Q_SLOTS:
     void enable_copy_subtitles();
     void send_subtitles_checkbox_message();
