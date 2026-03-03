@@ -50,15 +50,19 @@ SubtitlesCheckBox::~SubtitlesCheckBox()
 
 void SubtitlesCheckBox::enable_copy_subtitles()
 {
+    QStringList subtitles_commands_list{};
+
     if(ui->subtitlesCheckBox->isChecked())
     {
+        subtitles_commands_list << "-codec:s" << "copy";
         //ffmpeg command to copy subtitles
-        Q_EMIT this->send_copy_subtitles_command(QStringList() << "-codec:s" << "copy");
+        Q_EMIT this->send_copy_subtitles_command(subtitles_commands_list);
     }
     else
     {
+        subtitles_commands_list << "-sn";
         //ffmpeg command to not copy subtitles
-        Q_EMIT this->send_copy_subtitles_command(QStringList() << "-sn");
+        Q_EMIT this->send_copy_subtitles_command(subtitles_commands_list);
     }
 }
 
