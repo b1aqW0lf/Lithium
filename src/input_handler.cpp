@@ -11,14 +11,14 @@ void InputHandler::send_input_selections_request()
     Q_EMIT request_input_selections();
 }
 
-void InputHandler::receive_input_video_selection(const QStringList &video_selection)
-{
-    list.video_selection = video_selection;
-}
-
 void InputHandler::receive_copy_subtitles_command(const QStringList &subtitles_command)
 {
     list.subtitles_command = subtitles_command;
+}
+
+void InputHandler::receive_input_video_selection(const QStringList &video_selection)
+{
+    list.video_selection = video_selection;
 }
 
 void InputHandler::receive_input_crf_qscale_selection(const QStringList &crf_qscale_selection)
