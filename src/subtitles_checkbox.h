@@ -49,9 +49,11 @@ public:
 
 Q_SIGNALS:
     void send_copy_subtitles_command(const QStringList &subtitles_command);
+    void send_subtitles_checkbox_statusbar_message(const QString message, const int timeout);
 
 private Q_SLOTS:
     void enable_copy_subtitles();
+    void send_subtitles_checkbox_message();
 
 private:
     Ui::SubtitlesCheckBox *ui;

@@ -40,6 +40,7 @@ SubtitlesCheckBox::SubtitlesCheckBox(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->subtitlesCheckBox, &QCheckBox::clicked, this, &SubtitlesCheckBox::enable_copy_subtitles);
+    connect(ui->subtitlesCheckBox, &QCheckBox::clicked, this, &SubtitlesCheckBox::send_subtitles_checkbox_message);
 }
 
 SubtitlesCheckBox::~SubtitlesCheckBox()
@@ -58,5 +59,21 @@ void SubtitlesCheckBox::enable_copy_subtitles()
     {
         //ffmpeg command to not copy subtitles
         Q_EMIT this->send_copy_subtitles_command(QStringList() << "-sn");
+    }
+}
+
+void SubtitlesCheckBox::send_subtitles_checkbox_message()
+{
+    const int timeout{0};
+
+    if(ui->subtitlesCheckBox->isChecked())
+    {
+        //send subtitles checkbox statusbar message
+        Q_EMIT send_subtitles_checkbox_statusbar_message("Copy Metadata Enabled", timeout);
+    }
+    else
+    {
+        //send blank metadata checkbox statusbar message
+        Q_EMIT send_subtitles_checkbox_statusbar_message("", timeout);
     }
 }
