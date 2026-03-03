@@ -73,7 +73,7 @@ void SubtitlesCheckBox::send_subtitles_checkbox_message()
     if(ui->subtitlesCheckBox->isChecked())
     {
         //send subtitles checkbox statusbar message
-        Q_EMIT send_subtitles_checkbox_statusbar_message("Copy Metadata Enabled", timeout);
+        Q_EMIT send_subtitles_checkbox_statusbar_message("Copy Subtitles Enabled", timeout);
     }
     else
     {
