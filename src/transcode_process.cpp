@@ -73,6 +73,11 @@ void TranscodeProcess::receive_output_file_path(const QString &output_path)
     this->output_path = output_path;
 }
 
+void TranscodeProcess::receive_current_process_mode(ProcessMode process_mode)
+{
+    this->process_mode = process_mode;
+}
+
 void TranscodeProcess::start_transcoding_process(const QStringList &input_parameters)
 {
     this->start_ffprobe_process();

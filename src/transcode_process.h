@@ -58,6 +58,7 @@ public Q_SLOTS:
     void ffmpeg_standard_output(QString &output);//new
     void receive_source_file(const QString &file);
     void receive_output_file_path(const QString &output_path);
+    void receive_current_process_mode(ProcessMode process_mode);
     void start_transcoding_process(const QStringList &input_parameters);
     void cancel_transcoding_process();
     void transcode_process_started(const QString &message, const int &timeout);//new
