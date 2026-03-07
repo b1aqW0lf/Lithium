@@ -73,6 +73,9 @@ private:
     void set_encoder_path(const QString &encoder);
     void start_ffprobe_process();
     void start_ffmpeg_process(const QStringList &input_parameters);
+    void normal_transcode_process(const QStringList &input_parameters);
+    void merge_transcode_process(const QStringList &input_parameters);
+    void extract_transcode_process(const QStringList &input_parameters);
 
     //variables
     QString source_file{};
