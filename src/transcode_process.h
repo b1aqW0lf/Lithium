@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "encoder_process.h"
+#include "process_mode_flags.h"
 
 #include <QProcess>
 #include <QWidget>
@@ -64,8 +65,10 @@ public Q_SLOTS:
 
 private:
     EncoderProcess encoder;
+    ProcessMode process_mode;
 
     //functions
+    void set_default_process_mode();
     void set_encoder_path(const QString &encoder);
     void start_ffprobe_process();
     void start_ffmpeg_process(const QStringList &input_parameters);

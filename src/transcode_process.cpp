@@ -46,11 +46,19 @@ TranscodeProcess::TranscodeProcess(QWidget *parent)
     connect(&encoder, &EncoderProcess::send_ffmpeg_output, this, &TranscodeProcess::ffmpeg_standard_output);
     connect(&encoder, &EncoderProcess::send_encoder_process_message, this, &TranscodeProcess::transcode_process_started);
     connect(&encoder, &EncoderProcess::send_encoder_process_exit_code, this, &TranscodeProcess::transcode_process_finished);
+
+    set_default_process_mode();
 }
 
 TranscodeProcess::~TranscodeProcess()
 {
     //empty destructor
+}
+
+void TranscodeProcess::set_default_process_mode()
+{
+    //set NormalMode as the default process mode
+    process_mode = ProcessMode::NormalMode;
 }
 
 void TranscodeProcess::receive_source_file(const QString &file)
