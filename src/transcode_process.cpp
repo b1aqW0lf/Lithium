@@ -95,6 +95,26 @@ void TranscodeProcess::start_ffprobe_process()
 
 void TranscodeProcess::start_ffmpeg_process(const QStringList &input_parameters)
 {
+    if(process_mode == ProcessMode::NormalMode)
+    {
+        normal_transcode_process(input_parameters);
+    }
+    /*else if(process_mode == ProcessMode::MergeMode)
+    {
+        merge_transcode_process(input_parameters);
+    }
+    else if(process_mode == ProcessMode::ExtractMode)
+    {
+        extract_transcode_process(input_parameters);
+    }
+    else
+    {
+        return;
+    }*/
+}
+
+void TranscodeProcess::normal_transcode_process(const QStringList &input_parameters)
+{
     QStringList arguments = QStringList() << "-v" << "warning" << "-hide_banner" << "-stats" << "-y"
                                           << "-i" << this->source_file << input_parameters
                                           << this->output_path;
