@@ -458,41 +458,49 @@ void VideoInterface::process_video_interface_selections()
 {
     selection.video_selection_list.clear();
 
-    if(selection.copy_video_enabled == true)
+    if(process_mode == ProcessMode::ExtractMode)
     {
-        //send the copy video stream command
-        selection.video_selection_list << command.video_codec_flag << command.copy_command;
+        //send command to disable the video stream
+        selection.video_selection_list << command.disable_video_flag;
     }
-    if(selection.copy_video_enabled == false)
+    else if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
     {
-        const int index0{0};
-        if(ui->videoAspectRatioBox->itemData(index0, Qt::UserRole).toString().contains("setdar=", Qt::CaseInsensitive))
+        if(selection.copy_video_enabled == true)
         {
-            //check if the display aspect ratio command has the setdar= command and add it to the
-            //resolution command-> -filter:v scale=(resolution),setdar=(display_aspect_ratio) if it does -
-            //adding the selections to the video selection list
-            selection.video_selection_list << command.video_codec_flag
-                                                 << selection.video_codec_selection
-                                                 << command.video_filter_flag
-                                                 << command.video_scale+selection.video_resolution_selection+","+
-                                                        selection.video_display_aspect_ratio_selection//add setdar= to -filter:v
-                                                 << command.video_fps_flag
-                                                 << selection.video_framerate_selection
-                                                 << selection.video_colorspace_selection;
+            //send the copy video stream command
+            selection.video_selection_list << command.video_codec_flag << command.copy_command;
         }
-        else
+        if(selection.copy_video_enabled == false)
         {
-            //send the transcode video stream command along with the video options
-            //adding the selections to the video selection list
-            selection.video_selection_list << command.video_codec_flag
-                                                 << selection.video_codec_selection
-                                                 << command.video_filter_flag
-                                                 << command.video_scale+selection.video_resolution_selection
-                                                 << command.video_dar_flag
-                                                 << selection.video_display_aspect_ratio_selection
-                                                 << command.video_fps_flag
-                                                 << selection.video_framerate_selection
-                                                 << selection.video_colorspace_selection;
+            const int index0{0};
+            if(ui->videoAspectRatioBox->itemData(index0, Qt::UserRole).toString().contains("setdar=", Qt::CaseInsensitive))
+            {
+                //check if the display aspect ratio command has the setdar= command and add it to the
+                //resolution command-> -filter:v scale=(resolution),setdar=(display_aspect_ratio) if it does -
+                //adding the selections to the video selection list
+                selection.video_selection_list << command.video_codec_flag
+                                               << selection.video_codec_selection
+                                               << command.video_filter_flag
+                                               << command.video_scale+selection.video_resolution_selection+","+
+                                                      selection.video_display_aspect_ratio_selection//add setdar= to -filter:v
+                                               << command.video_fps_flag
+                                               << selection.video_framerate_selection
+                                               << selection.video_colorspace_selection;
+            }
+            else
+            {
+                //send the transcode video stream command along with the video options
+                //adding the selections to the video selection list
+                selection.video_selection_list << command.video_codec_flag
+                                               << selection.video_codec_selection
+                                               << command.video_filter_flag
+                                               << command.video_scale+selection.video_resolution_selection
+                                               << command.video_dar_flag
+                                               << selection.video_display_aspect_ratio_selection
+                                               << command.video_fps_flag
+                                               << selection.video_framerate_selection
+                                               << selection.video_colorspace_selection;
+            }
         }
     }
 
