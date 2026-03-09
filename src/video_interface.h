@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "process_mode_flags.h"
 #include "video_interface_data.h"
 #include "video_commands.h"
 
@@ -59,12 +60,14 @@ public Q_SLOTS:
                                         const QString &video_framerate, const QString &video_aspect_ratio);
     void receive_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,
                                               const QString &color_transfer, const QString &color_primaries);
+    void current_process_mode(ProcessMode process_mode);
     void get_video_interface_selections();
 
 private:
     Ui::VideoInterface *ui;
     VideoInterfaceData videodata;
     VideoCommands command;
+    ProcessMode process_mode;
 
 private Q_SLOTS:
     void enable_copy_source_video();
@@ -78,6 +81,7 @@ private:
     //functions
     void initialize_video_interface_data();
     void initialize_video_ui_default_settings();
+    void set_default_process_mode();
     void process_source_file_video_data(const QString &video_codec, const QString &video_resolution,
                                         const QString &video_framerate, const QString &video_aspect_ratio);
     void process_source_video_colorspace_data(const QString &stream_colorspace, const QString &color_space,

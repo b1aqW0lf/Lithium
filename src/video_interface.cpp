@@ -55,6 +55,7 @@ VideoInterface::VideoInterface(QWidget *parent)
 
     initialize_video_interface_data();
     initialize_video_ui_default_settings();
+    set_default_process_mode();
 }
 
 VideoInterface::~VideoInterface()
@@ -85,6 +86,12 @@ void VideoInterface::initialize_video_ui_default_settings()
     ui->videoAspectRatioBox->setCurrentIndex(0);
     ui->videoFramerateBox->setCurrentIndex(0);
     ui->videoColorspaceBox->setCurrentIndex(0);
+}
+
+void VideoInterface::set_default_process_mode()
+{
+    //set NormalMode as the default process mode
+    process_mode = ProcessMode::NormalMode;
 }
 
 void VideoInterface::enable_copy_source_video()
@@ -166,6 +173,11 @@ void VideoInterface::process_source_video_colorspace_data(const QString &stream_
     selection.video_colorspace_selection << command.colorspace_flag << color_space
                                                << command.color_transfer_flag << color_transfer
                                                << command.color_primaries_flag << color_primaries;/**/
+}
+
+void VideoInterface::current_process_mode(ProcessMode process_mode)
+{
+    this->process_mode = process_mode;
 }
 
 void VideoInterface::select_video_codec(const int &index)

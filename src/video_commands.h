@@ -43,6 +43,7 @@ class VideoCommands
 private:
     const QString copy_command = "copy";
     const QString video_codec_flag = "-codec:v";
+    const QString disable_video_flag = "-vn";
     const QString pixel_format_flag = "-pix_fmt";
     const QString pixel_yuv420p = "yuv420p";//8bit
     const QString pixel_yuv420p10bit = "yuv420p10le";
