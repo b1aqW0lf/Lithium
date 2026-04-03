@@ -220,5 +220,5 @@ void VideoAVGBitrateField::process_video_bitrate_selections()
     Q_EMIT average_bitrate_encode_enabled(this->selection.avg_bitrate_enabled,
                                           this->selection.avg_bitrate_field_entry);
 
-    this->send_video_avg_bitrate_selections(this->selection.avg_bitrate_field_entry);
+    Q_EMIT send_video_avg_bitrate_selections(this->selection.avg_bitrate_field_entry);
 }
