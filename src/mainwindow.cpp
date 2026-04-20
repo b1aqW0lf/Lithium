@@ -54,6 +54,61 @@ MainWindow::MainWindow(QWidget *parent)
     this->setup_radio_buttons();
     this->setup_checkboxes();
 
+    setup_signal_slot_connections();
+
+    //statusbar widgets
+    this->setup_statusbar_widgets();
+    this->setup_button_group();
+
+    //ready status
+    this->setup_ready_status();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::setup_toolbar_settings()
+{
+    //toolbar settings
+    ui->toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    ui->toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
+    ui->toolbar->setIconSize(QSize(28,28));
+    ui->toolbar->setMovable(false);
+    ui->toolbar->setFloatable(false);
+    //--------------------------------------------//
+    //enable action bar
+    ui->toolbar->addAction(ui->actionOpenFile);
+    ui->toolbar->addSeparator();
+    ui->toolbar->addAction(ui->actionEncode);
+    ui->toolbar->addAction(ui->actionCancel);
+}
+
+void MainWindow::setup_action_buttons()
+{
+    ui->actionOpenFile->setIcon(QIcon(":/images/resources/actionOpenFile.svg"));
+    ui->actionEncode->setIcon(QIcon(":/images/resources/actionEncode.svg"));
+    ui->actionCancel->setIcon(QIcon(":/images/resources/actionCancel.svg"));
+    ui->actionEncode->setToolTip(tr("Start Encoding"));
+    ui->actionCancel->setToolTip(tr("Cancel Encoding"));
+}
+
+void MainWindow::setup_radio_buttons()
+{
+    ui->toolbar->addSeparator();
+    ui->toolbar->addWidget(&processModeWidget);
+}
+
+void MainWindow::setup_checkboxes()
+{
+    ui->toolbar->addSeparator();
+    ui->toolbar->addWidget(&metadataCheckBox);
+    ui->toolbar->addWidget(&subtitlesCheckBox);
+}
+
+void MainWindow::setup_signal_slot_connections()
+{
     connect(ui->actionOpenFile, &QAction::triggered, &openfile, &OpenFile::open_source_file);
     connect(ui->actionCancel, &QAction::triggered, &transcode, &TranscodeProcess::cancel_transcoding_process);
     connect(ui->actionCancel, &QAction::triggered, &progressbar, &SimpleProgressbar::cancel_progressbar_process);
@@ -136,56 +191,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->actionEncode, &QAction::triggered, &inputHandler, &InputHandler::send_received_selected_inputs);
     connect(&inputHandler, &InputHandler::send_selected_input_parameters, &transcode, &TranscodeProcess::start_transcoding_process);
-
-    //statusbar widgets
-    this->setup_statusbar_widgets();
-    this->setup_button_group();
-
-    //ready status
-    this->setup_ready_status();
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-void MainWindow::setup_toolbar_settings()
-{
-    //toolbar settings
-    ui->toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    ui->toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
-    ui->toolbar->setIconSize(QSize(28,28));
-    ui->toolbar->setMovable(false);
-    ui->toolbar->setFloatable(false);
-    //--------------------------------------------//
-    //enable action bar
-    ui->toolbar->addAction(ui->actionOpenFile);
-    ui->toolbar->addSeparator();
-    ui->toolbar->addAction(ui->actionEncode);
-    ui->toolbar->addAction(ui->actionCancel);
-}
-
-void MainWindow::setup_action_buttons()
-{
-    ui->actionOpenFile->setIcon(QIcon(":/images/resources/actionOpenFile.svg"));
-    ui->actionEncode->setIcon(QIcon(":/images/resources/actionEncode.svg"));
-    ui->actionCancel->setIcon(QIcon(":/images/resources/actionCancel.svg"));
-    ui->actionEncode->setToolTip(tr("Start Encoding"));
-    ui->actionCancel->setToolTip(tr("Cancel Encoding"));
-}
-
-void MainWindow::setup_radio_buttons()
-{
-    ui->toolbar->addSeparator();
-    ui->toolbar->addWidget(&processModeWidget);
-}
-
-void MainWindow::setup_checkboxes()
-{
-    ui->toolbar->addSeparator();
-    ui->toolbar->addWidget(&metadataCheckBox);
-    ui->toolbar->addWidget(&subtitlesCheckBox);
 }
 
 void MainWindow::setup_statusbar_widgets()

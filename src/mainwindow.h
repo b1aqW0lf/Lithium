@@ -101,6 +101,7 @@ private:
     void setup_action_buttons();
     void setup_radio_buttons();
     void setup_checkboxes();
+    void setup_signal_slot_connections();
     void setup_statusbar_widgets();
     void setup_button_group();
     void setup_ready_status();
