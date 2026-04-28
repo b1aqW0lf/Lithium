@@ -236,6 +236,11 @@ void SaveAsField::check_save_line_edit_field(const QString &file_ext)
 
 void SaveAsField::send_selected_output_path()
 {
+    get_selected_output_path();
+}
+
+void SaveAsField::get_selected_output_path()
+{
     if(ui->saveAsLineEdit->text() == input_file_name)
     {
         QFileInfo file(ui->saveAsLineEdit->text());

@@ -59,11 +59,12 @@ Q_SIGNALS:
 public Q_SLOTS:
     void receive_input_file_name(const QString &file_name);
     void current_process_mode(ProcessMode process_mode);
-    void send_selected_output_path();
+    void get_selected_output_path();
 
 private Q_SLOTS:
     void select_save_destination();
     void select_output_file_container(const int &index);
+    void send_selected_output_path();
 
 private:
     Ui::SaveAsField *ui;

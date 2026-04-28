@@ -168,7 +168,7 @@ void MainWindow::setup_signal_slot_connections()
     connect(&inputHandler, &InputHandler::request_input_selections, ui->videoAVGBitrateWidget, &VideoAVGBitrateField::get_video_bitrate_selections);
     connect(&inputHandler, &InputHandler::request_input_selections, ui->audioInterfaceWidget, &AudioInterface::get_audio_interface_selections);
     connect(&inputHandler, &InputHandler::request_input_selections, &metadataCheckBox, &MetadataCheckBox::get_copy_metadata_selection);
-    connect(&inputHandler, &InputHandler::request_input_selections, ui->saveAsWidget, &SaveAsField::send_selected_output_path);
+    connect(&inputHandler, &InputHandler::request_input_selections, ui->saveAsWidget, &SaveAsField::get_selected_output_path);
 
     connect(&subtitlesCheckBox, &SubtitlesCheckBox::send_copy_subtitles_command,
             &inputHandler, &InputHandler::receive_copy_subtitles_command);
