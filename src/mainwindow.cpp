@@ -49,19 +49,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setup_toolbar_settings();
-    this->setup_action_buttons();
-    this->setup_radio_buttons();
-    this->setup_checkboxes();
+    setup_toolbar_settings();
+    setup_action_buttons();
+    setup_radio_buttons();
+    setup_checkboxes();
 
     setup_signal_slot_connections();
 
     //statusbar widgets
-    this->setup_statusbar_widgets();
-    this->setup_button_group();
+    setup_statusbar_widgets();
+    setup_button_group();
 
     //ready status
-    this->setup_ready_status();
+    setup_ready_status();
 }
 
 MainWindow::~MainWindow()
@@ -219,7 +219,7 @@ void MainWindow::setup_ready_status()
 
 void MainWindow::group_button_clicked()
 {
-    Q_EMIT this->button_group_signal();
+    Q_EMIT button_group_signal();
 }
 
 void MainWindow::receive_source_file(const QString &filename)
