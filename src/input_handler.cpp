@@ -58,15 +58,15 @@ void InputHandler::send_received_selected_inputs()
 
 void InputHandler::process_selected_inputs()
 {
-    input_selections.clear();
+    list.input_selections.clear();
 
-    input_selections << list.subtitles_command
-                     << list.video_selection
-                     << list.crf_qscale_selection
-                     << list.preset_selection
-                     << list.options_selections
-                     << list.audio_selections
-                     << list.metadata_command;
+    list.input_selections << list.subtitles_command
+                          << list.video_selection
+                          << list.crf_qscale_selection
+                          << list.preset_selection
+                          << list.options_selections
+                          << list.audio_selections
+                          << list.metadata_command;
 
-    Q_EMIT send_selected_input_parameters(input_selections);
+    Q_EMIT send_selected_input_parameters(list.input_selections);
 }

@@ -40,9 +40,8 @@ private:
         QStringList options_selections{};
         QStringList audio_selections{};
         QStringList metadata_command{};
+        QStringList input_selections{};
     }list;
-
-    QStringList input_selections{};
 };
 
 #endif // INPUT_HANDLER_H
