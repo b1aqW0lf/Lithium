@@ -65,13 +65,26 @@ void InputHandler::process_selected_inputs()
 {
     list.input_selections.clear();
 
-    list.input_selections << list.subtitles_command
-                          << list.video_selection
-                          << list.crf_qscale_selection
-                          << list.preset_selection
-                          << list.options_selections
-                          << list.audio_selections
-                          << list.metadata_command;
+    if(process_mode == ProcessMode::NormalMode || process_mode == ProcessMode::MergeMode)
+    {
+        list.input_selections << list.subtitles_command
+                              << list.video_selection
+                              << list.crf_qscale_selection
+                              << list.preset_selection
+                              << list.options_selections
+                              << list.audio_selections
+                              << list.metadata_command;
+    }
+    else if(process_mode == ProcessMode::ExtractMode)
+    {
+        list.input_selections << list.video_selection
+                              << list.audio_selections
+                              << list.metadata_command;
+    }
+    else
+    {
+        return;
+    }
 
     Q_EMIT send_selected_input_parameters(list.input_selections);
 }
