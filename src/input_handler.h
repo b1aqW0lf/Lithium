@@ -32,6 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
+#include "process_mode_flags.h"
+
 #include <QWidget>
 
 
@@ -62,6 +64,9 @@ public Q_SLOTS:
 private:
     //functions
     void process_selected_inputs();
+
+    //variables
+    ProcessMode process_mode{ProcessMode::NormalMode};
 
     //struct
     struct SelectionList{
