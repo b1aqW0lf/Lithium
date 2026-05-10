@@ -56,6 +56,11 @@ void InputHandler::send_received_selected_inputs()
     process_selected_inputs();
 }
 
+void InputHandler::receive_current_process_mode(ProcessMode process_mode)
+{
+    this->process_mode = process_mode;
+}
+
 void InputHandler::process_selected_inputs()
 {
     list.input_selections.clear();

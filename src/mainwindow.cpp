@@ -131,6 +131,7 @@ void MainWindow::setup_signal_slot_connections()
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, ui->videoInterfaceWidget, &VideoInterface::current_process_mode);
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, ui->saveAsWidget, &SaveAsField::current_process_mode);//new
     connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &transcode, &TranscodeProcess::receive_current_process_mode);
+    connect(&processModeWidget, &ProcessModeWidget::current_process_mode, &inputHandler, &InputHandler::receive_current_process_mode);
     connect(&inputprobe, &InputProbe::send_input_probe_data, this, &MainWindow::receive_input_probe_data);
     connect(&inputprobe, &InputProbe::send_input_probe_data, ui->inputTreeWidget, &InputTreeView::receive_input_probe_data);
     connect(&inputprobe, &InputProbe::send_source_file_audio_data, ui->audioInterfaceWidget, &AudioInterface::receive_source_file_audio_data);//new

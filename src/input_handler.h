@@ -60,6 +60,7 @@ public Q_SLOTS:
     void receive_input_audio_selections(const QStringList &audio_selections);
     void receive_copy_metadata_command(const QStringList &metadata_command);
     void send_received_selected_inputs();
+    void receive_current_process_mode(ProcessMode process_mode);
 
 private:
     //functions
