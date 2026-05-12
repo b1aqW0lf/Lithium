@@ -89,4 +89,4 @@ private:
 
 };
 
-#endif // DETECTFFMPEG_H
+#endif // ENCODER_PROCESS_H
