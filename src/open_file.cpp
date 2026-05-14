@@ -47,8 +47,8 @@ OpenFile::~OpenFile()
 
 void OpenFile::open_source_file()
 {
-    Q_EMIT this->get_current_process_mode();
-    this->get_source_file();
+    Q_EMIT get_current_process_mode();
+    get_source_file();
 }
 
 void OpenFile::current_process_mode(ProcessMode process_mode)
