@@ -58,7 +58,7 @@ InputTreeView::~InputTreeView()
     delete ui;
 }
 
-void InputTreeView::receive_source_file(const QString &source_file)
+void InputTreeView::receive_source_video_file(const QString &source_file)
 {
     this->source_file = source_file;
 }

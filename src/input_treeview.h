@@ -52,7 +52,7 @@ public:
     ~InputTreeView();
 
 public Q_SLOTS:
-    void receive_source_file(const QString &source_file);
+    void receive_source_video_file(const QString &source_file);
     void receive_input_probe_data(const QString &video_codec, const QString &video_res,
                                   const QString &video_fps, const QString &video_dar,
                                   const QString &pixel_format, const QString &video_codec_type,
