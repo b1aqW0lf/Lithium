@@ -58,9 +58,9 @@ InputTreeView::~InputTreeView()
     delete ui;
 }
 
-void InputTreeView::receive_source_video_file(const QString &video_file)
+void InputTreeView::receive_source_video_file(const QString &video_filename)
 {
-    this->source_file = video_file;
+    this->source_file = video_filename;
 }
 
 void InputTreeView::current_process_mode(ProcessMode mode)
